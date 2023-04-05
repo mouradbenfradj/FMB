@@ -19,17 +19,17 @@ RUN xcaddy build \
 	--with github.com/dunglas/vulcain/caddy
 
 # Prod image
-FROM php:8.2-fpm-alpine AS app_php
+FROM php:7.4-fpm-alpine AS app_php
 
 # Allow to use development versions of Symfony
 ARG STABILITY="stable"
 ENV STABILITY ${STABILITY}
 
 # Allow to select Symfony version
-ARG SYMFONY_VERSION=""
+ARG SYMFONY_VERSION="5.4"
 ENV SYMFONY_VERSION ${SYMFONY_VERSION}
 
-ENV APP_ENV=prod
+ENV APP_ENV=dev
 
 WORKDIR /srv/app
 
@@ -55,10 +55,17 @@ RUN set -eux; \
 
 ###> recipes ###
 ###> doctrine/doctrine-bundle ###
-RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
-	docker-php-ext-install -j$(nproc) pdo_pgsql; \
-	apk add --no-cache --virtual .pgsql-rundeps so:libpq.so.5; \
-	apk del .pgsql-deps
+#RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
+#	docker-php-ext-install -j$(nproc) pdo_pgsql; \
+#	apk add --no-cache --virtual .pgsql-rundeps so:libpq.so.5; \
+#	apk del .pgsql-deps
+#RUN docker-php-ext-configure intl
+RUN apk add --no-cache --virtual .mysql-deps mysql-dev; \
+	docker-php-ext-install -j$(nproc) pdo pdo_mysql gd  calendar dom mbstring gd xsl; \
+	apk del .mysql-deps
+#RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql gd  calendar dom mbstring gd xsl
+#RUN pecl install apcu && docker-php-ext-enable apcu
+
 ###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
@@ -98,14 +105,6 @@ RUN set -eux; \
 COPY --link  . ./
 RUN rm -Rf docker/
 
-RUN set -eux; \
-	mkdir -p var/cache var/log; \
-    if [ -f composer.json ]; then \
-		composer dump-autoload --classmap-authoritative --no-dev; \
-		composer dump-env prod; \
-		composer run-script --no-dev post-install-cmd; \
-		chmod +x bin/console; sync; \
-    fi
 
 # Dev image
 FROM app_php AS app_php_dev
