@@ -13,39 +13,38 @@ class AppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new SS\FMBBundle\SSFMBBundle(),
-            new SS\AdminBundle\SSAdminBundle(),
-
-            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new OysterPro28Bundle\OysterPro28Bundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Spy\TimelineBundle\SpyTimelineBundle(),
+            new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+
+
+            // These are the other bundles the SonataAdminBundle relies on
             new Sonata\CoreBundle\SonataCoreBundle(),
+
             new Sonata\TimelineBundle\SonataTimelineBundle(),
+            new Spy\TimelineBundle\SpyTimelineBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
-
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+
+            // And finally, the storage and SonataAdminBundle
             new Sonata\AdminBundle\SonataAdminBundle(),
-            new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new Application\Sonata\TimelineBundle\ApplicationSonataTimelineBundle(),
-
-            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-            new Sonata\TranslationBundle\SonataTranslationBundle(),
-            new Sonata\IntlBundle\SonataIntlBundle(),
-
-        );
+            new Lexik\Bundle\MaintenanceBundle\LexikMaintenanceBundle(),
+            );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
         }
 
         return $bundles;

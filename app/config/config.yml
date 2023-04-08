@@ -2,150 +2,67 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@SSFMBBundle/Resources/config/admin.yml" }
-    - { resource: ../../vendor/knplabs/doctrine-behaviors/config/orm-services.yml }
-    - { resource: sonata_timeline.yml }
+    - { resource: "@OysterPro28Bundle/Resources/config/services.yml" }
+    - { resource: "@OysterPro28Bundle/Resources/config/admin.yml" }
+    - { resource: "@OysterPro28Bundle/Resources/config/twig.yml" }
+
 # Put parameters here that don't need to change on each machine where the app is deployed
-# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-
+    front_nb_magasins_par_page: 1
 framework:
-    #esi:             ~
-    translator:      { fallback: "%locale%" }
-    secret:          "%secret%"
+    #esi: ~
+    translator: { fallbacks: [fr] }
+    secret: '%secret%'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: '%kernel.root_dir%/config/routing.yml'
         strict_requirements: ~
-    form:            ~
+    form: ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
-    #serializer:      { enable_annotations: true }
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
     templating:
         engines: ['twig']
-        #assets_version: SomeVersionScheme
-    default_locale:  "%locale%"
-    trusted_hosts:   ~
+    default_locale: '%locale%'
+    trusted_hosts: ~
     trusted_proxies: ~
     session:
         # handler_id set to null will use default session handler from php.ini
-        handler_id:  ~
-    fragments:       ~
+        handler_id: ~
+    fragments: ~
     http_method_override: true
-
 
 # Twig Configuration
 twig:
-    form:
-        resources:
-            - 'SonataCoreBundle:Form:colorpicker.html.twig'
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
-
-
-# Assetic Configuration
-assetic:
-    debug:          "%kernel.debug%"
-    use_controller: false
-    bundles:        [ ]
-    #java: /usr/bin/java
-    filters:
-        cssrewrite: ~
-        #closure:
-        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
-        #yui_css:
-        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
-        cssembed:
-            jar: "%kernel.root_dir%/Resources/java/cssembed.jar"
-        yui_js:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
-        yui_css:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor.jar"
-
-        lessphp:
-            file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
-            apply_to: ".less$"
-    assets:
-
-        jquery_js:
-            inputs:
-                - "%kernel.root_dir%/../vendor/components/jquery/jquery.min.js"
-            filters: [?yui_js]
-            output: js/jquery.min.js
-
-        bootstrap_css:
-            inputs:
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less"
-            filters:
-                - lessphp
-                - cssrewrite
-            output: css/bootstrap.css
-
-        bootstrap_js:
-            inputs:
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/affix.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/alert.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/button.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/carousel.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/collapse.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/dropdown.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/modal.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/tooltip.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/popover.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/scrollspy.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/tab.js"
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/js/transition.js"
-            filters: [?yui_js]
-            output: js/bootstrap.js
-
-
-        fonts_glyphicons_eot:
-            inputs:
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.eot"
-            output: "fonts/glyphicons-halflings-regular.eot"
-        fonts_glyphicons_svg:
-            inputs:
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.svg"
-            output: "fonts/glyphicons-halflings-regular.svg"
-        fonts_glyphicons_ttf:
-            inputs:
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.ttf"
-            output: "fonts/glyphicons-halflings-regular.ttf"
-        fonts_glyphicons_woff:
-            inputs:
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff"
-            output: "fonts/glyphicons-halflings-regular.woff"
-
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
 
 # Doctrine Configuration
 doctrine:
     dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
         types:
             json: Sonata\Doctrine\Types\JsonType
-        driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
-         # if using pdo_sqlite as your database driver:
+        # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #     e.g. database_path: '%kernel.root_dir%/data/data.db3'
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
-        #     path:     "%database_path%"
+        #path: '%database_path%'
 
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_generate_proxy_classes: '%kernel.debug%'
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: true
-                filters:
-                    softdeleteable:
-                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
-                        enabled: true
                 mappings:
                     ApplicationSonataUserBundle: ~
                     SonataUserBundle: ~
@@ -175,19 +92,28 @@ doctrine:
                         alias: GedmoTree # (optional) it will default to the name set for the mapping
                         is_bundle: false
 
-
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            tree: true
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+    organize_migrations: false # Version >=1.2 Possible values are: "BY_YEAR", "BY_YEAR_AND_MONTH", false
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class:     Application\Sonata\UserBundle\Entity\User
-
+    user_class: Application\Sonata\UserBundle\Entity\User
 
     group:
         group_class:   Application\Sonata\UserBundle\Entity\Group
@@ -196,64 +122,118 @@ fos_user:
     service:
         user_manager: sonata.user.orm.user_manager                      # If you're using doctrine orm (use sonata.user.mongodb.user_manager for mongodb)
 
-
-
 sonata_admin:
-    title:                'OYSTERPRO'
-    title_logo:           bundles/ssfmb/assets/images/avatar-1.jpg
-    templates:
-        layout: admin/layout.html.twig
-
-    options:
-        html5_validate:       true
     dashboard:
         blocks:
-            - { position: center, type: sonata.timeline.block.timeline, settings: { context: SONATA_ADMIN, max_per_page: 25 }}
+            - { position: center, type: sonata.timeline.block.timeline, settings: { template: 'ApplicationSonataTimelineBundle:Block:timeline.html.twig', context: SONATA_ADMIN, max_per_page: 25 }}
+sonata_user:
+    security_acl: true
+    manager_type: orm # can be orm or mongodb
+
 sonata_block:
     default_contexts: [cms]
     blocks:
-        # enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts: [admin]
-        sonata.admin.block.search_result:
-            contexts:   [admin]
         sonata.user.block.menu:    # used to display the menu in profile pages
         sonata.user.block.account: # used to display menu option (login option)
         sonata.block.service.text: # used to if you plan to use Sonata user routes
         sonata.timeline.block.timeline:
 
+        #sonata.admin_doctrine_orm.block.audit:
+        #    contexts:   [admin]
 
-sonata_user:
-    security_acl: true
-    manager_type: orm # can be orm or mongodb
+        # Some specific block from the SonataMediaBundle
+        #sonata.media.block.media:
+        #sonata.media.block.gallery:
+        #sonata.media.block.feature_media:
+
+        # Some block with different templates
+        #acme.demo.block.demo:
+        #    templates:
+        #       - { name: 'Simple', template: 'AcmeDemoBundle:Block:demo_simple.html.twig' }
+        #       - { name: 'Big',    template: 'AcmeDemoBundle:Block:demo_big.html.twig' }
+spy_timeline:
+    drivers:
+        orm:
+            object_manager: doctrine.orm.entity_manager
+            classes:
+                query_builder: ~ # Spy\TimelineBundle\Driver\ORM\QueryBuilder\QueryBuilder
+                timeline:         Application\Sonata\TimelineBundle\Entity\Timeline
+                action:           Application\Sonata\TimelineBundle\Entity\Action
+                component:        Application\Sonata\TimelineBundle\Entity\Component
+                action_component: Application\Sonata\TimelineBundle\Entity\ActionComponent
+
+    filters:
+        data_hydrator:
+            priority:             20
+            service:              spy_timeline.filter.data_hydrator
+            filter_unresolved:    false
+            locators:
+                - spy_timeline.filter.data_hydrator.locator.doctrine_orm
+
+
+sonata_timeline:
+    manager_type:         orm
+
+lexik_maintenance:
+    authorized:
+        path: /path                                                         # Optional. Authorized path, accepts regexs
+        host: your-domain.com                                               # Optional. Authorized domain, accepts regexs
+        ips: ['127.0.0.1', '172.123.10.14']                                 # Optional. Authorized ip addresses
+        query: { foo: bar }                                                 # Optional. Authorized request query parameter (GET/POST)
+        cookie: { bar: baz }                                                # Optional. Authorized cookie
+        route:                                                              # Optional. Authorized route name
+        attributes:                                                         # Optional. Authorized route attributes
+    driver:
+        ttl: 3600                                                                  # Optional ttl option, can be not set
+
+         # File driver
+        class: '\Lexik\Bundle\MaintenanceBundle\Drivers\FileDriver'                # class for file driver
+        options: {file_path: %kernel.root_dir%/cache/lock}                         # file_path is the complete path for create the file
+
+         # Shared memory driver
+        class: '\Lexik\Bundle\MaintenanceBundle\Drivers\ShmDriver'                 # class for shared memory driver
+
+         # MemCache driver
+        class: Lexik\Bundle\MaintenanceBundle\Drivers\MemCacheDriver               # class for MemCache driver
+        options: {key_name: 'maintenance', host: 127.0.0.1, port: 11211}           # need to define a key_name, the host and port
+
+        # Database driver:
+        class: 'Lexik\Bundle\MaintenanceBundle\Drivers\DatabaseDriver'             # class for database driver
+
+        # Option 1 : for doctrine
+        options: {connection: custom}                                            # Optional. You can choice an other connection. Without option it's the doctrine default connection who will be used
+
+        # Option 2 : for dsn, you must have a column ttl type datetime in your table.
+        options: {dsn: "mysql:dbname=maintenance;host:localhost", table: maintenance, user: root, password: root}  # the dsn configuration, name of table, user/password
+
+    #Optional. response code and status of the maintenance page
+    response:
+        code: 503
+        status: "Service Temporarily Unavailable"
 
 knp_menu:
     # use "twig: false" to disable the Twig extension and the TwigRenderer
     twig:
-        template: knp_menu.html.twig
+        template: KnpMenuBundle::menu.html.twig
     #  if true, enables the helper for PHP templates
     templating: false
     # the renderer to use, list is also available by default
     default_renderer: twig
 
-sonata_translation:
-    locales: [en, fr]
-    default_locale: fr
-    # here enable the types you need
-    gedmo:
-        enabled: true
-    knplabs:
-        enabled: false
-    #phpcr:
-    #    enabled: true
-
-
-sonata_intl:
-    timezone:
-        default: Europe/Paris
-        locales:
-            fr:    Europe/Paris
-            en_UK: Europe/London
-        detectors:
-                    - sonata.intl.timezone_detector.user
-                    - sonata.intl.timezone_detector.locale
+sonata_core:
+    form_type: horizontal
+knp_paginator:
+    page_range: 5                       # number of links showed in the pagination menu (e.g: you have 10 pages, a page_range of 3, on the 5th page you'll see links to page 4, 5, 6)
+    default_options:
+        page_name: page                 # page query parameter name
+        sort_field_name: sort           # sort field query parameter name
+        sort_direction_name: direction  # sort direction query parameter name
+        distinct: true                  # ensure distinct results, useful when ORM queries are using GROUP BY statements
+        filter_field_name: filterField  # filter field query parameter name
+        filter_value_name: filterValue  # filter value query paameter name
+    template:
+        pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v3_pagination.html.twig'     # sliding pagination controls template
+        sortable: '@KnpPaginator/Pagination/sortable_link.html.twig' # sort link template
+        filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # filters template

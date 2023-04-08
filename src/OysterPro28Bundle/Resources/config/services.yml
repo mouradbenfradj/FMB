@@ -1,0 +1,8 @@
+services:
+    oyster_pro28.magasins:
+        class: OysterPro28Bundle\Services\Magasins
+        arguments: ["@doctrine"]
+
+    oyster_pro28.art_categs:
+        class: OysterPro28Bundle\Services\ArtCategs
+        arguments: ["@doctrine"]

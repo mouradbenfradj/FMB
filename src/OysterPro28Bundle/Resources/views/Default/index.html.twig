@@ -1,0 +1,285 @@
+{% extends 'base.html.twig' %}
+
+    {% block container %}
+        {% include 'OysterPro28Bundle:Commun:pagination.html.twig' %}
+
+        {% if magasins is not empty %}
+            {% for magasin in magasins %}
+                <header>
+                    {% if app.request.get('page') == 0 %}
+                        <h1 class="magasin-titre">Tous</h1>
+                    {% else %}
+                        <h1 class="magasin-titre">{{ magasin.libMagasin }}</h1>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md md-store-mall-directory text-info"></i>
+                                <h2 class="m-0 text-dark counter font-600">
+                                    <span data-plugin="counterup">
+                               {% if app.request.get('page') == 0 %}
+                                   {{ pagination.total|nbrParc }}
+                               {% else %}
+                                   {{ pagination.total|nbrParc(app.request.get('page')) }}
+                               {% endif %}
+                                    </span>
+                                </h2>
+                                <div class="text-muted m-t-5">Total Parc</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ion-android-mixer text-primary"></i>
+                                <h2 class="m-0 text-dark counter font-600">
+                                    <span data-plugin="counterup">
+                               {% if app.request.get('page') == 0 %}
+                                   {{ pagination.total|nbrFiliere }}
+                               {% else %}
+                                   {{ pagination.total|nbrFiliere(app.request.get('page')) }}
+                               {% endif %}
+                                    </span>
+                                </h2>
+                                <div class="text-muted m-t-5">Total Filière</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Totale<br> Corde</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5"> totale Corde <br>a eau</div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5"> Corde Huitre <br> a eau</div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5"> Corde Moule <br>a eau</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Corde<br> vide</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Corde <br>Preparé</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Corde Huitre <br>Preparé</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Corde Moule <br> Preparé</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Corde Assemblé <br> Preparé</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Corde Assemblé <br> en eau</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md ti-align-justify text-pink"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Corde Chaussée<br>en eau</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-th-menu-outline text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+                                </span></h2>
+                                <div class="text-muted m-t-5">Totale Lanterne</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-th-menu-outline text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                        {{ magasin|nbrParc }}
+                                    </span></h2>
+                                <div class="text-muted m-t-5">Lanterne en eau</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-th-menu-outline text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                {{ magasin|nbrParc }}
+
+                        </span></h2>
+                                <div class="text-muted m-t-5">Lanterne vide</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-th-menu-outline text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                        {{ magasin|nbrParc }}
+                                    </span></h2>
+                                <div class="text-muted m-t-5">Lanterne Preparé</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-th-menu-outline text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600">
+                                    <span data-plugin="counterup">
+                                        {{ magasin|nbrParc }}
+                                    </span>
+                                </h2>
+                                <div class="text-muted m-t-5">Lanterne Chausser <br>a eau</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-shopping-bag text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                        {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Totale Poche</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-shopping-bag text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                       {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Poche en eau</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-shopping-bag text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                       {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Poche vide</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-shopping-bag text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                        {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Poche Preparé</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-shopping-bag text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                      {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Poche Assemble</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-shopping-bag text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                                        {{ magasin|nbrParc }}
+                                    </span></h2>
+                                <div class="text-muted m-t-5">Poche assemblé <br> en eau</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="widget-panel widget-style-2 bg-white">
+                                <i class="md typcn typcn-shopping-bag text-custom"></i>
+                                <h2 class="m-0 text-dark counter font-600"><span data-plugin="counterup">
+                       {{ magasin|nbrParc }}
+                    </span></h2>
+                                <div class="text-muted m-t-5">Poche chausser <br> a eau</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </header>
+            {% endfor %}
+        {% else %}
+            <p>Il n'y a aucun magasin pour l'instant.</p>
+        {% endif %}
+
+        {% include 'OysterPro28Bundle:Commun:pagination.html.twig' %}
+    {% endblock %}
+
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}

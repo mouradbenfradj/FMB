@@ -1,0 +1,9 @@
+services:
+    sonata.admin.magasins:
+        class: OysterPro28Bundle\Admin\MagasinsAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Parc"}
+        arguments:
+            - ~
+            - OysterPro28Bundle\Entity\Magasins
+            - ~

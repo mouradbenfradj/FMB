@@ -1,0 +1,29 @@
+oyster_pro28_migration:
+    path:     /migration
+    defaults: { _controller: OysterPro28Bundle:Migrationv1:index}
+oyster_pro28_homepage:
+    path:     /{page}
+    defaults: { _controller: OysterPro28Bundle:Default:index, page: 0 }
+    requirements:
+        page: '\d+'
+oyster_pro28_suivit:
+    path:     /suivit
+    defaults: { _controller: OysterPro28Bundle:Suivit:index}
+oyster_pro28_preparation:
+    path:     /preparation
+    defaults: { _controller: OysterPro28Bundle:Preparation:index }
+oyster_pro28_mae:
+    path:     /mise_a_eau
+    defaults: { _controller: OysterPro28Bundle:MAE:index }
+oyster_pro28_retrait:
+    path:     /retrait
+    defaults: { _controller: OysterPro28Bundle:Retrait:index }
+oyster_pro28_assemblage:
+    path:     /assemblage
+    defaults: { _controller: OysterPro28Bundle:Assemblage:index}
+oyster_pro28_transfert:
+    path:     /transfert
+    defaults: { _controller: OysterPro28Bundle:Transfert:index}
+oyster_pro28_planing:
+    path:     /planing
+    defaults: { _controller: OysterPro28Bundle:Planing:index}
