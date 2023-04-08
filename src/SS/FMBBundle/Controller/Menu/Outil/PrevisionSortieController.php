@@ -48,16 +48,13 @@ class PrevisionSortieController extends Controller
                             if (!isset($tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle])) {
                                 $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle] = array('article' => array());
                             }
-                            if (is_null($objet->getArticle()->getRefStockArticle())) {
+                            if (!isset($tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()])) {
+                                $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()] = array('nomArticle' => $objet->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle(), 'lot' => array());
+                            }
+                            if (!isset($tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['lot'][$objet->getArticle()->getNumeroSerie()])) {
+                                $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['lot'][$objet->getArticle()->getNumeroSerie()] = array('qteEau' => $quantiter, 'qteStock' => $objet->getArticle()->getSnQte());
                             } else {
-                                if (!isset($tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()])) {
-                                    $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()] = array('nomArticle' => $objet->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle(), 'lot' => array());
-                                }
-                                if (!isset($tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['lot'][$objet->getArticle()->getNumeroSerie()])) {
-                                    $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['lot'][$objet->getArticle()->getNumeroSerie()] = array('qteEau' => $quantiter, 'qteStock' => $objet->getArticle()->getSnQte());
-                                } else {
-                                    $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['lot'][$objet->getArticle()->getNumeroSerie()]['qteEau'] = $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['lot'][$objet->getArticle()->getNumeroSerie()]['qteEau'] + $quantiter;
-                                }
+                                $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['lot'][$objet->getArticle()->getNumeroSerie()]['qteEau'] = $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['lot'][$objet->getArticle()->getNumeroSerie()]['qteEau'] + $quantiter;
                             }
                         }
                     }
@@ -86,14 +83,11 @@ class PrevisionSortieController extends Controller
                             if (!isset($tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle])) {
                                 $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle] = array('article' => array());
                             }
-                            if (is_null($objet->getArticle()->getRefStockArticle())) {
+                            if (!isset($tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()])) {
+                                $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()] = array('nomArticle' => $objet->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle(),'qteEau' => $quantiter, 'qteStock' => $objet->getArticle()->getSnQte());
                             } else {
-                                if (!isset($tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()])) {
-                                    $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()] = array('nomArticle' => $objet->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle(), 'qteEau' => $quantiter, 'qteStock' => $objet->getArticle()->getSnQte());
-                                } else {
-                                    $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteEau'] = $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteEau'] + $quantiter;
-                                    $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteStock'] = $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteStock'] + $objet->getArticle()->getSnQte();
-                                }
+                                $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteEau'] = $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->  getRefStockArticle()->getRefArticle()->getRefArticle()]['qteEau'] + $quantiter;
+                                $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteStock'] = $tableauPrevision[$magasine->getIdMagasin()]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteStock'] +  $objet->getArticle()->getSnQte();
                             }
                         }
                     }

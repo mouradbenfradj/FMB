@@ -41,12 +41,9 @@ class HistoriqueOperationController extends Controller
                         }
                         if ($dateDebut <= $max) {
                             if ($max <= $dateFin) {
-                                if (is_null($value->getArticle()->getRefStockArticle())) {
-                                } else {
-                                    if (!isset($tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
-                                        $tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
-                                    array_push($tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
-                                }
+                                if (!isset($tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
+                                    $tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
+                                array_push($tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
                             }
                         }
                     }
@@ -90,12 +87,9 @@ class HistoriqueOperationController extends Controller
                         }
                         if ($dateDebut <= $max) {
                             if ($max <= $dateFin) {
-                                if (is_null($value->getArticle()->getRefStockArticle())) {
-                                } else {
-                                    if (!isset($tableauOperation[date_format($max, 'Y-m-d')][1][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
-                                        $tableauOperation[date_format($max, 'Y-m-d')][1][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
-                                    array_push($tableauOperation[date_format($max, 'Y-m-d')][1][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
-                                }
+                                if (!isset($tableauOperation[date_format($max, 'Y-m-d')][1][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
+                                    $tableauOperation[date_format($max, 'Y-m-d')][1][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
+                                array_push($tableauOperation[date_format($max, 'Y-m-d')][1][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
                             }
                         }
                     }
@@ -116,12 +110,9 @@ class HistoriqueOperationController extends Controller
                         }
                         if ($dateDebut <= $max) {
                             if ($max <= $dateFin) {
-                                if (is_null($value->getArticle()->getRefStockArticle())) {
-                                } else {
-                                    if (!isset($tableauOperation[date_format($max, 'Y-m-d')][5][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
-                                        $tableauOperation[date_format($max, 'Y-m-d')][5][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
-                                    array_push($tableauOperation[date_format($max, 'Y-m-d')][5][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
-                                }
+                                if (!isset($tableauOperation[date_format($max, 'Y-m-d')][5][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
+                                    $tableauOperation[date_format($max, 'Y-m-d')][5][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
+                                array_push($tableauOperation[date_format($max, 'Y-m-d')][5][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
                             }
                         }
                     }
@@ -143,12 +134,9 @@ class HistoriqueOperationController extends Controller
                             }
                             if ($dateDebut <= $max) {
                                 if ($max <= $dateFin) {
-                                    if (is_null($value->getArticle()->getRefStockArticle())) {
-                                    } else {
-                                        if (!isset($tableauOperation[date_format($max, 'Y-m-d')][6][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
-                                            $tableauOperation[date_format($max, 'Y-m-d')][6][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
-                                        array_push($tableauOperation[date_format($max, 'Y-m-d')][6][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
-                                    }
+                                    if (!isset($tableauOperation[date_format($max, 'Y-m-d')][6][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
+                                        $tableauOperation[date_format($max, 'Y-m-d')][6][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
+                                    array_push($tableauOperation[date_format($max, 'Y-m-d')][6][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
                                 }
                             }
                         }
@@ -170,12 +158,9 @@ class HistoriqueOperationController extends Controller
                         }
                         if ($dateDebut <= $max) {
                             if ($max <= $dateFin) {
-                                if (is_null($value->getArticle()->getRefStockArticle())) {
-                                } else {
-                                    if (!isset($tableauOperation[date_format($max, 'Y-m-d')][2][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
-                                        $tableauOperation[date_format($max, 'Y-m-d')][2][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
-                                    array_push($tableauOperation[date_format($max, 'Y-m-d')][2][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
-                                }
+                                if (!isset($tableauOperation[date_format($max, 'Y-m-d')][2][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
+                                    $tableauOperation[date_format($max, 'Y-m-d')][2][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
+                                array_push($tableauOperation[date_format($max, 'Y-m-d')][2][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
                             }
                         }
                     }
@@ -196,12 +181,9 @@ class HistoriqueOperationController extends Controller
                         }
                         if ($dateDebut <= $max) {
                             if ($max <= $dateFin) {
-                                if (is_null($value->getArticle()->getRefStockArticle())) {
-                                } else {
-                                    if (!isset($tableauOperation[date_format($max, 'Y-m-d')][3][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
-                                        $tableauOperation[date_format($max, 'Y-m-d')][3][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
-                                    array_push($tableauOperation[date_format($max, 'Y-m-d')][3][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
-                                }
+                                if (!isset($tableauOperation[date_format($max, 'Y-m-d')][3][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
+                                    $tableauOperation[date_format($max, 'Y-m-d')][3][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
+                                array_push($tableauOperation[date_format($max, 'Y-m-d')][3][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
                             }
                         }
                     }
@@ -222,12 +204,9 @@ class HistoriqueOperationController extends Controller
                         }
                         if ($dateDebut <= $max) {
                             if ($max <= $dateFin) {
-                                if (is_null($value->getArticle()->getRefStockArticle())) {
-                                } else {
-                                    if (!isset($tableauOperation[date_format($max, 'Y-m-d')][4][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
-                                        $tableauOperation[date_format($max, 'Y-m-d')][4][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
-                                    array_push($tableauOperation[date_format($max, 'Y-m-d')][4][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
-                                }
+                                if (!isset($tableauOperation[date_format($max, 'Y-m-d')][4][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
+                                    $tableauOperation[date_format($max, 'Y-m-d')][4][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
+                                array_push($tableauOperation[date_format($max, 'Y-m-d')][4][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
                             }
                         }
                     }
@@ -253,12 +232,9 @@ class HistoriqueOperationController extends Controller
                     $nomClasse = $classe->getPochesbs()->getNomPoche();
                     $magasine = $classe->getPochesbs()->getParc()->getAbrevMagasin();
                 }
-                if (is_null($value->getArticle()->getRefStockArticle())) {
-                } else {
-                    if (!isset($tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
-                        $tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
-                    array_push($tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
-                }
+                if (!isset($tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse]))
+                    $tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse] = array();
+                array_push($tableauOperation[date_format($max, 'Y-m-d')][$max_key][$value->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$value->getArticle()->getNumeroSerie()][$magasine][$nomClasse], $value);
             }
         }
         krsort($tableauOperation);

@@ -31,8 +31,6 @@ class PrevisionSortieCourbeController extends Controller
                     ->andWhere('sp.dateDeRetirement IS NULL')
                     ->andWhere('poche.parc = :parc')
                     ->setParameter('parc', $parcCherche)
-                    ->leftJoin('sp.article', 'articlesn')
-                    ->leftJoin('articlesn.refStockArticle', 'refStockArticle')
                     ->getQuery()
                     ->getResult(),
                 $em->getRepository('SSFMBBundle:StocksLanternes')
@@ -42,8 +40,6 @@ class PrevisionSortieCourbeController extends Controller
                     ->andWhere('sl.dateDeRetirement IS NULL')
                     ->andWhere('lanterne.parc = :parc')
                     ->setParameter('parc', $parcCherche)
-                    ->leftJoin('sl.article', 'articlesn')
-                    ->leftJoin('articlesn.refStockArticle', 'refStockArticle')
                     ->getQuery()->getResult(),
                 $em->getRepository('SSFMBBundle:StocksCordes')
                     ->createQueryBuilder('sc')
@@ -52,8 +48,6 @@ class PrevisionSortieCourbeController extends Controller
                     ->andWhere('sc.dateDeRetirement IS NULL')
                     ->andWhere('corde.parc = :parc')
                     ->setParameter('parc', $parcCherche)
-                    ->leftJoin('sc.article', 'articlesn')
-                    ->leftJoin('articlesn.refStockArticle', 'refStockArticle')
                     ->getQuery()
                     ->getResult());
             $processusImplementation = new ProcessusImplementation($em);
@@ -63,7 +57,6 @@ class PrevisionSortieCourbeController extends Controller
                     $datePrevision = new \DateTime();
                     $it = 0;
                     do {
-
                         foreach ($tableauPrevisionSelect as $objet) {
                             if (($objet->getDateDeMiseAEau()) && ($objet->getDateDeRetirement() == null)) {
 
@@ -82,8 +75,8 @@ class PrevisionSortieCourbeController extends Controller
                                     $cycle = $processusImplementation->processusArticle($objet->getProcessus(), $datePrevision, $objet->getDateDeMiseAEau())->getAbrevProcessus() . '' . $processusImplementation->cycleArticle($objet->getProcessus(), $datePrevision, $objet->getDateDeMiseAEau());
                                 }
                                 if ($request->get('mesure') == 'piece') {
-                                    if ($request->get('rendu') == '53') {
-                                        $quantiter = $quantiter * 0.533;
+                                   if ($request->get('rendu') == '53') {
+                                        $quantiter = $quantiter  * 0.533;
                                     }
                                 } else if ($request->get('mesure') == 'duozaine') {
                                     if ($request->get('rendu') == '100') {
@@ -107,18 +100,14 @@ class PrevisionSortieCourbeController extends Controller
                                 if (!isset($tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle])) {
                                     $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle] = array('article' => array());
                                 }
-                                if (is_null($objet->getArticle()->getRefStockArticle())) {
+                                if (!isset($tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()])) {
+                                    $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()] = array('nomArticle' => $objet->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle(), 'qteEau' => $quantiter, 'qteStock' => $objet->getArticle()->getSnQte());
                                 } else {
-                                    if (!isset($tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()])) {
-                                        $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()] = array('nomArticle' => $objet->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle(), 'qteEau' => $quantiter, 'qteStock' => $objet->getArticle()->getSnQte());
-                                    } else {
-                                        $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteEau'] = $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteEau'] + $quantiter;
-                                        $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteStock'] = $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteStock'] + $objet->getArticle()->getSnQte();
-                                    }
+                                    $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteEau'] = $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteEau'] + $quantiter;
+                                    $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteStock'] = $tableauPrevision[$magasine->getIdMagasin()][$it]['cycle'][$cycle]['article'][$objet->getArticle()->getRefStockArticle()->getRefArticle()->getRefArticle()]['qteStock'] + $objet->getArticle()->getSnQte();
                                 }
                             }
                         }
-
                         $datePrevision->modify('+1 month');
                         $it++;
 

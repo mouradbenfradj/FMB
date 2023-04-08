@@ -31,8 +31,6 @@ class Builder implements ContainerAwareInterface
         $menu->addChild('Processus');
         $menu->addChild('Outil');
         $menu['Outil']->addChild('Historique des operations');
-        $menu['Outil']->addChild('tache effectué');
-		
         $menu['Outil']->addChild('Prévision des sorties');
 
         if ($sc->isGranted('ROLE_SUPER_ADMIN')) {
@@ -124,7 +122,7 @@ class Builder implements ContainerAwareInterface
 
         }
 
-        $menu['Statistique']->setAttribute('class', 'has-submenu')->setUri("/")->setChildrenAttribute('class', 'submenu');
+        $menu['Statistique']->setAttribute('class', 'has-submenu')->setUri("/app_dev.php/")->setChildrenAttribute('class', 'submenu');
         $menu['suivi filières']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
         if ($sc->isGranted('ROLE_SUPER_ADMIN')) {
             $menu['Operation']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
@@ -132,8 +130,7 @@ class Builder implements ContainerAwareInterface
         $menu['planing de travaille']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
         $menu['Processus']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
         $menu['Outil']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-        $menu['Outil']['Historique des operations']->setAttribute('class', 'has-submenu')->setUri("/historiqueOperation")->setChildrenAttribute('class', 'submenu');
-        $menu['Outil']['tache effectué']->setAttribute('class', 'has-submenu')->setUri("/historique")->setChildrenAttribute('class', 'submenu');
+        $menu['Outil']['Historique des operations']->setAttribute('class', 'has-submenu')->setUri("/app_dev.php/historiqueOperation")->setChildrenAttribute('class', 'submenu');
         $menu['Outil']['Prévision des sorties']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
 
 

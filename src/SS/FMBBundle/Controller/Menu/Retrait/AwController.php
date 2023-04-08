@@ -145,7 +145,8 @@ class AwController extends Controller
                     $scorde = $place->getStockscorde();
                     if ($scorde->getDateAssemblage()) {
                         foreach ($scorde->getPocheAssemblage() as $poche) {
-
+                            var_dump($poche);
+                            die();
                             $actualProcess = $implementationProcessus->processusArticle($scorde->getProcessus(), $date1, $place->getDateDeRemplissage());
                             $cycleProcess = $implementationProcessus->cycleArticle($scorde->getProcessus(), $date1, $place->getDateDeRemplissage());
                             $article = $em->getRepository('SSFMBBundle:Articles')->findOneByLibArticle($actualProcess->getArticleSortie() . $cycleProcess . " COM");
@@ -215,7 +216,9 @@ class AwController extends Controller
                                 }
                             }
                         }
-                     
+                        var_dump($scorde->getPocheAssemblage());
+                        var_dump('assemblage ');
+                        die();
                     } else {
                         $actualProcess = $implementationProcessus->processusArticle($scorde->getProcessus(), $date1, $place->getDateDeRemplissage());
                         $cycleProcess = $implementationProcessus->cycleArticle($scorde->getProcessus(), $date1, $place->getDateDeRemplissage());

@@ -10,7 +10,7 @@
             <th>utilisateur</th>
             <th>Operation</th>
             <th>Tacheeffectuer</th>
-            {#<th>Actions</th>#}
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -59,16 +59,20 @@
                     </td>
                 {% else %}
                     <td>préparation de {{ entity.tacheEffectuer.nombre }}
-                        {% if entity.tacheEffectuer.lanterne is defined %}{{ entity.tacheEffectuer.lanterne }}{% elseif entity.tacheEffectuer.corde is defined  %} {{ entity.tacheEffectuer.corde }}{% endif %}
-                        de densité égale a {{ entity.tacheEffectuer.dentiter }}
+                        {% if entity.tacheEffectuer.lanterne is defined %}
+                            {{ entity.tacheEffectuer.lanterne }}
+                        {% elseif entity.tacheEffectuer.corde is defined  %}
+                            {{ entity.tacheEffectuer.corde }}
+                        {% endif %}
+                       {# de densité égale a {{ entity.tacheEffectuer.dentiter }}
                         avec l'article {{ entity.tacheEffectuer.article }}
                         du du lot {{ entity.tacheEffectuer.lot }}
                         sur la date {{ entity.tacheEffectuer.datePreparation }}
-                        dans le stock {{ entity.tacheEffectuer.stock }}
+                        dans le stock {{ entity.tacheEffectuer.stock }}#}
                         du parc {{ entity.tacheEffectuer.parc }}
                     </td>
                 {% endif %}
-                {#<td>
+                <td>
                     <ul>
                         <li>
                             <a href="{{ path('historique_show', { 'id': entity.id }) }}">show</a>
@@ -77,7 +81,7 @@
                             <a href="{{ path('historique_edit', { 'id': entity.id }) }}">edit</a>
                         </li>
                     </ul>
-                </td>#}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
