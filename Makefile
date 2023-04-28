@@ -1,53 +1,142 @@
-# Executables (local)
-DOCKER_COMP = docker compose
+.DEFAULT_GOAL := help
 
-# Docker containers
-PHP_CONT = $(DOCKER_COMP) exec php
+SYMFONY_BIN = symfony
+YARN = yarn
 
-# Executables
-PHP      = $(PHP_CONT) php
-COMPOSER = $(PHP_CONT) composer
-SYMFONY  = $(PHP_CONT) bin/console
+COMPOSER = $(SYMFONY_BIN) composer
+PHPUNIT = $(SYMFONY_BIN) php bin/phpunit
+SYMFONY = $(SYMFONY_BIN) console
 
-# Misc
-.DEFAULT_GOAL = help
-.PHONY        : help build up start down logs sh composer vendor sf cc
 
-## —— 🎵 🐳 The Symfony Docker Makefile 🐳 🎵 ——————————————————————————————————
-help: ## Outputs this help screen
-	@grep -E '(^[a-zA-Z0-9\./_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
+##
+## Database
+.PHONY: db db-reset db-cache db-validate fixtures
 
-## —— Docker 🐳 ————————————————————————————————————————————————————————————————
-build: ## Builds the Docker images
-	@$(DOCKER_COMP) build --pull --no-cache
+db: vendor db-reset fixtures ## Reset database and load fixtures
 
-up: ## Start the docker hub in detached mode (no logs)
-	@$(DOCKER_COMP) up --detach
+db-cache: vendor ## Clear doctrine database cache
+	@$(SYMFONY) doctrine:cache:clear-metadata
+	@$(SYMFONY) doctrine:cache:clear-query
+	@$(SYMFONY) doctrine:cache:clear-result
+	@echo "Cleared doctrine cache"
 
-start: build up ## Build and start the containers
+db-reset: vendor ## Reset database
+	@-$(SYMFONY) doctrine:database:drop --if-exists --force
+	@-$(SYMFONY) doctrine:database:create --if-not-exists
+	@$(SYMFONY) doctrine:schema:update --force
 
-down: ## Stop the docker hub
-	@$(DOCKER_COMP) down --remove-orphans
+db-validate: vendor ## Checks doctrine's mapping configurations are valid
+	@$(SYMFONY) doctrine:schema:validate --skip-sync -vvv --no-interaction
 
-logs: ## Show live logs
-	@$(DOCKER_COMP) logs --tail=0 --follow
+fixtures: vendor ## Load fixtures - requires database with tables
+	@$(SYMFONY) doctrine:fixtures:load --no-interaction
 
-sh: ## Connect to the PHP FPM container
-	@$(PHP_CONT) sh
 
-## —— Composer 🧙 ——————————————————————————————————————————————————————————————
-composer: ## Run composer, pass the parameter "c=" to run a given command, example: make composer c='req symfony/orm-pack'
-	@$(eval c ?=)
-	@$(COMPOSER) $(c)
+##
+## Linting
+.PHONY: lint lint-container lint-twig lint-xliff lint-yaml
 
-vendor: ## Install vendors according to the current composer.lock file
-vendor: c=install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction
-vendor: composer
+lint: vendor ## Run all lint commands
+	make -j lint-container lint-twig lint-xliff lint-yaml
 
-## —— Symfony 🎵 ———————————————————————————————————————————————————————————————
-sf: ## List all Symfony commands or pass the parameter "c=" to run a given command, example: make sf c=about
-	@$(eval c ?=)
-	@$(SYMFONY) $(c)
+lint-container: vendor ## Checks the services defined in the container
+	@$(SYMFONY) lint:container
 
-cc: c=c:c ## Clear the cache
-cc: sf
+lint-twig: vendor ## Check twig syntax in /templates folder (prod environment)
+	@$(SYMFONY) lint:twig templates -e prod
+
+lint-xliff: vendor ## Check xliff syntax in /translations folder
+	@$(SYMFONY) lint:xliff translations
+
+lint-yaml: vendor ## Check yaml syntax in /config and /translations folders
+	@$(SYMFONY) lint:yaml config translations
+
+
+##
+## Node.js
+.PHONY: assets build watch
+
+yarn.lock: package.json
+	@$(YARN) upgrade
+
+node_modules: #yarn.lock ## Install node packages
+	@$(YARN) install
+
+assets: node_modules ## Run Webpack Encore to compile development assets
+	@$(YARN) dev
+
+build: node_modules ## Run Webpack Encore to compile production assets
+	@$(YARN) build
+
+watch: node_modules ## Recompile assets automatically when files change
+	@$(YARN) watch
+
+
+##
+## PHP
+composer.lock: composer.json
+	@$(COMPOSER) update
+
+vendor: composer.lock ## Install dependencies in /vendor folder
+	@$(COMPOSER) install --no-progress
+
+
+##
+## Project
+.PHONY: install update cache-clear cache-warmup ci clean purge reset start
+
+install: db assets ## Install project dependencies
+
+update: vendor node_modules ## Update project dependencies
+	@$(COMPOSER) update
+	@$(YARN) upgrade
+
+cache-clear: vendor ## Clear cache for current environment
+	@$(SYMFONY) cache:clear --no-warmup
+
+cache-warmup: vendor cache-clear ## Clear and warm up cache for current environment
+	@$(SYMFONY) cache:warmup
+
+ci: db-validate lint security tests ## Continuous integration
+
+clean: purge ## Delete all dependencies
+	@rm -rf var vendor node_modules public/build
+	@echo "Var, vendor, node_modules and public/build folders have been deleted !"
+
+purge: ## Purge cache and logs
+	@rm -rf var/cache/* var/log/*
+	@echo "Cache and logs have been deleted !"
+
+reset: unserve clean install ## Reset project
+
+start: install serve ## Install project dependencies and launch symfony web server
+
+
+##
+## Symfony binary
+.PHONY: serve unserve security
+
+serve: ## Run symfony web server in the background
+	@$(SYMFONY_BIN) serve --daemon --no-tls
+
+unserve: ## Stop symfony web server
+	@$(SYMFONY_BIN) server:stop
+
+security: vendor ## Check packages vulnerabilities (using composer.lock)
+	@$(SYMFONY_BIN) check:security
+
+
+##
+## Tests
+.PHONY: tests
+
+tests: vendor ## Run tests
+	@$(PHPUNIT)
+
+
+##
+## Help
+.PHONY: help
+
+help: ## List of all commands
+	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
