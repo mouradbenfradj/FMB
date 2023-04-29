@@ -1,3 +1,12 @@
-body {
-    background-color: lightgray;
-}
+@import '~../plugins/bootstrap-sweetalert/sweet-alert.css';
+@import '~bootstrap';
+@import '~../assets/css/core.css';
+@import '~../assets/css/components.css';
+@import '~../css/baseTwig/componentsme.css';
+@import '~../assets/css/icons.css';
+@import '~../assets/css/pages.css';
+@import '~../assets/css/menu.css';
+@import '~../assets/css/responsive.css';
+
+@import '~../css/nProgress/style.css';
+@import '~../css/nProgress/nprogress.css';

@@ -54,12 +54,17 @@ lint-yaml: vendor ## Check yaml syntax in /config and /translations folders
 
 ##
 ## Node.js
-.PHONY: assets build watch
+.PHONY: add assets build watch
+
+add: 
+	@$(eval c ?=)
+	@$(YARN) add $(c)
+	@$(YARN) dev
 
 yarn.lock: package.json
 	@$(YARN) upgrade
 
-node_modules: #yarn.lock ## Install node packages
+node_modules: yarn.lock ## Install node packages
 	@$(YARN) install
 
 assets: node_modules ## Run Webpack Encore to compile development assets
