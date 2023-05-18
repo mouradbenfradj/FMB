@@ -45,7 +45,7 @@ $(document).ready(function () {
  function chercherDatePreparer(lanterne) {
  $.ajax({
  type: 'get',
- url: Routing.generate('ssfmb_parcDateLPreparer', {lanterne: lanterne}),
+ url: Routing.generate('app_parcDateLPreparer', {lanterne: lanterne}),
  beforeSend: function () {
  tabFormulaire = [];
  $('#dateLanterneChoix').hide();
@@ -95,7 +95,7 @@ $(document).ready(function () {
 function trouveArticle(lanterne) {
     $.ajax({
         type: 'get',
-        url: Routing.generate('ssfmb_articleLPreparer', {lanterne: lanterne}),
+        url: Routing.generate('app_articleLPreparer', {lanterne: lanterne}),
         beforeSend: function () {
             tabFormulaire = [];
             $('#articlechoix').hide();
@@ -190,7 +190,7 @@ function affichageNombreDispo( article, lot, qte) {
 function cycleArticle(article) {
     $.ajax({
         type: "POST",
-        url: Routing.generate('ssfmb_articlecyclechoix', {sarticle: article}),
+        url: Routing.generate('app_articlecyclechoix', {sarticle: article}),
         success: function (data) {
             if ($.trim(data)) {
                 $('#articlecyclechoix').show();

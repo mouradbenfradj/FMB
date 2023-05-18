@@ -65,7 +65,7 @@ $(document).ready(function () {
 function stockContent(parc) {
     $.ajax({
         type: 'get',
-        url: Routing.generate('ssfmb_parcstock', {parc_id: parc}),
+        url: Routing.generate('app_parcstock', {parc_id: parc}),
         beforeSend: function () {
             jQuery('#loadcorde').show();
             jQuery('#loadstock').show();
@@ -95,7 +95,7 @@ function stockContent(parc) {
 function choixCorde(parc) {
     $.ajax({
         type: 'get',
-        url: Routing.generate('ssfmb_parccorde', {parc_id: parc}),
+        url: Routing.generate('app_parccorde', {parc_id: parc}),
         beforeSend: function () {
             jQuery('#loadcorde').show();
             jQuery('#loadqtelstock').show();
@@ -133,7 +133,7 @@ function listeLotArticle(stock, article) {
     jQuery('#ss_fmbbundle_preparationcorde_refArticle').ready(function () {
         jQuery.ajax({
             type: "POST",
-            url: Routing.generate('ssfmb_articlestock', {
+            url: Routing.generate('app_articlestock', {
                 stock_id: stock,
                 article: article
             }),

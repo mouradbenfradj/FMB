@@ -11,10 +11,16 @@ use App\Form\PreparationLanterneType;
 use App\Implementation\DefaultImpl;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Routing\Annotation\Route;
+ /**
+     * @Route("/preparationlanterne")
+     */
 class LanterneController  extends AbstractController
 {
-    public function lanterneNH()
+/**
+     * @Route("/", name="app_preparationlanterne")
+     */
+        public function lanterneNH()
     {
         if ($this->container->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
             $historique = new Historique();
@@ -22,7 +28,7 @@ class LanterneController  extends AbstractController
             $historique->setUtilisateur($this->container->get('security.context')->getToken()->getUser());
             $tacheEffectuer = array();
             $em = $this->getDoctrine()->getManager();
-            $form = $this->createForm(new PreparationLanterneType($em), null, array('action' => $this->generateUrl('ssfmb_preparationlanterne'), 'method' => 'POST', 'attr' => array('class' => "form-horizontal", 'id' => "preparationlanterneform")));
+            $form = $this->createForm(new PreparationLanterneType($em), null, array('action' => $this->generateUrl('app_preparationlanterne'), 'method' => 'POST', 'attr' => array('class' => "form-horizontal", 'id' => "preparationlanterneform")));
             if ($request->isMethod('POST')) {
                 $defaultmetier = new DefaultImpl($em);
                 $form->handleRequest($request);

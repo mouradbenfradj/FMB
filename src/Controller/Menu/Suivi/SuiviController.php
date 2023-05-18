@@ -1,24 +1,37 @@
 <?php
 namespace App\Controller\Menu\Suivi;
 
+use App\Repository\MagasinsRepository;
+use App\Repository\ProcessusRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/suivi")
+ */
 class SuiviController extends AbstractController
 {
-    public function index()
+ /**
+     * @Route("/", name="app_suivi")
+     */
+        public function index(        
+            Request $request,
+            ProcessusRepository $processusRepository,
+            MagasinsRepository $magasinsRepository
+        ): Response
     {
-        $em = $this->getDoctrine()->getManager();
         if ($request->get('idparc') == null) {
             $processus = null;
             $parc = null;
         }
         else
         {
-            $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
-            $parc = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
+            $processus = $processusRepository->findAll();
+            $parc = $magasinsRepository->findOneByIdMagasin($request->get('idparc'));
         }
-        return $this->render('SSFMBBundle:Default:suivit.html.twig', array('entity' => $parc, 'processus'=>$processus));
+        return $this->render('default/suivit.html.twig', array('entity' => $parc, 'processus'=>$processus));
     }
 
 }

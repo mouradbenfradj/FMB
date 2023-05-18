@@ -90,7 +90,7 @@ class TransfertMAEController  extends AbstractController
                 $historique->setTacheEffectuer($tacheEffectuer);
                 $em->persist($historique);
                 $em->flush();
-                return $this->redirectToRoute('ssfmb_transfert');
+                return $this->redirectToRoute('app_transfert');
             }
             return $this->render(
                 'MAE/transfertMAE.html.twig',

@@ -100,7 +100,7 @@ class AwController  extends AbstractController
                     $place->setDateDeRemplissage(null);
                 }
                 $em->flush();
-                return $this->redirectToRoute('ssfmb_retraitLanterne');
+                return $this->redirectToRoute('app_retraitLanterne');
 
             }
 
@@ -297,7 +297,7 @@ class AwController  extends AbstractController
                 }
                 $em->flush();
 
-                return $this->redirectToRoute('ssfmb_retraitcorde');
+                return $this->redirectToRoute('app_retraitcorde');
 
             }
             return $this->render('Retrait/retraitCorde.html.twig',

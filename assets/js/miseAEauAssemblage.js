@@ -25,18 +25,18 @@ $(document).ready(function () {
 
 
     $('#assemblagechoix').ready(function () {
-        }
+    }
     ).change(function () {
-            $("input:checkbox").each(function () {
-                $(this).prop('checked', false);
-            });
-        }
+        $("input:checkbox").each(function () {
+            $(this).prop('checked', false);
+        });
+    }
     );
 });
 function chercherDatePreparer(assemblage) {
     $.ajax({
         type: 'get',
-        url: Routing.generate('ssfmb_parcDateCPreparer', {assemblage: assemblage}),
+        url: Routing.generate('app_parcDateCPreparer', { assemblage: assemblage }),
         beforeSend: function () {
             tabFormulaire = [];
             $('#dateAssemblageChoix').hide();
@@ -138,7 +138,7 @@ function affichageNombreDispo(datec, article, lot, qte) {
 function cycleArticle(article) {
     $.ajax({
         type: "POST",
-        url: Routing.generate('ssfmb_articlecyclechoix', {sarticle: article}),
+        url: Routing.generate('app_articlecyclechoix', { sarticle: article }),
         beforeSend: function () {
             $('#loadquantit').show();
         },

@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use App\Entity\Filiere;
 use App\Form\FiliereType;
+use App\Repository\FiliereRepository;
+use App\Repository\ProcessusRepository;
 
 /**
  * Filiere controller.
@@ -23,11 +25,11 @@ class FiliereController  extends AbstractController
      * Lists all Filiere entities.
      *
      */
-    public function indexAction()
+    public function index()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Filiere')->findAll();
+        $entities = $filiereRepository->findAll();
 
         return $this->render('SSFMBBundle:Filiere:index.html.twig', array(
             'entities' => $entities,
@@ -99,7 +101,7 @@ class FiliereController  extends AbstractController
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('SSFMBBundle:Filiere')->find($id);
+        $entity = $filiereRepository->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Filiere entity.');
@@ -137,7 +139,7 @@ class FiliereController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Filiere')->find($id);
+        $entity = $filiereRepository->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Filiere entity.');
@@ -180,7 +182,7 @@ class FiliereController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Filiere')->find($id);
+        $entity = $filiereRepository->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Filiere entity.');
@@ -214,7 +216,7 @@ class FiliereController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Filiere')->find($id);
+            $entity = $filiereRepository->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Filiere entity.');
@@ -227,12 +229,15 @@ class FiliereController  extends AbstractController
         return $this->redirect($this->generateUrl('filiere'));
     }
 
-    public function findByParcAction(Magasins $parc, $page)
+    public function findByParc(
+        Magasins $parc,
+        FiliereRepository $filiereRepository,
+        ProcessusRepository $processusRepository,
+        $page)
     {
         $datenow = new DateTime('now');
-        $em = $this->getDoctrine()->getManager();
         $implementation = new ProcessusImplementation();
-        $filieress = $em->getRepository('SSFMBBundle:Filiere')->getTotaleContenuFiliere($parc);
+        $filieress = $filiereRepository->getTotaleContenuFiliere($parc);
         $filieres = array();
         $pp = 0;
         foreach ($filieress as $item) {
@@ -249,19 +254,19 @@ class FiliereController  extends AbstractController
             $cycle = 0;
             if ($item['processusl']) {
                 if ($item['processusl'] != $pp) {
-                    $process = $em->getRepository('SSFMBBundle:Processus')->find($item['processusl']);
+                    $process = $processusRepository->find($item['processusl']);
                     $debC = $item['numDebCyclel'];
                     $pp = $item['processusl'];
                 }
             } elseif ($item['processusc']) {
                 if ($item['processusc'] != $pp) {
-                    $process = $em->getRepository('SSFMBBundle:Processus')->find($item['processusc']);
+                    $process = $processusRepository->find($item['processusc']);
                     $debC = $item['numDebCyclec'];
                     $pp = $item['processusc'];
                 }
             } elseif ($item['processusp']) {
                 if ($item['processusp'] != $pp) {
-                    $process = $em->getRepository('SSFMBBundle:Processus')->find($item['processusp']);
+                    $process = $processusRepository->find($item['processusp']);
                     $debC = $item['numDebCyclep'];
                     $pp = $item['processusp'];
                 }
@@ -328,13 +333,13 @@ class FiliereController  extends AbstractController
 
         $em = $this->container->get('doctrine')->getEntityManager();
         if ($observation != '') {
-            $filiere = $em->getRepository('SSFMBBundle:Filiere')->findOneById($id);
+            $filiere = $filiereRepository->findOneById($id);
             $observations = array_merge(array(new DateTime(), $observation), $filiere->getObservation());
             $filiere->setObservation($observations);
             $em->flush();
             $observations = $filiere->getObservation();
         } else {
-            $filiere = $em->getRepository('SSFMBBundle:Filiere')->findOneById($id);
+            $filiere = $filiereRepository->findOneById($id);
             $observations = array_merge($filiere->getObservation());
         }
 

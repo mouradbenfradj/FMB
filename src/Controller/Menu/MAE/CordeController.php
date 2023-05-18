@@ -67,7 +67,7 @@ class CordeController  extends AbstractController
                 $historique->setTacheEffectuer($tacheEffectuer);
                 $em->persist($historique);
                 $em->flush();
-                return $this->redirectToRoute('ssfmb_misaaeaucorde');
+                return $this->redirectToRoute('app_misaaeaucorde');
             }
             return $this->render(
                 'MAE/Corde/miseAEauCorde.html.twig',

@@ -28,7 +28,7 @@ $(document).ready(function () {
 function choixPoche(obj) {
     jQuery.ajax({
         type: "POST",
-        url: Routing.generate('ssfmb_parcPoch', {parc_id: obj})
+        url: Routing.generate('app_parcPoch', {parc_id: obj})
         , beforeSend: function () {
             $('#valeurPoche0').empty();
             $('#valeurPoche1').empty();
@@ -52,7 +52,7 @@ function choixPoche(obj) {
 function datepochePreparer(idPoche) {
     jQuery.ajax({
         type: "POST",
-        url: Routing.generate('ssfmb_datePochPreparer', {poche_id: idPoche})
+        url: Routing.generate('app_datePochPreparer', {poche_id: idPoche})
         , beforeSend: function () {
             $('#valeurPoche1').empty();
             $('#valeurPoche2').empty();
@@ -73,7 +73,7 @@ function datepochePreparer(idPoche) {
 function nombrePochePreparer(idPoche, qte) {
     jQuery.ajax({
         type: "POST",
-        url: Routing.generate('ssfmb_nombrePochPreparer', {poche_id: idPoche, qte: qte})
+        url: Routing.generate('app_nombrePochPreparer', {poche_id: idPoche, qte: qte})
         , beforeSend: function () {
             $('#nbrPoche').empty();
         }, success: function (data) {
@@ -85,7 +85,7 @@ function nombrePochePreparer(idPoche, qte) {
 function pochePreparer(idPoche, date) {
     jQuery.ajax({
         type: "POST",
-        url: Routing.generate('ssfmb_PochPreparer', {poche_id: idPoche, date: date})
+        url: Routing.generate('app_PochPreparer', {poche_id: idPoche, date: date})
         , beforeSend: function () {
             $('#valeurPoche2').empty();
             $('#nbrPoche').empty();
@@ -107,7 +107,7 @@ function choixCorde(obj) {
     $('#valeurCorde').empty();
     jQuery.ajax({
         type: "POST",
-        url: Routing.generate('ssfmb_parcCorde', {parc_id: choix.attr('value')})
+        url: Routing.generate('app_parcCorde', {parc_id: choix.attr('value')})
         , beforeSend: function () {
             $('#nbrCorde').empty();
             $('#valeurCorde').empty();
@@ -128,7 +128,7 @@ function choixCorde(obj) {
 function quantiterCordeEnStock(idCorde) {
     jQuery.ajax({
         type: "POST",
-        url: Routing.generate('ssfmb_quantiterCordeEnStock', {cordeId: idCorde}),
+        url: Routing.generate('app_quantiterCordeEnStock', {cordeId: idCorde}),
         beforeSend: function () {
             $('#nbrCorde').empty();
         },

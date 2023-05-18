@@ -11,9 +11,18 @@ use App\Entity\StocksPochesBS;
 use App\Form\PreparationPocheType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
+ /**
+     * @Route("/preparationpoche")
+     */
 class PocheController  extends AbstractController
 {
+   
+    
+/**
+     * @Route("/", name="app_preparationpoche")
+     */
     public function pocheH()
     {
         if ($this->container->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
@@ -23,7 +32,7 @@ class PocheController  extends AbstractController
             $tacheEffectuer = array();
             $em = $this->getDoctrine()->getManager();
             $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
-            $form = $this->createForm(new PreparationPocheType($em, $processus), null, array('action' => $this->generateUrl('ssfmb_preparationpoche'), 'method' => 'POST', 'attr' => array('class' => "form-horizontal")));
+            $form = $this->createForm(new PreparationPocheType($em, $processus), null, array('action' => $this->generateUrl('app_preparationpoche'), 'method' => 'POST', 'attr' => array('class' => "form-horizontal")));
             if ($request->isMethod('POST')) {
                 $form->handleRequest($request);
                 $stockarticles = $em->getRepository('SSFMBBundle:StocksArticles')->findOneBy(array('idStock' => $form['libStock']->getData()->getIdStock(), 'refArticle' => $form['refArticle']->getData()->getRefArticle()));

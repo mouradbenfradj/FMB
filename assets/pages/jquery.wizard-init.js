@@ -49,7 +49,7 @@
                     return $form_container.valid();
                 },
                 onFinished: function (event, currentIndex) {
-                    //Routing.generate('ssfmb_PochPreparer', { parc: $("input[name='parc']").val(), corde: "bar", nbrCorde: "bar", contenu: "bar" });
+                    //Routing.generate('app_PochPreparer', { parc: $("input[name='parc']").val(), corde: "bar", nbrCorde: "bar", contenu: "bar" });
                     //alert("Submitted!");
                     var nombreCordeChoisie = $('input[name="nbrCordeAssemblage"]').val();
                     var nombreCordeDemande = $('#nbrCorde').text();

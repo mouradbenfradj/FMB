@@ -5,22 +5,33 @@ namespace App\Controller\Menu\Assemblage\PocheACorde;
 use App\Entity\PochesBS;
 use App\Entity\StocksCordes;
 use App\Entity\StocksPochesBS;
+use App\Repository\CordeRepository;
+use App\Repository\MagasinsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
+ /**
+     * @Route("/assemblage")
+     */
 class PocheACordeController  extends AbstractController
 {
-    public function index()
+
+    
+/**
+     * @Route("/", name="app_assemblage")
+     */
+        public function index(Request $request,MagasinsRepository $magasinsRepository,CordeRepository $cordeRepository)
     {
         if ($this->container->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
-            $em = $this->getDoctrine()->getManager();
-            $parcs = $em->getRepository('SSFMBBundle:Magasins')->findAll();
+            
+            $parcs = $magasinsRepository->findAll();
             if ($request->isMethod('POST')) {
                 $tabPocheId = array();
                 $tabPocheEntity = array();
-                $corde = $em->getRepository('SSFMBBundle:Corde')->find($request->get('corde'));
+                $corde = $cordeRepository->find($request->get('corde'));
                 $corde->setNbrTotaleEnStock($corde->getNbrTotaleEnStock() - $request->get('nbrCordeAssemblage'));
-                $em->merge($corde);
+                //$em->merge($corde);
                 for ($i = 0; $i < $request->get('nbrCordeAssemblage'); $i++) {
                     $stockCorde = new StocksCordes();
                     $stockCorde->setCorde($corde);
@@ -28,7 +39,7 @@ class PocheACordeController  extends AbstractController
                     $stockCorde->setDateDeCreation(new \DateTime($request->get('dateAssemblage')));
                     $stockCorde->setDateAssemblage(new \DateTime($request->get('dateAssemblage')));
                     $stockCorde->setQuantiter(0);
-                    $em->persist($stockCorde);
+                    //$em->persist($stockCorde);
                     $contenuCompteur = 0;
                     foreach ($request->get('contenu') as $contenu) {
                         $contenuCompteur++;
@@ -53,7 +64,7 @@ class PocheACordeController  extends AbstractController
                                 }
                                 for ($cmp = 0; $cmp < $nbrAFabriquer; $cmp++) {
                                     $poche = $tabPocheEntity[$pocheId];
-                                    $stocksPocheBs = $em->getRepository('SSFMBBundle:StocksPochesBs')->findOneBy(array('pochesbs' => $pocheId, 'quantiter' => $qteU, 'pret' => false, 'dateDeCreation' => new \DateTime($date), 'cordeAssemblage' => null));
+                                    $stocksPocheBs = $em->getRepository('SSFMBBundle:StocksPochesBS')->findOneBy(array('pochesbs' => $pocheId, 'quantiter' => $qteU, 'pret' => false, 'dateDeCreation' => new \DateTime($date), 'cordeAssemblage' => null));
                                     $stocksPocheBs->setCordeAssemblage($stockCorde);
                                     $stocksPocheBs->setDateAssemblage(new \DateTime($request->get('dateAssemblage')));
                                     $stockCorde->setArticle($stocksPocheBs->getArticle());

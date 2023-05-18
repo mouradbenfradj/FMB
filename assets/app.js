@@ -17,7 +17,7 @@ import './assets/js/jquery.slimscroll.js'
 import './assets/js/jquery.blockUI.js'
 import 'node-waves'
 //import './assets/js/waves.js'
-import './assets/js/wow.min.js'
+import 'wowjs'
 import './assets/js/jquery.nicescroll.js'
 import './assets/js/jquery.scrollTo.min.js'
 
@@ -26,9 +26,13 @@ import './assets/js/jquery.app.js'
 
 import './js/baseTwig/base.js'
 import './js/clignotement.js'
-import './plugins/bootstrap-sweetalert/sweet-alert.min.js'
+import 'bootstrap-sweetalert/lib/sweet-alert'
 import './pages/jquery.sweet-alert.init.js'
 
+import './plugins/waypoints/lib/jquery.waypoints.js'
+import './plugins/counterup/jquery.counterup.min.js'
+import './pages/jquery.widgets.js'
+import './plugins/jquery-sparkline/jquery.sparkline.min.js'
 
 
     $('body').show();

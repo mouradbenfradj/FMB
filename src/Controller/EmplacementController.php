@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use App\Entity\Emplacement;
 use App\Form\EmplacementType;
+use App\Repository\EmplacementRepository;
 
 /**
  * Emplacement controller.
@@ -17,9 +18,9 @@ use App\Form\EmplacementType;
 class EmplacementController  extends AbstractController
 {
 
-    public function afficherSourceEmplacementAction($id)
+    public function afficherSourceEmplacementAction(EmplacementRepository $emplacementRepository,$id)
     {
-        $place = $this->getDoctrine()->getManager()->getRepository('SSFMBBundle:Emplacement')->find($id);
+        $place = $emplacementRepository->find($id);
         $message = $place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere();
         $message = $message . '->' . $place->getFlotteur()->getSegment()->getNomSegment();
         $message = $message . '->' . $place->getFlotteur()->getNomFlotteur();

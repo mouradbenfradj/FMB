@@ -42,7 +42,7 @@ class RetraitTController  extends AbstractController
                         $session->set('lanterne', array_merge($session->get('lanterne'), array($place->getStockslanterne())));
                     }
                 }
-                return $this->redirectToRoute('ssfmb_misaaeautransfert');
+                return $this->redirectToRoute('app_misaaeautransfert');
             }
             return $this->render(
                 'Retrait/transfertRetirement.html.twig',

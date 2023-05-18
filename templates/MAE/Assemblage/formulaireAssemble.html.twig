@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 {% block title %}{{ parent() }} - MAEAssemblage{% endblock %}
 {% block stylesheet %}
     {% if(entity != null) %}
@@ -14,7 +14,7 @@
     {{ parent() }}
     {% set page = 'MAEAS' %}
     {% if(entity != null) %}
-        <form action="{{ path('ssfmb_assemblagemiseaeau') }}" method="get" id="formulaie"
+        <form action="{{ path('app_assemblagemiseaeau') }}" method="get" id="formulaie"
               onsubmit="return validation()">
             <table border="1" width="100%">
                 {% if  assemblages|length !=0 %}

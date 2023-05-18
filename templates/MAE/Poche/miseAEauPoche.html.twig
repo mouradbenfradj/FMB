@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 {% block title %}{{ parent() }} - MAEP{% endblock %}
 {% block stylesheet %}
     {% if(entity != null) %}
@@ -111,7 +111,7 @@
          $('#articlechoix').ready(function () {
              $.ajax({
                  type: "POST",
-                 url: "{{ url('ssfmb_articlestock') }}?stock_id=" + $('#idstockparc').text() + "&sarticle=" + $('#articlechoix').val(),
+                 url: "{{ url('app_articlestock') }}?stock_id=" + $('#idstockparc').text() + "&sarticle=" + $('#articlechoix').val(),
                  beforeSend: function () {
                      $('#loadquantit').show();
                  },
@@ -138,7 +138,7 @@
                          $('#ss_fmbbundle_preparationpoche_submit').show();
                          $.ajax({
                              type: 'get',
-                             url: "{{ path('ssfmb_pochearticle') }}",
+                             url: "{{ path('app_pochearticle') }}",
                              data: {
                                  'idp': $('#idparc').text(),
                                  'lot': $('#articlelotchoix').val(),
@@ -166,7 +166,7 @@
 
                                          $.ajax({
                                              type: 'get',
-                                             url: "{{ path('ssfmb_nombrepochearticle') }}",
+                                             url: "{{ path('app_nombrepochearticle') }}",
                                              data: {
                                                  'ida': $('#articlechoix').val(),
                                                  'lot': $('#articlelotchoix').val(),
@@ -224,7 +224,7 @@
          $('#articlechoix').change(function () {
              $.ajax({
                  type: "POST",
-                 url: "{{ url('ssfmb_articlestock') }}?stock_id=" + $('#idstockparc').text() + "&sarticle=" + $('#articlechoix').val(),
+                 url: "{{ url('app_articlestock') }}?stock_id=" + $('#idstockparc').text() + "&sarticle=" + $('#articlechoix').val(),
                  beforeSend: function () {
                      $('#loadquantit').show();
                  },
@@ -251,7 +251,7 @@
                          $('#ss_fmbbundle_preparationpoche_submit').show();
                          $.ajax({
                              type: 'get',
-                             url: "{{ path('ssfmb_pochearticle') }}",
+                             url: "{{ path('app_pochearticle') }}",
                              data: {
                                  'idp': $('#idparc').text(),
                                  'lot': $('#articlelotchoix').val(),
@@ -281,7 +281,7 @@
 
                                          $.ajax({
                                              type: 'get',
-                                             url: "{{ path('ssfmb_nombrepochearticle') }}",
+                                             url: "{{ path('app_nombrepochearticle') }}",
                                              data: {
                                                  'ida': $('#articlechoix').val(),
                                                  'lot': $('#articlelotchoix').val(),
@@ -338,7 +338,7 @@
          $('#pochechoix').change(function () {
              $.ajax({
                  type: 'get',
-                 url: "{{ path('ssfmb_pochearticle') }}",
+                 url: "{{ path('app_pochearticle') }}",
                  data: {
                      'idp': $('#idparc').text(),
                      'lot': $('#articlelotchoix').val(),
@@ -376,7 +376,7 @@
 
                              $.ajax({
                                  type: 'get',
-                                 url: "{{ path('ssfmb_nombrepochearticle') }}",
+                                 url: "{{ path('app_nombrepochearticle') }}",
                                  data: {
                                      'ida': $('#articlechoix').val(),
                                      'lot': $('#articlelotchoix').val(),
@@ -429,7 +429,7 @@
          $('#articlelotchoix').change(function () {
              $.ajax({
                  type: 'get',
-                 url: "{{ path('ssfmb_pochearticle') }}",
+                 url: "{{ path('app_pochearticle') }}",
                  data: {
                      'idp': $('#idparc').text(),
                      'lot': $('#articlelotchoix').val(),
@@ -467,7 +467,7 @@
 
                              $.ajax({
                                  type: 'get',
-                                 url: "{{ path('ssfmb_nombrepochearticle') }}",
+                                 url: "{{ path('app_nombrepochearticle') }}",
                                  data: {
                                      'ida': $('#articlechoix').val(),
                                      'lot': $('#articlelotchoix').val(),
@@ -519,7 +519,7 @@
          $('#quantierchoix').change(function () {
              $.ajax({
                  type: 'get',
-                 url: "{{ path('ssfmb_nombrepochearticle') }}",
+                 url: "{{ path('app_nombrepochearticle') }}",
                  data: {
                      'ida': $('#articlechoix').val(),
                      'lot': $('#articlelotchoix').val(),

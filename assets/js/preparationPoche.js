@@ -62,7 +62,7 @@ $(document).ready(function () {
 function stockContent(parc) {
     $.ajax({
         type: 'get',
-        url: Routing.generate('ssfmb_parcstock', {parc_id: parc}),
+        url: Routing.generate('app_parcstock', {parc_id: parc}),
         beforeSend: function () {
             jQuery('#loadpoche').show();
             jQuery('#loadstock').show();
@@ -92,7 +92,7 @@ function stockContent(parc) {
 function choixPoche(parc) {
     $.ajax({
         type: 'get',
-        url: Routing.generate('ssfmb_parcpoche', {parc_id: parc}),
+        url: Routing.generate('app_parcpoche', {parc_id: parc}),
         beforeSend: function () {
             jQuery('#loadpoche').show();
             jQuery('#loadqtelstock').show();
@@ -128,7 +128,7 @@ function listeLotArticle(stock, article) {
     jQuery('#ss_fmbbundle_preparationpoche_refArticle').ready(function () {
         jQuery.ajax({
             type: "POST",
-            url: Routing.generate('ssfmb_articlestock', {
+            url: Routing.generate('app_articlestock', {
                 stock_id: stock,
                 article: article
             }),

@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 {% block title %}Historique Operation{% endblock %}
 {% block stylesheet %}
     {{ parent() }}
@@ -33,13 +33,13 @@
                                         <div class="col-md-2">
                                             <select name="operationCherche" id="operationCherche" class="form-control">
                                                 <option value="0">Tous</option>
-                                                <option value="1">creation</option>
+                                                <option value="1">Création</option>
                                                 <option value="2">MAE</option>
-                                                <option value="3">Retrait</option>
+                                                <option value="3">Retrait Vente</option>
                                                 <option value="4">Assemblage</option>
                                                 <option value="5">Retrait Transfert</option>
                                                 <option value="6">Retrait MAE</option>
-                                                <option value="7">Chaussement</option>
+                                                <option value="7">Passage Chaussettes</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -65,13 +65,13 @@
                     <table class="table table-actions-bar">
                         <thead>
                         <tr>
-                            <th>Date operation</th>
-                            <th>operation</th>
-                            <th>article</th>
-                            <th>lot</th>
-                            <th>parc</th>
-                            <th>nombre</th>
-                            <th>conteneur</th>
+                            <th>Date opération</th>
+                            <th>Opération</th>
+                            <th>Article</th>
+                            <th>Lot</th>
+                            <th>Parc</th>
+                            <th>Nombre</th>
+                            <th>Contenant</th>
                             <th style="min-width: 80px;"></th>
                         </tr>
                         </thead>
@@ -107,7 +107,7 @@
                                 {% endfor %}
                                 <td rowspan="{{ cmpt1 }}">
                                     {% if idOp == 0 %}
-                                        <span class="label label-success">creation</span>
+                                        <span class="label label-success">Création</span>
                                     {% elseif idOp == 1 %}
                                         <span class="label label-primary">MAE</span>
                                     {% elseif idOp == 2 %}
@@ -115,9 +115,9 @@
                                     {% elseif idOp == 3 %}
                                         <span class="label label-warning">MAE Transfert</span>
                                     {% elseif idOp == 4 %}
-                                        <span class="label label-warning">Chaussement</span>
+                                        <span class="label label-warning">Passage Chaussettes</span>
                                     {% elseif idOp == 5 %}
-                                        <span class="label label-danger">retrait</span>
+                                        <span class="label label-danger">Retrait Vente</span>
                                     {% elseif idOp == 6 %}
                                         <span class="label label-warning">Assemblage</span>
                                     {% endif %}

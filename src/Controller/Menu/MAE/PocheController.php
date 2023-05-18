@@ -37,7 +37,7 @@ class PocheController  extends AbstractController
                     $place->setDateDeRemplissage($dateMiseAEau);
                     $em->flush();
                 }
-                return $this->redirectToRoute('ssfmb_misaaeaupoche');
+                return $this->redirectToRoute('app_misaaeaupoche');
             }
             return $this->render(
                 'MAE/Poche/miseAEauPoche.html.twig',

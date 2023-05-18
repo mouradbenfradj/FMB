@@ -44,7 +44,7 @@ $(document).ready(function () {
 function chercherDatePreparer(corde) {
     $.ajax({
         type: 'get',
-        url: Routing.generate('ssfmb_parcDateCPreparer', {corde: corde}),
+        url: Routing.generate('app_parcDateCPreparer', {corde: corde}),
         beforeSend: function () {
             tabFormulaire = [];
             $('#dateCordeChoix').hide();
@@ -94,7 +94,7 @@ function chercherDatePreparer(corde) {
 function trouveArticle(corde) {
     $.ajax({
         type: 'get',
-        url: Routing.generate('ssfmb_articleCPreparer', {corde: corde}),
+        url: Routing.generate('app_articleCPreparer', {corde: corde}),
         beforeSend: function () {
             tabFormulaire = [];
             $('#articlechoix').hide();
@@ -181,7 +181,7 @@ function affichageNombreDispo( article, lot, qte) {
 function cycleArticle(article) {
     $.ajax({
         type: "POST",
-        url: Routing.generate('ssfmb_articlecyclechoix', {sarticle: article}),
+        url: Routing.generate('app_articlecyclechoix', {sarticle: article}),
         beforeSend: function () {
             $('#loadquantit').show();
         },

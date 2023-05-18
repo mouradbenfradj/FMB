@@ -149,7 +149,7 @@ class AssemblageController  extends AbstractController
                 $historique->setTacheEffectuer($tacheEffectuer);
                 $em->persist($historique);
                 $em->flush();
-                return $this->redirectToRoute('ssfmb_misaaeaucorde');
+                return $this->redirectToRoute('app_misaaeaucorde');
             }
             foreach ($assemblages as $valeur) {
                 $formulaire[$valeur->getCordeAssemblage()->getCorde()->getId()] = $valeur->getCordeAssemblage();

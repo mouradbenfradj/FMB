@@ -30,100 +30,133 @@ class MenuBuilder
         
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navigation-menu');
-        $menu->addChild('Statistique');
-        $menu->addChild('suivi filières');
-        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
-            $menu->addChild('Operation');
-        }
-        $menu->addChild('planing de travaille');
-        $menu->addChild('Processus');
-        $menu->addChild('Outil');
-        $menu['Outil']->addChild('Historique des operations');
-        $menu['Outil']->addChild('tache effectué');
+        $menu->addChild('Statistiques');
+        $menu->addChild('Etat Actuel Prod');
+        //if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+            $menu->addChild('Prod à faire');
+        //}
+        $menu->addChild('Alertes de travail');
+        $menu->addChild('Prod par cycle');
+        $menu->addChild('Outils de gestion');
+        $menu['Outils de gestion']
+        ->addChild('Historique des opérations');
+        $menu['Outils de gestion']
+        ->addChild('Détail tâches effectées');
 		
-        $menu['Outil']->addChild('Prévision des sorties');
+        $menu['Outils de gestion']
+        ->addChild('Prévisions des sorties');
 
-        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
-            $menu['Operation']->addChild('Préparation');
-            $menu['Operation']->addChild('Assemblage');
-            $menu['Operation']->addChild('MAE lanterne');
-            $menu['Operation']->addChild('MAE corde');
-            $menu['Operation']->addChild('MAE Poche');
-            $menu['Operation']->addChild('MAE Assemblage');
-            $menu['Operation']->addChild('chaussage');
-            $menu['Operation']->addChild('Retrait Transfert');
-            $menu['Operation']->addChild('Retrait AW lanterne');
-            $menu['Operation']->addChild('Retrait AW corde');
-            $menu['Operation']->addChild('Traitement Comercial');
-            $menu['Operation']['Préparation']->addChild('preparer lanterne', array('route' => 'ssfmb_preparationlanterne'));
-            $menu['Operation']['Préparation']->addChild('preparer corde', array('route' => 'ssfmb_preparationcorde'));
-            $menu['Operation']['Préparation']->addChild('preparer poche', array('route' => 'ssfmb_preparationpoche'));
-            $menu['Operation']['Assemblage']->addChild('Poche a corde', array('route' => 'ssfmb_assemblage'));
-            $menu['Outil']['Prévision des sorties']->addChild('tableau', array('route' => 'previsionFuture'));
-            $menu['Outil']['Prévision des sorties']->addChild('courbe', array('route' => 'previsionFutureCourbe'));
-        }
+        //if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+            $menu['Prod à faire']
+            ->addChild('Préparation');
+            $menu['Prod à faire']
+            ->addChild('Assemblage');
+            $menu['Prod à faire']
+            ->addChild('MAE Lanternes');
+            $menu['Prod à faire']
+            ->addChild('MAE Cordes');
+            $menu['Prod à faire']
+            ->addChild('MAE Poches');
+            $menu['Prod à faire']
+            ->addChild('MAE Assemblages');
+            $menu['Prod à faire']
+            ->addChild('Passage Chaussettes');
+            $menu['Prod à faire']
+            ->addChild('Retrait Transfert');
+            $menu['Prod à faire']
+            ->addChild('Retrait AW Lanternes');
+            $menu['Prod à faire']
+            ->addChild('Retrait AW Cordes');
+            $menu['Prod à faire']
+            ->addChild('Traitement Comercial');
+            $menu['Prod à faire']['Préparation']
+            ->addChild('Préparer Lanternes', array('route' => 'app_preparationlanterne'));
+            $menu['Prod à faire']['Préparation']
+            ->addChild('Préparer Cordes', array('route' => 'app_preparationcorde'));
+            $menu['Prod à faire']['Préparation']
+            ->addChild('Préparer Poches', array('route' => 'app_preparationpoche'));
+            $menu['Prod à faire']['Assemblage']
+            ->addChild('Poches à Cordes', array('route' => 'app_assemblage'));
+            $menu['Outils de gestion']['Prévisions des sorties']
+            ->addChild('Tableaux', array('route' => 'previsionFuture'));
+            $menu['Outils de gestion']['Prévisions des sorties']
+            ->addChild('Courbes', array('route' => 'previsionFutureCourbe'));
+        //}
         //   $menu->setChildrenAttribute('class', 'nav navbar-nav');
         
         // findMostRecent and Blog are just imaginary examples
         $parcs = $this->magasinsRepository->findAll();
         if ($parcs) {
             foreach ($parcs as $parc) {
-                $menu['Statistique']->addChild($parc->getAbrevMagasin(), array(
-                    'route' => 'ssfmb_statistique',
+                $menu['Statistiques']
+                ->addChild($parc->getAbrevMagasin(), array(
+                    'route' => 'app_statistique',
                     'routeParameters' => array('idparc' => $parc->getIdMagasin())
                 ));
-                $menu['suivi filières']->addChild($parc->getAbrevMagasin(), array(
-                    'route' => 'ssfmb_suivi',
+                $menu['Etat Actuel Prod']
+                ->addChild($parc->getAbrevMagasin(), array(
+                    'route' => 'app_suivi',
                     'routeParameters' => array('idparc' => $parc->getIdMagasin())
                 ));
                 if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
-                    $menu['Operation']['chaussage']->addChild($parc->getAbrevMagasin(), array(
-                        'route' => 'ssfmb_chaussement',
+                    $menu['Prod à faire']['Passage Chaussettes']
+                    ->addChild($parc->getAbrevMagasin(), array(
+                        'route' => 'app_chaussement',
                         'routeParameters' => array('idparc' => $parc->getIdMagasin())
                     ));
 
-                    $menu['Operation']["MAE lanterne"]->addChild($parc->getAbrevMagasin(), array(
-                        'route' => 'ssfmb_misaaeaulanterne',
+                    $menu['Prod à faire']["MAE Lanternes"]
+                    ->addChild($parc->getAbrevMagasin(), array(
+                        'route' => 'app_misaaeaulanterne',
                         'routeParameters' => array('idparc' => $parc->getIdMagasin())
                     ));
-                    $menu['Operation']['Retrait AW lanterne']->addChild($parc->getAbrevMagasin(), array(
-                        'route' => 'ssfmb_retraitLanterne',
+                    $menu['Prod à faire']['Retrait AW Lanternes']
+                    ->addChild($parc->getAbrevMagasin(), array(
+                        'route' => 'app_retraitLanterne',
                         'routeParameters' => array('idparc' => $parc->getIdMagasin())
                     ));
-                    $menu['Operation']['Retrait AW lanterne']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-                    $menu['Operation']["MAE corde"]->addChild($parc->getAbrevMagasin(), array(
-                        'route' => 'ssfmb_misaaeaucorde',
+                    $menu['Prod à faire']['Retrait AW Lanternes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+                    $menu['Prod à faire']["MAE Cordes"]
+                    ->addChild($parc->getAbrevMagasin(), array(
+                        'route' => 'app_misaaeaucorde',
                         'routeParameters' => array('idparc' => $parc->getIdMagasin())
                     ));
-                    $menu['Operation']["MAE Assemblage"]->addChild($parc->getAbrevMagasin(), array(
-                        'route' => 'ssfmb_assemblagemiseaeauformulaire',
+                    $menu['Prod à faire']["MAE Assemblages"]
+                    ->addChild($parc->getAbrevMagasin(), array(
+                        'route' => 'app_assemblagemiseaeauformulaire',
                         'routeParameters' => array('idparc' => $parc->getIdMagasin())
                     ));
-                    $menu['Operation']["MAE Poche"]->addChild($parc->getAbrevMagasin(), array(
-                        'route' => 'ssfmb_misaaeaupoche',
+                    $menu['Prod à faire']["MAE Poches"]
+                    ->addChild($parc->getAbrevMagasin(), array(
+                        'route' => 'app_misaaeaupoche',
                         'routeParameters' => array('idparc' => $parc->getIdMagasin())
                     ));
-                    $menu['Operation']['Retrait AW corde']->addChild($parc->getAbrevMagasin(), array(
-                        'route' => 'ssfmb_retraitcorde',
+                    $menu['Prod à faire']['Retrait AW Cordes']
+                    ->addChild($parc->getAbrevMagasin(), array(
+                        'route' => 'app_retraitcorde',
                         'routeParameters' => array('idparc' => $parc->getIdMagasin())
                     ));
-                    $menu['Operation']['Retrait AW corde']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-                    $menu['Operation']['Traitement Comercial']->addChild($parc->getAbrevMagasin(), array(
+                    $menu['Prod à faire']['Retrait AW Cordes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+                    $menu['Prod à faire']['Traitement Comercial']
+                    ->addChild($parc->getAbrevMagasin(), array(
                         'route' => 'traitementcomerciale',
                         'routeParameters' => array('idparc' => $parc->getIdMagasin())
                     ));
                 }
-                $menu['planing de travaille']->addChild($parc->getAbrevMagasin(), array(
-                    'route' => 'ssfmb_planingdetravaille',
+                $menu['Alertes de travail']
+                ->addChild($parc->getAbrevMagasin(), array(
+                    'route' => 'app_planingdetravaille',
                     'routeParameters' => array('idparc' => $parc->getIdMagasin())
                 ));
-                $menu['Processus']->addChild($parc->getAbrevMagasin(), array(
-                    'route' => 'ssfmb_processusgrocissement',
+                $menu['Prod par cycle']
+                ->addChild($parc->getAbrevMagasin(), array(
+                    'route' => 'app_processusgrocissement',
                     'routeParameters' => array('idparc' => $parc->getIdMagasin())
                 ));
                 if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
-                    $menu['Operation']['Retrait Transfert']->addChild($parc->getAbrevMagasin(), array(
-                        'route' => 'ssfmb_transfert',
+                    $menu['Prod à faire']['Retrait Transfert']
+                    ->addChild($parc->getAbrevMagasin(), array(
+                        'route' => 'app_transfert',
                         'routeParameters' => array('idparc' => $parc->getIdMagasin())
                     ));
                 }
@@ -132,31 +165,31 @@ class MenuBuilder
 
         }
 
-        $menu['Statistique']->setAttribute('class', 'has-submenu')->setUri("/")->setChildrenAttribute('class', 'submenu');
-        $menu['suivi filières']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+        $menu['Statistiques']->setAttribute('class', 'has-submenu')->setUri("/")->setChildrenAttribute('class', 'submenu');
+        $menu['Etat Actuel Prod']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
-            $menu['Operation']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
         }
-        $menu['planing de travaille']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-        $menu['Processus']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-        $menu['Outil']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-        $menu['Outil']['Historique des operations']->setAttribute('class', 'has-submenu')->setUri("/historiqueOperation")->setChildrenAttribute('class', 'submenu');
-        $menu['Outil']['tache effectué']->setAttribute('class', 'has-submenu')->setUri("/historique")->setChildrenAttribute('class', 'submenu');
-        $menu['Outil']['Prévision des sorties']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+        $menu['Alertes de travail']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+        $menu['Prod par cycle']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+        $menu['Outils de gestion']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+        $menu['Outils de gestion']['Historique des opérations']->setAttribute('class', 'has-submenu')->setUri("/historiqueOperation")->setChildrenAttribute('class', 'submenu');
+        $menu['Outils de gestion']['Détail tâches effectées']->setAttribute('class', 'has-submenu')->setUri("/historique")->setChildrenAttribute('class', 'submenu');
+        $menu['Outils de gestion']['Prévisions des sorties']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
 
 
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
-            $menu['Operation']['Préparation']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['Assemblage']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['MAE lanterne']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['MAE corde']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['MAE Assemblage']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['MAE Poche']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['chaussage']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['Retrait Transfert']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['Retrait AW lanterne']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['Retrait AW corde']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-            $menu['Operation']['Traitement Comercial']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Préparation']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Assemblage']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['MAE Lanternes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['MAE Cordes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['MAE Assemblages']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['MAE Poches']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Passage Chaussettes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Retrait Transfert']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Retrait AW Lanternes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Retrait AW Cordes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Traitement Comercial']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
         }
         return $menu;
     }
@@ -171,7 +204,7 @@ class MenuBuilder
         if ($parcs) {
             foreach ($parcs as $parc) {
                 $menu->addChild($parc->getAbrevMagasin(), array(
-                    'route' => 'ssfmb_misaaeautransfert',
+                    'route' => 'app_misaaeautransfert',
                     'routeParameters' => array('idparc' => $parc->getIdMagasin())
                 ));
             }

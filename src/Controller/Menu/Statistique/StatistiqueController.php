@@ -50,7 +50,7 @@ class StatistiqueController extends AbstractController
             $nbPocheES = $magasinsRepository->countTotaleNbrPocheEnStock();
             $nbPoche = $nbPocheP + $nbPocheAe + $nbPocheES;
         } else {
-            $parc = $magasinsRepository->findOneByIdMagasin($request->get('idparc'));
+            $parc = $magasinsRepository->findByIdMagasin($request->get('idparc'));
             $nbfiliere = $magasinsRepository->countTotaleNbrFiliereByParc($parc);
             $nbCordeP = $magasinsRepository->countTotaleNbrCordePreparerByParc($parc);
             $nbCordeHuitreP = $magasinsRepository->countTotaleNbrCordeHuitrePreparerByParc($parc);

@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 {% block title %}Assemblage{% endblock %}
 {% block stylesheet %}
     <link rel="stylesheet" href="{{ asset('bundles/ssfmb/plugins/jquery.steps/css/jquery.steps.css') }}"/>
@@ -17,7 +17,7 @@
             <div class="col-sm-12">
                 <div class="card-box">
                     <h4 class="m-t-0 header-title"><b>Assemblage Poche a Corde</b></h4>
-                    <form id="wizard-validation-form" action="{{ path('ssfmb_assemblage') }}" method="post"
+                    <form id="wizard-validation-form" action="{{ path('app_assemblage') }}" method="post"
                           name="monFormulaire">
                         <div>
                             <h3>Parc</h3>

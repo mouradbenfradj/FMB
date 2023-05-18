@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 {% block title %}{{ parent() }} - FMB{% endblock %}
 {% block stylesheet %}
     {% if(entity != null) %}
@@ -17,7 +17,7 @@
                 <div class="card-box">
                     <div class="row ">
                         <div class="col-md-11">
-                            <h4 class="m-t-0 header-title"><b>Planing de travaille {{ entity.abrevMagasin }}</b></h4>
+                            <h4 class="m-t-0 header-title"><b>Planing de travail {{ entity.abrevMagasin }}</b></h4>
                             {% set dernierArret = 0 %}
                             {% for niveauAlert , alert in tableDesProcessus %}
                                 {% set dernierArret = dernierArret+ loop.index0 %}

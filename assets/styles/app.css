@@ -1,4 +1,4 @@
-@import '~../plugins/bootstrap-sweetalert/sweet-alert.css';
+@import '~bootstrap-sweetalert/lib/sweet-alert';
 @import '~bootstrap';
 @import '~../assets/css/core.css';
 @import '~../assets/css/components.css';

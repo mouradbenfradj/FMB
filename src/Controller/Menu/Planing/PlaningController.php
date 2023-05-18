@@ -7,9 +7,17 @@ use App\Implementation\PlaningImplementation;
 use App\Implementation\ProcessusImplementation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/planing")
+ */
 class PlaningController  extends AbstractController
 {
+    
+ /**
+     * @Route("/", name="app_planingdetravaille")
+     */
     public function planingdetravaille()
     {
         $em = $this->getDoctrine()->getManager();
@@ -24,11 +32,11 @@ class PlaningController  extends AbstractController
             $lanternesfabriquer = $em->getRepository('SSFMBBundle:StocksLanternes')->getLanternePreparerYellowWarning($parc);
             $lanternesfabriquerurgent = $em->getRepository('SSFMBBundle:StocksLanternes')->getLanternePreparerRedWarning($parc);
             foreach ($lanternesfabriquer as $lanterne) {
-                if (!isset($tableAlertProcessus['processus a éfféctué']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')])) {
-                    $tableAlertProcessus['processus a éfféctué']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')] = array();
-                    $tableAlertProcessus['processus a éfféctué']['classColor'] = 'bg-warning';
+                if (!isset($tableAlertProcessus['processus a éfféctuer']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')])) {
+                    $tableAlertProcessus['processus a éfféctuer']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')] = array();
+                    $tableAlertProcessus['processus a éfféctuer']['classColor'] = 'bg-warning';
                 }
-                array_push($tableAlertProcessus['processus a éfféctué']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')], $lanterne['quantiter']);
+                array_push($tableAlertProcessus['processus a éfféctuer']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')], $lanterne['quantiter']);
             }
             foreach ($lanternesfabriquerurgent as $lanterne) {
                 if (!isset($tableAlertProcessus['processus urgent']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')])) {
@@ -40,11 +48,11 @@ class PlaningController  extends AbstractController
             $cordesfabriquer = $em->getRepository('SSFMBBundle:StocksCordes')->getCordePreparerYellowWarning($parc);
             $cordesfabriquerurgent = $em->getRepository('SSFMBBundle:StocksCordes')->getCordePreparerRedWarning($parc);
             foreach ($cordesfabriquer as $corde) {
-                if (!isset($tableAlertProcessus['processus a éfféctué']['Corde Preparé'][$corde['nomCorde']][$corde['libArticle']][$corde['numeroSerie']][$corde['dateDeCreation']->format('Y-m-d')])) {
-                    $tableAlertProcessus['processus a éfféctué']['Corde Preparé'][$corde['nomCorde']][$corde['libArticle']][$corde['numeroSerie']][$corde['dateDeCreation']->format('Y-m-d')] = array();
-                    $tableAlertProcessus['processus a éfféctué']['classColor'] = 'bg-warning';
+                if (!isset($tableAlertProcessus['processus a éfféctuer']['Corde Preparé'][$corde['nomCorde']][$corde['libArticle']][$corde['numeroSerie']][$corde['dateDeCreation']->format('Y-m-d')])) {
+                    $tableAlertProcessus['processus a éfféctuer']['Corde Preparé'][$corde['nomCorde']][$corde['libArticle']][$corde['numeroSerie']][$corde['dateDeCreation']->format('Y-m-d')] = array();
+                    $tableAlertProcessus['processus a éfféctuer']['classColor'] = 'bg-warning';
                 }
-                array_push($tableAlertProcessus['processus a éfféctué']['Corde Preparé'][$corde['nomCorde']][$corde['libArticle']][$corde['numeroSerie']][$corde['dateDeCreation']->format('Y-m-d')], $corde['quantiter']);
+                array_push($tableAlertProcessus['processus a éfféctuer']['Corde Preparé'][$corde['nomCorde']][$corde['libArticle']][$corde['numeroSerie']][$corde['dateDeCreation']->format('Y-m-d')], $corde['quantiter']);
 
             }
 
@@ -103,18 +111,18 @@ class PlaningController  extends AbstractController
                             $phaseProcessusPFiliere = $processusActuel->getPhasesProcessus()->getNomPhase();
                         }
                         if ($greenFirst) {
-                            if (!isset($tableAlertProcessus['processus en cour'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter])) {
-                                $tableAlertProcessus['processus en cour'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter] = array();
-                                $tableAlertProcessus['processus en cour']['classColor'] = 'bg-success';
+                            if (!isset($tableAlertProcessus['processus en cours'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter])) {
+                                $tableAlertProcessus['processus en cours'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter] = array();
+                                $tableAlertProcessus['processus en cours']['classColor'] = 'bg-success';
                             }
-                            array_push($tableAlertProcessus['processus en cour'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter], $quantiter);
+                            array_push($tableAlertProcessus['processus en cours'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter], $quantiter);
                         }
                         if ($yellowFirst) {
-                            if (!isset($tableAlertProcessus['processus a éfféctué'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter])) {
-                                $tableAlertProcessus['processus a éfféctué'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter] = array();
-                                $tableAlertProcessus['processus a éfféctué']['classColor'] = 'bg-warning';
+                            if (!isset($tableAlertProcessus['processus a éfféctuer'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter])) {
+                                $tableAlertProcessus['processus a éfféctuer'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter] = array();
+                                $tableAlertProcessus['processus a éfféctuer']['classColor'] = 'bg-warning';
                             }
-                            array_push($tableAlertProcessus['processus a éfféctué'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter], $quantiter);
+                            array_push($tableAlertProcessus['processus a éfféctuer'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter], $quantiter);
                         }
                         if ($redFirst) {
                             if (!isset($tableAlertProcessus['processus urgent'][$phaseProcessusPFiliere][$place->getFlotteur()->getSegment()->getFiliere()->getNomFiliere()][$place->getFlotteur()->getSegment()->getNomSegment()][$place->getFlotteur()->getNomFlotteur()][$place->getplace()][$conteneur][$stock->getArticle()->getRefStockArticle()->getRefArticle()->getLibArticle()][$stock->getArticle()->getNumeroSerie()][$place->getDateDeRemplissage()->format('Y-m-d')][$processusActuel->getAbrevProcessus() . '' . $cycleArticle][$dateRetrait->format('Y-m-d')][$quantiter][$quantiter])) {

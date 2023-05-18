@@ -9,11 +9,20 @@ use App\Entity\Historique;
 use App\Entity\StocksCordes;
 use App\Form\PreparationCordeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+    /**
+     * @Route("/preparationcorde")
+     */
+
 
 class CordeController  extends AbstractController
 {
-    public function cordeH()
+    
+/**
+     * @Route("/", name="app_preparationcorde")
+     */
+        public function cordeH()
     {
         if ($this->container->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
             $historique = new Historique();
@@ -21,7 +30,7 @@ class CordeController  extends AbstractController
             $historique->setUtilisateur($this->container->get('security.context')->getToken()->getUser());
             $tacheEffectuer = array();
             $em = $this->getDoctrine()->getManager();
-            $form = $this->createForm(new PreparationCordeType($em), null, array('action' => $this->generateUrl('ssfmb_preparationcorde'), 'method' => 'POST', 'attr' => array('class' => "form-horizontal")));
+            $form = $this->createForm(new PreparationCordeType($em), null, array('action' => $this->generateUrl('app_preparationcorde'), 'method' => 'POST', 'attr' => array('class' => "form-horizontal")));
             if ($request->isMethod('POST')) {
                 $form->handleRequest($request);
                 $stockarticles = $em->getRepository('SSFMBBundle:StocksArticles')->findOneBy(array('idStock' => $form['libStock']->getData()->getIdStock(), 'refArticle' => $form['refArticle']->getData()->getRefArticle()));

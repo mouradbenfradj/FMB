@@ -70,7 +70,7 @@ class LanterneController  extends AbstractController
                 $historique->setTacheEffectuer($tacheEffectuer);
                 $em->persist($historique);
                 $em->flush();
-                return $this->redirectToRoute('ssfmb_misaaeaulanterne');
+                return $this->redirectToRoute('app_misaaeaulanterne');
             }
             return $this->render('MAE/Lanterne/miseAEauLanterne.html.twig', array('entity' => $parcs, 'lanternes' => $lanternes, 'processus' => $processus));
         } else {

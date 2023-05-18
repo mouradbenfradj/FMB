@@ -6,10 +6,19 @@ use App\Implementation\DefaultImpl;
 use App\Implementation\ProcessusImplementation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+ /**
+     * @Route("/previsionSortieCourbe")
+     */
 
 class PrevisionSortieCourbeController  extends AbstractController
 {
-    public function previsionSortieCourbe()
+
+/**
+     * @Route("/", name="previsionFutureCourbe")
+     */
+        public function previsionSortieCourbe()
     {
         $em = $this->getDoctrine()->getManager();
         $tableauPrevisionSelect = array();

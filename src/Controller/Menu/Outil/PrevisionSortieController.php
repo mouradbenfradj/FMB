@@ -6,9 +6,17 @@ use App\Implementation\DefaultImpl;
 use App\Implementation\ProcessusImplementation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
+ /**
+     * @Route("/previsionSortie")
+     */
 class PrevisionSortieController  extends AbstractController
 {
+    
+/**
+     * @Route("/", name="previsionFuture")
+     */
     public function previsionSortie()
     {
         $em = $this->getDoctrine()->getManager();

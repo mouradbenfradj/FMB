@@ -8,6 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use App\Entity\Magasins;
 use App\Form\MagasinsType;
+use App\Repository\CordeRepository;
+use App\Repository\LanterneRepository;
+use App\Repository\MagasinsRepository;
+use App\Repository\PochesBSRepository;
 
 /**
  * Magasins controller.
@@ -15,23 +19,21 @@ use App\Form\MagasinsType;
  */
 class MagasinsController  extends AbstractController
 {
-    public function parcStocks()
+    public function parcStocks(MagasinsRepository $magasinsRepository, Request $request)
     {
         $result = array();
-        $repo = $this->getDoctrine()->getManager()->getRepository('SSFMBBundle:Magasins');
-        $parc = $repo->find($request->query->get('parc_id'));
+        $parc = $magasinsRepository->find($request->query->get('parc_id'));
         $stocks = $parc->getIdStock();
         $result[$stocks->getLibStock()] = $stocks->getIdStock();
         return new JsonResponse($result);
     }
 
-    public function parcLanternes()
+    public function parcLanternes(LanterneRepository $lanterneRepository, Request $request)
     {// Get the province ID
         $id = $request->query->get('parc_id');
         $result = array();
         // Return a list of cities, based on the selected province
-        $repo = $this->getDoctrine()->getManager()->getRepository('SSFMBBundle:Lanterne');
-        $lanternes = $repo->findByParc($id, array('parc' => 'asc'));
+        $lanternes = $lanterneRepository->findByParc($id, array('parc' => 'asc'));
         foreach ($lanternes as $lanterne) {
             $result[$lanterne->getNomLanterne()]['nomLanterne'] = $lanterne->getNomLanterne();
             $result[$lanterne->getNomLanterne()]['nombreEnStocks'] = $lanterne->getNbrTotaleEnStock();
@@ -39,13 +41,12 @@ class MagasinsController  extends AbstractController
         return new JsonResponse($result);
     }
 
-    public function parcCordes()
+    public function parcCordes(CordeRepository $cordeRepository, Request $request)
     {// Get the province ID
         $id = $request->query->get('parc_id');
         $result = array();
         // Return a list of cities, based on the selected province
-        $repo = $this->getDoctrine()->getManager()->getRepository('SSFMBBundle:Corde');
-        $cordes = $repo->findByParc($id, array('parc' => 'asc'));
+        $cordes = $cordeRepository->findByParc($id, array('parc' => 'asc'));
         foreach ($cordes as $corde) {
             $result[$corde->getNomCorde()]['nomCorde'] = $corde->getNomCorde();
             $result[$corde->getNomCorde()]['nombreEnStocks'] = $corde->getNbrTotaleEnStock();
@@ -54,12 +55,11 @@ class MagasinsController  extends AbstractController
     }
 
 
-    public function parcCorde()
+    public function parcCorde(CordeRepository $cordeRepository, Request $request)
     {// Get the province ID
         $id = $request->query->get('parc_id');
         $result = array();
-        $repo = $this->getDoctrine()->getManager()->getRepository('SSFMBBundle:Corde');
-        $cordes = $repo->findByParc($id, array('parc' => 'asc'));
+        $cordes = $cordeRepository->findByParc($id, array('parc' => 'asc'));
         foreach ($cordes as $corde) {
             $result[$corde->getId()]['nomCorde'] = $corde->getNomCorde();
             $result[$corde->getId()]['nombre'] = $corde->getNbrTotaleEnStock();
@@ -67,25 +67,23 @@ class MagasinsController  extends AbstractController
         return new JsonResponse($result);
     }
 
-    public function quantiterCordeEnStock()
+    public function quantiterCordeEnStock(CordeRepository $cordeRepository)
     {// Get the province ID
         $id = $request->query->get('cordeId');
         $result = array();
         // Return a list of cities, based on the selected province
-        $repo = $this->getDoctrine()->getManager()->getRepository('SSFMBBundle:Corde');
-        $corde = $repo->find($id);
+        $corde = $cordeRepository->find($id);
         $result[$corde->getId() . $corde->getNomCorde()] = $corde->getNbrTotaleEnStock();
 
         return new JsonResponse($result);
     }
 
-    public function parcPoches()
+    public function parcPoches(PochesBSRepository $pochesBSRepository, Request $request)
     {// Get the province ID
         $id = $request->query->get('parc_id');
         $result = array();
         // Return a list of cities, based on the selected province
-        $repo = $this->getDoctrine()->getManager()->getRepository('SSFMBBundle:PochesBS');
-        $poches = $repo->findByParc($id, array('parc' => 'asc'));
+        $poches = $$pochesBSRepository->findByParc($id, array('parc' => 'asc'));
         foreach ($poches as $poche) {
             $result[$poche->getId()] = $poche->getNomPoche();
             $result[$poche->getId() . $poche->getNbrTotaleEnStock()] = $poche->getNbrTotaleEnStock();
@@ -93,13 +91,12 @@ class MagasinsController  extends AbstractController
         return new JsonResponse($result);
     }
 
-    public function parcPoche()
+    public function parcPoche(PochesBSRepository $pochesBSRepository, Request $request)
     {// Get the province ID
         $id = $request->query->get('parc_id');
         $result = array();
         // Return a list of cities, based on the selected province
-        $repo = $this->getDoctrine()->getManager()->getRepository('SSFMBBundle:PochesBS');
-        $poches = $repo->findByParc($id, array('parc' => 'asc'));
+        $poches = $$pochesBSRepository->findByParc($id, array('parc' => 'asc'));
         foreach ($poches as $poche) {
             $result[$poche->getId()]['poche'] = $poche->getNomPoche();
             $result[$poche->getId()]['quantiter'] = $poche->getNbrTotaleEnStock();
@@ -111,13 +108,11 @@ class MagasinsController  extends AbstractController
      * Lists all Magasins entities.
      *
      */
-    public function indexAction()
+    public function indexAction(MagasinsRepository $magasinsRepository)
     {
-        $em = $this->getDoctrine()->getManager();
+        $entities = $magasinsRepository->findAll();
 
-        $entities = $em->getRepository('SSFMBBundle:Magasins')->findAll();
-
-        return $this->render('SSFMBBundle:Magasins:index.html.twig', array(
+        return $this->render('magasins/index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -140,7 +135,7 @@ class MagasinsController  extends AbstractController
             return $this->redirect($this->generateUrl('magasins_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('SSFMBBundle:Magasins:new.html.twig', array(
+        return $this->render('magasins/new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -174,7 +169,7 @@ class MagasinsController  extends AbstractController
         $entity = new Magasins();
         $form = $this->createCreateForm($entity);
 
-        return $this->render('SSFMBBundle:Magasins:new.html.twig', array(
+        return $this->render('magasins/new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -184,11 +179,9 @@ class MagasinsController  extends AbstractController
      * Finds and displays a Magasins entity.
      *
      */
-    public function showAction($id)
+    public function showAction(MagasinsRepository $magasinsRepository,$id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('SSFMBBundle:Magasins')->find($id);
+        $entity = $magasinsRepository->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Magasins entity.');
@@ -196,7 +189,7 @@ class MagasinsController  extends AbstractController
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Magasins:show.html.twig', array(
+        return $this->render('magasins/show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -206,11 +199,11 @@ class MagasinsController  extends AbstractController
      * Displays a form to edit an existing Magasins entity.
      *
      */
-    public function editAction($id)
+    public function editAction(MagasinsRepository $magasinsRepository,$id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Magasins')->find($id);
+        $entity = $magasinsRepository->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Magasins entity.');
@@ -219,7 +212,7 @@ class MagasinsController  extends AbstractController
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Magasins:edit.html.twig', array(
+        return $this->render('magasins/edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -249,11 +242,9 @@ class MagasinsController  extends AbstractController
      * Edits an existing Magasins entity.
      *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request,MagasinsRepository $magasinsRepository, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('SSFMBBundle:Magasins')->find($id);
+        $entity = $magasinsRepository->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Magasins entity.');
@@ -264,12 +255,12 @@ class MagasinsController  extends AbstractController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->flush();
+            //$em->flush();
 
             return $this->redirect($this->generateUrl('magasins_edit', array('id' => $id)));
         }
 
-        return $this->render('SSFMBBundle:Magasins:edit.html.twig', array(
+        return $this->render('magasins/edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -280,21 +271,20 @@ class MagasinsController  extends AbstractController
      * Deletes a Magasins entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request,MagasinsRepository $magasinsRepository, $id)
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Magasins')->find($id);
+            $entity = $magasinsRepository->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Magasins entity.');
             }
 
-            $em->remove($entity);
-            $em->flush();
+            //$em->remove($entity);
+            //$em->flush();
         }
 
         return $this->redirect($this->generateUrl('magasins'));

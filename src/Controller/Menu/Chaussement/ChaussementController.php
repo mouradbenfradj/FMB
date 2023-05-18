@@ -2,12 +2,26 @@
 
 namespace App\Controller\Menu\Chaussement;
 
+use App\Entity\StocksArticlesSn;
+use App\Repository\EmplacementRepository;
+use App\Repository\LanterneRepository;
+use App\Repository\MagasinsRepository;
+use App\Repository\ProcessusRepository;
+use App\Repository\StocksArticlesRepository;
+use App\Repository\StocksArticlesSnRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 class ChaussementController  extends AbstractController
 {
-    public function chassee()
+    public function chassee(
+        Request $request,
+MagasinsRepository $magasinsRepository,
+ProcessusRepository $processusRepository,
+LanterneRepository $lanterneRepository,
+StocksArticlesRepository$stocksArticlesRepository,
+EmplacementRepository $emplacementRepository
+    )
     {
         if ($this->container->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
             $em = $this->getDoctrine()->getManager();
@@ -19,14 +33,14 @@ class ChaussementController  extends AbstractController
                 $lanternes = null;
                 $articles = null;
             } else {
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
-                $lanternes = $em->getRepository('SSFMBBundle:Lanterne')->findByParc($parcs);
-                $articles = $em->getRepository('SSFMBBundle:StocksArticles')->findByIdStock($parcs->getIdStock());
+                $parcs = $magasinsRepository->findOneByIdMagasin($request->get('idparc'));
+                $processus = $processusRepository->findAll();
+                $lanternes = $lanterneRepository->findByParc($parcs);
+                $articles = $stocksArticlesRepository->findByIdStock($parcs->getIdStock());
             }
             if ($request->isMethod('POST')) {
                 foreach ($request->request->get('place') as $emplacement) {
-                    $place = $em->getRepository('SSFMBBundle:Emplacement')->find($emplacement);
+                    $place =$emplacementRepository->find($emplacement);
                     if ($place->getStockscorde()) {
                         $contenu = $place->getStockscorde();
                     } elseif ($place->getStockslanterne()) {
@@ -39,7 +53,7 @@ class ChaussementController  extends AbstractController
                     $em->merge($contenu);
                 }
                 $em->flush();
-                return $this->redirectToRoute('ssfmb_chaussement');
+                return $this->redirectToRoute('app_chaussement');
             }
             return $this->render(
                 'Chaussement/Chaussement.html.twig',

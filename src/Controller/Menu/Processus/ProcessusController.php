@@ -2,24 +2,43 @@
 
 namespace App\Controller\Menu\Processus;
 
+use App\Entity\Emplacement;
 use DateTime;
 use App\Implementation\ProcessusImplementation;
+use App\Repository\EmplacementRepository;
+use App\Repository\MagasinsRepository;
+use App\Repository\PhasesRepository;
+use App\Repository\ProcessusRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/groscissement")
+ */
 class ProcessusController  extends AbstractController
 {
-    public function processgrocissmeent()
+    
+ /**
+     * @Route("/", name="app_processusgrocissement")
+     */
+    public function processgrocissmeent(
+        Request $request,
+        MagasinsRepository $magasinsRepository,
+        PhasesRepository $phasesRepository,
+        ProcessusRepository $processusRepository,
+        EmplacementRepository $emplacementRepository
+        )
     {
         $em = $this->getDoctrine()->getManager();
         $nowDate = new DateTime("now");
         $tableauDesProcessus = array();
-        $parc = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-        $phases = $em->getRepository('SSFMBBundle:Phases')->findAll();
-        $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
+        $parc = $magasinsRepository->findOneByIdMagasin($request->get('idparc'));
+        $phases = $phasesRepository->findAll();
+        $processus = $processusRepository->findAll();
         if ($parc) {
             $processusImplementation = new ProcessusImplementation($em);
-            $places = $em->getRepository('SSFMBBundle:Emplacement')->getTotaleEmplacementByParc($parc);
+            $places = $emplacementRepository->getTotaleEmplacementByParc($parc);
             foreach ($phases as $phase) {
                 $tableauDesProcessus[$phase->getId()] = array('nomPhase' => $phase->getNomPhase(), 'processus' => array());
                 foreach ($processus as $process) {
