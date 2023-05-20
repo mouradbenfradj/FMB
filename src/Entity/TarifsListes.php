@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class TarifsListes
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id_tarif", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idTarif;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="lib_tarif", type="string", length=32, nullable=false)
@@ -34,122 +43,64 @@ class TarifsListes
     private $margeMoyenne;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ordre", type="smallint", nullable=false)
      */
     private $ordre;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_tarif", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idTarif;
+    public function getIdTarif(): ?int
+    {
+        return $this->idTarif;
+    }
 
+    public function getLibTarif(): ?string
+    {
+        return $this->libTarif;
+    }
 
-
-    /**
-     * Set libTarif
-     *
-     * @param string $libTarif
-     * @return TarifsListes
-     */
-    public function setLibTarif($libTarif)
+    public function setLibTarif(string $libTarif): self
     {
         $this->libTarif = $libTarif;
 
         return $this;
     }
 
-    /**
-     * Get libTarif
-     *
-     * @return string 
-     */
-    public function getLibTarif()
+    public function getDescTarif(): ?string
     {
-        return $this->libTarif;
+        return $this->descTarif;
     }
 
-    /**
-     * Set descTarif
-     *
-     * @param string $descTarif
-     * @return TarifsListes
-     */
-    public function setDescTarif($descTarif)
+    public function setDescTarif(string $descTarif): self
     {
         $this->descTarif = $descTarif;
 
         return $this;
     }
 
-    /**
-     * Get descTarif
-     *
-     * @return string 
-     */
-    public function getDescTarif()
+    public function getMargeMoyenne(): ?string
     {
-        return $this->descTarif;
+        return $this->margeMoyenne;
     }
 
-    /**
-     * Set margeMoyenne
-     *
-     * @param string $margeMoyenne
-     * @return TarifsListes
-     */
-    public function setMargeMoyenne($margeMoyenne)
+    public function setMargeMoyenne(string $margeMoyenne): self
     {
         $this->margeMoyenne = $margeMoyenne;
 
         return $this;
     }
 
-    /**
-     * Get margeMoyenne
-     *
-     * @return string 
-     */
-    public function getMargeMoyenne()
+    public function getOrdre(): ?int
     {
-        return $this->margeMoyenne;
+        return $this->ordre;
     }
 
-    /**
-     * Set ordre
-     *
-     * @param integer $ordre
-     * @return TarifsListes
-     */
-    public function setOrdre($ordre)
+    public function setOrdre(int $ordre): self
     {
         $this->ordre = $ordre;
 
         return $this;
     }
 
-    /**
-     * Get ordre
-     *
-     * @return integer 
-     */
-    public function getOrdre()
-    {
-        return $this->ordre;
-    }
 
-    /**
-     * Get idTarif
-     *
-     * @return integer 
-     */
-    public function getIdTarif()
-    {
-        return $this->idTarif;
-    }
 }

@@ -3,456 +3,284 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
 
 /**
  * Processus
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\ProcessusRepository")
- * @UniqueEntity(
- *     fields={"idProcessusParent", "id"}
- * )
+ * @ORM\Table(name="processus", indexes={@ORM\Index(name="IDX_EEEA8C1D477FF5A2", columns={"phases_processus_id"}), @ORM\Index(name="IDX_EEEA8C1DC62E5DB6", columns={"ref_article"}), @ORM\Index(name="IDX_EEEA8C1D6AB2EA46", columns={"id_processus_parent_id"})})
+ * @ORM\Entity
  */
 class Processus
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="numeroDebCycle", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $numeroDebCycle;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="limiteDuCycle", type="integer", nullable=false)
-     */
-    private $limiteDuCycle;
+    private $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nomProcessus", type="string", length=255, nullable=false)
      */
-    private $nomProcessus;
+    private $nomprocessus;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="duree", type="array", length=0, nullable=false)
+     */
+    private $duree;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="articleSortie", type="string", length=255, nullable=false)
+     */
+    private $articlesortie;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="numeroDebCycle", type="integer", nullable=false)
+     */
+    private $numerodebcycle;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="limiteDuCycle", type="integer", nullable=false)
+     */
+    private $limiteducycle;
+
     /**
      * @var string
      *
      * @ORM\Column(name="abrevProcessus", type="string", length=255, nullable=false)
-     *
      */
-    private $abrevProcessus;
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="duree", type="array", nullable=false)
-     */
-    private $duree = array();
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="alerteRougeJours", type="array", nullable=false)
-     */
-    private $alerteRouge = array();
+    private $abrevprocessus;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="alerteJauneJours", type="array", nullable=false)
+     * @ORM\Column(name="alerteRougeJours", type="array", length=0, nullable=false)
      */
-    private $alerteJaune = array();
+    private $alerterougejours;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="alerteJauneJours", type="array", length=0, nullable=false)
+     */
+    private $alertejaunejours;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="couleur", type="string", nullable=false)
+     * @ORM\Column(name="couleur", type="string", length=255, nullable=false)
      */
     private $couleur;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="couleurDuFond", type="string", nullable=false)
-     */
-    private $couleurDuFond;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="articleSortie", type="string", nullable=false)
+     * @ORM\Column(name="couleurDuFond", type="string", length=255, nullable=false)
      */
-    private $articleSortie;
+    private $couleurdufond;
 
     /**
-     * @var integer
+     * @var \Articles
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\ManyToOne(targetEntity="Articles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ref_article", referencedColumnName="ref_article")
+     * })
      */
-    private $id;
-    /**
-     * @var \App\Entity\Processus
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Processus", inversedBy="idProcessusSuivant",fetch="LAZY")
-     */
-    private $idProcessusParent;
-    /**
-     * @var \App\Entity\Processus
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\Processus", mappedBy="idProcessusParent",fetch="LAZY")
-     */
-    private $idProcessusSuivant;
+    private $refArticle;
 
     /**
-     * @var \App\Entity\Articles
+     * @var \Phases
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Articles")
-     * @ORM\JoinColumn(name="ref_article", referencedColumnName="ref_article", nullable=false)
-     */
-    private $articleDebut;
-    /**
-     * @var \App\Entity\Phases
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Phases")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Phases")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="phases_processus_id", referencedColumnName="id")
+     * })
      */
     private $phasesProcessus;
 
-    public function __toString()
-    {
-        return $this->nomProcessus;
-    }
-
     /**
-     * Get id
+     * @var \Processus
      *
-     * @return integer
+     * @ORM\ManyToOne(targetEntity="Processus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_processus_parent_id", referencedColumnName="id")
+     * })
      */
-    public function getId()
+    private $idProcessusParent;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set numeroDebCycle
-     *
-     * @param integer $numeroDebCycle
-     * @return Processus
-     */
-    public function setNumeroDebCycle($numeroDebCycle)
+    public function getNomprocessus(): ?string
     {
-        $this->numeroDebCycle = $numeroDebCycle;
+        return $this->nomprocessus;
+    }
+
+    public function setNomprocessus(string $nomprocessus): self
+    {
+        $this->nomprocessus = $nomprocessus;
 
         return $this;
     }
 
-    /**
-     * Get numeroDebCycle
-     *
-     * @return integer
-     */
-    public function getNumeroDebCycle()
+    public function getDuree(): ?array
     {
-        return $this->numeroDebCycle;
+        return $this->duree;
     }
 
-    /**
-     * Set nomProcessus
-     *
-     * @param string $nomProcessus
-     * @return Processus
-     */
-    public function setNomProcessus($nomProcessus)
-    {
-        $this->nomProcessus = $nomProcessus;
-
-        return $this;
-    }
-
-    /**
-     * Get nomProcessus
-     *
-     * @return string
-     */
-    public function getNomProcessus()
-    {
-        return $this->nomProcessus;
-    }
-
-    /**
-     * Set abrevProcessus
-     *
-     * @param string $abrevProcessus
-     * @return Processus
-     */
-    public function setAbrevProcessus($abrevProcessus)
-    {
-        $this->abrevProcessus = $abrevProcessus;
-
-        return $this;
-    }
-
-    /**
-     * Get abrevProcessus
-     *
-     * @return string
-     */
-    public function getAbrevProcessus()
-    {
-        return $this->abrevProcessus;
-    }
-
-    /**
-     * Set duree
-     *
-     * @param array $duree
-     * @return Processus
-     */
-    public function setDuree($duree)
+    public function setDuree(array $duree): self
     {
         $this->duree = $duree;
 
         return $this;
     }
 
-    /**
-     * Get duree
-     *
-     * @return array
-     */
-    public function getDuree()
+    public function getArticlesortie(): ?string
     {
-        return $this->duree;
+        return $this->articlesortie;
     }
 
-    /**
-     * Set alerteRouge
-     *
-     * @param array $alerteRouge
-     * @return Processus
-     */
-    public function setAlerteRouge($alerteRouge)
+    public function setArticlesortie(string $articlesortie): self
     {
-        $this->alerteRouge = $alerteRouge;
+        $this->articlesortie = $articlesortie;
 
         return $this;
     }
 
-    /**
-     * Get alerteRouge
-     *
-     * @return array
-     */
-    public function getAlerteRouge()
+    public function getNumerodebcycle(): ?int
     {
-        return $this->alerteRouge;
+        return $this->numerodebcycle;
     }
 
-    /**
-     * Set alerteJaune
-     *
-     * @param array $alerteJaune
-     * @return Processus
-     */
-    public function setAlerteJaune($alerteJaune)
+    public function setNumerodebcycle(int $numerodebcycle): self
     {
-        $this->alerteJaune = $alerteJaune;
+        $this->numerodebcycle = $numerodebcycle;
 
         return $this;
     }
 
-    /**
-     * Get alerteJaune
-     *
-     * @return array
-     */
-    public function getAlerteJaune()
+    public function getLimiteducycle(): ?int
     {
-        return $this->alerteJaune;
+        return $this->limiteducycle;
     }
 
-    /**
-     * Set couleur
-     *
-     * @param string $couleur
-     * @return Processus
-     */
-    public function setCouleur($couleur)
+    public function setLimiteducycle(int $limiteducycle): self
+    {
+        $this->limiteducycle = $limiteducycle;
+
+        return $this;
+    }
+
+    public function getAbrevprocessus(): ?string
+    {
+        return $this->abrevprocessus;
+    }
+
+    public function setAbrevprocessus(string $abrevprocessus): self
+    {
+        $this->abrevprocessus = $abrevprocessus;
+
+        return $this;
+    }
+
+    public function getAlerterougejours(): ?array
+    {
+        return $this->alerterougejours;
+    }
+
+    public function setAlerterougejours(array $alerterougejours): self
+    {
+        $this->alerterougejours = $alerterougejours;
+
+        return $this;
+    }
+
+    public function getAlertejaunejours(): ?array
+    {
+        return $this->alertejaunejours;
+    }
+
+    public function setAlertejaunejours(array $alertejaunejours): self
+    {
+        $this->alertejaunejours = $alertejaunejours;
+
+        return $this;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(string $couleur): self
     {
         $this->couleur = $couleur;
 
         return $this;
     }
 
-    /**
-     * Get couleur
-     *
-     * @return string
-     */
-    public function getCouleur()
+    public function getCouleurdufond(): ?string
     {
-        return $this->couleur;
+        return $this->couleurdufond;
     }
 
-    /**
-     * Set articleSortie
-     *
-     * @param string $articleSortie
-     * @return Processus
-     */
-    public function setArticleSortie($articleSortie)
+    public function setCouleurdufond(string $couleurdufond): self
     {
-        $this->articleSortie = $articleSortie;
+        $this->couleurdufond = $couleurdufond;
 
         return $this;
     }
 
-    /**
-     * Get articleSortie
-     *
-     * @return string
-     */
-    public function getArticleSortie()
+    public function getRefArticle(): ?Articles
     {
-        return $this->articleSortie;
+        return $this->refArticle;
     }
 
-    /**
-     * Set articleDebut
-     *
-     * @param \App\Entity\Articles $articleDebut
-     * @return Processus
-     */
-    public function setArticleDebut(\App\Entity\Articles $articleDebut = null)
+    public function setRefArticle(?Articles $refArticle): self
     {
-        $this->articleDebut = $articleDebut;
+        $this->refArticle = $refArticle;
 
         return $this;
     }
 
-    /**
-     * Get articleDebut
-     *
-     * @return \App\Entity\Articles
-     */
-    public function getArticleDebut()
+    public function getPhasesProcessus(): ?Phases
     {
-        return $this->articleDebut;
+        return $this->phasesProcessus;
     }
 
-    /**
-     * Set couleurDuFond
-     *
-     * @param string $couleurDuFond
-     * @return Processus
-     */
-    public function setCouleurDuFond($couleurDuFond)
-    {
-        $this->couleurDuFond = $couleurDuFond;
-
-        return $this;
-    }
-
-    /**
-     * Get couleurDuFond
-     *
-     * @return string
-     */
-    public function getCouleurDuFond()
-    {
-        return $this->couleurDuFond;
-    }
-
-    /**
-     * Set phasesProcessus
-     *
-     * @param \App\Entity\Phases $phasesProcessus
-     * @return Processus
-     */
-    public function setPhasesProcessus(\App\Entity\Phases $phasesProcessus = null)
+    public function setPhasesProcessus(?Phases $phasesProcessus): self
     {
         $this->phasesProcessus = $phasesProcessus;
 
         return $this;
     }
 
-    /**
-     * Get phasesProcessus
-     *
-     * @return \App\Entity\Phases
-     */
-    public function getPhasesProcessus()
+    public function getIdProcessusParent(): ?self
     {
-        return $this->phasesProcessus;
+        return $this->idProcessusParent;
     }
 
-    /**
-     * Set idProcessusParent
-     *
-     * @param \App\Entity\Processus $idProcessusParent
-     * @return Processus
-     */
-    public function setIdProcessusParent(\App\Entity\Processus $idProcessusParent = null)
+    public function setIdProcessusParent(?self $idProcessusParent): self
     {
         $this->idProcessusParent = $idProcessusParent;
 
         return $this;
     }
 
-    /**
-     * Get idProcessusParent
-     *
-     * @return \App\Entity\Processus
-     */
-    public function getIdProcessusParent()
-    {
-        return $this->idProcessusParent;
-    }
 
-    /**
-     * Set idProcessusSuivant
-     *
-     * @param \App\Entity\Processus $idProcessusSuivant
-     * @return Processus
-     */
-    public function setIdProcessusSuivant(\App\Entity\Processus $idProcessusSuivant = null)
-    {
-        $this->idProcessusSuivant = $idProcessusSuivant;
-
-        return $this;
-    }
-
-    /**
-     * Get idProcessusSuivant
-     *
-     * @return \App\Entity\Processus
-     */
-    public function getIdProcessusSuivant()
-    {
-        return $this->idProcessusSuivant;
-    }
-
-    /**
-     * Set limiteDuCycle
-     *
-     * @param integer $limiteDuCycle
-     * @return Processus
-     */
-    public function setLimiteDuCycle($limiteDuCycle)
-    {
-        $this->limiteDuCycle = $limiteDuCycle;
-
-        return $this;
-    }
-
-    /**
-     * Get limiteDuCycle
-     *
-     * @return integer
-     */
-    public function getLimiteDuCycle()
-    {
-        return $this->limiteDuCycle;
-    }
 }

@@ -8,263 +8,161 @@ use Doctrine\ORM\Mapping as ORM;
  * StocksArticlesSnVirtuel
  *
  * @ORM\Table(name="stocks_articles_sn_virtuel", indexes={@ORM\Index(name="numero_serie", columns={"numero_serie"}), @ORM\Index(name="ref_stock_article", columns={"ref_stock_article"})})
- * @ORM\Entity(repositoryClass="App\Repository\StocksArticlesSnVirtuelRepository")
+ * @ORM\Entity
  */
 class StocksArticlesSnVirtuel
 {
     /**
-     * @var float
-     *
-     * @ORM\Column(name="sn_qte", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $snQte;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="sn_qte_traiter", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $snQteTraiterValide = 0;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="sn_qte_mise_en_vente", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $snQteMiseEnVente = 0;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="sn_qte_a_remettre_en_poche", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $snQteARemettreEnPoche = 0;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="sn_qte_morte", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $snQteMorte = 0;
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="sn_qte_perdu", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $snQtePerdu = 0;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="numero_serie", type="string", length=32)
+     * @ORM\Column(name="numero_serie", type="string", length=32, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $numeroSerie;
 
     /**
-     * @var \App\Entity\StocksArticles
+     * @var float
+     *
+     * @ORM\Column(name="sn_qte", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $snQte;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="sn_qte_morte", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $snQteMorte;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="sn_qte_perdu", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $snQtePerdu;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="sn_qte_traiter", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $snQteTraiter;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="sn_qte_mise_en_vente", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $snQteMiseEnVente;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="sn_qte_a_remettre_en_poche", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $snQteARemettreEnPoche;
+
+    /**
+     * @var \StocksArticles
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="App\Entity\StocksArticles")
+     * @ORM\OneToOne(targetEntity="StocksArticles")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ref_stock_article", referencedColumnName="ref_stock_article")
      * })
      */
     private $refStockArticle;
 
-    public function __construct($numeroSerie, $snQte, StocksArticles $refStockArticle)
-    {
-        $this->numeroSerie = $numeroSerie;
-        $this->snQte = $snQte;
-        $this->refStockArticle = $refStockArticle;
-        $this->setSnQteMorte(0);
-        $this->setSnQtePerdu(0);
-    }
-
-    public function __toString()
+    public function getNumeroSerie(): ?string
     {
         return $this->numeroSerie;
     }
 
-    /**
-     * Get snQte
-     *
-     * @return float
-     */
-    public function getSnQte()
+    public function getSnQte(): ?float
     {
         return $this->snQte;
     }
 
-    /**
-     * Set snQte
-     *
-     * @param float $snQte
-     * @return StocksArticlesSnVirtuel
-     */
-    public function setSnQte($snQte)
+    public function setSnQte(float $snQte): self
     {
         $this->snQte = $snQte;
 
         return $this;
     }
 
-    /**
-     * Get snQteMorte
-     *
-     * @return float
-     */
-    public function getSnQteMorte()
+    public function getSnQteMorte(): ?float
     {
         return $this->snQteMorte;
     }
 
-    /**
-     * Set snQteMorte
-     *
-     * @param float $snQteMorte
-     * @return StocksArticlesSnVirtuel
-     */
-    public function setSnQteMorte($snQteMorte)
+    public function setSnQteMorte(?float $snQteMorte): self
     {
         $this->snQteMorte = $snQteMorte;
 
         return $this;
     }
 
-    /**
-     * Get snQtePerdu
-     *
-     * @return float
-     */
-    public function getSnQtePerdu()
+    public function getSnQtePerdu(): ?float
     {
         return $this->snQtePerdu;
     }
 
-    /**
-     * Set snQtePerdu
-     *
-     * @param float $snQtePerdu
-     * @return StocksArticlesSnVirtuel
-     */
-    public function setSnQtePerdu($snQtePerdu)
+    public function setSnQtePerdu(?float $snQtePerdu): self
     {
         $this->snQtePerdu = $snQtePerdu;
 
         return $this;
     }
 
-    /**
-     * Get numeroSerie
-     *
-     * @return string
-     */
-    public function getNumeroSerie()
+    public function getSnQteTraiter(): ?float
     {
-        return $this->numeroSerie;
+        return $this->snQteTraiter;
     }
 
-    /**
-     * Set numeroSerie
-     *
-     * @param string $numeroSerie
-     * @return StocksArticlesSnVirtuel
-     */
-    public function setNumeroSerie($numeroSerie)
+    public function setSnQteTraiter(?float $snQteTraiter): self
     {
-        $this->numeroSerie = $numeroSerie;
+        $this->snQteTraiter = $snQteTraiter;
 
         return $this;
     }
 
-    /**
-     * Get refStockArticle
-     *
-     * @return \App\Entity\StocksArticles
-     */
-    public function getRefStockArticle()
-    {
-        return $this->refStockArticle;
-    }
-
-    /**
-     * Set refStockArticle
-     *
-     * @param \App\Entity\StocksArticles $refStockArticle
-     * @return StocksArticlesSnVirtuel
-     */
-    public function setRefStockArticle(\App\Entity\StocksArticles $refStockArticle)
-    {
-        $this->refStockArticle = $refStockArticle;
-
-        return $this;
-    }
-
-    /**
-     * Get snQteTraiterValide
-     *
-     * @return float
-     */
-    public function getSnQteTraiterValide()
-    {
-        return $this->snQteTraiterValide;
-    }
-
-    /**
-     * Set snQteTraiterValide
-     *
-     * @param float $snQteTraiterValide
-     * @return StocksArticlesSnVirtuel
-     */
-    public function setSnQteTraiterValide($snQteTraiterValide)
-    {
-        $this->snQteTraiterValide = $snQteTraiterValide;
-
-        return $this;
-    }
-
-    /**
-     * Get snQteMiseEnVente
-     *
-     * @return float
-     */
-    public function getSnQteMiseEnVente()
+    public function getSnQteMiseEnVente(): ?float
     {
         return $this->snQteMiseEnVente;
     }
 
-    /**
-     * Set snQteMiseEnVente
-     *
-     * @param float $snQteMiseEnVente
-     * @return StocksArticlesSnVirtuel
-     */
-    public function setSnQteMiseEnVente($snQteMiseEnVente)
+    public function setSnQteMiseEnVente(?float $snQteMiseEnVente): self
     {
         $this->snQteMiseEnVente = $snQteMiseEnVente;
 
         return $this;
     }
 
-    /**
-     * Get snQteARemettreEnPoche
-     *
-     * @return float
-     */
-    public function getSnQteARemettreEnPoche()
+    public function getSnQteARemettreEnPoche(): ?float
     {
         return $this->snQteARemettreEnPoche;
     }
 
-    /**
-     * Set snQteARemettreEnPoche
-     *
-     * @param float $snQteARemettreEnPoche
-     * @return StocksArticlesSnVirtuel
-     */
-    public function setSnQteARemettreEnPoche($snQteARemettreEnPoche)
+    public function setSnQteARemettreEnPoche(?float $snQteARemettreEnPoche): self
     {
         $this->snQteARemettreEnPoche = $snQteARemettreEnPoche;
 
         return $this;
     }
+
+    public function getRefStockArticle(): ?StocksArticles
+    {
+        return $this->refStockArticle;
+    }
+
+    public function setRefStockArticle(?StocksArticles $refStockArticle): self
+    {
+        $this->refStockArticle = $refStockArticle;
+
+        return $this;
+    }
+
+
 }

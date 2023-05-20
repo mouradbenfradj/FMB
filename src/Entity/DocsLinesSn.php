@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class DocsLinesSn
 {
     /**
+     * @var string
+     *
+     * @ORM\Column(name="numero_serie", type="string", length=32, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeroSerie;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="sn_qte", type="float", precision=10, scale=0, nullable=false)
@@ -20,94 +29,45 @@ class DocsLinesSn
     private $snQte;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="numero_serie", type="string", length=32)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $numeroSerie;
-
-    /**
-     * @var \App\Entity\DocsLines
+     * @var \DocsLines
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="App\Entity\DocsLines")
+     * @ORM\OneToOne(targetEntity="DocsLines")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ref_doc_line", referencedColumnName="ref_doc_line")
      * })
      */
     private $refDocLine;
 
+    public function getNumeroSerie(): ?string
+    {
+        return $this->numeroSerie;
+    }
 
+    public function getSnQte(): ?float
+    {
+        return $this->snQte;
+    }
 
-    /**
-     * Set snQte
-     *
-     * @param float $snQte
-     * @return DocsLinesSn
-     */
-    public function setSnQte($snQte)
+    public function setSnQte(float $snQte): self
     {
         $this->snQte = $snQte;
 
         return $this;
     }
 
-    /**
-     * Get snQte
-     *
-     * @return float 
-     */
-    public function getSnQte()
+    public function getRefDocLine(): ?DocsLines
     {
-        return $this->snQte;
+        return $this->refDocLine;
     }
 
-    /**
-     * Set numeroSerie
-     *
-     * @param string $numeroSerie
-     * @return DocsLinesSn
-     */
-    public function setNumeroSerie($numeroSerie)
-    {
-        $this->numeroSerie = $numeroSerie;
-
-        return $this;
-    }
-
-    /**
-     * Get numeroSerie
-     *
-     * @return string 
-     */
-    public function getNumeroSerie()
-    {
-        return $this->numeroSerie;
-    }
-
-    /**
-     * Set refDocLine
-     *
-     * @param \App\Entity\DocsLines $refDocLine
-     * @return DocsLinesSn
-     */
-    public function setRefDocLine(\App\Entity\DocsLines $refDocLine)
+    public function setRefDocLine(?DocsLines $refDocLine): self
     {
         $this->refDocLine = $refDocLine;
 
         return $this;
     }
 
-    /**
-     * Get refDocLine
-     *
-     * @return \App\Entity\DocsLines
-     */
-    public function getRefDocLine()
-    {
-        return $this->refDocLine;
-    }
+
 }

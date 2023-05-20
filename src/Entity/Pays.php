@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class Pays
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id_pays", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idPays;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="pays", type="string", length=64, nullable=false)
@@ -27,159 +36,90 @@ class Pays
     private $codePays;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="defaut_id_langage", type="boolean", nullable=false)
      */
     private $defautIdLangage;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="use_etat", type="boolean", nullable=false)
      */
     private $useEtat;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="affichage", type="boolean", nullable=false)
      */
     private $affichage;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_pays", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idPays;
+    public function getIdPays(): ?int
+    {
+        return $this->idPays;
+    }
 
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
 
-
-    /**
-     * Set pays
-     *
-     * @param string $pays
-     * @return Pays
-     */
-    public function setPays($pays)
+    public function setPays(string $pays): self
     {
         $this->pays = $pays;
 
         return $this;
     }
 
-    /**
-     * Get pays
-     *
-     * @return string 
-     */
-    public function getPays()
+    public function getCodePays(): ?string
     {
-        return $this->pays;
+        return $this->codePays;
     }
 
-    /**
-     * Set codePays
-     *
-     * @param string $codePays
-     * @return Pays
-     */
-    public function setCodePays($codePays)
+    public function setCodePays(string $codePays): self
     {
         $this->codePays = $codePays;
 
         return $this;
     }
 
-    /**
-     * Get codePays
-     *
-     * @return string 
-     */
-    public function getCodePays()
+    public function isDefautIdLangage(): ?bool
     {
-        return $this->codePays;
+        return $this->defautIdLangage;
     }
 
-    /**
-     * Set defautIdLangage
-     *
-     * @param boolean $defautIdLangage
-     * @return Pays
-     */
-    public function setDefautIdLangage($defautIdLangage)
+    public function setDefautIdLangage(bool $defautIdLangage): self
     {
         $this->defautIdLangage = $defautIdLangage;
 
         return $this;
     }
 
-    /**
-     * Get defautIdLangage
-     *
-     * @return boolean 
-     */
-    public function getDefautIdLangage()
+    public function isUseEtat(): ?bool
     {
-        return $this->defautIdLangage;
+        return $this->useEtat;
     }
 
-    /**
-     * Set useEtat
-     *
-     * @param boolean $useEtat
-     * @return Pays
-     */
-    public function setUseEtat($useEtat)
+    public function setUseEtat(bool $useEtat): self
     {
         $this->useEtat = $useEtat;
 
         return $this;
     }
 
-    /**
-     * Get useEtat
-     *
-     * @return boolean 
-     */
-    public function getUseEtat()
+    public function isAffichage(): ?bool
     {
-        return $this->useEtat;
+        return $this->affichage;
     }
 
-    /**
-     * Set affichage
-     *
-     * @param boolean $affichage
-     * @return Pays
-     */
-    public function setAffichage($affichage)
+    public function setAffichage(bool $affichage): self
     {
         $this->affichage = $affichage;
 
         return $this;
     }
 
-    /**
-     * Get affichage
-     *
-     * @return boolean 
-     */
-    public function getAffichage()
-    {
-        return $this->affichage;
-    }
 
-    /**
-     * Get idPays
-     *
-     * @return integer 
-     */
-    public function getIdPays()
-    {
-        return $this->idPays;
-    }
 }

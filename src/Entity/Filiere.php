@@ -7,195 +7,103 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Filiere
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\FiliereRepository")
+ * @ORM\Table(name="filiere", indexes={@ORM\Index(name="IDX_2ED05D9E54AF5F27", columns={"magasin"})})
+ * @ORM\Entity
  */
 class Filiere
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nomFiliere", type="string", length=255)
+     * @ORM\Column(name="nomFiliere", type="string", length=255, nullable=false)
      */
-    private $nomFiliere;
+    private $nomfiliere;
 
     /**
-     * @var array
+     * @var bool
      *
-     * @ORM\Column(name="observation", type="array",nullable=true)
+     * @ORM\Column(name="aireDeTravaille", type="boolean", nullable=false)
      */
-    private $observation = array();
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Magasins", inversedBy="filieres")
-     * @ORM\JoinColumn(name="magasin", referencedColumnName="id_magasin",nullable=false)
-     */
-    private $parc;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Segment", mappedBy="filiere" ,cascade={"persist","merge","remove"},fetch="LAZY")
-     */
-    private $segments;
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="aireDeTravaille", type="boolean")
-     */
-    private $aireDeTravaille;
+    private $airedetravaille;
 
     /**
-     * Constructor
+     * @var array|null
+     *
+     * @ORM\Column(name="observation", type="array", length=0, nullable=true)
      */
-    public function __construct()
-    {
-        $this->segments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    private $observation;
 
     /**
-     * Get id
+     * @var \Magasins
      *
-     * @return integer
+     * @ORM\ManyToOne(targetEntity="Magasins")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="magasin", referencedColumnName="id_magasin")
+     * })
      */
-    public function getId()
+    private $magasin;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Add segments
-     *
-     * @param \App\Entity\Segment $segments
-     * @return Filiere
-     */
-    public function addSegment(\App\Entity\Segment $segments)
+    public function getNomfiliere(): ?string
     {
-        $this->segments[] = $segments;
-        $segments->setFiliere($this);
+        return $this->nomfiliere;
+    }
+
+    public function setNomfiliere(string $nomfiliere): self
+    {
+        $this->nomfiliere = $nomfiliere;
 
         return $this;
     }
 
-    /**
-     * Remove segments
-     *
-     * @param \App\Entity\Segment $segments
-     */
-    public function removeSegment(\App\Entity\Segment $segments)
+    public function isAiredetravaille(): ?bool
     {
-        $this->segments->removeElement($segments);
+        return $this->airedetravaille;
     }
 
-    /**
-     * Get segments
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSegments()
+    public function setAiredetravaille(bool $airedetravaille): self
     {
-        return $this->segments;
-    }
-
-    public function __toString()
-    {
-        return $this->getNomFiliere();
-    }
-
-    /**
-     * Get nomFiliere
-     *
-     * @return string
-     */
-    public function getNomFiliere()
-    {
-        return $this->nomFiliere;
-    }
-
-    /**
-     * Set nomFiliere
-     *
-     * @param string $nomFiliere
-     * @return Filiere
-     */
-    public function setNomFiliere($nomFiliere)
-    {
-        $this->nomFiliere = $nomFiliere;
+        $this->airedetravaille = $airedetravaille;
 
         return $this;
     }
 
-    /**
-     * Get parc
-     *
-     * @return \App\Entity\Magasins
-     */
-    public function getParc()
+    public function getObservation(): ?array
     {
-        return $this->parc;
+        return $this->observation;
     }
 
-    /**
-     * Set parc
-     *
-     * @param \App\Entity\Magasins $parc
-     * @return Filiere
-     */
-    public function setParc(\App\Entity\Magasins $parc)
-    {
-        $this->parc = $parc;
-
-        return $this;
-    }
-
-    /**
-     * Get aireDeTravaille
-     *
-     * @return boolean
-     */
-    public function getAireDeTravaille()
-    {
-        return $this->aireDeTravaille;
-    }
-
-    /**
-     * Set aireDeTravaille
-     *
-     * @param boolean $aireDeTravaille
-     * @return Filiere
-     */
-    public function setAireDeTravaille($aireDeTravaille)
-    {
-        $this->aireDeTravaille = $aireDeTravaille;
-
-        return $this;
-    }
-
-    /**
-     * Set observation
-     *
-     * @param array $observation
-     * @return Filiere
-     */
-    public function setObservation($observation)
+    public function setObservation(?array $observation): self
     {
         $this->observation = $observation;
 
         return $this;
     }
 
-    /**
-     * Get observation
-     *
-     * @return array
-     */
-    public function getObservation()
+    public function getMagasin(): ?Magasins
     {
-        return $this->observation;
+        return $this->magasin;
     }
+
+    public function setMagasin(?Magasins $magasin): self
+    {
+        $this->magasin = $magasin;
+
+        return $this;
+    }
+
+
 }

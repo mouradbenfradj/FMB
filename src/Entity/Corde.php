@@ -7,162 +7,84 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Corde
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\CordeRepository")
+ * @ORM\Table(name="corde", indexes={@ORM\Index(name="IDX_10C99A9F54AF5F27", columns={"magasin"})})
+ * @ORM\Entity
  */
 class Corde
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
     /**
-     * @var integer
-     * @ORM\Column(name="nbrtotaleEnStock", type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="nbrtotaleEnStock", type="integer", nullable=false)
      */
-    private $nbrTotaleEnStock;
+    private $nbrtotaleenstock;
+
     /**
      * @var string
-     * @ORM\Column(name="nomCorde", type="string", length=255)
-     */
-    private $nomCorde;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StocksCordes", mappedBy="corde",cascade={"persist","remove"})
-     */
-    private $stockscordes;
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Magasins",inversedBy="cordes")
-     * @ORM\JoinColumn(name="magasin", referencedColumnName="id_magasin",nullable=false)
-     */
-    private $parc;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->stockscordes = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get id
      *
-     * @return integer
+     * @ORM\Column(name="nomCorde", type="string", length=255, nullable=false)
      */
-    public function getId()
+    private $nomcorde;
+
+    /**
+     * @var \Magasins
+     *
+     * @ORM\ManyToOne(targetEntity="Magasins")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="magasin", referencedColumnName="id_magasin")
+     * })
+     */
+    private $magasin;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Get nbrTotaleEnStock
-     *
-     * @return integer
-     */
-    public function getNbrTotaleEnStock()
+    public function getNbrtotaleenstock(): ?int
     {
-        return $this->nbrTotaleEnStock;
+        return $this->nbrtotaleenstock;
     }
 
-    /**
-     * Set nbrTotaleEnStock
-     *
-     * @param integer $nbrTotaleEnStock
-     * @return Corde
-     */
-    public function setNbrTotaleEnStock($nbrTotaleEnStock)
+    public function setNbrtotaleenstock(int $nbrtotaleenstock): self
     {
-        $this->nbrTotaleEnStock = $nbrTotaleEnStock;
+        $this->nbrtotaleenstock = $nbrtotaleenstock;
 
         return $this;
     }
 
-    /**
-     * Add stockscordes
-     *
-     * @param \App\Entity\StocksCordes $stockscordes
-     * @return Corde
-     */
-    public function addStockscorde(\App\Entity\StocksCordes $stockscordes)
+    public function getNomcorde(): ?string
     {
-        $this->stockscordes[] = $stockscordes;
+        return $this->nomcorde;
+    }
+
+    public function setNomcorde(string $nomcorde): self
+    {
+        $this->nomcorde = $nomcorde;
 
         return $this;
     }
 
-    /**
-     * Remove stockscordes
-     *
-     * @param \App\Entity\StocksCordes $stockscordes
-     */
-    public function removeStockscorde(\App\Entity\StocksCordes $stockscordes)
+    public function getMagasin(): ?Magasins
     {
-        $this->stockscordes->removeElement($stockscordes);
+        return $this->magasin;
     }
 
-    /**
-     * Get stockscordes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getStockscordes()
+    public function setMagasin(?Magasins $magasin): self
     {
-        return $this->stockscordes;
-    }
-
-    /**
-     * Get parc
-     *
-     * @return \App\Entity\Magasins
-     */
-    public function getParc()
-    {
-        return $this->parc;
-    }
-
-    /**
-     * Set parc
-     *
-     * @param \App\Entity\Magasins $parc
-     * @return Corde
-     */
-    public function setParc(\App\Entity\Magasins $parc)
-    {
-        $this->parc = $parc;
+        $this->magasin = $magasin;
 
         return $this;
     }
 
-    /**
-     * Get nomCorde
-     *
-     * @return string
-     */
-    public function getNomCorde()
-    {
-        return $this->nomCorde;
-    }
 
-    /**
-     * Set nomCorde
-     *
-     * @param string $nomCorde
-     * @return Corde
-     */
-    public function setNomCorde($nomCorde)
-    {
-        $this->nomCorde = $nomCorde;
-
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->nomCorde;
-    }
 }

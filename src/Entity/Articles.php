@@ -7,22 +7,29 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Articles
  *
- * @ORM\Table(name="articles", uniqueConstraints={@ORM\UniqueConstraint(name="ref_interne", columns={"ref_interne"})}, indexes={@ORM\Index(name="lib_article", columns={"lib_article"}), @ORM\Index(name="ref_art_categ", columns={"ref_art_categ"}), @ORM\Index(name="ref_constructeur", columns={"ref_constructeur"}), @ORM\Index(name="dispo", columns={"dispo"}), @ORM\Index(name="ref_oem", columns={"ref_oem"}), @ORM\Index(name="id_tva", columns={"id_tva"}), @ORM\Index(name="id_valo", columns={"id_valo"}), @ORM\Index(name="id_modele_spe", columns={"id_modele_spe"})})
+ * @ORM\Table(name="articles", uniqueConstraints={@ORM\UniqueConstraint(name="ref_interne", columns={"ref_interne"})}, indexes={@ORM\Index(name="ref_art_categ", columns={"ref_art_categ"}), @ORM\Index(name="dispo", columns={"dispo"}), @ORM\Index(name="id_tva", columns={"id_tva"}), @ORM\Index(name="id_modele_spe", columns={"id_modele_spe"}), @ORM\Index(name="ref_constructeur", columns={"ref_constructeur"}), @ORM\Index(name="ref_oem", columns={"ref_oem"}), @ORM\Index(name="id_valo", columns={"id_valo"}), @ORM\Index(name="lib_article", columns={"lib_article"})})
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity(repositoryClass="App\Repository\ArticlesRepository")
  */
 class Articles
 {
     /**
      * @var string
      *
+     * @ORM\Column(name="ref_article", type="string", length=32, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $refArticle;
+
+    /**
+     * @var string|null
+     *
      * @ORM\Column(name="ref_oem", type="string", length=64, nullable=true)
      */
     private $refOem;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="ref_interne", type="string", length=32, nullable=true)
      */
@@ -59,40 +66,33 @@ class Articles
     /**
      * @var string
      *
-     * @ORM\Column(name="ref_art_categ", type="string", length=32, nullable=false)
-     */
-    private $refArtCateg;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="modele", type="string", nullable=false)
+     * @ORM\Column(name="modele", type="string", length=255, nullable=false)
      */
     private $modele;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="ref_constructeur", type="string", length=32, nullable=true)
      */
     private $refConstructeur;
 
     /**
-     * @var float
+     * @var float|null
      *
      * @ORM\Column(name="prix_public_ht", type="float", precision=10, scale=0, nullable=true)
      */
     private $prixPublicHt;
 
     /**
-     * @var float
+     * @var float|null
      *
      * @ORM\Column(name="prix_achat_ht", type="float", precision=10, scale=0, nullable=true)
      */
     private $prixAchatHt;
 
     /**
-     * @var float
+     * @var float|null
      *
      * @ORM\Column(name="paa_ht", type="float", precision=10, scale=0, nullable=true)
      */
@@ -106,14 +106,14 @@ class Articles
     private $paaLastMaj;
 
     /**
-     * @var integer
+     * @var int|null
      *
      * @ORM\Column(name="id_tva", type="smallint", nullable=true)
      */
     private $idTva;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="promo", type="smallint", nullable=false)
      */
@@ -127,28 +127,28 @@ class Articles
     private $valoIndice;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="lot", type="boolean", nullable=false)
      */
     private $lot;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="composant", type="boolean", nullable=false)
      */
     private $composant;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="variante", type="boolean", nullable=false)
      */
     private $variante;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="gestion_sn", type="boolean", nullable=false)
      */
@@ -169,7 +169,7 @@ class Articles
     private $dateFinDispo;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="dispo", type="boolean", nullable=false)
      */
@@ -190,45 +190,37 @@ class Articles
     private $dateModification;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="numero_compte_achat", type="string", length=10, nullable=true)
      */
     private $numeroCompteAchat;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="numero_compte_vente", type="string", length=10, nullable=true)
      */
     private $numeroCompteVente;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="is_achetable", type="boolean", nullable=false)
      */
     private $isAchetable;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="is_vendable", type="boolean", nullable=false)
      */
     private $isVendable;
 
     /**
-     * @var string
+     * @var \ArtCategsSpecificites
      *
-     * @ORM\Column(name="ref_article", type="string", length=32)
-     * @ORM\Id
-     */
-    private $refArticle;
-
-    /**
-     * @var \App\Entity\ArtCategsSpecificites
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\ArtCategsSpecificites")
+     * @ORM\ManyToOne(targetEntity="ArtCategsSpecificites")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_modele_spe", referencedColumnName="id_modele_spe")
      * })
@@ -236,748 +228,401 @@ class Articles
     private $idModeleSpe;
 
     /**
-     * @var \App\Entity\ArticlesValorisations
+     * @var \ArticlesValorisations
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\ArticlesValorisations")
+     * @ORM\ManyToOne(targetEntity="ArticlesValorisations")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_valo", referencedColumnName="id_valo")
      * })
      */
     private $idValo;
 
-    public function __toString()
-    {
-        return $this->libArticle;
-    }
-
     /**
-     * @ORM\PrePersist
-     */
-    public function setRefArticle()
-    {
-        $this->refArticle = uniqid();
-    }
-
-    /**
-     * Set refOem
+     * @var \ArtCategs
      *
-     * @param string $refOem
-     * @return Articles
+     * @ORM\ManyToOne(targetEntity="ArtCategs")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ref_art_categ", referencedColumnName="ref_art_categ")
+     * })
      */
-    public function setRefOem($refOem)
+    private $refArtCateg;
+
+    public function getRefArticle(): ?string
+    {
+        return $this->refArticle;
+    }
+
+    public function getRefOem(): ?string
+    {
+        return $this->refOem;
+    }
+
+    public function setRefOem(?string $refOem): self
     {
         $this->refOem = $refOem;
 
         return $this;
     }
 
-    /**
-     * Get refOem
-     *
-     * @return string
-     */
-    public function getRefOem()
+    public function getRefInterne(): ?string
     {
-        return $this->refOem;
+        return $this->refInterne;
     }
 
-    /**
-     * Set refInterne
-     *
-     * @param string $refInterne
-     * @return Articles
-     */
-    public function setRefInterne($refInterne)
+    public function setRefInterne(?string $refInterne): self
     {
         $this->refInterne = $refInterne;
 
         return $this;
     }
 
-    /**
-     * Get refInterne
-     *
-     * @return string
-     */
-    public function getRefInterne()
+    public function getLibArticle(): ?string
     {
-        return $this->refInterne;
+        return $this->libArticle;
     }
 
-    /**
-     * Set libArticle
-     *
-     * @param string $libArticle
-     * @return Articles
-     */
-    public function setLibArticle($libArticle)
+    public function setLibArticle(string $libArticle): self
     {
         $this->libArticle = $libArticle;
 
         return $this;
     }
 
-    /**
-     * Get libArticle
-     *
-     * @return string
-     */
-    public function getLibArticle()
+    public function getLibTicket(): ?string
     {
-        return $this->libArticle;
+        return $this->libTicket;
     }
 
-    /**
-     * Set libTicket
-     *
-     * @param string $libTicket
-     * @return Articles
-     */
-    public function setLibTicket($libTicket)
+    public function setLibTicket(string $libTicket): self
     {
         $this->libTicket = $libTicket;
 
         return $this;
     }
 
-    /**
-     * Get libTicket
-     *
-     * @return string
-     */
-    public function getLibTicket()
+    public function getDescCourte()
     {
-        return $this->libTicket;
+        return $this->descCourte;
     }
 
-    /**
-     * Set descCourte
-     *
-     * @param string $descCourte
-     * @return Articles
-     */
-    public function setDescCourte($descCourte)
+    public function setDescCourte($descCourte): self
     {
         $this->descCourte = $descCourte;
 
         return $this;
     }
 
-    /**
-     * Get descCourte
-     *
-     * @return string
-     */
-    public function getDescCourte()
+    public function getDescLongue()
     {
-        return $this->descCourte;
+        return $this->descLongue;
     }
 
-    /**
-     * Set descLongue
-     *
-     * @param string $descLongue
-     * @return Articles
-     */
-    public function setDescLongue($descLongue)
+    public function setDescLongue($descLongue): self
     {
         $this->descLongue = $descLongue;
 
         return $this;
     }
 
-    /**
-     * Get descLongue
-     *
-     * @return string
-     */
-    public function getDescLongue()
+    public function getModele(): ?string
     {
-        return $this->descLongue;
+        return $this->modele;
     }
 
-    /**
-     * Set refArtCateg
-     *
-     * @param string $refArtCateg
-     * @return Articles
-     */
-    public function setRefArtCateg($refArtCateg)
-    {
-        $this->refArtCateg = $refArtCateg;
-
-        return $this;
-    }
-
-    /**
-     * Get refArtCateg
-     *
-     * @return string
-     */
-    public function getRefArtCateg()
-    {
-        return $this->refArtCateg;
-    }
-
-    /**
-     * Set modele
-     *
-     * @param string $modele
-     * @return Articles
-     */
-    public function setModele($modele)
+    public function setModele(string $modele): self
     {
         $this->modele = $modele;
 
         return $this;
     }
 
-    /**
-     * Get modele
-     *
-     * @return string
-     */
-    public function getModele()
+    public function getRefConstructeur(): ?string
     {
-        return $this->modele;
+        return $this->refConstructeur;
     }
 
-    /**
-     * Set refConstructeur
-     *
-     * @param string $refConstructeur
-     * @return Articles
-     */
-    public function setRefConstructeur($refConstructeur)
+    public function setRefConstructeur(?string $refConstructeur): self
     {
         $this->refConstructeur = $refConstructeur;
 
         return $this;
     }
 
-    /**
-     * Get refConstructeur
-     *
-     * @return string
-     */
-    public function getRefConstructeur()
+    public function getPrixPublicHt(): ?float
     {
-        return $this->refConstructeur;
+        return $this->prixPublicHt;
     }
 
-    /**
-     * Set prixPublicHt
-     *
-     * @param float $prixPublicHt
-     * @return Articles
-     */
-    public function setPrixPublicHt($prixPublicHt)
+    public function setPrixPublicHt(?float $prixPublicHt): self
     {
         $this->prixPublicHt = $prixPublicHt;
 
         return $this;
     }
 
-    /**
-     * Get prixPublicHt
-     *
-     * @return float
-     */
-    public function getPrixPublicHt()
+    public function getPrixAchatHt(): ?float
     {
-        return $this->prixPublicHt;
+        return $this->prixAchatHt;
     }
 
-    /**
-     * Set prixAchatHt
-     *
-     * @param float $prixAchatHt
-     * @return Articles
-     */
-    public function setPrixAchatHt($prixAchatHt)
+    public function setPrixAchatHt(?float $prixAchatHt): self
     {
         $this->prixAchatHt = $prixAchatHt;
 
         return $this;
     }
 
-    /**
-     * Get prixAchatHt
-     *
-     * @return float
-     */
-    public function getPrixAchatHt()
+    public function getPaaHt(): ?float
     {
-        return $this->prixAchatHt;
+        return $this->paaHt;
     }
 
-    /**
-     * Set paaHt
-     *
-     * @param float $paaHt
-     * @return Articles
-     */
-    public function setPaaHt($paaHt)
+    public function setPaaHt(?float $paaHt): self
     {
         $this->paaHt = $paaHt;
 
         return $this;
     }
 
-    /**
-     * Get paaHt
-     *
-     * @return float
-     */
-    public function getPaaHt()
+    public function getPaaLastMaj(): ?\DateTimeInterface
     {
-        return $this->paaHt;
+        return $this->paaLastMaj;
     }
 
-    /**
-     * Set paaLastMaj
-     *
-     * @param \DateTime $paaLastMaj
-     * @return Articles
-     */
-    public function setPaaLastMaj($paaLastMaj)
+    public function setPaaLastMaj(\DateTimeInterface $paaLastMaj): self
     {
         $this->paaLastMaj = $paaLastMaj;
 
         return $this;
     }
 
-    /**
-     * Get paaLastMaj
-     *
-     * @return \DateTime
-     */
-    public function getPaaLastMaj()
+    public function getIdTva(): ?int
     {
-        return $this->paaLastMaj;
+        return $this->idTva;
     }
 
-    /**
-     * Set idTva
-     *
-     * @param integer $idTva
-     * @return Articles
-     */
-    public function setIdTva($idTva)
+    public function setIdTva(?int $idTva): self
     {
         $this->idTva = $idTva;
 
         return $this;
     }
 
-    /**
-     * Get idTva
-     *
-     * @return integer
-     */
-    public function getIdTva()
+    public function getPromo(): ?int
     {
-        return $this->idTva;
+        return $this->promo;
     }
 
-    /**
-     * Set promo
-     *
-     * @param integer $promo
-     * @return Articles
-     */
-    public function setPromo($promo)
+    public function setPromo(int $promo): self
     {
         $this->promo = $promo;
 
         return $this;
     }
 
-    /**
-     * Get promo
-     *
-     * @return integer
-     */
-    public function getPromo()
+    public function getValoIndice(): ?float
     {
-        return $this->promo;
+        return $this->valoIndice;
     }
 
-    /**
-     * Set valoIndice
-     *
-     * @param float $valoIndice
-     * @return Articles
-     */
-    public function setValoIndice($valoIndice)
+    public function setValoIndice(float $valoIndice): self
     {
         $this->valoIndice = $valoIndice;
 
         return $this;
     }
 
-    /**
-     * Get valoIndice
-     *
-     * @return float
-     */
-    public function getValoIndice()
+    public function isLot(): ?bool
     {
-        return $this->valoIndice;
+        return $this->lot;
     }
 
-    /**
-     * Set lot
-     *
-     * @param boolean $lot
-     * @return Articles
-     */
-    public function setLot($lot)
+    public function setLot(bool $lot): self
     {
         $this->lot = $lot;
 
         return $this;
     }
 
-    /**
-     * Get lot
-     *
-     * @return boolean
-     */
-    public function getLot()
+    public function isComposant(): ?bool
     {
-        return $this->lot;
+        return $this->composant;
     }
 
-    /**
-     * Set composant
-     *
-     * @param boolean $composant
-     * @return Articles
-     */
-    public function setComposant($composant)
+    public function setComposant(bool $composant): self
     {
         $this->composant = $composant;
 
         return $this;
     }
 
-    /**
-     * Get composant
-     *
-     * @return boolean
-     */
-    public function getComposant()
+    public function isVariante(): ?bool
     {
-        return $this->composant;
+        return $this->variante;
     }
 
-    /**
-     * Set variante
-     *
-     * @param boolean $variante
-     * @return Articles
-     */
-    public function setVariante($variante)
+    public function setVariante(bool $variante): self
     {
         $this->variante = $variante;
 
         return $this;
     }
 
-    /**
-     * Get variante
-     *
-     * @return boolean
-     */
-    public function getVariante()
+    public function isGestionSn(): ?bool
     {
-        return $this->variante;
+        return $this->gestionSn;
     }
 
-    /**
-     * Set gestionSn
-     *
-     * @param boolean $gestionSn
-     * @return Articles
-     */
-    public function setGestionSn($gestionSn)
+    public function setGestionSn(bool $gestionSn): self
     {
         $this->gestionSn = $gestionSn;
 
         return $this;
     }
 
-    /**
-     * Get gestionSn
-     *
-     * @return boolean
-     */
-    public function getGestionSn()
+    public function getDateDebutDispo(): ?\DateTimeInterface
     {
-        return $this->gestionSn;
+        return $this->dateDebutDispo;
     }
 
-    /**
-     * Set dateDebutDispo
-     *
-     * @param \DateTime $dateDebutDispo
-     * @return Articles
-     */
-    public function setDateDebutDispo($dateDebutDispo)
+    public function setDateDebutDispo(\DateTimeInterface $dateDebutDispo): self
     {
         $this->dateDebutDispo = $dateDebutDispo;
 
         return $this;
     }
 
-    /**
-     * Get dateDebutDispo
-     *
-     * @return \DateTime
-     */
-    public function getDateDebutDispo()
+    public function getDateFinDispo(): ?\DateTimeInterface
     {
-        return $this->dateDebutDispo;
+        return $this->dateFinDispo;
     }
 
-    /**
-     * Set dateFinDispo
-     *
-     * @param \DateTime $dateFinDispo
-     * @return Articles
-     */
-    public function setDateFinDispo($dateFinDispo)
+    public function setDateFinDispo(\DateTimeInterface $dateFinDispo): self
     {
         $this->dateFinDispo = $dateFinDispo;
 
         return $this;
     }
 
-    /**
-     * Get dateFinDispo
-     *
-     * @return \DateTime
-     */
-    public function getDateFinDispo()
+    public function isDispo(): ?bool
     {
-        return $this->dateFinDispo;
+        return $this->dispo;
     }
 
-    /**
-     * Set dispo
-     *
-     * @param boolean $dispo
-     * @return Articles
-     */
-    public function setDispo($dispo)
+    public function setDispo(bool $dispo): self
     {
         $this->dispo = $dispo;
 
         return $this;
     }
 
-    /**
-     * Get dispo
-     *
-     * @return boolean
-     */
-    public function getDispo()
+    public function getDateCreation(): ?\DateTimeInterface
     {
-        return $this->dispo;
+        return $this->dateCreation;
     }
 
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Articles
-     */
-    public function setDateCreation($dateCreation)
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
     {
         $this->dateCreation = $dateCreation;
 
         return $this;
     }
 
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateCreation()
+    public function getDateModification(): ?\DateTimeInterface
     {
-        return $this->dateCreation;
+        return $this->dateModification;
     }
 
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Articles
-     */
-    public function setDateModification($dateModification)
+    public function setDateModification(\DateTimeInterface $dateModification): self
     {
         $this->dateModification = $dateModification;
 
         return $this;
     }
 
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime
-     */
-    public function getDateModification()
+    public function getNumeroCompteAchat(): ?string
     {
-        return $this->dateModification;
+        return $this->numeroCompteAchat;
     }
 
-    /**
-     * Set numeroCompteAchat
-     *
-     * @param string $numeroCompteAchat
-     * @return Articles
-     */
-    public function setNumeroCompteAchat($numeroCompteAchat)
+    public function setNumeroCompteAchat(?string $numeroCompteAchat): self
     {
         $this->numeroCompteAchat = $numeroCompteAchat;
 
         return $this;
     }
 
-    /**
-     * Get numeroCompteAchat
-     *
-     * @return string
-     */
-    public function getNumeroCompteAchat()
+    public function getNumeroCompteVente(): ?string
     {
-        return $this->numeroCompteAchat;
+        return $this->numeroCompteVente;
     }
 
-    /**
-     * Set numeroCompteVente
-     *
-     * @param string $numeroCompteVente
-     * @return Articles
-     */
-    public function setNumeroCompteVente($numeroCompteVente)
+    public function setNumeroCompteVente(?string $numeroCompteVente): self
     {
         $this->numeroCompteVente = $numeroCompteVente;
 
         return $this;
     }
 
-    /**
-     * Get numeroCompteVente
-     *
-     * @return string
-     */
-    public function getNumeroCompteVente()
+    public function isIsAchetable(): ?bool
     {
-        return $this->numeroCompteVente;
+        return $this->isAchetable;
     }
 
-    /**
-     * Set isAchetable
-     *
-     * @param boolean $isAchetable
-     * @return Articles
-     */
-    public function setIsAchetable($isAchetable)
+    public function setIsAchetable(bool $isAchetable): self
     {
         $this->isAchetable = $isAchetable;
 
         return $this;
     }
 
-    /**
-     * Get isAchetable
-     *
-     * @return boolean
-     */
-    public function getIsAchetable()
+    public function isIsVendable(): ?bool
     {
-        return $this->isAchetable;
+        return $this->isVendable;
     }
 
-    /**
-     * Set isVendable
-     *
-     * @param boolean $isVendable
-     * @return Articles
-     */
-    public function setIsVendable($isVendable)
+    public function setIsVendable(bool $isVendable): self
     {
         $this->isVendable = $isVendable;
 
         return $this;
     }
 
-    /**
-     * Get isVendable
-     *
-     * @return boolean
-     */
-    public function getIsVendable()
+    public function getIdModeleSpe(): ?ArtCategsSpecificites
     {
-        return $this->isVendable;
+        return $this->idModeleSpe;
     }
 
-    /**
-     * Get refArticle
-     *
-     * @return string
-     */
-    public function getRefArticle()
-    {
-        return $this->refArticle;
-    }
-
-    /**
-     * Set idModeleSpe
-     *
-     * @param \App\Entity\ArtCategsSpecificites $idModeleSpe
-     * @return Articles
-     */
-    public function setIdModeleSpe(\App\Entity\ArtCategsSpecificites $idModeleSpe = null)
+    public function setIdModeleSpe(?ArtCategsSpecificites $idModeleSpe): self
     {
         $this->idModeleSpe = $idModeleSpe;
 
         return $this;
     }
 
-    /**
-     * Get idModeleSpe
-     *
-     * @return \App\Entity\ArtCategsSpecificites
-     */
-    public function getIdModeleSpe()
+    public function getIdValo(): ?ArticlesValorisations
     {
-        return $this->idModeleSpe;
+        return $this->idValo;
     }
 
-    /**
-     * Set idValo
-     *
-     * @param \App\Entity\ArticlesValorisations $idValo
-     * @return Articles
-     */
-    public function setIdValo(\App\Entity\ArticlesValorisations $idValo = null)
+    public function setIdValo(?ArticlesValorisations $idValo): self
     {
         $this->idValo = $idValo;
 
         return $this;
     }
 
-    /**
-     * Get idValo
-     *
-     * @return \App\Entity\ArticlesValorisations
-     */
-    public function getIdValo()
+    public function getRefArtCateg(): ?ArtCategs
     {
-        return $this->idValo;
+        return $this->refArtCateg;
     }
+
+    public function setRefArtCateg(?ArtCategs $refArtCateg): self
+    {
+        $this->refArtCateg = $refArtCateg;
+
+        return $this;
+    }
+
+
 }

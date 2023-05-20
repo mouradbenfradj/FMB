@@ -13,9 +13,18 @@ use Doctrine\ORM\Mapping as ORM;
 class ArticlesValorisations
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id_valo", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idValo;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="groupe", type="string", nullable=false)
+     * @ORM\Column(name="groupe", type="string", length=255, nullable=false)
      */
     private $groupe;
 
@@ -34,122 +43,64 @@ class ArticlesValorisations
     private $abrevValo;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="popup", type="boolean", nullable=false)
      */
     private $popup;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_valo", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idValo;
+    public function getIdValo(): ?int
+    {
+        return $this->idValo;
+    }
 
+    public function getGroupe(): ?string
+    {
+        return $this->groupe;
+    }
 
-
-    /**
-     * Set groupe
-     *
-     * @param string $groupe
-     * @return ArticlesValorisations
-     */
-    public function setGroupe($groupe)
+    public function setGroupe(string $groupe): self
     {
         $this->groupe = $groupe;
 
         return $this;
     }
 
-    /**
-     * Get groupe
-     *
-     * @return string 
-     */
-    public function getGroupe()
+    public function getLibValo(): ?string
     {
-        return $this->groupe;
+        return $this->libValo;
     }
 
-    /**
-     * Set libValo
-     *
-     * @param string $libValo
-     * @return ArticlesValorisations
-     */
-    public function setLibValo($libValo)
+    public function setLibValo(string $libValo): self
     {
         $this->libValo = $libValo;
 
         return $this;
     }
 
-    /**
-     * Get libValo
-     *
-     * @return string 
-     */
-    public function getLibValo()
+    public function getAbrevValo(): ?string
     {
-        return $this->libValo;
+        return $this->abrevValo;
     }
 
-    /**
-     * Set abrevValo
-     *
-     * @param string $abrevValo
-     * @return ArticlesValorisations
-     */
-    public function setAbrevValo($abrevValo)
+    public function setAbrevValo(string $abrevValo): self
     {
         $this->abrevValo = $abrevValo;
 
         return $this;
     }
 
-    /**
-     * Get abrevValo
-     *
-     * @return string 
-     */
-    public function getAbrevValo()
+    public function isPopup(): ?bool
     {
-        return $this->abrevValo;
+        return $this->popup;
     }
 
-    /**
-     * Set popup
-     *
-     * @param boolean $popup
-     * @return ArticlesValorisations
-     */
-    public function setPopup($popup)
+    public function setPopup(bool $popup): self
     {
         $this->popup = $popup;
 
         return $this;
     }
 
-    /**
-     * Get popup
-     *
-     * @return boolean 
-     */
-    public function getPopup()
-    {
-        return $this->popup;
-    }
 
-    /**
-     * Get idValo
-     *
-     * @return integer 
-     */
-    public function getIdValo()
-    {
-        return $this->idValo;
-    }
 }

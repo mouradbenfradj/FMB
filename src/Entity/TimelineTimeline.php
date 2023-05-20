@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TimelineTimeline
  *
- * @ORM\Table(name="timeline__timeline", indexes={@ORM\Index(name="IDX_FFBC6AD523EDC87", columns={"subject_id"}), @ORM\Index(name="type_idx", columns={"type"}), @ORM\Index(name="IDX_FFBC6AD59D32F035", columns={"action_id"}), @ORM\Index(name="context_idx", columns={"context"})})
+ * @ORM\Table(name="timeline__timeline", indexes={@ORM\Index(name="IDX_FFBC6AD523EDC87", columns={"subject_id"}), @ORM\Index(name="type_idx", columns={"type"}), @ORM\Index(name="context_idx", columns={"context"}), @ORM\Index(name="IDX_FFBC6AD59D32F035", columns={"action_id"})})
  * @ORM\Entity
  */
 class TimelineTimeline

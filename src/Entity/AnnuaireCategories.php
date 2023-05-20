@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class AnnuaireCategories
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id_categorie", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idCategorie;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="lib_categorie", type="string", length=32, nullable=false)
@@ -20,7 +29,7 @@ class AnnuaireCategories
     private $libCategorie;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="ordre", type="boolean", nullable=false)
      */
@@ -29,97 +38,50 @@ class AnnuaireCategories
     /**
      * @var string
      *
-     * @ORM\Column(name="app_tarifs", type="string", nullable=false)
+     * @ORM\Column(name="app_tarifs", type="string", length=255, nullable=false)
      */
     private $appTarifs;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_categorie", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idCategorie;
+    public function getIdCategorie(): ?int
+    {
+        return $this->idCategorie;
+    }
 
+    public function getLibCategorie(): ?string
+    {
+        return $this->libCategorie;
+    }
 
-
-    /**
-     * Set libCategorie
-     *
-     * @param string $libCategorie
-     * @return AnnuaireCategories
-     */
-    public function setLibCategorie($libCategorie)
+    public function setLibCategorie(string $libCategorie): self
     {
         $this->libCategorie = $libCategorie;
 
         return $this;
     }
 
-    /**
-     * Get libCategorie
-     *
-     * @return string 
-     */
-    public function getLibCategorie()
+    public function isOrdre(): ?bool
     {
-        return $this->libCategorie;
+        return $this->ordre;
     }
 
-    /**
-     * Set ordre
-     *
-     * @param boolean $ordre
-     * @return AnnuaireCategories
-     */
-    public function setOrdre($ordre)
+    public function setOrdre(bool $ordre): self
     {
         $this->ordre = $ordre;
 
         return $this;
     }
 
-    /**
-     * Get ordre
-     *
-     * @return boolean 
-     */
-    public function getOrdre()
+    public function getAppTarifs(): ?string
     {
-        return $this->ordre;
+        return $this->appTarifs;
     }
 
-    /**
-     * Set appTarifs
-     *
-     * @param string $appTarifs
-     * @return AnnuaireCategories
-     */
-    public function setAppTarifs($appTarifs)
+    public function setAppTarifs(string $appTarifs): self
     {
         $this->appTarifs = $appTarifs;
 
         return $this;
     }
 
-    /**
-     * Get appTarifs
-     *
-     * @return string 
-     */
-    public function getAppTarifs()
-    {
-        return $this->appTarifs;
-    }
 
-    /**
-     * Get idCategorie
-     *
-     * @return integer 
-     */
-    public function getIdCategorie()
-    {
-        return $this->idCategorie;
-    }
 }

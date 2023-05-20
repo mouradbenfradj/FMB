@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class AdressesTypes
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id_adresse_type", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idAdresseType;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="adresse_type", type="string", length=64, nullable=false)
@@ -20,76 +29,40 @@ class AdressesTypes
     private $adresseType;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="defaut", type="smallint", nullable=false)
      */
     private $defaut;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_adresse_type", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idAdresseType;
+    public function getIdAdresseType(): ?int
+    {
+        return $this->idAdresseType;
+    }
 
+    public function getAdresseType(): ?string
+    {
+        return $this->adresseType;
+    }
 
-
-    /**
-     * Set adresseType
-     *
-     * @param string $adresseType
-     * @return AdressesTypes
-     */
-    public function setAdresseType($adresseType)
+    public function setAdresseType(string $adresseType): self
     {
         $this->adresseType = $adresseType;
 
         return $this;
     }
 
-    /**
-     * Get adresseType
-     *
-     * @return string 
-     */
-    public function getAdresseType()
+    public function getDefaut(): ?int
     {
-        return $this->adresseType;
+        return $this->defaut;
     }
 
-    /**
-     * Set defaut
-     *
-     * @param integer $defaut
-     * @return AdressesTypes
-     */
-    public function setDefaut($defaut)
+    public function setDefaut(int $defaut): self
     {
         $this->defaut = $defaut;
 
         return $this;
     }
 
-    /**
-     * Get defaut
-     *
-     * @return integer 
-     */
-    public function getDefaut()
-    {
-        return $this->defaut;
-    }
 
-    /**
-     * Get idAdresseType
-     *
-     * @return integer 
-     */
-    public function getIdAdresseType()
-    {
-        return $this->idAdresseType;
-    }
 }

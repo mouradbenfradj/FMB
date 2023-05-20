@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class Civilites
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id_civilite", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idCivilite;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="lib_civ_court", type="string", length=16, nullable=false)
@@ -29,97 +38,50 @@ class Civilites
     /**
      * @var string
      *
-     * @ORM\Column(name="categorie", type="string", nullable=false)
+     * @ORM\Column(name="categorie", type="string", length=255, nullable=false)
      */
     private $categorie;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_civilite", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idCivilite;
+    public function getIdCivilite(): ?int
+    {
+        return $this->idCivilite;
+    }
 
+    public function getLibCivCourt(): ?string
+    {
+        return $this->libCivCourt;
+    }
 
-
-    /**
-     * Set libCivCourt
-     *
-     * @param string $libCivCourt
-     * @return Civilites
-     */
-    public function setLibCivCourt($libCivCourt)
+    public function setLibCivCourt(string $libCivCourt): self
     {
         $this->libCivCourt = $libCivCourt;
 
         return $this;
     }
 
-    /**
-     * Get libCivCourt
-     *
-     * @return string 
-     */
-    public function getLibCivCourt()
+    public function getLibCivLong(): ?string
     {
-        return $this->libCivCourt;
+        return $this->libCivLong;
     }
 
-    /**
-     * Set libCivLong
-     *
-     * @param string $libCivLong
-     * @return Civilites
-     */
-    public function setLibCivLong($libCivLong)
+    public function setLibCivLong(string $libCivLong): self
     {
         $this->libCivLong = $libCivLong;
 
         return $this;
     }
 
-    /**
-     * Get libCivLong
-     *
-     * @return string 
-     */
-    public function getLibCivLong()
+    public function getCategorie(): ?string
     {
-        return $this->libCivLong;
+        return $this->categorie;
     }
 
-    /**
-     * Set categorie
-     *
-     * @param string $categorie
-     * @return Civilites
-     */
-    public function setCategorie($categorie)
+    public function setCategorie(string $categorie): self
     {
         $this->categorie = $categorie;
 
         return $this;
     }
 
-    /**
-     * Get categorie
-     *
-     * @return string 
-     */
-    public function getCategorie()
-    {
-        return $this->categorie;
-    }
 
-    /**
-     * Get idCivilite
-     *
-     * @return integer 
-     */
-    public function getIdCivilite()
-    {
-        return $this->idCivilite;
-    }
 }

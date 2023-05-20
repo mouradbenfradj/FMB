@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AclEntries
  *
- * @ORM\Table(name="acl_entries", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_46C8B806EA000B103D9AB4A64DEF17BCE4289BF4", columns={"class_id", "object_identity_id", "field_name", "ace_order"})}, indexes={@ORM\Index(name="IDX_46C8B806EA000B10", columns={"class_id"}), @ORM\Index(name="IDX_46C8B806DF9183C9", columns={"security_identity_id"}), @ORM\Index(name="IDX_46C8B806EA000B103D9AB4A6DF9183C9", columns={"class_id", "object_identity_id", "security_identity_id"}), @ORM\Index(name="IDX_46C8B8063D9AB4A6", columns={"object_identity_id"})})
+ * @ORM\Table(name="acl_entries", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_46C8B806EA000B103D9AB4A64DEF17BCE4289BF4", columns={"class_id", "object_identity_id", "field_name", "ace_order"})}, indexes={@ORM\Index(name="IDX_46C8B806EA000B10", columns={"class_id"}), @ORM\Index(name="IDX_46C8B806DF9183C9", columns={"security_identity_id"}), @ORM\Index(name="IDX_46C8B8063D9AB4A6", columns={"object_identity_id"}), @ORM\Index(name="IDX_46C8B806EA000B103D9AB4A6DF9183C9", columns={"class_id", "object_identity_id", "security_identity_id"})})
  * @ORM\Entity
  */
 class AclEntries

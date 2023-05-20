@@ -2,161 +2,108 @@
 
 namespace App\Entity;
 
-use DateTime;
-use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Historique
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\HistoriqueRepository")
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="historique", indexes={@ORM\Index(name="IDX_EDBFD5ECFB88E14F", columns={"utilisateur_id"})})
+ * @ORM\Entity
  */
 class Historique
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      *
-     * @ORM\Column(name="dateOp", type="datetime")
+     * @ORM\Column(name="dateOp", type="datetime", nullable=false)
      */
-    private $dateOp;
+    private $dateop;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="operation", type="string")
+     * @ORM\Column(name="operation", type="string", length=255, nullable=false)
      */
     private $operation;
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @var array|null
+     *
+     * @ORM\Column(name="tache_effectuer", type="array", length=0, nullable=true)
+     */
+    private $tacheEffectuer;
+
+    /**
+     * @var \FosUserUser
+     *
+     * @ORM\ManyToOne(targetEntity="FosUserUser")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="utilisateur_id", referencedColumnName="id")
+     * })
      */
     private $utilisateur;
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="tache_effectuer", type="array",nullable=true)
-     */
-    private $tacheEffectuer = array();
 
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function generateDate()
-    {
-        $date = new DateTime(date("Y-m-d  H:i:s"), new DateTimeZone("Europe/Madrid"));
-        $date =  date_modify($date, "+1 hour");
-        $this->setDateOp($date);
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set dateOp
-     *
-     * @param DateTime $dateOp
-     * @return Historique
-     */
-    public function setDateOp($dateOp)
+    public function getDateop(): ?\DateTimeInterface
     {
-        $this->dateOp = $dateOp;
+        return $this->dateop;
+    }
+
+    public function setDateop(\DateTimeInterface $dateop): self
+    {
+        $this->dateop = $dateop;
 
         return $this;
     }
 
-    /**
-     * Get dateOp
-     *
-     * @return DateTime
-     */
-    public function getDateOp()
+    public function getOperation(): ?string
     {
-        return $this->dateOp;
+        return $this->operation;
     }
 
-    /**
-     * Set utilisateur
-     *
-     * @param \App\Entity\User $utilisateur
-     * @return Historique
-     */
-    public function setUtilisateur(\App\Entity\User $utilisateur = null)
-    {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
-
-    /**
-     * Get utilisateur
-     *
-     * @return \App\Entity\User
-     */
-    public function getUtilisateur()
-    {
-        return $this->utilisateur;
-    }
-
-    /**
-     * Set operation
-     *
-     * @param string $operation
-     * @return Historique
-     */
-    public function setOperation($operation)
+    public function setOperation(string $operation): self
     {
         $this->operation = $operation;
 
         return $this;
     }
 
-    /**
-     * Get operation
-     *
-     * @return string 
-     */
-    public function getOperation()
+    public function getTacheEffectuer(): ?array
     {
-        return $this->operation;
+        return $this->tacheEffectuer;
     }
 
-    /**
-     * Set tacheEffectuer
-     *
-     * @param array $tacheEffectuer
-     * @return Historique
-     */
-    public function setTacheEffectuer($tacheEffectuer)
+    public function setTacheEffectuer(?array $tacheEffectuer): self
     {
         $this->tacheEffectuer = $tacheEffectuer;
 
         return $this;
     }
 
-    /**
-     * Get tacheEffectuer
-     *
-     * @return array 
-     */
-    public function getTacheEffectuer()
+    public function getUtilisateur(): ?FosUserUser
     {
-        return $this->tacheEffectuer;
+        return $this->utilisateur;
     }
+
+    public function setUtilisateur(?FosUserUser $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+
 }

@@ -7,60 +7,68 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Documents
  *
- * @ORM\Table(name="documents", indexes={@ORM\Index(name="id_type_doc", columns={"id_type_doc"}), @ORM\Index(name="id_etat_doc", columns={"id_etat_doc"}), @ORM\Index(name="ref_contact", columns={"ref_contact"}), @ORM\Index(name="ref_adr_contact", columns={"ref_adr_contact"}), @ORM\Index(name="id_pays_contact", columns={"id_pays_contact"}), @ORM\Index(name="code_affaire", columns={"code_affaire"})})
+ * @ORM\Table(name="documents", indexes={@ORM\Index(name="id_etat_doc", columns={"id_etat_doc"}), @ORM\Index(name="ref_adr_contact", columns={"ref_adr_contact"}), @ORM\Index(name="code_affaire", columns={"code_affaire"}), @ORM\Index(name="id_type_doc", columns={"id_type_doc"}), @ORM\Index(name="ref_contact", columns={"ref_contact"}), @ORM\Index(name="id_pays_contact", columns={"id_pays_contact"})})
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
  */
 class Documents
 {
     /**
      * @var string
      *
+     * @ORM\Column(name="ref_doc", type="string", length=32, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $refDoc;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="code_affaire", type="string", length=64, nullable=false)
      */
-    private $codeAffaire = "";
+    private $codeAffaire;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nom_contact", type="string", length=128, nullable=false)
      */
-    private $nomContact = "";
+    private $nomContact;
 
     /**
      * @var string
      *
      * @ORM\Column(name="adresse_contact", type="text", length=16777215, nullable=false)
      */
-    private $adresseContact = "";
+    private $adresseContact;
 
     /**
      * @var string
      *
      * @ORM\Column(name="code_postal_contact", type="string", length=9, nullable=false)
      */
-    private $codePostalContact = "";
+    private $codePostalContact;
 
     /**
      * @var string
      *
      * @ORM\Column(name="ville_contact", type="string", length=28, nullable=false)
      */
-    private $villeContact = "";
+    private $villeContact;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="app_tarifs", type="string", nullable=false)
+     * @ORM\Column(name="app_tarifs", type="string", length=255, nullable=false)
      */
-    private $appTarifs = "";
+    private $appTarifs;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=16777215, nullable=false)
      */
-    private $description = "";
+    private $description;
 
     /**
      * @var \DateTime
@@ -74,40 +82,12 @@ class Documents
      *
      * @ORM\Column(name="code_file", type="string", length=32, nullable=false)
      */
-    private $codeFile = "";
+    private $codeFile;
 
     /**
-     * @var string
+     * @var \Annuaire
      *
-     * @ORM\Column(name="ref_doc", type="string", length=32)
-     * @ORM\Id
-     */
-    private $refDoc;
-
-    /**
-     * @var \App\Entity\Pays
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Pays")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_pays_contact", referencedColumnName="id_pays")
-     * })
-     */
-    private $idPaysContact;
-
-    /**
-     * @var \App\Entity\Adresses
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adresses")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ref_adr_contact", referencedColumnName="ref_adresse")
-     * })
-     */
-    private $refAdrContact;
-
-    /**
-     * @var \App\Entity\Annuaire
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Annuaire")
+     * @ORM\ManyToOne(targetEntity="Annuaire")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ref_contact", referencedColumnName="ref_contact")
      * })
@@ -115,9 +95,19 @@ class Documents
     private $refContact;
 
     /**
-     * @var \App\Entity\DocumentsEtats
+     * @var \Adresses
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\DocumentsEtats")
+     * @ORM\ManyToOne(targetEntity="Adresses")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ref_adr_contact", referencedColumnName="ref_adresse")
+     * })
+     */
+    private $refAdrContact;
+
+    /**
+     * @var \DocumentsEtats
+     *
+     * @ORM\ManyToOne(targetEntity="DocumentsEtats")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_etat_doc", referencedColumnName="id_etat_doc")
      * })
@@ -125,418 +115,197 @@ class Documents
     private $idEtatDoc;
 
     /**
-     * @var \App\Entity\DocumentsTypes
+     * @var \Pays
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\DocumentsTypes")
+     * @ORM\ManyToOne(targetEntity="Pays")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_pays_contact", referencedColumnName="id_pays")
+     * })
+     */
+    private $idPaysContact;
+
+    /**
+     * @var \DocumentsTypes
+     *
+     * @ORM\ManyToOne(targetEntity="DocumentsTypes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_type_doc", referencedColumnName="id_type_doc")
      * })
      */
     private $idTypeDoc;
 
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DocsLines", mappedBy="refDoc" ,cascade={"persist","remove"})
-     */
-    private $docsLines;
-
-
-    public function __toString()
+    public function getRefDoc(): ?string
     {
         return $this->refDoc;
     }
 
-    /**
-     * Set codeAffaire
-     *
-     * @param string $codeAffaire
-     * @return Documents
-     */
-    public function setCodeAffaire($codeAffaire)
+    public function getCodeAffaire(): ?string
+    {
+        return $this->codeAffaire;
+    }
+
+    public function setCodeAffaire(string $codeAffaire): self
     {
         $this->codeAffaire = $codeAffaire;
 
         return $this;
     }
 
-    /**
-     * Get codeAffaire
-     *
-     * @return string
-     */
-    public function getCodeAffaire()
+    public function getNomContact(): ?string
     {
-        return $this->codeAffaire;
+        return $this->nomContact;
     }
 
-    /**
-     * Set nomContact
-     *
-     * @param string $nomContact
-     * @return Documents
-     */
-    public function setNomContact($nomContact)
+    public function setNomContact(string $nomContact): self
     {
         $this->nomContact = $nomContact;
 
         return $this;
     }
 
-    /**
-     * Get nomContact
-     *
-     * @return string
-     */
-    public function getNomContact()
+    public function getAdresseContact(): ?string
     {
-        return $this->nomContact;
+        return $this->adresseContact;
     }
 
-    /**
-     * Set adresseContact
-     *
-     * @param string $adresseContact
-     * @return Documents
-     */
-    public function setAdresseContact($adresseContact)
+    public function setAdresseContact(string $adresseContact): self
     {
         $this->adresseContact = $adresseContact;
 
         return $this;
     }
 
-    /**
-     * Get adresseContact
-     *
-     * @return string
-     */
-    public function getAdresseContact()
+    public function getCodePostalContact(): ?string
     {
-        return $this->adresseContact;
+        return $this->codePostalContact;
     }
 
-    /**
-     * Set codePostalContact
-     *
-     * @param string $codePostalContact
-     * @return Documents
-     */
-    public function setCodePostalContact($codePostalContact)
+    public function setCodePostalContact(string $codePostalContact): self
     {
         $this->codePostalContact = $codePostalContact;
 
         return $this;
     }
 
-    /**
-     * Get codePostalContact
-     *
-     * @return string
-     */
-    public function getCodePostalContact()
+    public function getVilleContact(): ?string
     {
-        return $this->codePostalContact;
+        return $this->villeContact;
     }
 
-    /**
-     * Set villeContact
-     *
-     * @param string $villeContact
-     * @return Documents
-     */
-    public function setVilleContact($villeContact)
+    public function setVilleContact(string $villeContact): self
     {
         $this->villeContact = $villeContact;
 
         return $this;
     }
 
-    /**
-     * Get villeContact
-     *
-     * @return string
-     */
-    public function getVilleContact()
+    public function getAppTarifs(): ?string
     {
-        return $this->villeContact;
+        return $this->appTarifs;
     }
 
-    /**
-     * Set appTarifs
-     *
-     * @param string $appTarifs
-     * @return Documents
-     */
-    public function setAppTarifs($appTarifs)
+    public function setAppTarifs(string $appTarifs): self
     {
         $this->appTarifs = $appTarifs;
 
         return $this;
     }
 
-    /**
-     * Get appTarifs
-     *
-     * @return string
-     */
-    public function getAppTarifs()
+    public function getDescription(): ?string
     {
-        return $this->appTarifs;
+        return $this->description;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Documents
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDateCreationDoc(): ?\DateTimeInterface
     {
-        return $this->description;
+        return $this->dateCreationDoc;
     }
 
-    /**
-     * Set dateCreationDoc
-     *
-     * @param \DateTime $dateCreationDoc
-     * @return Documents
-     */
-    public function setDateCreationDoc($dateCreationDoc)
+    public function setDateCreationDoc(\DateTimeInterface $dateCreationDoc): self
     {
         $this->dateCreationDoc = $dateCreationDoc;
 
         return $this;
     }
 
-    /**
-     * Get dateCreationDoc
-     *
-     * @return \DateTime
-     */
-    public function getDateCreationDoc()
+    public function getCodeFile(): ?string
     {
-        return $this->dateCreationDoc;
+        return $this->codeFile;
     }
 
-    /**
-     * Set codeFile
-     *
-     * @param string $codeFile
-     * @return Documents
-     */
-    public function setCodeFile($codeFile)
+    public function setCodeFile(string $codeFile): self
     {
         $this->codeFile = $codeFile;
 
         return $this;
     }
 
-    /**
-     * Get codeFile
-     *
-     * @return string
-     */
-    public function getCodeFile()
+    public function getRefContact(): ?Annuaire
     {
-        return $this->codeFile;
+        return $this->refContact;
     }
 
-    /**
-     * Get refDoc
-     *
-     * @return string
-     */
-    public function getRefDoc()
-    {
-        return $this->refDoc;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function generateRefDoc()
-    {
-        $this->refDoc = uniqid();
-    }
-
-    /**
-     * Set idPaysContact
-     *
-     * @param \App\Entity\Pays $idPaysContact
-     * @return Documents
-     */
-    public function setIdPaysContact(\App\Entity\Pays $idPaysContact = null)
-    {
-        $this->idPaysContact = $idPaysContact;
-
-        return $this;
-    }
-
-    /**
-     * Get idPaysContact
-     *
-     * @return \App\Entity\Pays
-     */
-    public function getIdPaysContact()
-    {
-        return $this->idPaysContact;
-    }
-
-    /**
-     * Set refAdrContact
-     *
-     * @param \App\Entity\Adresses $refAdrContact
-     * @return Documents
-     */
-    public function setRefAdrContact(\App\Entity\Adresses $refAdrContact = null)
-    {
-        $this->refAdrContact = $refAdrContact;
-
-        return $this;
-    }
-
-    /**
-     * Get refAdrContact
-     *
-     * @return \App\Entity\Adresses
-     */
-    public function getRefAdrContact()
-    {
-        return $this->refAdrContact;
-    }
-
-    /**
-     * Set refContact
-     *
-     * @param \App\Entity\Annuaire $refContact
-     * @return Documents
-     */
-    public function setRefContact(\App\Entity\Annuaire $refContact = null)
+    public function setRefContact(?Annuaire $refContact): self
     {
         $this->refContact = $refContact;
 
         return $this;
     }
 
-    /**
-     * Get refContact
-     *
-     * @return \App\Entity\Annuaire
-     */
-    public function getRefContact()
+    public function getRefAdrContact(): ?Adresses
     {
-        return $this->refContact;
+        return $this->refAdrContact;
     }
 
-    /**
-     * Set idEtatDoc
-     *
-     * @param \App\Entity\DocumentsEtats $idEtatDoc
-     * @return Documents
-     */
-    public function setIdEtatDoc(\App\Entity\DocumentsEtats $idEtatDoc = null)
+    public function setRefAdrContact(?Adresses $refAdrContact): self
+    {
+        $this->refAdrContact = $refAdrContact;
+
+        return $this;
+    }
+
+    public function getIdEtatDoc(): ?DocumentsEtats
+    {
+        return $this->idEtatDoc;
+    }
+
+    public function setIdEtatDoc(?DocumentsEtats $idEtatDoc): self
     {
         $this->idEtatDoc = $idEtatDoc;
 
         return $this;
     }
 
-    /**
-     * Get idEtatDoc
-     *
-     * @return \App\Entity\DocumentsEtats
-     */
-    public function getIdEtatDoc()
+    public function getIdPaysContact(): ?Pays
     {
-        return $this->idEtatDoc;
+        return $this->idPaysContact;
     }
 
-    /**
-     * Set idTypeDoc
-     *
-     * @param \App\Entity\DocumentsTypes $idTypeDoc
-     * @return Documents
-     */
-    public function setIdTypeDoc(\App\Entity\DocumentsTypes $idTypeDoc = null)
+    public function setIdPaysContact(?Pays $idPaysContact): self
+    {
+        $this->idPaysContact = $idPaysContact;
+
+        return $this;
+    }
+
+    public function getIdTypeDoc(): ?DocumentsTypes
+    {
+        return $this->idTypeDoc;
+    }
+
+    public function setIdTypeDoc(?DocumentsTypes $idTypeDoc): self
     {
         $this->idTypeDoc = $idTypeDoc;
 
         return $this;
     }
 
-    /**
-     * Get idTypeDoc
-     *
-     * @return \App\Entity\DocumentsTypes
-     */
-    public function getIdTypeDoc()
-    {
-        return $this->idTypeDoc;
-    }
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->docsLines = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add docsLines
-     *
-     * @param \App\Entity\DocsLines $docsLines
-     * @return Documents
-     */
-    public function addDocsLine(\App\Entity\DocsLines $docsLines)
-    {
-        $this->docsLines[] = $docsLines;
-
-        return $this;
-    }
-
-    /**
-     * Remove docsLines
-     *
-     * @param \App\Entity\DocsLines $docsLines
-     */
-    public function removeDocsLine(\App\Entity\DocsLines $docsLines)
-    {
-        $this->docsLines->removeElement($docsLines);
-    }
-
-    /**
-     * Get docsLines
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDocsLines()
-    {
-        return $this->docsLines;
-    }
-
-    /**
-     * Set refDoc
-     *
-     * @param string $refDoc
-     * @return Documents
-     */
-    public function setRefDoc($refDoc)
-    {
-        $this->refDoc = $refDoc;
-
-        return $this;
-    }
 }

@@ -7,197 +7,84 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Segment
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\SegmentRepository")
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="segment", indexes={@ORM\Index(name="IDX_1881F565180AA129", columns={"filiere_id"})})
+ * @ORM\Entity
  */
 class Segment
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nomSegment", type="string", length=255)
+     * @ORM\Column(name="nomSegment", type="string", length=255, nullable=false)
      */
-    private $nomSegment;
+    private $nomsegment;
+
     /**
-     * @var float
+     * @var string
      *
-     * @ORM\Column(name="longeur", type="decimal",scale=2)
+     * @ORM\Column(name="longeur", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $longeur;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Filiere", inversedBy="segments")
-     * @ORM\JoinColumn(nullable=false)
+     * @var \Filiere
+     *
+     * @ORM\ManyToOne(targetEntity="Filiere")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="filiere_id", referencedColumnName="id")
+     * })
      */
     private $filiere;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Flotteur", mappedBy="segment",cascade={"persist","merge","remove"},fetch="LAZY")
-     */
-    private $flotteurs;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getId(): ?int
     {
-        $this->flotteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->id;
     }
 
-    public function __toString()
+    public function getNomsegment(): ?string
     {
-        return $this->filiere . ' ' . $this->getNomSegment();
+        return $this->nomsegment;
     }
 
-    /**
-     * Get nomSegment
-     *
-     * @return string
-     */
-    public function getNomSegment()
+    public function setNomsegment(string $nomsegment): self
     {
-        return $this->nomSegment;
-    }
-
-    /**
-     * Set nomSegment
-     *
-     * @param string $nomSegment
-     * @return Segment
-     */
-    public function setNomSegment($nomSegment)
-    {
-        $this->nomSegment = $nomSegment;
+        $this->nomsegment = $nomsegment;
 
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function generateFlotteur()
-    {
-        $nb = $this->getLongeur() / 5;
-        for ($i = 0; $i < $nb; $i++) {
-            $flotteur = new Flotteur();
-            $flotteur->setNomFlotteur($this->nomSegment . $i);
-            $this->addFlotteur($flotteur);
-        }
-    }
-
-    /**
-     * Get longeur
-     *
-     * @return string
-     */
-    public function getLongeur()
+    public function getLongeur(): ?string
     {
         return $this->longeur;
     }
 
-    /**
-     * Set longeur
-     *
-     * @param string $longeur
-     * @return Segment
-     */
-    public function setLongeur($longeur)
+    public function setLongeur(string $longeur): self
     {
         $this->longeur = $longeur;
 
         return $this;
     }
 
-    /**
-     * Add flotteurs
-     *
-     * @param \App\Entity\Flotteur $flotteurs
-     * @return Segment
-     */
-    public function addFlotteur(\App\Entity\Flotteur $flotteurs)
-    {
-        $this->flotteurs[] = $flotteurs;
-        $flotteurs->setSegment($this);
-        return $this;
-    }
-
-    /**
-     * @ORM\PostUpdate()
-     */
-    public function correcteurFlotteur()
-    {
-        $annb = count($this->flotteurs);
-        $nb = (($this->getLongeur() / 5) - count($this->flotteurs));
-        if ($nb > 0) {
-            for ($i = ($annb - 1); $i < ($annb + $nb); $i++) {
-                $flotteur = new Flotteur();
-                $flotteur->setNomFlotteur($this->nomSegment . $i);
-                $this->addFlotteur($flotteur);
-            }
-        } else {
-            var_dump($nb);
-        }
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get filiere
-     *
-     * @return \App\Entity\Filiere
-     */
-    public function getFiliere()
+    public function getFiliere(): ?Filiere
     {
         return $this->filiere;
     }
 
-    /**
-     * Set filiere
-     *
-     * @param \App\Entity\Filiere $filiere
-     * @return Segment
-     */
-    public function setFiliere(\App\Entity\Filiere $filiere)
+    public function setFiliere(?Filiere $filiere): self
     {
         $this->filiere = $filiere;
 
         return $this;
     }
 
-    /**
-     * Remove flotteurs
-     *
-     * @param \App\Entity\Flotteur $flotteurs
-     */
-    public function removeFlotteur(\App\Entity\Flotteur $flotteurs)
-    {
-        $this->flotteurs->removeElement($flotteurs);
-    }
 
-    /**
-     * Get flotteurs
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getFlotteurs()
-    {
-        return $this->flotteurs;
-    }
 }

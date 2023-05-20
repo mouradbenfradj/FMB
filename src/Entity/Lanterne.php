@@ -1,177 +1,90 @@
 <?php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Lanterne
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\LanterneRepository")
+ *
+ * @ORM\Table(name="lanterne", indexes={@ORM\Index(name="IDX_6C206D1854AF5F27", columns={"magasin"})})
+ * @ORM\Entity
  */
 class Lanterne
 {
     /**
      * @var string
+     *
+     * @ORM\Column(name="nomLanterne", type="string", length=255, nullable=false)
      * @ORM\Id
-     * @ORM\Column(name="nomLanterne", type="string", length=255)
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $nomLanterne;
+    private $nomlanterne;
+
     /**
-     * @var integer
-     * @ORM\Column(name="nbrpoche", type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="nbrpoche", type="integer", nullable=false)
      */
     private $nbrpoche;
-    /**
-     * @var integer
-     * @ORM\Column(name="nbrtotaleEnStock", type="integer")
-     */
-    private $nbrTotaleEnStock;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StocksLanternes", mappedBy="lanterne",cascade={"persist","remove"},fetch="EXTRA_LAZY")
-     */
-    private $stockslanternes;
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Magasins",inversedBy="lanternes")
-     * @ORM\JoinColumn(name="magasin", referencedColumnName="id_magasin",nullable=false)
-     */
-    private $parc;
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->stockslanternes = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    public function __toString()
-    {
-        return $this->getNomLanterne();
-    }
-
-    /**
-     * Get nomLanterne
+     * @var int
      *
-     * @return string
+     * @ORM\Column(name="nbrtotaleEnStock", type="integer", nullable=false)
      */
-    public function getNomLanterne()
-    {
-        return $this->nomLanterne;
-    }
+    private $nbrtotaleenstock;
 
     /**
-     * Set nomLanterne
+     * @var \Magasins
      *
-     * @param string $nomLanterne
-     * @return Lanterne
+     * @ORM\ManyToOne(targetEntity="Magasins")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="magasin", referencedColumnName="id_magasin")
+     * })
      */
-    public function setNomLanterne($nomLanterne)
-    {
-        $this->nomLanterne = $nomLanterne;
+    private $magasin;
 
-        return $this;
+    public function getNomlanterne(): ?string
+    {
+        return $this->nomlanterne;
     }
 
-    /**
-     * Add stockslanternes
-     * @param \App\Entity\StocksLanternes $stockslanternes
-     * @return Lanterne
-     */
-    public function addStockslanterne(\App\Entity\StocksLanternes $stockslanternes)
-    {
-        $this->stockslanternes[] = $stockslanternes;
-        $stockslanternes->setLanterne($this);
-
-        return $this;
-    }
-
-    /**
-     * Get nbrpoche
-     *
-     * @return integer
-     */
-    public function getNbrpoche()
+    public function getNbrpoche(): ?int
     {
         return $this->nbrpoche;
     }
 
-    /**
-     * Set nbrpoche
-     *
-     * @param integer $nbrpoche
-     * @return Lanterne
-     */
-    public function setNbrpoche($nbrpoche)
+    public function setNbrpoche(int $nbrpoche): self
     {
         $this->nbrpoche = $nbrpoche;
 
         return $this;
     }
 
-    /**
-     * Remove stockslanternes
-     *
-     * @param \App\Entity\StocksLanternes $stockslanternes
-     */
-    public function removeStockslanterne(\App\Entity\StocksLanternes $stockslanternes)
+    public function getNbrtotaleenstock(): ?int
     {
-        $this->stockslanternes->removeElement($stockslanternes);
+        return $this->nbrtotaleenstock;
     }
 
-    /**
-     * Get stockslanternes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getStockslanternes()
+    public function setNbrtotaleenstock(int $nbrtotaleenstock): self
     {
-        return $this->stockslanternes;
-    }
-
-
-    /**
-     * Get parc
-     *
-     * @return \App\Entity\Magasins
-     */
-    public function getParc()
-    {
-        return $this->parc;
-    }
-
-    /**
-     * Set parc
-     *
-     * @param \App\Entity\Magasins $parc
-     * @return StocksLanternes
-     */
-    public function setParc(\App\Entity\Magasins $parc)
-    {
-        $this->parc = $parc;
+        $this->nbrtotaleenstock = $nbrtotaleenstock;
 
         return $this;
     }
 
-    /**
-     * Get nbrTotaleEnStock
-     *
-     * @return integer
-     */
-    public function getNbrTotaleEnStock()
+    public function getMagasin(): ?Magasins
     {
-        return $this->nbrTotaleEnStock;
+        return $this->magasin;
     }
 
-    /**
-     * Set nbrTotaleEnStock
-     *
-     * @param integer $nbrTotaleEnStock
-     * @return Lanterne
-     */
-    public function setNbrTotaleEnStock($nbrTotaleEnStock)
+    public function setMagasin(?Magasins $magasin): self
     {
-        $this->nbrTotaleEnStock = $nbrTotaleEnStock;
+        $this->magasin = $magasin;
 
         return $this;
     }
+
+
 }

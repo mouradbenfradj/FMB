@@ -7,13 +7,22 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Annuaire
  *
- * @ORM\Table(name="annuaire", indexes={@ORM\Index(name="nom", columns={"nom"}), @ORM\Index(name="id_civilite", columns={"id_civilite"}), @ORM\Index(name="id_categorie", columns={"id_categorie"})})
+ * @ORM\Table(name="annuaire", indexes={@ORM\Index(name="id_categorie", columns={"id_categorie"}), @ORM\Index(name="nom", columns={"nom"}), @ORM\Index(name="id_civilite", columns={"id_civilite"})})
  * @ORM\Entity
  */
 class Annuaire
 {
     /**
-     * @var integer
+     * @var string
+     *
+     * @ORM\Column(name="ref_contact", type="string", length=32, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $refContact;
+
+    /**
+     * @var int|null
      *
      * @ORM\Column(name="id_civilite", type="smallint", nullable=true)
      */
@@ -27,7 +36,7 @@ class Annuaire
     private $nom;
 
     /**
-     * @var integer
+     * @var int|null
      *
      * @ORM\Column(name="id_categorie", type="smallint", nullable=true)
      */
@@ -69,237 +78,124 @@ class Annuaire
     private $dateModification;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
      * @ORM\Column(name="date_archivage", type="datetime", nullable=true)
      */
     private $dateArchivage;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ref_contact", type="string", length=32)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $refContact;
+    public function getRefContact(): ?string
+    {
+        return $this->refContact;
+    }
 
+    public function getIdCivilite(): ?int
+    {
+        return $this->idCivilite;
+    }
 
-
-    /**
-     * Set idCivilite
-     *
-     * @param integer $idCivilite
-     * @return Annuaire
-     */
-    public function setIdCivilite($idCivilite)
+    public function setIdCivilite(?int $idCivilite): self
     {
         $this->idCivilite = $idCivilite;
 
         return $this;
     }
 
-    /**
-     * Get idCivilite
-     *
-     * @return integer 
-     */
-    public function getIdCivilite()
+    public function getNom(): ?string
     {
-        return $this->idCivilite;
+        return $this->nom;
     }
 
-    /**
-     * Set nom
-     *
-     * @param string $nom
-     * @return Annuaire
-     */
-    public function setNom($nom)
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
         return $this;
     }
 
-    /**
-     * Get nom
-     *
-     * @return string 
-     */
-    public function getNom()
+    public function getIdCategorie(): ?int
     {
-        return $this->nom;
+        return $this->idCategorie;
     }
 
-    /**
-     * Set idCategorie
-     *
-     * @param integer $idCategorie
-     * @return Annuaire
-     */
-    public function setIdCategorie($idCategorie)
+    public function setIdCategorie(?int $idCategorie): self
     {
         $this->idCategorie = $idCategorie;
 
         return $this;
     }
 
-    /**
-     * Get idCategorie
-     *
-     * @return integer 
-     */
-    public function getIdCategorie()
+    public function getSiret(): ?string
     {
-        return $this->idCategorie;
+        return $this->siret;
     }
 
-    /**
-     * Set siret
-     *
-     * @param string $siret
-     * @return Annuaire
-     */
-    public function setSiret($siret)
+    public function setSiret(string $siret): self
     {
         $this->siret = $siret;
 
         return $this;
     }
 
-    /**
-     * Get siret
-     *
-     * @return string 
-     */
-    public function getSiret()
+    public function getTvaIntra(): ?string
     {
-        return $this->siret;
+        return $this->tvaIntra;
     }
 
-    /**
-     * Set tvaIntra
-     *
-     * @param string $tvaIntra
-     * @return Annuaire
-     */
-    public function setTvaIntra($tvaIntra)
+    public function setTvaIntra(string $tvaIntra): self
     {
         $this->tvaIntra = $tvaIntra;
 
         return $this;
     }
 
-    /**
-     * Get tvaIntra
-     *
-     * @return string 
-     */
-    public function getTvaIntra()
+    public function getNote()
     {
-        return $this->tvaIntra;
+        return $this->note;
     }
 
-    /**
-     * Set note
-     *
-     * @param string $note
-     * @return Annuaire
-     */
-    public function setNote($note)
+    public function setNote($note): self
     {
         $this->note = $note;
 
         return $this;
     }
 
-    /**
-     * Get note
-     *
-     * @return string 
-     */
-    public function getNote()
+    public function getDateCreation(): ?\DateTimeInterface
     {
-        return $this->note;
+        return $this->dateCreation;
     }
 
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Annuaire
-     */
-    public function setDateCreation($dateCreation)
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
     {
         $this->dateCreation = $dateCreation;
 
         return $this;
     }
 
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime 
-     */
-    public function getDateCreation()
+    public function getDateModification(): ?\DateTimeInterface
     {
-        return $this->dateCreation;
+        return $this->dateModification;
     }
 
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Annuaire
-     */
-    public function setDateModification($dateModification)
+    public function setDateModification(\DateTimeInterface $dateModification): self
     {
         $this->dateModification = $dateModification;
 
         return $this;
     }
 
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime 
-     */
-    public function getDateModification()
+    public function getDateArchivage(): ?\DateTimeInterface
     {
-        return $this->dateModification;
+        return $this->dateArchivage;
     }
 
-    /**
-     * Set dateArchivage
-     *
-     * @param \DateTime $dateArchivage
-     * @return Annuaire
-     */
-    public function setDateArchivage($dateArchivage)
+    public function setDateArchivage(?\DateTimeInterface $dateArchivage): self
     {
         $this->dateArchivage = $dateArchivage;
 
         return $this;
     }
 
-    /**
-     * Get dateArchivage
-     *
-     * @return \DateTime 
-     */
-    public function getDateArchivage()
-    {
-        return $this->dateArchivage;
-    }
 
-    /**
-     * Get refContact
-     *
-     * @return string 
-     */
-    public function getRefContact()
-    {
-        return $this->refContact;
-    }
 }

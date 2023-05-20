@@ -13,7 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
 class PdfModeles
 {
     /**
-     * @var boolean
+     * @var int
+     *
+     * @ORM\Column(name="id_pdf_modele", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idPdfModele;
+
+    /**
+     * @var bool
      *
      * @ORM\Column(name="id_pdf_type", type="boolean", nullable=false)
      */
@@ -40,116 +49,58 @@ class PdfModeles
      */
     private $codePdfModele;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_pdf_modele", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idPdfModele;
+    public function getIdPdfModele(): ?int
+    {
+        return $this->idPdfModele;
+    }
 
+    public function isIdPdfType(): ?bool
+    {
+        return $this->idPdfType;
+    }
 
-
-    /**
-     * Set idPdfType
-     *
-     * @param boolean $idPdfType
-     * @return PdfModeles
-     */
-    public function setIdPdfType($idPdfType)
+    public function setIdPdfType(bool $idPdfType): self
     {
         $this->idPdfType = $idPdfType;
 
         return $this;
     }
 
-    /**
-     * Get idPdfType
-     *
-     * @return boolean 
-     */
-    public function getIdPdfType()
+    public function getLibModele(): ?string
     {
-        return $this->idPdfType;
+        return $this->libModele;
     }
 
-    /**
-     * Set libModele
-     *
-     * @param string $libModele
-     * @return PdfModeles
-     */
-    public function setLibModele($libModele)
+    public function setLibModele(string $libModele): self
     {
         $this->libModele = $libModele;
 
         return $this;
     }
 
-    /**
-     * Get libModele
-     *
-     * @return string 
-     */
-    public function getLibModele()
+    public function getDescModele(): ?string
     {
-        return $this->libModele;
+        return $this->descModele;
     }
 
-    /**
-     * Set descModele
-     *
-     * @param string $descModele
-     * @return PdfModeles
-     */
-    public function setDescModele($descModele)
+    public function setDescModele(string $descModele): self
     {
         $this->descModele = $descModele;
 
         return $this;
     }
 
-    /**
-     * Get descModele
-     *
-     * @return string 
-     */
-    public function getDescModele()
+    public function getCodePdfModele(): ?string
     {
-        return $this->descModele;
+        return $this->codePdfModele;
     }
 
-    /**
-     * Set codePdfModele
-     *
-     * @param string $codePdfModele
-     * @return PdfModeles
-     */
-    public function setCodePdfModele($codePdfModele)
+    public function setCodePdfModele(string $codePdfModele): self
     {
         $this->codePdfModele = $codePdfModele;
 
         return $this;
     }
 
-    /**
-     * Get codePdfModele
-     *
-     * @return string 
-     */
-    public function getCodePdfModele()
-    {
-        return $this->codePdfModele;
-    }
 
-    /**
-     * Get idPdfModele
-     *
-     * @return integer 
-     */
-    public function getIdPdfModele()
-    {
-        return $this->idPdfModele;
-    }
 }

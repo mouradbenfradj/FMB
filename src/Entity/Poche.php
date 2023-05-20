@@ -7,125 +7,84 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Poche
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\PocheRepository")
+ * @ORM\Table(name="poche", indexes={@ORM\Index(name="IDX_86D8F186524B0562", columns={"stocklanterne_id"})})
+ * @ORM\Entity
  */
 class Poche
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="quantite", type="integer")
+     * @ORM\Column(name="quantite", type="integer", nullable=false)
      */
     private $quantite;
+
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="emplacement", type="integer")
+     * @ORM\Column(name="emplacement", type="integer", nullable=false)
      */
     private $emplacement;
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\StocksLanternes", inversedBy="poches")
-     * @ORM\JoinColumn(nullable=false)
+     * @var \StocksLanternes
+     *
+     * @ORM\ManyToOne(targetEntity="StocksLanternes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="stocklanterne_id", referencedColumnName="id")
+     * })
      */
     private $stocklanterne;
 
-    public function __toString()
-    {
-        return "" . $this->id;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->setQuantite(0);
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set quantite
-     *
-     * @param integer $quantite
-     * @return Poche
-     */
-    public function setQuantite($quantite)
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): self
     {
         $this->quantite = $quantite;
 
         return $this;
     }
 
-    /**
-     * Get quantite
-     *
-     * @return integer 
-     */
-    public function getQuantite()
+    public function getEmplacement(): ?int
     {
-        return $this->quantite;
+        return $this->emplacement;
     }
 
-    /**
-     * Set emplacement
-     *
-     * @param integer $emplacement
-     * @return Poche
-     */
-    public function setEmplacement($emplacement)
+    public function setEmplacement(int $emplacement): self
     {
         $this->emplacement = $emplacement;
 
         return $this;
     }
 
-    /**
-     * Get emplacement
-     *
-     * @return integer 
-     */
-    public function getEmplacement()
+    public function getStocklanterne(): ?StocksLanternes
     {
-        return $this->emplacement;
+        return $this->stocklanterne;
     }
 
-    /**
-     * Set stocklanterne
-     *
-     * @param \App\Entity\StocksLanternes $stocklanterne
-     * @return Poche
-     */
-    public function setStocklanterne(\App\Entity\StocksLanternes $stocklanterne)
+    public function setStocklanterne(?StocksLanternes $stocklanterne): self
     {
         $this->stocklanterne = $stocklanterne;
 
         return $this;
     }
 
-    /**
-     * Get stocklanterne
-     *
-     * @return \App\Entity\StocksLanternes 
-     */
-    public function getStocklanterne()
-    {
-        return $this->stocklanterne;
-    }
+
 }

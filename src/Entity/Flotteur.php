@@ -7,150 +7,65 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Flotteur
  *
- * @ORM\Table()
- * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity(repositoryClass="App\Repository\FlotteurRepository")
+ * @ORM\Table(name="flotteur", indexes={@ORM\Index(name="IDX_8C4208E7DB296AAD", columns={"segment_id"})})
+ * @ORM\Entity
  */
 class Flotteur
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nomFlotteur", type="string", length=255)
+     * @ORM\Column(name="nomFlotteur", type="string", length=255, nullable=false)
      */
-    private $nomFlotteur;
+    private $nomflotteur;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Segment", inversedBy="flotteurs")
-     * @ORM\JoinColumn(nullable=false)
+     * @var \Segment
+     *
+     * @ORM\ManyToOne(targetEntity="Segment")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="segment_id", referencedColumnName="id")
+     * })
      */
     private $segment;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Emplacement", mappedBy="flotteur",cascade={"persist","remove"},fetch="LAZY")
-     */
-    private $emplacements;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->emplacements = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function generateEmplacement()
-    {
-        for ($j = 1; $j < 11; $j++) {
-            $emplacement = new Emplacement();
-            $emplacement->setPlace($j);
-            $this->addEmplacement($emplacement);
-        }
-    }
-
-    /**
-     * Add emplacements
-     *
-     * @param \App\Entity\Emplacement $emplacements
-     * @return Flotteur
-     */
-    public function addEmplacement(\App\Entity\Emplacement $emplacements)
-    {
-        $this->emplacements[] = $emplacements;
-        $emplacements->setFlotteur($this);
-
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->nomFlotteur;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Get nomFlotteur
-     *
-     * @return string
-     */
-    public function getNomFlotteur()
+    public function getNomflotteur(): ?string
     {
-        return $this->nomFlotteur;
+        return $this->nomflotteur;
     }
 
-    /**
-     * Set nomFlotteur
-     *
-     * @param string $nomFlotteur
-     * @return Flotteur
-     */
-    public function setNomFlotteur($nomFlotteur)
+    public function setNomflotteur(string $nomflotteur): self
     {
-        $this->nomFlotteur = $nomFlotteur;
+        $this->nomflotteur = $nomflotteur;
 
         return $this;
     }
 
-    /**
-     * Get segment
-     *
-     * @return \App\Entity\Segment
-     */
-    public function getSegment()
+    public function getSegment(): ?Segment
     {
         return $this->segment;
     }
 
-    /**
-     * Set segment
-     *
-     * @param \App\Entity\Segment $segment
-     * @return Flotteur
-     */
-    public function setSegment(\App\Entity\Segment $segment)
+    public function setSegment(?Segment $segment): self
     {
         $this->segment = $segment;
+
         return $this;
     }
 
-    /**
-     * Remove emplacements
-     *
-     * @param \App\Entity\Emplacement $emplacements
-     */
-    public function removeEmplacement(\App\Entity\Emplacement $emplacements)
-    {
-        $this->emplacements->removeElement($emplacements);
-    }
 
-    /**
-     * Get emplacements
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEmplacements()
-    {
-        return $this->emplacements;
-    }
 }

@@ -5,542 +5,349 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * StocksPochesBS
+ * StocksPochesBs
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\StocksPochesBSRepository")
+ * @ORM\Table(name="stocks_poches_bs", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_FFB442E3C4598A51", columns={"emplacement_id"})}, indexes={@ORM\Index(name="IDX_FFB442E3A55629DC", columns={"processus_id"}), @ORM\Index(name="IDX_FFB442E384E991DD", columns={"pochesbs_id"}), @ORM\Index(name="IDX_FFB442E380B18279", columns={"corde_assemblage_id"}), @ORM\Index(name="IDX_FFB442E33FCC49A5565B809", columns={"ref_stock_article", "numero_serie"}), @ORM\Index(name="IDX_FFB442E3880E0320", columns={"doc_line"})})
+ * @ORM\Entity
  */
-class StocksPochesBS
+class StocksPochesBs
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PochesBS", inversedBy="stockspoches",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false,  referencedColumnName="id")
-     */
-    private $pochesbs;
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Processus")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $processus;
-    /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="quantiter", type="integer")
+     * @ORM\Column(name="quantiter", type="integer", nullable=false)
      */
     private $quantiter;
 
     /**
-     * @var boolean
+     * @var bool
      *
-     * @ORM\Column(name="pret", type="boolean")
+     * @ORM\Column(name="pret", type="boolean", nullable=false)
      */
     private $pret;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="chaussement", type="boolean")
-     */
-    private $chaussement = false;
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\StocksArticlesSn")
-     * @Orm\JoinColumns({  @ORM\JoinColumn(name="ref_stock_article", referencedColumnName="ref_stock_article"),@Orm\JoinColumn(name="numero_serie", referencedColumnName="numero_serie")} )
-     */
-    private $article;
-
-    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateDeCreation", type="date")
+     * @ORM\Column(name="dateDeCreation", type="date", nullable=false)
      */
-    private $dateDeCreation;
+    private $datedecreation;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @ORM\Column(name="dateDeMiseAEau", type="date",nullable=true)
+     * @ORM\Column(name="dateDeMiseAEau", type="date", nullable=true)
      */
-    private $dateDeMiseAEau;
+    private $datedemiseaeau;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @ORM\Column(name="dateDeRetraitTransfert", type="date",nullable=true)
+     * @ORM\Column(name="dateDeRetraitTransfert", type="date", nullable=true)
      */
-    private $dateDeRetraitTransfert;
+    private $datederetraittransfert;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @ORM\Column(name="dateDeMAETransfert", type="date",nullable=true)
+     * @ORM\Column(name="dateDeMAETransfert", type="date", nullable=true)
      */
-    private $dateDeMAETransfert;
+    private $datedemaetransfert;
+
     /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="dateDeRetirement", type="date", nullable=true)
+     */
+    private $datederetirement;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="chaussement", type="boolean", nullable=false)
+     */
+    private $chaussement;
+
+    /**
+     * @var \DateTime|null
      *
      * @ORM\Column(name="dateAssemblage", type="date", nullable=true)
      */
-    private $dateAssemblage;
+    private $dateassemblage;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @ORM\Column(name="dateDeRetirement", type="date",nullable=true)
+     * @ORM\Column(name="dateChaussement", type="date", nullable=true)
      */
-    private $dateDeRetirement;
+    private $datechaussement;
 
     /**
-     * @var \DateTime
+     * @var \DocsLines
      *
-     * @ORM\Column(name="dateChaussement", type="date",nullable=true)
-     */
-    private $dateChaussement;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Emplacement", mappedBy="stockspoches")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $emplacement;
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\StocksCordes", inversedBy="pocheAssemblage")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $cordeAssemblage;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\DocsLines")
-     * @ORM\JoinColumn(name="doc_line", referencedColumnName="ref_doc_line")
+     * @ORM\ManyToOne(targetEntity="DocsLines")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="doc_line", referencedColumnName="ref_doc_line")
+     * })
      */
     private $docLine;
 
     /**
-     * Get id
+     * @var \StocksCordes
      *
-     * @return integer
+     * @ORM\ManyToOne(targetEntity="StocksCordes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="corde_assemblage_id", referencedColumnName="id")
+     * })
      */
-    public function getId()
+    private $cordeAssemblage;
+
+    /**
+     * @var \Processus
+     *
+     * @ORM\ManyToOne(targetEntity="Processus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="processus_id", referencedColumnName="id")
+     * })
+     */
+    private $processus;
+
+    /**
+     * @var \StocksArticlesSn
+     *
+     * @ORM\ManyToOne(targetEntity="StocksArticlesSn")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ref_stock_article", referencedColumnName="ref_stock_article"),
+     *   @ORM\JoinColumn(name="numero_serie", referencedColumnName="numero_serie")
+     * })
+     */
+    private $refStockArticle;
+
+    /**
+     * @var \PochesBs
+     *
+     * @ORM\ManyToOne(targetEntity="PochesBs")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pochesbs_id", referencedColumnName="id")
+     * })
+     */
+    private $pochesbs;
+
+    /**
+     * @var \Emplacement
+     *
+     * @ORM\ManyToOne(targetEntity="Emplacement")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="emplacement_id", referencedColumnName="id")
+     * })
+     */
+    private $emplacement;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function __toString()
+    public function getQuantiter(): ?int
     {
-        return '' . $this->getId();
+        return $this->quantiter;
     }
 
-    /**
-     * Set quantiter
-     *
-     * @param integer $quantiter
-     * @return StocksPochesBS
-     */
-    public function setQuantiter($quantiter)
+    public function setQuantiter(int $quantiter): self
     {
         $this->quantiter = $quantiter;
 
         return $this;
     }
 
-    /**
-     * Get quantiter
-     *
-     * @return integer
-     */
-    public function getQuantiter()
+    public function isPret(): ?bool
     {
-        return $this->quantiter;
+        return $this->pret;
     }
 
-    /**
-     * Set pret
-     *
-     * @param boolean $pret
-     * @return StocksPochesBS
-     */
-    public function setPret($pret)
+    public function setPret(bool $pret): self
     {
         $this->pret = $pret;
 
         return $this;
     }
 
-    /**
-     * Get pret
-     *
-     * @return boolean
-     */
-    public function getPret()
+    public function getDatedecreation(): ?\DateTimeInterface
     {
-        return $this->pret;
+        return $this->datedecreation;
     }
 
-    /**
-     * Set numeroSerie
-     *
-     * @param string $numeroSerie
-     * @return StocksPochesBS
-     */
-    public function setNumeroSerie($numeroSerie)
+    public function setDatedecreation(\DateTimeInterface $datedecreation): self
     {
-        $this->numeroSerie = $numeroSerie;
+        $this->datedecreation = $datedecreation;
 
         return $this;
     }
 
-    /**
-     * Get numeroSerie
-     *
-     * @return string
-     */
-    public function getNumeroSerie()
+    public function getDatedemiseaeau(): ?\DateTimeInterface
     {
-        return $this->numeroSerie;
+        return $this->datedemiseaeau;
     }
 
-    /**
-     * Set dateDeCreation
-     *
-     * @param \DateTime $dateDeCreation
-     * @return StocksPochesBS
-     */
-    public function setDateDeCreation($dateDeCreation)
+    public function setDatedemiseaeau(?\DateTimeInterface $datedemiseaeau): self
     {
-        $this->dateDeCreation = $dateDeCreation;
+        $this->datedemiseaeau = $datedemiseaeau;
 
         return $this;
     }
 
-    /**
-     * Get dateDeCreation
-     *
-     * @return \DateTime
-     */
-    public function getDateDeCreation()
+    public function getDatederetraittransfert(): ?\DateTimeInterface
     {
-        return $this->dateDeCreation;
+        return $this->datederetraittransfert;
     }
 
-    /**
-     * Set dateDeMiseAEau
-     *
-     * @param \DateTime $dateDeMiseAEau
-     * @return StocksPochesBS
-     */
-    public function setDateDeMiseAEau($dateDeMiseAEau)
+    public function setDatederetraittransfert(?\DateTimeInterface $datederetraittransfert): self
     {
-        $this->dateDeMiseAEau = $dateDeMiseAEau;
+        $this->datederetraittransfert = $datederetraittransfert;
 
         return $this;
     }
 
-    /**
-     * Get dateDeMiseAEau
-     *
-     * @return \DateTime
-     */
-    public function getDateDeMiseAEau()
+    public function getDatedemaetransfert(): ?\DateTimeInterface
     {
-        return $this->dateDeMiseAEau;
+        return $this->datedemaetransfert;
     }
 
-    /**
-     * Set dateDeRetraitTransfert
-     *
-     * @param \DateTime $dateDeRetraitTransfert
-     * @return StocksPochesBS
-     */
-    public function setDateDeRetraitTransfert($dateDeRetraitTransfert)
+    public function setDatedemaetransfert(?\DateTimeInterface $datedemaetransfert): self
     {
-        $this->dateDeRetraitTransfert = $dateDeRetraitTransfert;
+        $this->datedemaetransfert = $datedemaetransfert;
 
         return $this;
     }
 
-    /**
-     * Get dateDeRetraitTransfert
-     *
-     * @return \DateTime
-     */
-    public function getDateDeRetraitTransfert()
+    public function getDatederetirement(): ?\DateTimeInterface
     {
-        return $this->dateDeRetraitTransfert;
+        return $this->datederetirement;
     }
 
-    /**
-     * Set dateDeMAETransfert
-     *
-     * @param \DateTime $dateDeMAETransfert
-     * @return StocksPochesBS
-     */
-    public function setDateDeMAETransfert($dateDeMAETransfert)
+    public function setDatederetirement(?\DateTimeInterface $datederetirement): self
     {
-        $this->dateDeMAETransfert = $dateDeMAETransfert;
+        $this->datederetirement = $datederetirement;
 
         return $this;
     }
 
-    /**
-     * Get dateDeMAETransfert
-     *
-     * @return \DateTime
-     */
-    public function getDateDeMAETransfert()
+    public function isChaussement(): ?bool
     {
-        return $this->dateDeMAETransfert;
+        return $this->chaussement;
     }
 
-    /**
-     * Set dateDeRetirement
-     *
-     * @param \DateTime $dateDeRetirement
-     * @return StocksPochesBS
-     */
-    public function setDateDeRetirement($dateDeRetirement)
-    {
-        $this->dateDeRetirement = $dateDeRetirement;
-
-        return $this;
-    }
-
-    /**
-     * Get dateDeRetirement
-     *
-     * @return \DateTime
-     */
-    public function getDateDeRetirement()
-    {
-        return $this->dateDeRetirement;
-    }
-
-    /**
-     * Set pochesbs
-     *
-     * @param \App\Entity\PochesBS $pochesbs
-     * @return StocksPochesBS
-     */
-    public function setPochesbs(\App\Entity\PochesBS $pochesbs)
-    {
-        $this->pochesbs = $pochesbs;
-
-        return $this;
-    }
-
-    /**
-     * Get pochesbs
-     *
-     * @return \App\Entity\PochesBS
-     */
-    public function getPochesbs()
-    {
-        return $this->pochesbs;
-    }
-
-    /**
-     * Set article
-     *
-     * @param \App\Entity\StocksArticlesSn $article
-     * @return StocksPochesBS
-     */
-    public function setArticle(\App\Entity\StocksArticlesSn $article = null)
-    {
-        $this->article = $article;
-
-        return $this;
-    }
-
-    /**
-     * Get article
-     *
-     * @return \App\Entity\StocksArticlesSn
-     */
-    public function getArticle()
-    {
-        return $this->article;
-    }
-
-    /**
-     * Set emplacement
-     *
-     * @param \App\Entity\Emplacement $emplacement
-     * @return StocksPochesBS
-     */
-    public function setEmplacement(\App\Entity\Emplacement $emplacement = null)
-    {
-        $this->emplacement = $emplacement;
-
-        return $this;
-    }
-
-    /**
-     * Get emplacement
-     *
-     * @return \App\Entity\Emplacement
-     */
-    public function getEmplacement()
-    {
-        return $this->emplacement;
-    }
-
-    /**
-     * Set docLine
-     *
-     * @param \App\Entity\DocsLines $docLine
-     * @return StocksPochesBS
-     */
-    public function setDocLine(\App\Entity\DocsLines $docLine = null)
-    {
-        $this->docLine = $docLine;
-
-        return $this;
-    }
-
-    /**
-     * Get docLine
-     *
-     * @return \App\Entity\DocsLines
-     */
-    public function getDocLine()
-    {
-        return $this->docLine;
-    }
-
-    /**
-     * Set chaussement
-     *
-     * @param boolean $chaussement
-     * @return StocksPochesBS
-     */
-    public function setChaussement($chaussement)
+    public function setChaussement(bool $chaussement): self
     {
         $this->chaussement = $chaussement;
 
         return $this;
     }
 
-    /**
-     * Get chaussement
-     *
-     * @return boolean
-     */
-    public function getChaussement()
+    public function getDateassemblage(): ?\DateTimeInterface
     {
-        return $this->chaussement;
+        return $this->dateassemblage;
     }
 
-    /**
-     * Set processus
-     *
-     * @param \App\Entity\Processus $processus
-     * @return StocksPochesBS
-     */
-    public function setProcessus(\App\Entity\Processus $processus = null)
+    public function setDateassemblage(?\DateTimeInterface $dateassemblage): self
     {
-        $this->processus = $processus;
+        $this->dateassemblage = $dateassemblage;
 
         return $this;
     }
 
-    /**
-     * Get processus
-     *
-     * @return \App\Entity\Processus
-     */
-    public function getProcessus()
+    public function getDatechaussement(): ?\DateTimeInterface
     {
-        return $this->processus;
+        return $this->datechaussement;
     }
 
-    /**
-     * Set dateAssemblage
-     *
-     * @param \DateTime $dateAssemblage
-     * @return StocksPochesBS
-     */
-    public function setDateAssemblage($dateAssemblage)
+    public function setDatechaussement(?\DateTimeInterface $datechaussement): self
     {
-        $this->dateAssemblage = $dateAssemblage;
+        $this->datechaussement = $datechaussement;
 
         return $this;
     }
 
-    /**
-     * Get dateAssemblage
-     *
-     * @return \DateTime
-     */
-    public function getDateAssemblage()
+    public function getDocLine(): ?DocsLines
     {
-        return $this->dateAssemblage;
+        return $this->docLine;
     }
 
-    /**
-     * Set cordeAssemblage
-     *
-     * @param \App\Entity\StocksCordes $cordeAssemblage
-     * @return StocksPochesBS
-     */
-    public function setCordeAssemblage(\App\Entity\StocksCordes $cordeAssemblage = null)
+    public function setDocLine(?DocsLines $docLine): self
+    {
+        $this->docLine = $docLine;
+
+        return $this;
+    }
+
+    public function getCordeAssemblage(): ?StocksCordes
+    {
+        return $this->cordeAssemblage;
+    }
+
+    public function setCordeAssemblage(?StocksCordes $cordeAssemblage): self
     {
         $this->cordeAssemblage = $cordeAssemblage;
 
         return $this;
     }
 
-    /**
-     * Get cordeAssemblage
-     *
-     * @return \App\Entity\StocksCordes
-     */
-    public function getCordeAssemblage()
+    public function getProcessus(): ?Processus
     {
-        return $this->cordeAssemblage;
+        return $this->processus;
     }
 
-    /**
-     * Set dateChaussement
-     *
-     * @param \DateTime $dateChaussement
-     * @return StocksPochesBS
-     */
-    public function setDateChaussement($dateChaussement)
+    public function setProcessus(?Processus $processus): self
     {
-        $this->dateChaussement = $dateChaussement;
+        $this->processus = $processus;
 
         return $this;
     }
 
-    /**
-     * Get dateChaussement
-     *
-     * @return \DateTime
-     */
-    public function getDateChaussement()
+    public function getRefStockArticle(): ?StocksArticlesSn
     {
-        return $this->dateChaussement;
+        return $this->refStockArticle;
     }
 
-    public function compareAPoche($poche)
+    public function setRefStockArticle(?StocksArticlesSn $refStockArticle): self
     {
-        if (($this->getArticle() == $poche->getArticle()) &&
-            ($this->getChaussement() == $poche->getChaussement())
-            && ($this->getCordeAssemblage() == $poche->getCordeAssemblage())
-            && ($this->getDateAssemblage() == $poche->getDateAssemblage())
-            && ($this->getPochesbs() == $poche->getPochesbs())
-            && ($this->getQuantiter() == $poche->getQuantiter())
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+        $this->refStockArticle = $refStockArticle;
 
+        return $this;
     }
+
+    public function getPochesbs(): ?PochesBs
+    {
+        return $this->pochesbs;
+    }
+
+    public function setPochesbs(?PochesBs $pochesbs): self
+    {
+        $this->pochesbs = $pochesbs;
+
+        return $this;
+    }
+
+    public function getEmplacement(): ?Emplacement
+    {
+        return $this->emplacement;
+    }
+
+    public function setEmplacement(?Emplacement $emplacement): self
+    {
+        $this->emplacement = $emplacement;
+
+        return $this;
+    }
+
+
 }

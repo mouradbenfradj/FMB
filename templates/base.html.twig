@@ -1,135 +1,82 @@
-{# <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html>
- #}
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale }}">
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="SIDRATSOFT">
-		<link rel="shortcut icon" href="{{ asset('favicon.ico' ) }}">
+
+		<meta charset="utf-8"/>
 		<title>
 			{% block title %}Logiciel ASC by TAC & SIDRATSOFT
 			{% endblock %}
 		</title>
-		{#starter page  default#}
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+		<meta content="Coderthemes" name="author"/>
+		<meta
+		http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<!-- App favicon -->
+		<link rel="shortcut icon" href="{{ asset('build/images/favicon.ico') }}">
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-		{% block javascriptstop %}
-			{{ encore_entry_script_tags('app_top') }}
-		{% endblock %}
 	</head>
-	<body>
-		<header id="topnav">
-			<div class="topbar-main">
-				<div class="container">
-					<div class="logo">
-						<a href="{{ path('app_default') }}" class="logo">
-							<span>
-								{# <i class="md md-album"></i> #}Logiciel ASC by TAC & SIDRATSOFT{# <i class="md md-album"></i> #}
-							</span>
-						</a>
+
+	<body
+		data-layout-mode="horizontal" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
+
+		<!-- Begin page -->
+		<div
+			id="wrapper">
+
+			<!-- Topbar Start -->
+			{{ include('_topbar.html.twig') }}
+			<!-- end Topbar -->
+			{{ include('_topnav.html.twig') }}
+
+
+			<!-- ============================================================== -->
+			<!-- Start Page Content here -->
+			<!-- ============================================================== -->
+
+
+				<div class="content-page"> <div
+					class="content">
+
+					<!-- Start Content-->
+					<div
+						class="container-fluid">
+
+						
+						{% block body %}{% endblock %}
 					</div>
-					<div class="menu-extras">
-						<ul class="nav navbar-nav navbar-right pull-right">
-							<li class="navbar-c-items"></li>
-							<li class="dropdown navbar-c-items">
-								<a href="#" class="dropdown-toggle waves-effect waves-light profile" data-toggle="dropdown" aria-expanded="true"><img src="{{ asset('bundles/ssfmb/assets/images/avatar-1.jpg') }}" alt="user-img" class="img-circle">
-								</a>
-								<ul class="dropdown-menu">
-									<li>
-										<a href="javascript:void(0)">
-											<i class="ti-user text-custom m-r-10"></i>
-											{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-												{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-											{% else %}
-												<a href="{{ path('app_login') }}">{{ 'login'|trans }}
-												</a>
-											{% endif %}
-										</a>
-									</li>
-									{% if is_granted('ROLE_SUPER_ADMIN') %}
-										<li>
-											<a href="{{ path('sonata_admin_dashboard') }}">
-												<i class="ti-lock text-custom m-r-10"></i>
-												Administration
-											</a>
-										</li>
-									{% endif %}
-									<li class="divider"></li>
-									<li>
-										<a href="{{ path('app_logout') }}">
-											<i class="ti-power-off text-danger m-r-10"></i>
-											Logout
-										</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
-						<div class="menu-item">
-							<a class="navbar-toggle">
-								<div class="lines">
-									<span></span>
-									<span></span>
-									<span></span>
-								</div>
-							</a>
-						</div>
-					</div>
+					<!-- container -->
 
 				</div>
+				<!-- content -->
+
+				<!-- Footer Start -->
+				{{ include('_footer.html.twig') }}
+				<!-- end Footer -->
+
 			</div>
-			{% include "default/menu.html.twig" %}
-		</header>
-		{#<div class='contents fade out'>#}
-		<div class="wrapper">
-			<div class="container">
-				{% block body %}
-					{% block footer %}
-						<footer class="footer text-right">
-							<div class="container">
-								<div class="row">
-									<div class="col-xs-6">
-										© 2016. All rights reserved. / POWERED BY FMB & SIDRATSOFT
-									</div>
-									<div class="col-xs-6"></div>
-								</div>
-							</div>
-						</footer>
-					{% endblock %}
-				{% endblock %}
-				<div class="row">
-					<div class="col-xs-11"></div>
-					<div class="col-xs-1">
-						<a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
-							<span class="glyphicon glyphicon-chevron-up"></span>
-						</a>
-					</div>
-				</div>
-			</div>
+
+			<!-- ============================================================== -->
+		<!-- End Page content -->
+			<!-- ============================================================== -->
+
+
 		</div>
-		{#</div>#}
+		<!-- END wrapper -->
+
+		<!-- Right Sidebar -->
+		{{ include('_sidebar.html.twig') }}
+		<!-- /Right-bar -->
+
+		<!-- Right bar overlay--><div class="rightbar-overlay"> </div>
+
+		<!-- Vendor js -->
+
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
+
 	</body>
 </html>

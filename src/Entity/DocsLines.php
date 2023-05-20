@@ -7,14 +7,22 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * DocsLines
  *
- * @ORM\Table(name="docs_lines", indexes={@ORM\Index(name="ref_doc", columns={"ref_doc"}), @ORM\Index(name="ref_article", columns={"ref_article"}), @ORM\Index(name="ref_doc_line_parent", columns={"ref_doc_line_parent"})})
+ * @ORM\Table(name="docs_lines", indexes={@ORM\Index(name="ref_article", columns={"ref_article"}), @ORM\Index(name="ref_doc", columns={"ref_doc"}), @ORM\Index(name="ref_doc_line_parent", columns={"ref_doc_line_parent"})})
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
  */
 class DocsLines
 {
     /**
      * @var string
+     *
+     * @ORM\Column(name="ref_doc_line", type="string", length=32, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $refDocLine;
+
+    /**
+     * @var string|null
      *
      * @ORM\Column(name="ref_article", type="string", length=32, nullable=true)
      */
@@ -32,7 +40,7 @@ class DocsLines
      *
      * @ORM\Column(name="desc_article", type="text", length=16777215, nullable=false)
      */
-    private $descArticle = "";
+    private $descArticle;
 
     /**
      * @var float
@@ -46,77 +54,54 @@ class DocsLines
      *
      * @ORM\Column(name="pu_ht", type="float", precision=10, scale=0, nullable=false)
      */
-    private $puHt = 0;
+    private $puHt;
 
     /**
      * @var float
      *
      * @ORM\Column(name="remise", type="float", precision=10, scale=0, nullable=false)
      */
-    private $remise = 0;
+    private $remise;
 
     /**
      * @var float
      *
      * @ORM\Column(name="tva", type="float", precision=10, scale=0, nullable=false)
      */
-    private $tva = 0;
+    private $tva;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ordre", type="smallint", nullable=false)
      */
-    private $ordre = 0;
+    private $ordre;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="visible", type="boolean", nullable=false)
      */
-    private $visible = false;
+    private $visible;
 
     /**
-     * @var float
+     * @var float|null
      *
      * @ORM\Column(name="pa_ht", type="float", precision=10, scale=0, nullable=true)
      */
     private $paHt;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="pa_forced", type="boolean", nullable=false)
      */
-    private $paForced = false;
+    private $paForced;
 
     /**
-     * @var string
+     * @var \Documents
      *
-     * @ORM\Column(name="ref_doc_line", type="string", length=32)
-     * @ORM\Id
-     */
-    private $refDocLine;
-
-    public function __toString()
-    {
-        return $this->refDocLine;
-    }
-
-    /**
-     * @var \App\Entity\DocsLines
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\DocsLines")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ref_doc_line_parent", referencedColumnName="ref_doc_line")
-     * })
-     */
-    private $refDocLineParent;
-
-    /**
-     * @var \App\Entity\Documents
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Documents", inversedBy="docsLines")
+     * @ORM\ManyToOne(targetEntity="Documents")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ref_doc", referencedColumnName="ref_doc")
      * })
@@ -124,332 +109,175 @@ class DocsLines
     private $refDoc;
 
     /**
-     * @ORM\PrePersist
+     * @var \DocsLines
+     *
+     * @ORM\ManyToOne(targetEntity="DocsLines")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ref_doc_line_parent", referencedColumnName="ref_doc_line")
+     * })
      */
-    public function generateRefDocLine()
+    private $refDocLineParent;
+
+    public function getRefDocLine(): ?string
     {
-        $this->refDocLine = uniqid();
+        return $this->refDocLine;
     }
 
-    /**
-     * Set refArticle
-     *
-     * @param string $refArticle
-     * @return DocsLines
-     */
-    public function setRefArticle($refArticle)
+    public function getRefArticle(): ?string
+    {
+        return $this->refArticle;
+    }
+
+    public function setRefArticle(?string $refArticle): self
     {
         $this->refArticle = $refArticle;
 
         return $this;
     }
 
-    /**
-     * Get refArticle
-     *
-     * @return string
-     */
-    public function getRefArticle()
+    public function getLibArticle(): ?string
     {
-        return $this->refArticle;
+        return $this->libArticle;
     }
 
-    /**
-     * Set libArticle
-     *
-     * @param string $libArticle
-     * @return DocsLines
-     */
-    public function setLibArticle($libArticle)
+    public function setLibArticle(string $libArticle): self
     {
         $this->libArticle = $libArticle;
 
         return $this;
     }
 
-    /**
-     * Get libArticle
-     *
-     * @return string
-     */
-    public function getLibArticle()
+    public function getDescArticle(): ?string
     {
-        return $this->libArticle;
+        return $this->descArticle;
     }
 
-    /**
-     * Set descArticle
-     *
-     * @param string $descArticle
-     * @return DocsLines
-     */
-    public function setDescArticle($descArticle)
+    public function setDescArticle(string $descArticle): self
     {
         $this->descArticle = $descArticle;
 
         return $this;
     }
 
-    /**
-     * Get descArticle
-     *
-     * @return string
-     */
-    public function getDescArticle()
+    public function getQte(): ?float
     {
-        return $this->descArticle;
+        return $this->qte;
     }
 
-    /**
-     * Set qte
-     *
-     * @param float $qte
-     * @return DocsLines
-     */
-    public function setQte($qte)
+    public function setQte(float $qte): self
     {
         $this->qte = $qte;
 
         return $this;
     }
 
-    /**
-     * Get qte
-     *
-     * @return float
-     */
-    public function getQte()
+    public function getPuHt(): ?float
     {
-        return $this->qte;
+        return $this->puHt;
     }
 
-    /**
-     * Set puHt
-     *
-     * @param float $puHt
-     * @return DocsLines
-     */
-    public function setPuHt($puHt)
+    public function setPuHt(float $puHt): self
     {
         $this->puHt = $puHt;
 
         return $this;
     }
 
-    /**
-     * Get puHt
-     *
-     * @return float
-     */
-    public function getPuHt()
+    public function getRemise(): ?float
     {
-        return $this->puHt;
+        return $this->remise;
     }
 
-    /**
-     * Set remise
-     *
-     * @param float $remise
-     * @return DocsLines
-     */
-    public function setRemise($remise)
+    public function setRemise(float $remise): self
     {
         $this->remise = $remise;
 
         return $this;
     }
 
-    /**
-     * Get remise
-     *
-     * @return float
-     */
-    public function getRemise()
+    public function getTva(): ?float
     {
-        return $this->remise;
+        return $this->tva;
     }
 
-    /**
-     * Set tva
-     *
-     * @param float $tva
-     * @return DocsLines
-     */
-    public function setTva($tva)
+    public function setTva(float $tva): self
     {
         $this->tva = $tva;
 
         return $this;
     }
 
-    /**
-     * Get tva
-     *
-     * @return float
-     */
-    public function getTva()
+    public function getOrdre(): ?int
     {
-        return $this->tva;
+        return $this->ordre;
     }
 
-    /**
-     * Set ordre
-     *
-     * @param integer $ordre
-     * @return DocsLines
-     */
-    public function setOrdre($ordre)
+    public function setOrdre(int $ordre): self
     {
         $this->ordre = $ordre;
 
         return $this;
     }
 
-    /**
-     * Get ordre
-     *
-     * @return integer
-     */
-    public function getOrdre()
+    public function isVisible(): ?bool
     {
-        return $this->ordre;
+        return $this->visible;
     }
 
-    /**
-     * Set visible
-     *
-     * @param boolean $visible
-     * @return DocsLines
-     */
-    public function setVisible($visible)
+    public function setVisible(bool $visible): self
     {
         $this->visible = $visible;
 
         return $this;
     }
 
-    /**
-     * Get visible
-     *
-     * @return boolean
-     */
-    public function getVisible()
+    public function getPaHt(): ?float
     {
-        return $this->visible;
+        return $this->paHt;
     }
 
-    /**
-     * Set paHt
-     *
-     * @param float $paHt
-     * @return DocsLines
-     */
-    public function setPaHt($paHt)
+    public function setPaHt(?float $paHt): self
     {
         $this->paHt = $paHt;
 
         return $this;
     }
 
-    /**
-     * Get paHt
-     *
-     * @return float
-     */
-    public function getPaHt()
+    public function isPaForced(): ?bool
     {
-        return $this->paHt;
+        return $this->paForced;
     }
 
-    /**
-     * Set paForced
-     *
-     * @param boolean $paForced
-     * @return DocsLines
-     */
-    public function setPaForced($paForced)
+    public function setPaForced(bool $paForced): self
     {
         $this->paForced = $paForced;
 
         return $this;
     }
 
-    /**
-     * Get paForced
-     *
-     * @return boolean
-     */
-    public function getPaForced()
+    public function getRefDoc(): ?Documents
     {
-        return $this->paForced;
+        return $this->refDoc;
     }
 
-    /**
-     * Get refDocLine
-     *
-     * @return string
-     */
-    public function getRefDocLine()
-    {
-        return $this->refDocLine;
-    }
-
-    /**
-     * Set refDocLineParent
-     *
-     * @param \App\Entity\DocsLines $refDocLineParent
-     * @return DocsLines
-     */
-    public function setRefDocLineParent(\App\Entity\DocsLines $refDocLineParent = null)
-    {
-        $this->refDocLineParent = $refDocLineParent;
-
-        return $this;
-    }
-
-    /**
-     * Get refDocLineParent
-     *
-     * @return \App\Entity\DocsLines
-     */
-    public function getRefDocLineParent()
-    {
-        return $this->refDocLineParent;
-    }
-
-    /**
-     * Set refDoc
-     *
-     * @param \App\Entity\Documents $refDoc
-     * @return DocsLines
-     */
-    public function setRefDoc(\App\Entity\Documents $refDoc = null)
+    public function setRefDoc(?Documents $refDoc): self
     {
         $this->refDoc = $refDoc;
 
         return $this;
     }
 
-    /**
-     * Get refDoc
-     *
-     * @return \App\Entity\Documents
-     */
-    public function getRefDoc()
+    public function getRefDocLineParent(): ?self
     {
-        return $this->refDoc;
+        return $this->refDocLineParent;
     }
 
-    /**
-     * Set refDocLine
-     *
-     * @param string $refDocLine
-     * @return DocsLines
-     */
-    public function setRefDocLine($refDocLine)
+    public function setRefDocLineParent(?self $refDocLineParent): self
     {
-        $this->refDocLine = $refDocLine;
+        $this->refDocLineParent = $refDocLineParent;
 
         return $this;
     }
+
+
 }

@@ -7,11 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Magasins
  *
- * @ORM\Table(name="magasins", indexes={@ORM\Index(name="id_stock", columns={"id_stock"}), @ORM\Index(name="id_tarif", columns={"id_tarif"}), @ORM\Index(name="actif", columns={"actif"}), @ORM\Index(name="id_mag_enseigne", columns={"id_mag_enseigne"})})
+ * @ORM\Table(name="magasins", indexes={@ORM\Index(name="id_tarif", columns={"id_tarif"}), @ORM\Index(name="id_mag_enseigne", columns={"id_mag_enseigne"}), @ORM\Index(name="id_stock", columns={"id_stock"}), @ORM\Index(name="actif", columns={"actif"})})
  * @ORM\Entity(repositoryClass="App\Repository\MagasinsRepository")
  */
 class Magasins
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id_magasin", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idMagasin;
+
     /**
      * @var string
      *
@@ -27,32 +36,23 @@ class Magasins
     private $abrevMagasin;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="mode_vente", type="string", nullable=false)
+     * @ORM\Column(name="mode_vente", type="string", length=255, nullable=true)
      */
     private $modeVente;
 
     /**
-     * @var boolean
+     * @var bool|null
      *
-     * @ORM\Column(name="actif", type="boolean", nullable=false)
+     * @ORM\Column(name="actif", type="boolean", nullable=true)
      */
     private $actif;
 
     /**
-     * @var integer
+     * @var \MagasinsEnseignes
      *
-     * @ORM\Column(name="id_magasin", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idMagasin;
-
-    /**
-     * @var \App\Entity\MagasinsEnseignes
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\MagasinsEnseignes")
+     * @ORM\ManyToOne(targetEntity="MagasinsEnseignes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_mag_enseigne", referencedColumnName="id_mag_enseigne")
      * })
@@ -60,9 +60,9 @@ class Magasins
     private $idMagEnseigne;
 
     /**
-     * @var \App\Entity\TarifsListes
+     * @var \TarifsListes
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\TarifsListes")
+     * @ORM\ManyToOne(targetEntity="TarifsListes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_tarif", referencedColumnName="id_tarif")
      * })
@@ -70,345 +70,103 @@ class Magasins
     private $idTarif;
 
     /**
-     * @var \App\Entity\Stocks
+     * @var \Stocks
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Stocks")
+     * @ORM\ManyToOne(targetEntity="Stocks")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_stock", referencedColumnName="id_stock")
      * })
      */
     private $idStock;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Filiere", mappedBy="parc" ,cascade={"persist","remove"},fetch="LAZY")
-     * @ORM\OrderBy({"nomFiliere" = "asc"})
-     */
-    private $filieres;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Corde", mappedBy="parc" ,cascade={"persist","remove"},fetch="EXTRA_LAZY")
-     */
-    private $cordes;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Lanterne", mappedBy="parc" ,cascade={"persist","remove"},fetch="EXTRA_LAZY")
-     */
-    private $lanternes;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PochesBS", mappedBy="parc" ,cascade={"persist","remove"},fetch="EXTRA_LAZY")
-     */
-    private $poches;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getIdMagasin(): ?int
     {
-        $this->filieres = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->idMagasin;
     }
 
-    public function __toString()
+    public function getLibMagasin(): ?string
     {
         return $this->libMagasin;
     }
 
-    /**
-     * Get libMagasin
-     *
-     * @return string
-     */
-    public function getLibMagasin()
-    {
-        return $this->libMagasin;
-    }
-
-    /**
-     * Set libMagasin
-     *
-     * @param string $libMagasin
-     * @return Magasins
-     */
-    public function setLibMagasin($libMagasin)
+    public function setLibMagasin(string $libMagasin): self
     {
         $this->libMagasin = $libMagasin;
 
         return $this;
     }
 
-    /**
-     * Get abrevMagasin
-     *
-     * @return string
-     */
-    public function getAbrevMagasin()
+    public function getAbrevMagasin(): ?string
     {
         return $this->abrevMagasin;
     }
 
-    /**
-     * Set abrevMagasin
-     *
-     * @param string $abrevMagasin
-     * @return Magasins
-     */
-    public function setAbrevMagasin($abrevMagasin)
+    public function setAbrevMagasin(string $abrevMagasin): self
     {
         $this->abrevMagasin = $abrevMagasin;
 
         return $this;
     }
 
-    /**
-     * Get modeVente
-     *
-     * @return string
-     */
-    public function getModeVente()
+    public function getModeVente(): ?string
     {
         return $this->modeVente;
     }
 
-    /**
-     * Set modeVente
-     *
-     * @param string $modeVente
-     * @return Magasins
-     */
-    public function setModeVente($modeVente)
+    public function setModeVente(?string $modeVente): self
     {
         $this->modeVente = $modeVente;
 
         return $this;
     }
 
-    /**
-     * Get actif
-     *
-     * @return boolean
-     */
-    public function getActif()
+    public function isActif(): ?bool
     {
         return $this->actif;
     }
 
-    /**
-     * Set actif
-     *
-     * @param boolean $actif
-     * @return Magasins
-     */
-    public function setActif($actif)
+    public function setActif(?bool $actif): self
     {
         $this->actif = $actif;
 
         return $this;
     }
 
-    /**
-     * Get idMagasin
-     *
-     * @return integer
-     */
-    public function getIdMagasin()
-    {
-        return $this->idMagasin;
-    }
-
-    /**
-     * Get idMagEnseigne
-     *
-     * @return \App\Entity\MagasinsEnseignes
-     */
-    public function getIdMagEnseigne()
+    public function getIdMagEnseigne(): ?MagasinsEnseignes
     {
         return $this->idMagEnseigne;
     }
 
-    /**
-     * Set idMagEnseigne
-     *
-     * @param \App\Entity\MagasinsEnseignes $idMagEnseigne
-     * @return Magasins
-     */
-    public function setIdMagEnseigne(\App\Entity\MagasinsEnseignes $idMagEnseigne = null)
+    public function setIdMagEnseigne(?MagasinsEnseignes $idMagEnseigne): self
     {
         $this->idMagEnseigne = $idMagEnseigne;
 
         return $this;
     }
 
-    /**
-     * Get idTarif
-     *
-     * @return \App\Entity\TarifsListes
-     */
-    public function getIdTarif()
+    public function getIdTarif(): ?TarifsListes
     {
         return $this->idTarif;
     }
 
-    /**
-     * Set idTarif
-     *
-     * @param \App\Entity\TarifsListes $idTarif
-     * @return Magasins
-     */
-    public function setIdTarif(\App\Entity\TarifsListes $idTarif = null)
+    public function setIdTarif(?TarifsListes $idTarif): self
     {
         $this->idTarif = $idTarif;
 
         return $this;
     }
 
-    /**
-     * Get idStock
-     *
-     * @return \App\Entity\Stocks
-     */
-    public function getIdStock()
+    public function getIdStock(): ?Stocks
     {
         return $this->idStock;
     }
 
-    /**
-     * Set idStock
-     *
-     * @param \App\Entity\Stocks $idStock
-     * @return Magasins
-     */
-    public function setIdStock(\App\Entity\Stocks $idStock = null)
+    public function setIdStock(?Stocks $idStock): self
     {
         $this->idStock = $idStock;
 
         return $this;
     }
 
-    /**
-     * Add filieres
-     *
-     * @param \App\Entity\Filiere $filieres
-     * @return Magasins
-     */
-    public function addFiliere(\App\Entity\Filiere $filieres)
-    {
-        $this->filieres[] = $filieres;
 
-        return $this;
-    }
-
-    /**
-     * Remove filieres
-     *
-     * @param \App\Entity\Filiere $filieres
-     */
-    public function removeFiliere(\App\Entity\Filiere $filieres)
-    {
-        $this->filieres->removeElement($filieres);
-    }
-
-    /**
-     * Get filieres
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getFilieres()
-    {
-        return $this->filieres;
-    }
-
-    /**
-     * Add cordes
-     *
-     * @param \App\Entity\Corde $cordes
-     * @return Magasins
-     */
-    public function addCorde(\App\Entity\Corde $cordes)
-    {
-        $this->cordes[] = $cordes;
-
-        return $this;
-    }
-
-    /**
-     * Remove cordes
-     *
-     * @param \App\Entity\Corde $cordes
-     */
-    public function removeCorde(\App\Entity\Corde $cordes)
-    {
-        $this->cordes->removeElement($cordes);
-    }
-
-    /**
-     * Get cordes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCordes()
-    {
-        return $this->cordes;
-    }
-
-    /**
-     * Add lanternes
-     *
-     * @param \App\Entity\Lanterne $lanternes
-     * @return Magasins
-     */
-    public function addLanterne(\App\Entity\Lanterne $lanternes)
-    {
-        $this->lanternes[] = $lanternes;
-
-        return $this;
-    }
-
-    /**
-     * Remove lanternes
-     *
-     * @param \App\Entity\Lanterne $lanternes
-     */
-    public function removeLanterne(\App\Entity\Lanterne $lanternes)
-    {
-        $this->lanternes->removeElement($lanternes);
-    }
-
-    /**
-     * Get lanternes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLanternes()
-    {
-        return $this->lanternes;
-    }
-
-    /**
-     * Add poches
-     *
-     * @param \App\Entity\PochesBS $poches
-     * @return Magasins
-     */
-    public function addPoch(\App\Entity\PochesBS $poches)
-    {
-        $this->poches[] = $poches;
-
-        return $this;
-    }
-
-    /**
-     * Remove poches
-     *
-     * @param \App\Entity\PochesBS $poches
-     */
-    public function removePoch(\App\Entity\PochesBS $poches)
-    {
-        $this->poches->removeElement($poches);
-    }
-
-    /**
-     * Get poches
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPoches()
-    {
-        return $this->poches;
-    }
 }

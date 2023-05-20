@@ -7,11 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Adresses
  *
- * @ORM\Table(name="adresses", indexes={@ORM\Index(name="id_pays", columns={"id_pays"}), @ORM\Index(name="ref_contact", columns={"ref_contact"}), @ORM\Index(name="id_type_adresse", columns={"id_type_adresse"})})
+ * @ORM\Table(name="adresses", indexes={@ORM\Index(name="ref_contact", columns={"ref_contact"}), @ORM\Index(name="id_pays", columns={"id_pays"}), @ORM\Index(name="id_type_adresse", columns={"id_type_adresse"})})
  * @ORM\Entity
  */
 class Adresses
 {
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ref_adresse", type="string", length=32, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $refAdresse;
+
     /**
      * @var string
      *
@@ -20,7 +29,7 @@ class Adresses
     private $refContact;
 
     /**
-     * @var integer
+     * @var int|null
      *
      * @ORM\Column(name="id_type_adresse", type="smallint", nullable=true)
      */
@@ -55,7 +64,7 @@ class Adresses
     private $ville;
 
     /**
-     * @var integer
+     * @var int|null
      *
      * @ORM\Column(name="id_pays", type="smallint", nullable=true)
      */
@@ -69,237 +78,124 @@ class Adresses
     private $note;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ordre", type="smallint", nullable=false)
      */
     private $ordre;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ref_adresse", type="string", length=32)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $refAdresse;
+    public function getRefAdresse(): ?string
+    {
+        return $this->refAdresse;
+    }
 
+    public function getRefContact(): ?string
+    {
+        return $this->refContact;
+    }
 
-
-    /**
-     * Set refContact
-     *
-     * @param string $refContact
-     * @return Adresses
-     */
-    public function setRefContact($refContact)
+    public function setRefContact(string $refContact): self
     {
         $this->refContact = $refContact;
 
         return $this;
     }
 
-    /**
-     * Get refContact
-     *
-     * @return string 
-     */
-    public function getRefContact()
+    public function getIdTypeAdresse(): ?int
     {
-        return $this->refContact;
+        return $this->idTypeAdresse;
     }
 
-    /**
-     * Set idTypeAdresse
-     *
-     * @param integer $idTypeAdresse
-     * @return Adresses
-     */
-    public function setIdTypeAdresse($idTypeAdresse)
+    public function setIdTypeAdresse(?int $idTypeAdresse): self
     {
         $this->idTypeAdresse = $idTypeAdresse;
 
         return $this;
     }
 
-    /**
-     * Get idTypeAdresse
-     *
-     * @return integer 
-     */
-    public function getIdTypeAdresse()
+    public function getLibAdresse(): ?string
     {
-        return $this->idTypeAdresse;
+        return $this->libAdresse;
     }
 
-    /**
-     * Set libAdresse
-     *
-     * @param string $libAdresse
-     * @return Adresses
-     */
-    public function setLibAdresse($libAdresse)
+    public function setLibAdresse(string $libAdresse): self
     {
         $this->libAdresse = $libAdresse;
 
         return $this;
     }
 
-    /**
-     * Get libAdresse
-     *
-     * @return string 
-     */
-    public function getLibAdresse()
+    public function getTextAdresse(): ?string
     {
-        return $this->libAdresse;
+        return $this->textAdresse;
     }
 
-    /**
-     * Set textAdresse
-     *
-     * @param string $textAdresse
-     * @return Adresses
-     */
-    public function setTextAdresse($textAdresse)
+    public function setTextAdresse(string $textAdresse): self
     {
         $this->textAdresse = $textAdresse;
 
         return $this;
     }
 
-    /**
-     * Get textAdresse
-     *
-     * @return string 
-     */
-    public function getTextAdresse()
+    public function getCodePostal(): ?string
     {
-        return $this->textAdresse;
+        return $this->codePostal;
     }
 
-    /**
-     * Set codePostal
-     *
-     * @param string $codePostal
-     * @return Adresses
-     */
-    public function setCodePostal($codePostal)
+    public function setCodePostal(string $codePostal): self
     {
         $this->codePostal = $codePostal;
 
         return $this;
     }
 
-    /**
-     * Get codePostal
-     *
-     * @return string 
-     */
-    public function getCodePostal()
+    public function getVille(): ?string
     {
-        return $this->codePostal;
+        return $this->ville;
     }
 
-    /**
-     * Set ville
-     *
-     * @param string $ville
-     * @return Adresses
-     */
-    public function setVille($ville)
+    public function setVille(string $ville): self
     {
         $this->ville = $ville;
 
         return $this;
     }
 
-    /**
-     * Get ville
-     *
-     * @return string 
-     */
-    public function getVille()
+    public function getIdPays(): ?int
     {
-        return $this->ville;
+        return $this->idPays;
     }
 
-    /**
-     * Set idPays
-     *
-     * @param integer $idPays
-     * @return Adresses
-     */
-    public function setIdPays($idPays)
+    public function setIdPays(?int $idPays): self
     {
         $this->idPays = $idPays;
 
         return $this;
     }
 
-    /**
-     * Get idPays
-     *
-     * @return integer 
-     */
-    public function getIdPays()
+    public function getNote()
     {
-        return $this->idPays;
+        return $this->note;
     }
 
-    /**
-     * Set note
-     *
-     * @param string $note
-     * @return Adresses
-     */
-    public function setNote($note)
+    public function setNote($note): self
     {
         $this->note = $note;
 
         return $this;
     }
 
-    /**
-     * Get note
-     *
-     * @return string 
-     */
-    public function getNote()
+    public function getOrdre(): ?int
     {
-        return $this->note;
+        return $this->ordre;
     }
 
-    /**
-     * Set ordre
-     *
-     * @param integer $ordre
-     * @return Adresses
-     */
-    public function setOrdre($ordre)
+    public function setOrdre(int $ordre): self
     {
         $this->ordre = $ordre;
 
         return $this;
     }
 
-    /**
-     * Get ordre
-     *
-     * @return integer 
-     */
-    public function getOrdre()
-    {
-        return $this->ordre;
-    }
 
-    /**
-     * Get refAdresse
-     *
-     * @return string 
-     */
-    public function getRefAdresse()
-    {
-        return $this->refAdresse;
-    }
 }

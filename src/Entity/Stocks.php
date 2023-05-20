@@ -7,11 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Stocks
  *
- * @ORM\Table(name="stocks", indexes={@ORM\Index(name="actif", columns={"actif"}), @ORM\Index(name="ref_adr_stock", columns={"ref_adr_stock"})})
+ * @ORM\Table(name="stocks", indexes={@ORM\Index(name="ref_adr_stock", columns={"ref_adr_stock"}), @ORM\Index(name="actif", columns={"actif"})})
  * @ORM\Entity
  */
 class Stocks
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id_stock", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idStock;
+
     /**
      * @var string
      *
@@ -27,136 +36,74 @@ class Stocks
     private $abrevStock;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="actif", type="boolean", nullable=false)
      */
     private $actif;
 
     /**
-     * @var integer
+     * @var \Adresses
      *
-     * @ORM\Column(name="id_stock", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idStock;
-
-    /**
-     * @var \App\Entity\Adresses
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adresses")
+     * @ORM\ManyToOne(targetEntity="Adresses")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ref_adr_stock", referencedColumnName="ref_adresse")
      * })
      */
     private $refAdrStock;
 
-    public function __toString()
+    public function getIdStock(): ?int
+    {
+        return $this->idStock;
+    }
+
+    public function getLibStock(): ?string
     {
         return $this->libStock;
     }
 
-
-    /**
-     * Set libStock
-     *
-     * @param string $libStock
-     * @return Stocks
-     */
-    public function setLibStock($libStock)
+    public function setLibStock(string $libStock): self
     {
         $this->libStock = $libStock;
 
         return $this;
     }
 
-    /**
-     * Get libStock
-     *
-     * @return string
-     */
-    public function getLibStock()
+    public function getAbrevStock(): ?string
     {
-        return $this->libStock;
+        return $this->abrevStock;
     }
 
-    /**
-     * Set abrevStock
-     *
-     * @param string $abrevStock
-     * @return Stocks
-     */
-    public function setAbrevStock($abrevStock)
+    public function setAbrevStock(string $abrevStock): self
     {
         $this->abrevStock = $abrevStock;
 
         return $this;
     }
 
-    /**
-     * Get abrevStock
-     *
-     * @return string
-     */
-    public function getAbrevStock()
+    public function isActif(): ?bool
     {
-        return $this->abrevStock;
+        return $this->actif;
     }
 
-    /**
-     * Set actif
-     *
-     * @param boolean $actif
-     * @return Stocks
-     */
-    public function setActif($actif)
+    public function setActif(bool $actif): self
     {
         $this->actif = $actif;
 
         return $this;
     }
 
-    /**
-     * Get actif
-     *
-     * @return boolean
-     */
-    public function getActif()
+    public function getRefAdrStock(): ?Adresses
     {
-        return $this->actif;
+        return $this->refAdrStock;
     }
 
-    /**
-     * Get idStock
-     *
-     * @return integer
-     */
-    public function getIdStock()
-    {
-        return $this->idStock;
-    }
-
-    /**
-     * Set refAdrStock
-     *
-     * @param \App\Entity\Adresses $refAdrStock
-     * @return Stocks
-     */
-    public function setRefAdrStock(\App\Entity\Adresses $refAdrStock = null)
+    public function setRefAdrStock(?Adresses $refAdrStock): self
     {
         $this->refAdrStock = $refAdrStock;
 
         return $this;
     }
 
-    /**
-     * Get refAdrStock
-     *
-     * @return \App\Entity\Adresses
-     */
-    public function getRefAdrStock()
-    {
-        return $this->refAdrStock;
-    }
+
 }

@@ -8,10 +8,19 @@ use Doctrine\ORM\Mapping as ORM;
  * StocksArticlesSn
  *
  * @ORM\Table(name="stocks_articles_sn", indexes={@ORM\Index(name="numero_serie", columns={"numero_serie"}), @ORM\Index(name="ref_stock_article", columns={"ref_stock_article"})})
- * @ORM\Entity(repositoryClass="App\Repository\StocksArticlesSnRepository")
+ * @ORM\Entity
  */
 class StocksArticlesSn
 {
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numero_serie", type="string", length=32, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $numeroSerie;
+
     /**
      * @var float
      *
@@ -20,101 +29,45 @@ class StocksArticlesSn
     private $snQte;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="numero_serie", type="string", length=32)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $numeroSerie;
-
-    /**
-     * @var \App\Entity\StocksArticles
+     * @var \StocksArticles
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="App\Entity\StocksArticles")
+     * @ORM\OneToOne(targetEntity="StocksArticles")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ref_stock_article", referencedColumnName="ref_stock_article")
      * })
      */
     private $refStockArticle;
 
-
-    public function __toString()
+    public function getNumeroSerie(): ?string
     {
         return $this->numeroSerie;
     }
 
+    public function getSnQte(): ?float
+    {
+        return $this->snQte;
+    }
 
-    /**
-     * Set snQte
-     *
-     * @param float $snQte
-     * @return StocksArticlesSn
-     */
-    public function setSnQte($snQte)
+    public function setSnQte(float $snQte): self
     {
         $this->snQte = $snQte;
 
         return $this;
     }
 
-    /**
-     * Get snQte
-     *
-     * @return float
-     */
-    public function getSnQte()
+    public function getRefStockArticle(): ?StocksArticles
     {
-        return $this->snQte;
+        return $this->refStockArticle;
     }
 
-    /**
-     * Set numeroSerie
-     *
-     * @param string $numeroSerie
-     * @return StocksArticlesSn
-     */
-    public function setNumeroSerie($numeroSerie)
-    {
-        $this->numeroSerie = $numeroSerie;
-
-        return $this;
-    }
-
-    /**
-     * Get numeroSerie
-     *
-     * @return string
-     */
-    public function getNumeroSerie()
-    {
-        return $this->numeroSerie;
-    }
-
-    /**
-     * Set refStockArticle
-     *
-     * @param \App\Entity\StocksArticles $refStockArticle
-     * @return StocksArticlesSn
-     */
-    public function setRefStockArticle(\App\Entity\StocksArticles $refStockArticle)
+    public function setRefStockArticle(?StocksArticles $refStockArticle): self
     {
         $this->refStockArticle = $refStockArticle;
+
         return $this;
     }
 
-    /**
-     * Get refStockArticle
-     *
-     * @return \App\Entity\StocksArticles
-     */
-    public function getRefStockArticle()
-    {
-        if (is_null($this->refStockArticle))
-            return $this->refStockArticle;
-        else
-            return $this->refStockArticle;
-    }
+
 }

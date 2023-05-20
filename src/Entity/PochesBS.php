@@ -5,167 +5,86 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PochesBS
+ * PochesBs
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\PochesBSRepository")
+ * @ORM\Table(name="poches_bs", indexes={@ORM\Index(name="IDX_90E7094254AF5F27", columns={"magasin"})})
+ * @ORM\Entity
  */
-class PochesBS
+class PochesBs
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="nbrTotaleEnStock", type="integer")
+     * @ORM\Column(name="nbrTotaleEnStock", type="integer", nullable=false)
      */
-    private $nbrTotaleEnStock;
+    private $nbrtotaleenstock;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nomPoche", type="string", length=255)
+     * @ORM\Column(name="nomPoche", type="string", length=255, nullable=false)
      */
-    private $nomPoche;
+    private $nompoche;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StocksPochesBS", mappedBy="pochesbs",cascade={"persist","remove"})
-     */
-    private $stockspoches;
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Magasins",inversedBy="poches")
-     * @ORM\JoinColumn(name="magasin", referencedColumnName="id_magasin",nullable=false)
-     */
-    private $parc;
-
-    public function __toString()
-    {
-     return $this->nomPoche;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->stockspoches = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get id
+     * @var \Magasins
      *
-     * @return integer 
+     * @ORM\ManyToOne(targetEntity="Magasins")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="magasin", referencedColumnName="id_magasin")
+     * })
      */
-    public function getId()
+    private $magasin;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set nbrTotaleEnStock
-     *
-     * @param integer $nbrTotaleEnStock
-     * @return PochesBS
-     */
-    public function setNbrTotaleEnStock($nbrTotaleEnStock)
+    public function getNbrtotaleenstock(): ?int
     {
-        $this->nbrTotaleEnStock = $nbrTotaleEnStock;
+        return $this->nbrtotaleenstock;
+    }
+
+    public function setNbrtotaleenstock(int $nbrtotaleenstock): self
+    {
+        $this->nbrtotaleenstock = $nbrtotaleenstock;
 
         return $this;
     }
 
-    /**
-     * Get nbrTotaleEnStock
-     *
-     * @return integer 
-     */
-    public function getNbrTotaleEnStock()
+    public function getNompoche(): ?string
     {
-        return $this->nbrTotaleEnStock;
+        return $this->nompoche;
     }
 
-    /**
-     * Set nomPoche
-     *
-     * @param string $nomPoche
-     * @return PochesBS
-     */
-    public function setNomPoche($nomPoche)
+    public function setNompoche(string $nompoche): self
     {
-        $this->nomPoche = $nomPoche;
+        $this->nompoche = $nompoche;
 
         return $this;
     }
 
-    /**
-     * Get nomPoche
-     *
-     * @return string 
-     */
-    public function getNomPoche()
+    public function getMagasin(): ?Magasins
     {
-        return $this->nomPoche;
+        return $this->magasin;
     }
 
-    /**
-     * Add stockspoches
-     *
-     * @param \App\Entity\StocksPochesBS $stockspoches
-     * @return PochesBS
-     */
-    public function addStockspoch(\App\Entity\StocksPochesBS $stockspoches)
+    public function setMagasin(?Magasins $magasin): self
     {
-        $this->stockspoches[] = $stockspoches;
+        $this->magasin = $magasin;
 
         return $this;
     }
 
-    /**
-     * Remove stockspoches
-     *
-     * @param \App\Entity\StocksPochesBS $stockspoches
-     */
-    public function removeStockspoch(\App\Entity\StocksPochesBS $stockspoches)
-    {
-        $this->stockspoches->removeElement($stockspoches);
-    }
 
-    /**
-     * Get stockspoches
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getStockspoches()
-    {
-        return $this->stockspoches;
-    }
-
-    /**
-     * Set parc
-     *
-     * @param \App\Entity\Magasins $parc
-     * @return PochesBS
-     */
-    public function setParc(\App\Entity\Magasins $parc)
-    {
-        $this->parc = $parc;
-
-        return $this;
-    }
-
-    /**
-     * Get parc
-     *
-     * @return \App\Entity\Magasins 
-     */
-    public function getParc()
-    {
-        return $this->parc;
-    }
 }

@@ -1,0 +1,8 @@
+<div class="col-md-6">
+	<div class="text-md-right footer-links d-none d-sm-block">
+		{% set links = ['About Us','Help','Contact Us'] %}
+		{% for link in links %}
+			{% include 'partials/footer/_link.html.twig' with {'link':link} %}
+		{% endfor %}
+	</div>
+</div>

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Emballage
  *
- * @ORM\Table(name="emballage", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_17D1FF4BC4598A51", columns={"emplacement_id"})}, indexes={@ORM\Index(name="IDX_17D1FF4B727ACA70", columns={"parent_id"}), @ORM\Index(name="IDX_17D1FF4B3FCC49A5", columns={"ref_stock_article"}), @ORM\Index(name="IDX_17D1FF4B5A633396565B809", columns={"ref_stock_article_sn", "numero_serie"}), @ORM\Index(name="IDX_17D1FF4BA55629DC", columns={"processus_id"})})
+ * @ORM\Table(name="emballage", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_17D1FF4BC4598A51", columns={"emplacement_id"})}, indexes={@ORM\Index(name="IDX_17D1FF4B3FCC49A5", columns={"ref_stock_article"}), @ORM\Index(name="IDX_17D1FF4B5A633396565B809", columns={"ref_stock_article_sn", "numero_serie"}), @ORM\Index(name="IDX_17D1FF4B727ACA70", columns={"parent_id"}), @ORM\Index(name="IDX_17D1FF4BA55629DC", columns={"processus_id"})})
  * @ORM\Entity
  */
 class Emballage

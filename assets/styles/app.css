@@ -1,12 +1,13 @@
-@import '~bootstrap-sweetalert/lib/sweet-alert';
-@import '~bootstrap';
-@import '~../assets/css/core.css';
-@import '~../assets/css/components.css';
-@import '~../css/baseTwig/componentsme.css';
-@import '~../assets/css/icons.css';
-@import '~../assets/css/pages.css';
-@import '~../assets/css/menu.css';
-@import '~../assets/css/responsive.css';
+/*Plugins css*/
+@import "../libs/flatpickr/flatpickr.min.css";
+@import "../libs/selectize/css/selectize.bootstrap3.css";
 
-@import '~../css/nProgress/style.css';
-@import '~../css/nProgress/nprogress.css';
+/*App css*/
+ @import "../css/bootstrap-creative.min.css"; 
+ @import "../css/app-creative.min.css"; 
+
+/* @import "../css/bootstrap-dark.min.css"; */
+/* @import "../css/app-dark.min.css"; */
+
+/*icons*/
+@import "../css/icons.min.css";

@@ -13,7 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
 class DocumentsEtats
 {
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="id_etat_doc", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idEtatDoc;
+
+    /**
+     * @var int
      *
      * @ORM\Column(name="id_type_doc", type="smallint", nullable=false)
      */
@@ -27,129 +36,71 @@ class DocumentsEtats
     private $libEtatDoc;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="ordre", type="boolean", nullable=false)
      */
     private $ordre;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="is_open", type="boolean", nullable=false)
      */
     private $isOpen;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_etat_doc", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idEtatDoc;
+    public function getIdEtatDoc(): ?int
+    {
+        return $this->idEtatDoc;
+    }
 
+    public function getIdTypeDoc(): ?int
+    {
+        return $this->idTypeDoc;
+    }
 
-
-    /**
-     * Set idTypeDoc
-     *
-     * @param integer $idTypeDoc
-     * @return DocumentsEtats
-     */
-    public function setIdTypeDoc($idTypeDoc)
+    public function setIdTypeDoc(int $idTypeDoc): self
     {
         $this->idTypeDoc = $idTypeDoc;
 
         return $this;
     }
 
-    /**
-     * Get idTypeDoc
-     *
-     * @return integer 
-     */
-    public function getIdTypeDoc()
+    public function getLibEtatDoc(): ?string
     {
-        return $this->idTypeDoc;
+        return $this->libEtatDoc;
     }
 
-    /**
-     * Set libEtatDoc
-     *
-     * @param string $libEtatDoc
-     * @return DocumentsEtats
-     */
-    public function setLibEtatDoc($libEtatDoc)
+    public function setLibEtatDoc(string $libEtatDoc): self
     {
         $this->libEtatDoc = $libEtatDoc;
 
         return $this;
     }
 
-    /**
-     * Get libEtatDoc
-     *
-     * @return string 
-     */
-    public function getLibEtatDoc()
+    public function isOrdre(): ?bool
     {
-        return $this->libEtatDoc;
+        return $this->ordre;
     }
 
-    /**
-     * Set ordre
-     *
-     * @param boolean $ordre
-     * @return DocumentsEtats
-     */
-    public function setOrdre($ordre)
+    public function setOrdre(bool $ordre): self
     {
         $this->ordre = $ordre;
 
         return $this;
     }
 
-    /**
-     * Get ordre
-     *
-     * @return boolean 
-     */
-    public function getOrdre()
+    public function isIsOpen(): ?bool
     {
-        return $this->ordre;
+        return $this->isOpen;
     }
 
-    /**
-     * Set isOpen
-     *
-     * @param boolean $isOpen
-     * @return DocumentsEtats
-     */
-    public function setIsOpen($isOpen)
+    public function setIsOpen(bool $isOpen): self
     {
         $this->isOpen = $isOpen;
 
         return $this;
     }
 
-    /**
-     * Get isOpen
-     *
-     * @return boolean 
-     */
-    public function getIsOpen()
-    {
-        return $this->isOpen;
-    }
 
-    /**
-     * Get idEtatDoc
-     *
-     * @return integer 
-     */
-    public function getIdEtatDoc()
-    {
-        return $this->idEtatDoc;
-    }
 }

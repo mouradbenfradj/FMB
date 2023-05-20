@@ -13,53 +13,37 @@ use Doctrine\ORM\Mapping as ORM;
 class MagasinsEnseignes
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id_mag_enseigne", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idMagEnseigne;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="lib_enseigne", type="string", length=255, nullable=false)
      */
     private $libEnseigne;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_mag_enseigne", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $idMagEnseigne;
+    public function getIdMagEnseigne(): ?int
+    {
+        return $this->idMagEnseigne;
+    }
 
+    public function getLibEnseigne(): ?string
+    {
+        return $this->libEnseigne;
+    }
 
-    /**
-     * Set libEnseigne
-     *
-     * @param string $libEnseigne
-     * @return MagasinsEnseignes
-     */
-    public function setLibEnseigne($libEnseigne)
+    public function setLibEnseigne(string $libEnseigne): self
     {
         $this->libEnseigne = $libEnseigne;
 
         return $this;
     }
 
-    /**
-     * Get libEnseigne
-     *
-     * @return string
-     */
-    public function getLibEnseigne()
-    {
-        return $this->libEnseigne;
-    }
 
-
-    /**
-     * Get idMagEnseigne
-     *
-     * @return integer 
-     */
-    public function getIdMagEnseigne()
-    {
-        return $this->idMagEnseigne;
-    }
 }

@@ -7,11 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * DocumentsTypes
  *
- * @ORM\Table(name="documents_types", indexes={@ORM\Index(name="actif", columns={"actif"}), @ORM\Index(name="id_pdf_modele", columns={"id_pdf_modele"}), @ORM\Index(name="id_type_groupe", columns={"id_type_groupe"})})
+ * @ORM\Table(name="documents_types", indexes={@ORM\Index(name="id_pdf_modele", columns={"id_pdf_modele"}), @ORM\Index(name="id_type_groupe", columns={"id_type_groupe"}), @ORM\Index(name="actif", columns={"actif"})})
  * @ORM\Entity
  */
 class DocumentsTypes
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id_type_doc", type="smallint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idTypeDoc;
+
     /**
      * @var string
      *
@@ -31,178 +40,103 @@ class DocumentsTypes
      *
      * @ORM\Column(name="code_doc", type="string", length=32, nullable=false)
      */
-    private $codeDoc ='';
+    private $codeDoc;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="id_type_groupe", type="boolean", nullable=false)
      */
-    private $idTypeGroupe=' ';
+    private $idTypeGroupe;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="actif", type="boolean", nullable=false)
      */
-    private $actif = false;
+    private $actif;
 
     /**
-     * @var integer
+     * @var \PdfModeles
      *
-     * @ORM\Column(name="id_type_doc", type="smallint")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $idTypeDoc;
-
-    /**
-     * @var \App\Entity\PdfModeles
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\PdfModeles")
+     * @ORM\ManyToOne(targetEntity="PdfModeles")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_pdf_modele", referencedColumnName="id_pdf_modele")
      * })
      */
     private $idPdfModele;
 
-    public function __toString()
+    public function getIdTypeDoc(): ?int
     {
-        return $this->getLibTypeDoc();
+        return $this->idTypeDoc;
     }
 
-    /**
-     * Set libTypeDoc
-     *
-     * @param string $libTypeDoc
-     * @return DocumentsTypes
-     */
-    public function setLibTypeDoc($libTypeDoc)
+    public function getLibTypeDoc(): ?string
+    {
+        return $this->libTypeDoc;
+    }
+
+    public function setLibTypeDoc(string $libTypeDoc): self
     {
         $this->libTypeDoc = $libTypeDoc;
 
         return $this;
     }
 
-    /**
-     * Get libTypeDoc
-     *
-     * @return string
-     */
-    public function getLibTypeDoc()
+    public function getLibTypePrinted(): ?string
     {
-        return $this->libTypeDoc;
+        return $this->libTypePrinted;
     }
 
-    /**
-     * Set libTypePrinted
-     *
-     * @param string $libTypePrinted
-     * @return DocumentsTypes
-     */
-    public function setLibTypePrinted($libTypePrinted)
+    public function setLibTypePrinted(string $libTypePrinted): self
     {
         $this->libTypePrinted = $libTypePrinted;
 
         return $this;
     }
 
-    /**
-     * Get libTypePrinted
-     *
-     * @return string
-     */
-    public function getLibTypePrinted()
+    public function getCodeDoc(): ?string
     {
-        return $this->libTypePrinted;
+        return $this->codeDoc;
     }
 
-    /**
-     * Set codeDoc
-     *
-     * @param string $codeDoc
-     * @return DocumentsTypes
-     */
-    public function setCodeDoc($codeDoc)
+    public function setCodeDoc(string $codeDoc): self
     {
         $this->codeDoc = $codeDoc;
 
         return $this;
     }
 
-    /**
-     * Get codeDoc
-     *
-     * @return string
-     */
-    public function getCodeDoc()
+    public function isIdTypeGroupe(): ?bool
     {
-        return $this->codeDoc;
+        return $this->idTypeGroupe;
     }
 
-    /**
-     * Set idTypeGroupe
-     *
-     * @param boolean $idTypeGroupe
-     * @return DocumentsTypes
-     */
-    public function setIdTypeGroupe($idTypeGroupe)
+    public function setIdTypeGroupe(bool $idTypeGroupe): self
     {
         $this->idTypeGroupe = $idTypeGroupe;
 
         return $this;
     }
 
-    /**
-     * Get idTypeGroupe
-     *
-     * @return boolean
-     */
-    public function getIdTypeGroupe()
+    public function isActif(): ?bool
     {
-        return $this->idTypeGroupe;
+        return $this->actif;
     }
 
-    /**
-     * Set actif
-     *
-     * @param boolean $actif
-     * @return DocumentsTypes
-     */
-    public function setActif($actif)
+    public function setActif(bool $actif): self
     {
         $this->actif = $actif;
 
         return $this;
     }
 
-    /**
-     * Get actif
-     *
-     * @return boolean
-     */
-    public function getActif()
+    public function getIdPdfModele(): ?PdfModeles
     {
-        return $this->actif;
+        return $this->idPdfModele;
     }
 
-    /**
-     * Get idTypeDoc
-     *
-     * @return integer
-     */
-    public function getIdTypeDoc()
-    {
-        return $this->idTypeDoc;
-    }
-
-    /**
-     * Set idPdfModele
-     *
-     * @param \App\Entity\PdfModeles $idPdfModele
-     * @return DocumentsTypes
-     */
-    public function setIdPdfModele(\App\Entity\PdfModeles $idPdfModele = null)
+    public function setIdPdfModele(?PdfModeles $idPdfModele): self
     {
         $this->idPdfModele = $idPdfModele;
 
@@ -210,13 +144,4 @@ class DocumentsTypes
     }
 
 
-    /**
-     * Get idPdfModele
-     *
-     * @return \App\Entity\PdfModeles
-     */
-    public function getIdPdfModele()
-    {
-        return $this->idPdfModele;
-    }
 }

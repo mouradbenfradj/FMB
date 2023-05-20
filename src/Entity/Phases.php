@@ -7,91 +7,62 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Phases
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\PhasesRepository")
+ * @ORM\Table(name="phases")
+ * @ORM\Entity
  */
 class Phases
 {
-
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
-     * @ORM\Column(name="nomPhase", type="string", length=255)
-     */
-    private $nomPhase;
-    /**
-     * @var integer
      *
-     * @ORM\Column(name="ordeDaffichage", type="integer")
+     * @ORM\Column(name="nomPhase", type="string", length=255, nullable=false)
      */
-    private $ordeDaffichage;
-
-    public function __toString()
-    {
-        return $this->nomPhase;
-    }
+    private $nomphase;
 
     /**
-     * Set nomPhase
+     * @var int
      *
-     * @param string $nomPhase
-     * @return Phases
+     * @ORM\Column(name="ordeDaffichage", type="integer", nullable=false)
      */
-    public function setNomPhase($nomPhase)
-    {
-        $this->nomPhase = $nomPhase;
+    private $ordedaffichage;
 
-        return $this;
-    }
-
-    /**
-     * Get nomPhase
-     *
-     * @return string
-     */
-    public function getNomPhase()
-    {
-        return $this->nomPhase;
-    }
-
-    /**
-     * Set ordeDaffichage
-     *
-     * @param integer $ordeDaffichage
-     * @return Phases
-     */
-    public function setOrdeDaffichage($ordeDaffichage)
-    {
-        $this->ordeDaffichage = $ordeDaffichage;
-
-        return $this;
-    }
-
-    /**
-     * Get ordeDaffichage
-     *
-     * @return integer
-     */
-    public function getOrdeDaffichage()
-    {
-        return $this->ordeDaffichage;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
+
+    public function getNomphase(): ?string
+    {
+        return $this->nomphase;
+    }
+
+    public function setNomphase(string $nomphase): self
+    {
+        $this->nomphase = $nomphase;
+
+        return $this;
+    }
+
+    public function getOrdedaffichage(): ?int
+    {
+        return $this->ordedaffichage;
+    }
+
+    public function setOrdedaffichage(int $ordedaffichage): self
+    {
+        $this->ordedaffichage = $ordedaffichage;
+
+        return $this;
+    }
+
+
 }

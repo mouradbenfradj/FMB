@@ -7,106 +7,101 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Emplacement
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\EmplacementRepository")
+ * @ORM\Table(name="emplacement", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_C0CF65F6787EB836", columns={"emballage_id"})}, indexes={@ORM\Index(name="IDX_C0CF65F69AE7A92D", columns={"flotteur_id"})})
+ * @ORM\Entity
  */
 class Emplacement
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="place", type="integer")
-     */
-    private $place;
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\StocksCordes", inversedBy="emplacement",fetch="EAGER")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $stockscorde;
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\StocksPochesBS", inversedBy="emplacement",fetch="EAGER")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $stockspoches;
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\StocksLanternes", inversedBy="emplacement")
-     * @ORM\JoinColumn(nullable=true,  referencedColumnName="id")
-     */
-    private $stockslanterne;
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Flotteur", inversedBy="emplacements",cascade={"persist","remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $flotteur;
-    /**
-     *
-     * @ORM\Column(name="date_remplissage", type="date",nullable=true)
-     */
-    private $dateDeRemplissage;
 
     /**
-     * Get place
+     * @var int
      *
-     * @return integer
+     * @ORM\Column(name="place", type="integer", nullable=false)
      */
-    public function getPlace()
+    private $place;
+
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="date_remplissage", type="date", nullable=true)
+     */
+    private $dateRemplissage;
+
+    /**
+     * @var \Emballage
+     *
+     * @ORM\ManyToOne(targetEntity="Emballage")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="emballage_id", referencedColumnName="id")
+     * })
+     */
+    private $emballage;
+
+    /**
+     * @var \Flotteur
+     *
+     * @ORM\ManyToOne(targetEntity="Flotteur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="flotteur_id", referencedColumnName="id")
+     * })
+     */
+    private $flotteur;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getPlace(): ?int
     {
         return $this->place;
     }
 
-    /**
-     * Set place
-     *
-     * @param integer $place
-     * @return Emplacement
-     */
-    public function setPlace($place)
+    public function setPlace(int $place): self
     {
         $this->place = $place;
 
         return $this;
     }
 
-    public function __toString()
+    public function getDateRemplissage(): ?\DateTimeInterface
     {
-        return "".$this->getId();
+        return $this->dateRemplissage;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function setDateRemplissage(?\DateTimeInterface $dateRemplissage): self
     {
-        return "".$this->id;
+        $this->dateRemplissage = $dateRemplissage;
+
+        return $this;
     }
 
-    /**
-     * Get flotteur
-     *
-     * @return \App\Entity\Flotteur
-     */
-    public function getFlotteur()
+    public function getEmballage(): ?Emballage
+    {
+        return $this->emballage;
+    }
+
+    public function setEmballage(?Emballage $emballage): self
+    {
+        $this->emballage = $emballage;
+
+        return $this;
+    }
+
+    public function getFlotteur(): ?Flotteur
     {
         return $this->flotteur;
     }
 
-    /**
-     * Set flotteur
-     *
-     * @param \App\Entity\Flotteur $flotteur
-     * @return Emplacement
-     */
-    public function setFlotteur(\App\Entity\Flotteur $flotteur)
+    public function setFlotteur(?Flotteur $flotteur): self
     {
         $this->flotteur = $flotteur;
 
@@ -114,95 +109,4 @@ class Emplacement
     }
 
 
-    /**
-     * Get dateDeRemplissage
-     *
-     * @return \DateTime
-     */
-    public function getDateDeRemplissage()
-    {
-        return $this->dateDeRemplissage;
-    }
-
-    /**
-     * Set dateDeRemplissage
-     *
-     * @param \DateTime $dateDeRemplissage
-     * @return Emplacement
-     */
-    public function setDateDeRemplissage($dateDeRemplissage)
-    {
-        $this->dateDeRemplissage = $dateDeRemplissage;
-
-        return $this;
-    }
-
-    /**
-     * Get stockslanterne
-     *
-     * @return \App\Entity\StocksLanternes
-     */
-    public function getStockslanterne()
-    {
-        return $this->stockslanterne;
-    }
-
-    /**
-     * Set stockslanterne
-     *
-     * @param \App\Entity\StocksLanternes $stockslanterne
-     * @return Emplacement
-     */
-    public function setStockslanterne(\App\Entity\StocksLanternes $stockslanterne = null)
-    {
-        $this->stockslanterne = $stockslanterne;
-        return $this;
-    }
-
-    /**
-     * Get stockscorde
-     *
-     * @return \App\Entity\StocksCordes
-     */
-    public function getStockscorde()
-    {
-        return $this->stockscorde;
-    }
-
-    /**
-     * Set stockscorde
-     *
-     * @param \App\Entity\StocksCordes $stockscorde
-     * @return Emplacement
-     */
-    public function setStockscorde(\App\Entity\StocksCordes $stockscorde = null)
-    {
-        $this->stockscorde = $stockscorde;
-
-        return $this;
-    }
-
-
-    /**
-     * Set stockspoches
-     *
-     * @param \App\Entity\StocksPochesBS $stockspoches
-     * @return Emplacement
-     */
-    public function setStockspoches(\App\Entity\StocksPochesBS $stockspoches = null)
-    {
-        $this->stockspoches = $stockspoches;
-
-        return $this;
-    }
-
-    /**
-     * Get stockspoches
-     *
-     * @return \App\Entity\StocksPochesBS 
-     */
-    public function getStockspoches()
-    {
-        return $this->stockspoches;
-    }
 }
