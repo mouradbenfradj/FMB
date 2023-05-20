@@ -26,7 +26,7 @@ class EmplacementController  extends AbstractController
         $message = $message . '->' . $place->getFlotteur()->getNomFlotteur();
         $message = $message . '->' . $place->getPlace();
 
-        return $this->render('SSFMBBundle:Emplacement:afficherSourceEmplacement.html.twig', array(
+        return $this->render('App\Emplacement:afficherSourceEmplacement.html.twig', array(
             'message' => $message,
         ));
     }
@@ -39,9 +39,9 @@ class EmplacementController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Emplacement')->findAll();
+        $entities = $em->getRepository('App\Emplacement')->findAll();
 
-        return $this->render('SSFMBBundle:Emplacement:index.html.twig', array(
+        return $this->render('App\Emplacement:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -64,7 +64,7 @@ class EmplacementController  extends AbstractController
             return $this->redirect($this->generateUrl('emplacement_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('SSFMBBundle:Emplacement:new.html.twig', array(
+        return $this->render('App\Emplacement:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -98,7 +98,7 @@ class EmplacementController  extends AbstractController
         $entity = new Emplacement();
         $form = $this->createCreateForm($entity);
 
-        return $this->render('SSFMBBundle:Emplacement:new.html.twig', array(
+        return $this->render('App\Emplacement:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -112,7 +112,7 @@ class EmplacementController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Emplacement')->find($id);
+        $entity = $em->getRepository('App\Emplacement')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Emplacement entity.');
@@ -120,7 +120,7 @@ class EmplacementController  extends AbstractController
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Emplacement:show.html.twig', array(
+        return $this->render('App\Emplacement:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -150,7 +150,7 @@ class EmplacementController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Emplacement')->find($id);
+        $entity = $em->getRepository('App\Emplacement')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Emplacement entity.');
@@ -159,7 +159,7 @@ class EmplacementController  extends AbstractController
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Emplacement:edit.html.twig', array(
+        return $this->render('App\Emplacement:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -193,7 +193,7 @@ class EmplacementController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Emplacement')->find($id);
+        $entity = $em->getRepository('App\Emplacement')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Emplacement entity.');
@@ -209,7 +209,7 @@ class EmplacementController  extends AbstractController
             return $this->redirect($this->generateUrl('emplacement_edit', array('id' => $id)));
         }
 
-        return $this->render('SSFMBBundle:Emplacement:edit.html.twig', array(
+        return $this->render('App\Emplacement:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -227,7 +227,7 @@ class EmplacementController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Emplacement')->find($id);
+            $entity = $em->getRepository('App\Emplacement')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Emplacement entity.');
@@ -243,8 +243,8 @@ class EmplacementController  extends AbstractController
     public function findByFlotteurAction(Flotteur $flotteur)
     {
         $em = $this->getDoctrine()->getManager();
-        $emplacements = $em->getRepository('SSFMBBundle:Emplacement')->findByFlotteur($flotteur);
-        return $this->render('SSFMBBundle:Emplacement/Render:listEmplacementIndexRender.html.twig', array(
+        $emplacements = $em->getRepository('App\Emplacement')->findByFlotteur($flotteur);
+        return $this->render('App\Emplacement/Render:listEmplacementIndexRender.html.twig', array(
             'emplacements' => $emplacements));
 
     }
@@ -252,8 +252,8 @@ class EmplacementController  extends AbstractController
     public function getTotaleEmplacementDuParcAction(Magasins $parc)
     {
         $em = $this->getDoctrine()->getManager();
-        $totale = $em->getRepository('SSFMBBundle:Emplacement')->getTotaleEmplacementDuParc($parc);
-        return $this->render('SSFMBBundle:Emplacement/Render:listEmplacementTotaleByParcRender.html.twig', array(
+        $totale = $em->getRepository('App\Emplacement')->getTotaleEmplacementDuParc($parc);
+        return $this->render('App\Emplacement/Render:listEmplacementTotaleByParcRender.html.twig', array(
             'totales' => $totale));
     }
 }

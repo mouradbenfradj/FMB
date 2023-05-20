@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Magasins
  *
  * @ORM\Table(name="magasins", indexes={@ORM\Index(name="id_stock", columns={"id_stock"}), @ORM\Index(name="id_tarif", columns={"id_tarif"}), @ORM\Index(name="actif", columns={"actif"}), @ORM\Index(name="id_mag_enseigne", columns={"id_mag_enseigne"})})
- * @ORM\Entity(repositoryClass="App\Repository\MagasinsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ParcRepository")
  */
 class Magasins
 {
@@ -102,6 +104,9 @@ class Magasins
     public function __construct()
     {
         $this->filieres = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->cordes = new ArrayCollection();
+        $this->lanternes = new ArrayCollection();
+        $this->poches = new ArrayCollection();
     }
 
     public function __toString()
@@ -410,5 +415,10 @@ class Magasins
     public function getPoches()
     {
         return $this->poches;
+    }
+
+    public function isActif(): ?bool
+    {
+        return $this->actif;
     }
 }

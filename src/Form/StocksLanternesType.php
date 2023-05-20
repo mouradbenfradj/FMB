@@ -30,7 +30,7 @@ class StocksLanternesType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SS\FMBBundle\Entity\StocksLanternes'
+            'data_class' => 'App\Entity\StocksLanternes'
         ));
     }
 

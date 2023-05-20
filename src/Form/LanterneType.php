@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use SS\FMBBundle\Entity\Parc;
+use App\Entity\Parc;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -35,7 +35,7 @@ class LanterneType extends AbstractType
         // Add the province element
         $form->add('parc', 'entity', array(
                 'data' => $parc,
-                'class' => 'SSFMBBundle:Parc',
+                'class' => 'App/Parc',
                 'required' => true,
                 'mapped' => false)
         );
@@ -43,13 +43,13 @@ class LanterneType extends AbstractType
         $parcs = array();
         if ($parc) {
             // Fetch the cities from specified province
-            $repo = $this->em->getRepository('SSFMBBundle:Lanterne');
+            $repo = $this->em->getRepository('App/Lanterne');
             $parcs = $repo->findByProvince($parc, array('nomParc' => 'asc'));
         }
         // Add the city element
         $form->add('nomLanterne', 'entity', array(
             'empty_value' => '-- Select a province first --',
-            'class' => 'SSFMBBundle:Lanterne',
+            'class' => 'App/Lanterne',
             'choices' => $parcs,
         ));
         // Add submit button again, this time, it's back at the end of the form
@@ -68,7 +68,7 @@ class LanterneType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'SS\FMBBundle\Entity\Lanterne',
+                'data_class' => 'App\Entity\Lanterne',
             )
         );
     }

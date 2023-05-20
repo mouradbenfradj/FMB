@@ -31,11 +31,11 @@ class PocheController  extends AbstractController
             $historique->setUtilisateur($this->container->get('security.context')->getToken()->getUser());
             $tacheEffectuer = array();
             $em = $this->getDoctrine()->getManager();
-            $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
+            $processus = $em->getRepository('App\Processus')->findAll();
             $form = $this->createForm(new PreparationPocheType($em, $processus), null, array('action' => $this->generateUrl('app_preparationpoche'), 'method' => 'POST', 'attr' => array('class' => "form-horizontal")));
             if ($request->isMethod('POST')) {
                 $form->handleRequest($request);
-                $stockarticles = $em->getRepository('SSFMBBundle:StocksArticles')->findOneBy(array('idStock' => $form['libStock']->getData()->getIdStock(), 'refArticle' => $form['refArticle']->getData()->getRefArticle()));
+                $stockarticles = $em->getRepository('App/StocksArticles')->findOneBy(array('idStock' => $form['libStock']->getData()->getIdStock(), 'refArticle' => $form['refArticle']->getData()->getRefArticle()));
                 if (!empty($stockarticles)) {
                     $document = new Documents();
                     $time = explode("/", $form['date']->getData());
@@ -50,7 +50,7 @@ class PocheController  extends AbstractController
                     $docLineSn->setSnQte($form['qte']->getData());
                     $docLineSn->setNumeroSerie($request->request->get("ss_fmbbundle_preparationpoche")['numeroSerie']);
                     $pochesbs = $request->request->get("ss_fmbbundle_preparationpoche")["nomPoche"];
-                    $poche = $em->getRepository("SSFMBBundle:PochesBS")->find($pochesbs);
+                    $poche = $em->getRepository("App/PochesBS")->find($pochesbs);
                     $doclin2 = new DocsLines();
                     $doclin2->setRefDoc($document);
                     $doclin2->setLibArticle($poche->getNomPoche());
@@ -63,7 +63,7 @@ class PocheController  extends AbstractController
                     $em->persist($docLineSn);
                     $em->persist($doclin2);
                     for ($j = 0; $j < $form['nombre']->getData(); $j++) {
-                        $stocksarticlessn = $em->getRepository('SSFMBBundle:StocksArticlesSn')->findOneBy(array('refStockArticle' => $stockarticles, 'numeroSerie' => $request->request->get("ss_fmbbundle_preparationpoche")['numeroSerie']));
+                        $stocksarticlessn = $em->getRepository('App/StocksArticlesSn')->findOneBy(array('refStockArticle' => $stockarticles, 'numeroSerie' => $request->request->get("ss_fmbbundle_preparationpoche")['numeroSerie']));
                         $stockspochesbs = new StocksPochesBS();
                         $stockspochesbs->setDateDeCreation(new \DateTime($time[2] . '-' . $time[1] . '-' . $time[0]));
                         $stockspochesbs->setArticle($stocksarticlessn);

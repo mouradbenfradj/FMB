@@ -39,7 +39,7 @@ class StocksCordesType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SS\FMBBundle\Entity\StocksCordes'
+            'data_class' => 'App\Entity\StocksCordes'
         ));
     }
 

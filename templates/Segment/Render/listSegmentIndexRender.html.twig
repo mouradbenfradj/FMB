@@ -4,11 +4,11 @@
             <div class="dd-handle">
                 {{ segment.nomSegment }}
                 <br>
-                {#  {% include 'SSFMBBundle:Segment/Include:StatIndexInclude.html.twig' %}#}
+                {#  {% include 'App/Segment/Include:StatIndexInclude.html.twig' %}#}
             </div>
             <ol class="dd-list" style="display: inline-block">
                 {{ render(controller(
-                'SSFMBBundle:Flotteur:findBySegment',
+                'App/Flotteur:findBySegment',
                 { 'segment': segment }
                 )) }}
                 {#  {% include 'Flotteur/Render/listFlotteurIndexRender.html.twig' %}#}

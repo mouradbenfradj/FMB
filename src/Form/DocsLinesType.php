@@ -15,8 +15,8 @@ class DocsLinesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('refArticle', 'entity', array('class' => 'SSFMBBundle:Articles', 'label' => 'article', 'attr' => array('class' => "form-control")))
-            ->add('numeroSerie', 'entity', array('class' => 'SSFMBBundle:StocksArticlesSn', 'label' => 'lot', 'mapped' => false, 'attr' => array('class' => "form-control")))
+            ->add('refArticle', 'entity', array('class' => 'App/Articles', 'label' => 'article', 'attr' => array('class' => "form-control")))
+            ->add('numeroSerie', 'entity', array('class' => 'App/StocksArticlesSn', 'label' => 'lot', 'mapped' => false, 'attr' => array('class' => "form-control")))
             ->add('qte', 'number', array('label' => 'Densiter','attr' => array( 'class' => "form-control")))
             ->add('nombre', 'number', array('label' => 'nombre de lanterne a fabriquer', 'mapped' => false,'attr' => array( 'class' => "form-control")));
 
@@ -28,7 +28,7 @@ class DocsLinesType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
-            array('data_class' => 'SS\FMBBundle\Entity\DocsLines',)
+            array('data_class' => 'App\Entity\DocsLines',)
         );
     }
 

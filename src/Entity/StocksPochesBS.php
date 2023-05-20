@@ -543,4 +543,14 @@ class StocksPochesBS
         }
 
     }
+
+    public function isPret(): ?bool
+    {
+        return $this->pret;
+    }
+
+    public function isChaussement(): ?bool
+    {
+        return $this->chaussement;
+    }
 }

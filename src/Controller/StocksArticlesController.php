@@ -23,10 +23,10 @@ class StocksArticlesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:StocksArticles')->findAll();
+        $entities = $em->getRepository('App/StocksArticles')->findAll();
 
         return $this->render(
-            'SSFMBBundle:StocksArticles:index.html.twig',
+            'App/StocksArticles:index.html.twig',
             array(
                 'entities' => $entities,
             )
@@ -54,7 +54,7 @@ class StocksArticlesController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:StocksArticles:new.html.twig',
+            'App/StocksArticles:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -95,7 +95,7 @@ class StocksArticlesController  extends AbstractController
         $form = $this->createCreateForm($entity);
 
         return $this->render(
-            'SSFMBBundle:StocksArticles:new.html.twig',
+            'App/StocksArticles:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -111,7 +111,7 @@ class StocksArticlesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:StocksArticles')->find($id);
+        $entity = $em->getRepository('App/StocksArticles')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find StocksArticles entity.');
@@ -120,7 +120,7 @@ class StocksArticlesController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:StocksArticles:show.html.twig',
+            'App/StocksArticles:show.html.twig',
             array(
                 'entity' => $entity,
                 'delete_form' => $deleteForm->createView(),
@@ -152,7 +152,7 @@ class StocksArticlesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:StocksArticles')->find($id);
+        $entity = $em->getRepository('App/StocksArticles')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find StocksArticles entity.');
@@ -162,7 +162,7 @@ class StocksArticlesController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:StocksArticles:edit.html.twig',
+            'App/StocksArticles:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -202,7 +202,7 @@ class StocksArticlesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:StocksArticles')->find($id);
+        $entity = $em->getRepository('App/StocksArticles')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find StocksArticles entity.');
@@ -219,7 +219,7 @@ class StocksArticlesController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:StocksArticles:edit.html.twig',
+            'App/StocksArticles:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -239,7 +239,7 @@ class StocksArticlesController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:StocksArticles')->find($id);
+            $entity = $em->getRepository('App/StocksArticles')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find StocksArticles entity.');

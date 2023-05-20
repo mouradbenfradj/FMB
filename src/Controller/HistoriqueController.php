@@ -23,9 +23,9 @@ class HistoriqueController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Historique')->findAll();
+        $entities = $em->getRepository('App/Historique')->findAll();
         krsort($entities);
-        return $this->render('SSFMBBundle:Historique:index.html.twig', array(
+        return $this->render('App/Historique:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -48,7 +48,7 @@ class HistoriqueController  extends AbstractController
             return $this->redirect($this->generateUrl('historique_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('SSFMBBundle:Historique:new.html.twig', array(
+        return $this->render('App/Historique:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -82,7 +82,7 @@ class HistoriqueController  extends AbstractController
         $entity = new Historique();
         $form = $this->createCreateForm($entity);
 
-        return $this->render('SSFMBBundle:Historique:new.html.twig', array(
+        return $this->render('App/Historique:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -96,7 +96,7 @@ class HistoriqueController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Historique')->find($id);
+        $entity = $em->getRepository('App/Historique')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Historique entity.');
@@ -104,7 +104,7 @@ class HistoriqueController  extends AbstractController
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Historique:show.html.twig', array(
+        return $this->render('App/Historique:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -118,7 +118,7 @@ class HistoriqueController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Historique')->find($id);
+        $entity = $em->getRepository('App/Historique')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Historique entity.');
@@ -127,7 +127,7 @@ class HistoriqueController  extends AbstractController
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Historique:edit.html.twig', array(
+        return $this->render('App/Historique:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -161,7 +161,7 @@ class HistoriqueController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Historique')->find($id);
+        $entity = $em->getRepository('App/Historique')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Historique entity.');
@@ -177,7 +177,7 @@ class HistoriqueController  extends AbstractController
             return $this->redirect($this->generateUrl('historique_edit', array('id' => $id)));
         }
 
-        return $this->render('SSFMBBundle:Historique:edit.html.twig', array(
+        return $this->render('App/Historique:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -195,7 +195,7 @@ class HistoriqueController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Historique')->find($id);
+            $entity = $em->getRepository('App/Historique')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Historique entity.');

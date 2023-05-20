@@ -45,7 +45,7 @@
 
                                 <div class="custom-dd dd" id="nestable_list_2">
                                     <ol class="dd-list">
-                                        {{ render(controller('SSFMBBundle:Filiere:findByParc',{ 'parc': entity,'page':page })) }}
+                                        {{ render(controller('App/Filiere:findByParc',{ 'parc': entity,'page':page })) }}
                                     </ol>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
             {{ parent() }}
         {% endblock %}
     {% else %}
-        {{ knp_menu_render('SSFMBBundle:Builder:parcMAETransfertMenu') }}
+        {{ knp_menu_render('App/Builder:parcMAETransfertMenu') }}
     {% endif %}
 {% endblock %}
 {% block javascripts %}

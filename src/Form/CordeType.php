@@ -27,7 +27,7 @@ class CordeType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'SS\FMBBundle\Entity\Corde',
+                'data_class' => 'App\Entity\Corde',
             )
         );
     }

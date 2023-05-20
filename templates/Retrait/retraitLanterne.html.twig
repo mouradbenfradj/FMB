@@ -41,10 +41,10 @@
                                 </p>
                                 <div class="custom-dd dd" id="nestable_list_2">
                                     <ol class="dd-list">
-                                        {{ render(controller('SSFMBBundle:Filiere:findByParc',{ 'parc': entity,'page':page })) }}
+                                        {{ render(controller('App/Filiere:findByParc',{ 'parc': entity,'page':page })) }}
                                         {#
                                                                               {{ render(controller(
-                                                                              'SSFMBBundle:Filiere:findByParc',
+                                                                              'App/Filiere:findByParc',
                                                                               { 'parc': entity }
                                                                               )) }}
 

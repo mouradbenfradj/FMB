@@ -25,7 +25,7 @@ class PrevisionSortieCourbeController  extends AbstractController
         $tableauPrevision = array();
         $datePrevision = null;
         $choix = 0;
-        $parcs = $em->getRepository('SSFMBBundle:Magasins')->findAll();
+        $parcs = $em->getRepository('App\Magasins')->findAll();
 
         if ($request->isMethod('POST')) {
             $implementation = new DefaultImpl($em);
@@ -33,7 +33,7 @@ class PrevisionSortieCourbeController  extends AbstractController
             $parcCherche = $request->get('parcCherche');
             $parcCherche = intval($parcCherche);
             $tableauPrevisionSelect = array_merge_recursive(
-                $em->getRepository('SSFMBBundle:StocksPochesBS')
+                $em->getRepository('App/StocksPochesBS')
                     ->createQueryBuilder('sp')
                     ->join('sp.pochesbs', 'poche')
                     ->where('sp.dateDeMiseAEau IS NOT NULL')
@@ -44,7 +44,7 @@ class PrevisionSortieCourbeController  extends AbstractController
                     ->leftJoin('articlesn.refStockArticle', 'refStockArticle')
                     ->getQuery()
                     ->getResult(),
-                $em->getRepository('SSFMBBundle:StocksLanternes')
+                $em->getRepository('App\StocksLanternes')
                     ->createQueryBuilder('sl')
                     ->join('sl.lanterne', 'lanterne')
                     ->where('sl.dateDeMiseAEau IS NOT NULL')
@@ -54,7 +54,7 @@ class PrevisionSortieCourbeController  extends AbstractController
                     ->leftJoin('sl.article', 'articlesn')
                     ->leftJoin('articlesn.refStockArticle', 'refStockArticle')
                     ->getQuery()->getResult(),
-                $em->getRepository('SSFMBBundle:StocksCordes')
+                $em->getRepository('App\StocksCordes')
                     ->createQueryBuilder('sc')
                     ->join('sc.corde', 'corde')
                     ->where('sc.dateDeMiseAEau IS NOT NULL')

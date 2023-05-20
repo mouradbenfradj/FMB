@@ -5,11 +5,11 @@
                 {% if emplacement.stockscorde == null and emplacement.stockslanterne == null and emplacement.stockspoche == null %}
                     <div style="color: red"> {{ emplacement.place }}</div>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %}
                 {% endif %}
             </div>
         {% endif %}
@@ -27,11 +27,11 @@
                     <div style="color: red"> {{ emplacement.place }}</div>
                     <input type="checkbox" name="placelanterne[]" value="{{ emp }}"/>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %}
                 {% endif %}
             </div>
         {% endif %}
@@ -66,11 +66,11 @@
                     <div style="color: red">{{ emplacement.place }}</div>
                     <input type="checkbox" name="placecorde[]" value="{{ idemp }}"/>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %}
                 {% endif %}
             </div>
         {% endif %}
@@ -105,11 +105,11 @@
                     <div style="color: red">{{ emplacement.place }}</div>
                     <input type="checkbox" name="placeassemblage[]" value="{{ idemp }}"/>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %}
                 {% endif %}
             </div>
         {% endif %}
@@ -144,11 +144,11 @@
                     <div style="color: red">{{ emplacement.place }}</div>
                     <input type="checkbox" name="placepoche[]" value="{{ idemp }}"/>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %}{% endif %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %}{% endif %}
             </div>
         {% endif %}
     {% endfor %}
@@ -180,15 +180,15 @@
                 {% if emplacement.stockscorde == null and emplacement.stockslanterne == null and emplacement.stockspoche == null %}
                     <div style="color: red"> {{ emplacement.place }}</div>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                     <input type="checkbox"
                            name="placelanterne[]"
                            value="{{ idemp }}"/>
                     {% set verifexsistance =  verifexsistance + 1 %}
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %}
                 {% endif %}
             </div>
         {% endif %}
@@ -219,15 +219,15 @@
                 {% if emplacement.stockscorde == null and emplacement.stockslanterne == null and emplacement.stockspoche == null %}
                     <div style="color: red"> {{ emplacement.place }}</div>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                     <input type="checkbox"
                            name="placecorde[]"
                            value="{{ idemp }}"/>
                     {% set verifexsistance =  verifexsistance + 1 %}
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %} {% endif %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %} {% endif %}
             </div>
         {% endif %}
     {% endfor %}
@@ -258,20 +258,20 @@
                 {% if emplacement.stockscorde == null and emplacement.stockslanterne == null and emplacement.stockspoche == null %}
                     <div style="color: red"> {{ emplacement.place }}</div>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                     <input type="checkbox"
                            name="place[]"
                            value="{{ idemp }}"/>
 
                     {% set verifexsistance =  verifexsistance + 1 %}
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                     <input type="checkbox"
                            name="place[]"
                            value="{{ idemp }}"/>
                     {% set verifexsistance =  verifexsistance + 1 %}
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %}
 
                 {% endif %}
             </div>
@@ -308,15 +308,15 @@
                     <span style="display: none"
                           idemp="dateemplacement">{{ emplacement.dateDeRemplissage|date('Y-m-d') }}</span>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                     <span style="display: none"
                           idemp="dateemplacement">{{ emplacement.dateDeRemplissage|date('Y-m-d') }}</span>
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                     <span style="display: none"
                           idemp="dateemplacement">{{ emplacement.dateDeRemplissage|date('Y-m-d') }}</span>
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %} {% endif %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %} {% endif %}
             </div>
         {% endif %}
     {% endfor %}<br>
@@ -345,7 +345,7 @@
                 {% if emplacement.stockscorde == null and emplacement.stockslanterne == null and emplacement.stockspoche == null %}
                     <div style="color: red"> {{ emplacement.place }}</div>
                 {% elseif emplacement.stockscorde != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatCordeInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatCordeInclude.html.twig" %}
                     {% if not emplacement.chausc %}
                         <input type="checkbox"
                                name="place[]"
@@ -353,7 +353,7 @@
                         {% set verifexsistance =  verifexsistance + 1 %}
                     {% endif %}
                 {% elseif emplacement.stockslanterne != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatLanterneInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatLanterneInclude.html.twig" %}
                     {% if not emplacement.chausl %}
                         <input type="checkbox"
                                name="place[]"
@@ -361,7 +361,7 @@
                         {% set verifexsistance =  verifexsistance + 1 %}
                     {% endif %}
                 {% elseif emplacement.stockspoche != null %}
-                    {% include "SSFMBBundle:Include:suivitEtatPocheInclude.html.twig" %}
+                    {% include "App/Include:suivitEtatPocheInclude.html.twig" %}
                 {% endif %}
             </div>
         {% endif %}

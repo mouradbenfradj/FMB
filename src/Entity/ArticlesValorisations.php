@@ -152,4 +152,9 @@ class ArticlesValorisations
     {
         return $this->idValo;
     }
+
+    public function isPopup(): ?bool
+    {
+        return $this->popup;
+    }
 }

@@ -21,7 +21,7 @@ class StocksLanternesController  extends AbstractController
         $id = $request->query->get('lanterne');
         $em = $this->getDoctrine()->getManager();
         $implementation = new DefaultImpl($em);
-        $lanternes = $em->getRepository('SSFMBBundle:StocksLanternes')->findBy(array('lanterne' => $id, 'pret' => false, 'dateDeMiseAEau' => null, 'emplacement' => null));
+        $lanternes = $em->getRepository('App\StocksLanternes')->findBy(array('lanterne' => $id, 'pret' => false, 'dateDeMiseAEau' => null, 'emplacement' => null));
         $date = array();
 
         foreach ($lanternes as $lanterne) {
@@ -39,8 +39,8 @@ class StocksLanternesController  extends AbstractController
         $id = $request->query->get('lanterne');
         $em = $this->getDoctrine()->getManager();
         $implementation = new DefaultImpl($em);
-        //$lanternes = $em->getRepository('SSFMBBundle:StocksLanternes')->findBy(array('lanterne' => $id, 'pret' => false, 'dateDeMiseAEau' => null, 'emplacement' => null));
-        $lanternes = $em->getRepository('SSFMBBundle:StocksLanternes')->createQueryBuilder('SLanterne')
+        //$lanternes = $em->getRepository('App\StocksLanternes')->findBy(array('lanterne' => $id, 'pret' => false, 'dateDeMiseAEau' => null, 'emplacement' => null));
+        $lanternes = $em->getRepository('App\StocksLanternes')->createQueryBuilder('SLanterne')
             ->select('Article.libArticle')
             ->addSelect('SLanterne.numeroSerie')
             ->addSelect('SLanterne')
@@ -72,9 +72,9 @@ class StocksLanternesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:StocksLanternes')->findAll();
+        $entities = $em->getRepository('App\StocksLanternes')->findAll();
 
-        return $this->render('SSFMBBundle:StocksLanternes:index.html.twig', array(
+        return $this->render('App\StocksLanternes:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -97,7 +97,7 @@ class StocksLanternesController  extends AbstractController
             return $this->redirect($this->generateUrl('stockslanternes_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('SSFMBBundle:StocksLanternes:new.html.twig', array(
+        return $this->render('App\StocksLanternes:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -131,7 +131,7 @@ class StocksLanternesController  extends AbstractController
         $entity = new StocksLanternes();
         $form = $this->createCreateForm($entity);
 
-        return $this->render('SSFMBBundle:StocksLanternes:new.html.twig', array(
+        return $this->render('App\StocksLanternes:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -145,14 +145,14 @@ class StocksLanternesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:StocksLanternes')->find($id);
+        $entity = $em->getRepository('App\StocksLanternes')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find StocksLanternes entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:StocksLanternes:show.html.twig', array(
+        return $this->render('App\StocksLanternes:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -166,7 +166,7 @@ class StocksLanternesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:StocksLanternes')->find($id);
+        $entity = $em->getRepository('App\StocksLanternes')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find StocksLanternes entity.');
@@ -175,7 +175,7 @@ class StocksLanternesController  extends AbstractController
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:StocksLanternes:edit.html.twig', array(
+        return $this->render('App\StocksLanternes:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -209,7 +209,7 @@ class StocksLanternesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:StocksLanternes')->find($id);
+        $entity = $em->getRepository('App\StocksLanternes')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find StocksLanternes entity.');
@@ -225,7 +225,7 @@ class StocksLanternesController  extends AbstractController
             return $this->redirect($this->generateUrl('stockslanternes_edit', array('id' => $id)));
         }
 
-        return $this->render('SSFMBBundle:StocksLanternes:edit.html.twig', array(
+        return $this->render('App\StocksLanternes:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -243,7 +243,7 @@ class StocksLanternesController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:StocksLanternes')->find($id);
+            $entity = $em->getRepository('App\StocksLanternes')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find StocksLanternes entity.');

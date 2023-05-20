@@ -23,10 +23,10 @@ class DocumentsController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Documents')->findAll();
+        $entities = $em->getRepository('App/Documents')->findAll();
 
         return $this->render(
-            'SSFMBBundle:Documents:index.html.twig',
+            'App/Documents:index.html.twig',
             array(
                 'entities' => $entities,
             )
@@ -41,7 +41,7 @@ class DocumentsController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Documents')->find($id);
+        $entity = $em->getRepository('App/Documents')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Documents entity.');
@@ -50,7 +50,7 @@ class DocumentsController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Documents:show.html.twig',
+            'App/Documents:show.html.twig',
             array(
                 'entity' => $entity,
                 'delete_form' => $deleteForm->createView(),
@@ -82,7 +82,7 @@ class DocumentsController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Documents')->find($id);
+        $entity = $em->getRepository('App/Documents')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Documents entity.');
@@ -92,7 +92,7 @@ class DocumentsController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Documents:edit.html.twig',
+            'App/Documents:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -132,7 +132,7 @@ class DocumentsController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Documents')->find($id);
+        $entity = $em->getRepository('App/Documents')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Documents entity.');
@@ -149,7 +149,7 @@ class DocumentsController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:Documents:edit.html.twig',
+            'App/Documents:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -169,7 +169,7 @@ class DocumentsController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Documents')->find($id);
+            $entity = $em->getRepository('App/Documents')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Documents entity.');

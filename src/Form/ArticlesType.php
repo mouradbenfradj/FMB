@@ -26,7 +26,7 @@ class ArticlesType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'SS\FMBBundle\Entity\Articles',
+                'data_class' => 'App\Entity\Articles',
             )
         );
     }

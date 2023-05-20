@@ -5,7 +5,7 @@
                 {{ filiere.nomFiliere }}
                 <br>
                 {% if page == 'suivit' %}
-                    {% include 'SSFMBBundle:Filiere/Include:StatIndexInclude.html.twig' %}
+                    {% include 'App/Filiere/Include:StatIndexInclude.html.twig' %}
                 {% endif %}
             </div>
             {% include 'Segment/Include/listIndexInclude.html.twig' %}
@@ -17,7 +17,7 @@
                     {{ filiere.nomFiliere }}
                     <br>
                     {% if page == 'suivit' %}
-                        {% include 'SSFMBBundle:Filiere/Include:StatIndexInclude.html.twig' %}
+                        {% include 'App/Filiere/Include:StatIndexInclude.html.twig' %}
                     {% endif %}
                 </div>
                 {% include 'Segment/Include/listIndexInclude.html.twig' %}
@@ -51,7 +51,7 @@
             <li class="dd-item" data-id="{{ dataid }}">
                 <div class="dd-handle">
                     <h7>{{ filiere.nomFiliere }}</h7>
-                    <p>{% include 'SSFMBBundle:Filiere/Include:StatIndexInclude.html.twig' %}</p>
+                    <p>{% include 'App/Filiere/Include:StatIndexInclude.html.twig' %}</p>
                 </div>
                 <ol class="dd-list">
                     {% include 'Segment/Render/listSegmentIndexRender.html.twig' %}

@@ -23,10 +23,10 @@ class PocheController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Poche')->findAll();
+        $entities = $em->getRepository('App/Poche')->findAll();
 
         return $this->render(
-            'SSFMBBundle:Poche:index.html.twig',
+            'App/Poche:index.html.twig',
             array(
                 'entities' => $entities,
             )
@@ -51,7 +51,7 @@ class PocheController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:Poche:new.html.twig',
+            'App/Poche:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -92,7 +92,7 @@ class PocheController  extends AbstractController
         $form = $this->createCreateForm($entity);
 
         return $this->render(
-            'SSFMBBundle:Poche:new.html.twig',
+            'App/Poche:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -108,7 +108,7 @@ class PocheController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Poche')->find($id);
+        $entity = $em->getRepository('App/Poche')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Poche entity.');
@@ -117,7 +117,7 @@ class PocheController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Poche:show.html.twig',
+            'App/Poche:show.html.twig',
             array(
                 'entity' => $entity,
                 'delete_form' => $deleteForm->createView(),
@@ -149,7 +149,7 @@ class PocheController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Poche')->find($id);
+        $entity = $em->getRepository('App/Poche')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Poche entity.');
@@ -159,7 +159,7 @@ class PocheController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Poche:edit.html.twig',
+            'App/Poche:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -199,7 +199,7 @@ class PocheController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Poche')->find($id);
+        $entity = $em->getRepository('App/Poche')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Poche entity.');
@@ -216,7 +216,7 @@ class PocheController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:Poche:edit.html.twig',
+            'App/Poche:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -236,7 +236,7 @@ class PocheController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Poche')->find($id);
+            $entity = $em->getRepository('App/Poche')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Poche entity.');

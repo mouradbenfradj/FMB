@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="articles", uniqueConstraints={@ORM\UniqueConstraint(name="ref_interne", columns={"ref_interne"})}, indexes={@ORM\Index(name="lib_article", columns={"lib_article"}), @ORM\Index(name="ref_art_categ", columns={"ref_art_categ"}), @ORM\Index(name="ref_constructeur", columns={"ref_constructeur"}), @ORM\Index(name="dispo", columns={"dispo"}), @ORM\Index(name="ref_oem", columns={"ref_oem"}), @ORM\Index(name="id_tva", columns={"id_tva"}), @ORM\Index(name="id_valo", columns={"id_valo"}), @ORM\Index(name="id_modele_spe", columns={"id_modele_spe"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity(repositoryClass="App\Repository\ArticlesRepository")
  */
 class Articles
 {
@@ -979,5 +978,40 @@ class Articles
     public function getIdValo()
     {
         return $this->idValo;
+    }
+
+    public function isLot(): ?bool
+    {
+        return $this->lot;
+    }
+
+    public function isComposant(): ?bool
+    {
+        return $this->composant;
+    }
+
+    public function isVariante(): ?bool
+    {
+        return $this->variante;
+    }
+
+    public function isGestionSn(): ?bool
+    {
+        return $this->gestionSn;
+    }
+
+    public function isDispo(): ?bool
+    {
+        return $this->dispo;
+    }
+
+    public function isIsAchetable(): ?bool
+    {
+        return $this->isAchetable;
+    }
+
+    public function isIsVendable(): ?bool
+    {
+        return $this->isVendable;
     }
 }

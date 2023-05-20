@@ -18,7 +18,7 @@ class StocksCordesController  extends AbstractController
     public function dateCordePreparer()
     {
         $em = $this->getDoctrine()->getManager();
-        $cordes = $em->getRepository('SSFMBBundle:StocksCordes')->findBy(array('corde' => $request->query->get('corde'), 'pret' => false, 'dateDeMiseAEau' => null, 'emplacement' => null, 'dateAssemblage' => null));
+        $cordes = $em->getRepository('App\StocksCordes')->findBy(array('corde' => $request->query->get('corde'), 'pret' => false, 'dateDeMiseAEau' => null, 'emplacement' => null, 'dateAssemblage' => null));
         $date = array();
 
         foreach ($cordes as $corde) {
@@ -34,7 +34,7 @@ class StocksCordesController  extends AbstractController
     public function articleCordePreparer()
     {
         $em = $this->getDoctrine()->getManager();
-        $cordes = $em->getRepository('SSFMBBundle:StocksCordes')->findBy(array('corde' => $request->query->get('corde'), 'pret' => false, 'dateDeMiseAEau' => null, 'emplacement' => null, 'dateAssemblage' => null));
+        $cordes = $em->getRepository('App\StocksCordes')->findBy(array('corde' => $request->query->get('corde'), 'pret' => false, 'dateDeMiseAEau' => null, 'emplacement' => null, 'dateAssemblage' => null));
         $date = array();
 
         foreach ($cordes as $corde) {
@@ -53,9 +53,9 @@ class StocksCordesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:StocksCordes')->findAll();
+        $entities = $em->getRepository('App\StocksCordes')->findAll();
 
-        return $this->render('SSFMBBundle:StocksCordes:index.html.twig', array(
+        return $this->render('App\StocksCordes:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -78,7 +78,7 @@ class StocksCordesController  extends AbstractController
             return $this->redirect($this->generateUrl('stockscordes_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('SSFMBBundle:StocksCordes:new.html.twig', array(
+        return $this->render('App\StocksCordes:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -112,7 +112,7 @@ class StocksCordesController  extends AbstractController
         $entity = new StocksCordes();
         $form = $this->createCreateForm($entity);
 
-        return $this->render('SSFMBBundle:StocksCordes:new.html.twig', array(
+        return $this->render('App\StocksCordes:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -126,7 +126,7 @@ class StocksCordesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:StocksCordes')->find($id);
+        $entity = $em->getRepository('App\StocksCordes')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find StocksCordes entity.');
@@ -134,7 +134,7 @@ class StocksCordesController  extends AbstractController
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:StocksCordes:show.html.twig', array(
+        return $this->render('App\StocksCordes:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -148,7 +148,7 @@ class StocksCordesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:StocksCordes')->find($id);
+        $entity = $em->getRepository('App\StocksCordes')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find StocksCordes entity.');
@@ -157,7 +157,7 @@ class StocksCordesController  extends AbstractController
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:StocksCordes:edit.html.twig', array(
+        return $this->render('App\StocksCordes:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -191,7 +191,7 @@ class StocksCordesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:StocksCordes')->find($id);
+        $entity = $em->getRepository('App\StocksCordes')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find StocksCordes entity.');
@@ -207,7 +207,7 @@ class StocksCordesController  extends AbstractController
             return $this->redirect($this->generateUrl('stockscordes_edit', array('id' => $id)));
         }
 
-        return $this->render('SSFMBBundle:StocksCordes:edit.html.twig', array(
+        return $this->render('App\StocksCordes:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -225,7 +225,7 @@ class StocksCordesController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:StocksCordes')->find($id);
+            $entity = $em->getRepository('App\StocksCordes')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find StocksCordes entity.');

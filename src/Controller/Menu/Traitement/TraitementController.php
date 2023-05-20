@@ -17,9 +17,9 @@ class TraitementController  extends AbstractController
                 $stocksnvirtuel = null;
                 $articles = null;
             } else {
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $stocksnvirtuel = $em->getRepository('SSFMBBundle:StocksArticlesSnVirtuel')->findByRefStockArticle($em->getRepository('SSFMBBundle:StocksArticles')->findByIdStock($parcs->getIdStock()));
-                $articles = $em->getRepository('SSFMBBundle:StocksArticles')->findByIdStock($parcs->getIdStock());
+                $parcs = $em->getRepository('App\Magasins')->findOneByIdMagasin($request->get('idparc'));
+                $stocksnvirtuel = $em->getRepository('App/StocksArticlesSnVirtuel')->findByRefStockArticle($em->getRepository('App/StocksArticles')->findByIdStock($parcs->getIdStock()));
+                $articles = $em->getRepository('App/StocksArticles')->findByIdStock($parcs->getIdStock());
             }
             if ($request->isMethod('POST')) {
                 $i = 0;
@@ -32,8 +32,8 @@ class TraitementController  extends AbstractController
                             $i++;
                             break;
                         case 1:
-                            $stocksnvirtuelt = $em->getRepository('SSFMBBundle:StocksArticlesSnVirtuel')->getSAS($stocks, $item);
-                            $stocksArticlesSnt = $em->getRepository('SSFMBBundle:StocksArticlesSn')->getSAS($stocks, $item);
+                            $stocksnvirtuelt = $em->getRepository('App/StocksArticlesSnVirtuel')->getSAS($stocks, $item);
+                            $stocksArticlesSnt = $em->getRepository('App/StocksArticlesSn')->getSAS($stocks, $item);
                             $i++;
                             break;
                         case 2:

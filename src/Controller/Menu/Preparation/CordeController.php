@@ -33,7 +33,7 @@ class CordeController  extends AbstractController
             $form = $this->createForm(new PreparationCordeType($em), null, array('action' => $this->generateUrl('app_preparationcorde'), 'method' => 'POST', 'attr' => array('class' => "form-horizontal")));
             if ($request->isMethod('POST')) {
                 $form->handleRequest($request);
-                $stockarticles = $em->getRepository('SSFMBBundle:StocksArticles')->findOneBy(array('idStock' => $form['libStock']->getData()->getIdStock(), 'refArticle' => $form['refArticle']->getData()->getRefArticle()));
+                $stockarticles = $em->getRepository('App/StocksArticles')->findOneBy(array('idStock' => $form['libStock']->getData()->getIdStock(), 'refArticle' => $form['refArticle']->getData()->getRefArticle()));
                 if (!empty($stockarticles)) {
                     $document = new Documents();
                     $time = explode("/", $form['date']->getData());
@@ -48,7 +48,7 @@ class CordeController  extends AbstractController
                     $docLineSn->setSnQte($form['qte']->getData());
                     $docLineSn->setNumeroSerie($request->request->get("ss_fmbbundle_preparationcorde")['numeroSerie']);
                     $cordes = $request->request->get("ss_fmbbundle_preparationcorde")["nomCorde"];
-                    $corde = $em->getRepository("SSFMBBundle:Corde")->findOneBy(array('nomCorde' => $cordes, 'parc' => $form['Parc']->getData()));
+                    $corde = $em->getRepository("App/Corde")->findOneBy(array('nomCorde' => $cordes, 'parc' => $form['Parc']->getData()));
                     $doclin2 = new DocsLines();
                     $doclin2->setRefDoc($document);
                     $doclin2->setLibArticle($corde->getNomCorde());
@@ -60,7 +60,7 @@ class CordeController  extends AbstractController
                     $em->persist($docLineSn);
                     $em->persist($doclin2);
                     for ($j = 0; $j < $form['nombre']->getData(); $j++) {
-                        $stocksarticlessn = $em->getRepository('SSFMBBundle:StocksArticlesSn')->findOneBy(array('refStockArticle' => $stockarticles, 'numeroSerie' => $request->request->get("ss_fmbbundle_preparationcorde")['numeroSerie']));
+                        $stocksarticlessn = $em->getRepository('App/StocksArticlesSn')->findOneBy(array('refStockArticle' => $stockarticles, 'numeroSerie' => $request->request->get("ss_fmbbundle_preparationcorde")['numeroSerie']));
                         $stockscordes = new StocksCordes();
                         $stockscordes->setDateDeCreation(new \DateTime($time[2] . '-' . $time[1] . '-' . $time[0]));
                         $stockscordes->setArticle($stocksarticlessn);

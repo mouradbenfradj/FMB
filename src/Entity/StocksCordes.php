@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -537,5 +539,15 @@ class StocksCordes
     public function getDateChaussement()
     {
         return $this->dateChaussement;
+    }
+
+    public function isPret(): ?bool
+    {
+        return $this->pret;
+    }
+
+    public function isChaussement(): ?bool
+    {
+        return $this->chaussement;
     }
 }

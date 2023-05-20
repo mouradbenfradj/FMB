@@ -152,4 +152,9 @@ class PdfModeles
     {
         return $this->idPdfModele;
     }
+
+    public function isIdPdfType(): ?bool
+    {
+        return $this->idPdfType;
+    }
 }

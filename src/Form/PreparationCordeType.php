@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use Doctrine\ORM\EntityRepository;
-use SS\FMBBundle\Entity\Magasins;
+use App\Entity\Magasins;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -27,12 +27,12 @@ class PreparationCordeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('date', 'text', array('label' => 'Date de la Préparation des Cordes', 'attr' => array('class' => 'form-control', 'placeholder' => "dd/mm/yyyy", 'id' => "datepicker")));
-        $builder->add('refArticle', 'entity', array('class' => 'SSFMBBundle:Articles',
+        $builder->add('refArticle', 'entity', array('class' => 'App/Articles',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('a')->where('a.libArticle LIKE :articles')->setParameter('articles', 'CORDE%')
                     ->orWhere('a.libArticle LIKE :articles2')->setParameter('articles2', '%MOULES');
             }, 'label' => 'article', 'attr' => array('class' => "form-control")))
-            ->add('numeroSerie', 'entity', array('class' => 'SSFMBBundle:StocksArticlesSn', 'label' => 'lot', 'mapped' => false, 'attr' => array('class' => "form-control")))
+            ->add('numeroSerie', 'entity', array('class' => 'App/StocksArticlesSn', 'label' => 'lot', 'mapped' => false, 'attr' => array('class' => "form-control")))
             ->add('qte', 'number', array('label' => 'Densiter', 'attr' => array('class' => "form-control")))
             ->add('nombre', 'number', array('label' => 'nombre de Corde a fabriquer', 'mapped' => false));
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
@@ -46,7 +46,7 @@ class PreparationCordeType extends AbstractType
         $form->add('Parc', 'entity', array(
                 'label' => 'choix du parc ',
                 'data' => $parc,
-                'class' => 'SSFMBBundle:Magasins',
+                'class' => 'App\Magasins',
                 'mapped' => false,
                 'attr' => array('class' => "form-control"))
         );
@@ -55,7 +55,7 @@ class PreparationCordeType extends AbstractType
         $cordes = array();
         if ($parc) {
             // Fetch the cities from specified province
-            $repo2 = $this->em->getRepository('SSFMBBundle:Corde');
+            $repo2 = $this->em->getRepository('App/Corde');
             $stocks = $parc->getIdStock();
             $cordes = $repo2->findByParc($parc);
         }
@@ -63,14 +63,14 @@ class PreparationCordeType extends AbstractType
         $form->add('libStock', 'entity', array(
             'label' => 'Le stock qui contient vos articles',
             'empty_value' => '-- Selectionne le parc en premier lieu --',
-            'class' => 'SSFMBBundle:Stocks',
+            'class' => 'App/Stocks',
             'choices' => array($stocks),
             'attr' => array('class' => "form-control")
         ));
         $form->add('nomCorde', 'entity', array(
             'label' => 'choix du Corde',
             'empty_value' => '-- Selectionne le parc en premier lieu --',
-            'class' => 'SSFMBBundle:Corde',
+            'class' => 'App/Corde',
             'property' => 'id',
             'choices' => $cordes,
             'attr' => array('class' => "form-control")
@@ -97,7 +97,7 @@ class PreparationCordeType extends AbstractType
         $form = $event->getForm();
         $data = $event->getData();
         // Note that the data is not yet hydrated into the entity.
-        $parc = $this->em->getRepository('SSFMBBundle:Magasins')->find($data['Parc']);
+        $parc = $this->em->getRepository('App\Magasins')->find($data['Parc']);
 
         $this->addElements($form, $parc);
     }

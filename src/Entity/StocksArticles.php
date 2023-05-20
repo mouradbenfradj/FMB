@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * StocksArticles
  *
  * @ORM\Table(name="stocks_articles", indexes={@ORM\Index(name="id_stock", columns={"id_stock"}), @ORM\Index(name="ref_article", columns={"ref_article"})})
- * @ORM\Entity(repositoryClass="App\Repository\StocksArticlesRepository")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
 class StocksArticles

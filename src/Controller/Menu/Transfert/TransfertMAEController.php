@@ -24,10 +24,10 @@ class TransfertMAEController  extends AbstractController
                 $cordes = null;
                 $articles = null;
             } else {
-                $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $cordes = $em->getRepository('SSFMBBundle:Corde')->findByParc($parcs);
-                $articles = $em->getRepository('SSFMBBundle:StocksArticles')->findByIdStock($parcs->getIdStock());
+                $processus = $em->getRepository('App\Processus')->findAll();
+                $parcs = $em->getRepository('App\Magasins')->findOneByIdMagasin($request->get('idparc'));
+                $cordes = $em->getRepository('App/Corde')->findByParc($parcs);
+                $articles = $em->getRepository('App/StocksArticles')->findByIdStock($parcs->getIdStock());
             }
             if ($request->isMethod('POST')) {
                 $cmpt = 0;
@@ -39,12 +39,12 @@ class TransfertMAEController  extends AbstractController
                 $placeMouvement['article'] = array();
                 $placeMouvement['destination'] = array();
                 foreach ($request->request->get('place') as $emplacement) {
-                    $place = $em->getRepository('SSFMBBundle:Emplacement')->find($emplacement);
+                    $place = $em->getRepository('App\Emplacement')->find($emplacement);
 
                     if ($cmpt < count($session->get('emplacement'))) {
                         if ($session->get('emplacement')[$cmpt]->getStockscorde() != null) {
-                            $anarticle = $em->getRepository('SSFMBBundle:StocksCordes')->find($session->get('emplacement')[$cmpt]->getStockscorde());
-                            $anplace = $em->getRepository('SSFMBBundle:Emplacement')->find($session->get('emplacement')[$cmpt]);
+                            $anarticle = $em->getRepository('App\StocksCordes')->find($session->get('emplacement')[$cmpt]->getStockscorde());
+                            $anplace = $em->getRepository('App\Emplacement')->find($session->get('emplacement')[$cmpt]);
                             $anarticle->setEmplacement(null);
                             $anplace->setStockscorde(null);
                             $place->setDateDeRemplissage($anplace->getDateDeRemplissage());
@@ -60,8 +60,8 @@ class TransfertMAEController  extends AbstractController
                             $cmpt++;
 
                         } else if (($session->get('emplacement')[$cmpt]->getStockslanterne() != null) && ($cmpt < count($session->get('emplacement')))) {
-                            $anarticle = $em->getRepository('SSFMBBundle:StocksLanternes')->find($session->get('emplacement')[$cmpt]->getStockslanterne());
-                            $anplace = $em->getRepository('SSFMBBundle:Emplacement')->find($session->get('emplacement')[$cmpt]);
+                            $anarticle = $em->getRepository('App\StocksLanternes')->find($session->get('emplacement')[$cmpt]->getStockslanterne());
+                            $anplace = $em->getRepository('App\Emplacement')->find($session->get('emplacement')[$cmpt]);
                             $anplace->setStockslanterne(null);
                             $anarticle->setEmplacement(null);
                             $place->setDateDeRemplissage($anplace->getDateDeRemplissage());

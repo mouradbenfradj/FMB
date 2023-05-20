@@ -159,4 +159,9 @@ class Stocks
     {
         return $this->refAdrStock;
     }
+
+    public function isActif(): ?bool
+    {
+        return $this->actif;
+    }
 }

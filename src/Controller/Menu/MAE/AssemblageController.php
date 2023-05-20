@@ -23,10 +23,10 @@ class AssemblageController  extends AbstractController
                 $assemblages = null;
                 $articles = null;
             } else {
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $assemblages = $em->getRepository('SSFMBBundle:StocksCordes')->getCordeAssembler($parcs);
-                $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
-                $articles = $em->getRepository('SSFMBBundle:StocksArticles')->findByIdStock($parcs->getIdStock());
+                $parcs = $em->getRepository('App\Magasins')->findOneByIdMagasin($request->get('idparc'));
+                $assemblages = $em->getRepository('App\StocksCordes')->getCordeAssembler($parcs);
+                $processus = $em->getRepository('App\Processus')->findAll();
+                $articles = $em->getRepository('App/StocksArticles')->findByIdStock($parcs->getIdStock());
             }
 
             $cordeCompare = array();
@@ -90,9 +90,9 @@ class AssemblageController  extends AbstractController
                 $processus = null;
                 $assemblages = null;
             } else {
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $assemblages = $em->getRepository('SSFMBBundle:StocksPochesBS')->pocheAssemble($parcs);
-                $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
+                $parcs = $em->getRepository('App\Magasins')->findOneByIdMagasin($request->get('idparc'));
+                $assemblages = $em->getRepository('App/StocksPochesBS')->pocheAssemble($parcs);
+                $processus = $em->getRepository('App\Processus')->findAll();
                 $tableauChoix = $session->get('assemblage')[$request->get('choixAssemblage')];
             }
             $formulaire = array();
@@ -108,15 +108,15 @@ class AssemblageController  extends AbstractController
                 $position = 0;
                 $idStockPlaceMAEO = array();
                 $idStockAssemblageMAE = array();
-                $processusC = $em->getRepository('SSFMBBundle:Processus')->find($request->request->get('articlecyclechoix'));
+                $processusC = $em->getRepository('App\Processus')->find($request->request->get('articlecyclechoix'));
                 $assemblagearticle = $tableauChoix['listCorde'];
-                $assemblage = $em->getRepository('SSFMBBundle:Corde')->find($assemblagearticle[0]->getCorde()->getId());
+                $assemblage = $em->getRepository('App/Corde')->find($assemblagearticle[0]->getCorde()->getId());
 
                 foreach ($request->request->get('placeassemblage') as $emplacementassemblage) {
-                    $place = $em->getRepository('SSFMBBundle:Emplacement')->find($emplacementassemblage);
+                    $place = $em->getRepository('App\Emplacement')->find($emplacementassemblage);
 
                     array_push($idStockPlaceMAEO, $place);
-                    $scordes = $em->getRepository('SSFMBBundle:StocksCordes')->find($assemblagearticle[$position]->getId());
+                    $scordes = $em->getRepository('App\StocksCordes')->find($assemblagearticle[$position]->getId());
 
                     array_push($idStockAssemblageMAE, $scordes);
                     $scordes->setEmplacement($place);

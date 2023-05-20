@@ -182,4 +182,19 @@ class Pays
     {
         return $this->idPays;
     }
+
+    public function isDefautIdLangage(): ?bool
+    {
+        return $this->defautIdLangage;
+    }
+
+    public function isUseEtat(): ?bool
+    {
+        return $this->useEtat;
+    }
+
+    public function isAffichage(): ?bool
+    {
+        return $this->affichage;
+    }
 }

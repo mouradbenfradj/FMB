@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Application\Sonata\UserBundle\Entity\User;
 use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
@@ -37,7 +38,7 @@ class Historique
      */
     private $operation;
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User")
      */
     private $utilisateur;
     /**
@@ -94,10 +95,10 @@ class Historique
     /**
      * Set utilisateur
      *
-     * @param \App\Entity\User $utilisateur
+     * @param \Application\Sonata\UserBundle\Entity\User $utilisateur
      * @return Historique
      */
-    public function setUtilisateur(\App\Entity\User $utilisateur = null)
+    public function setUtilisateur(\Application\Sonata\UserBundle\Entity\User $utilisateur = null)
     {
         $this->utilisateur = $utilisateur;
 
@@ -107,7 +108,7 @@ class Historique
     /**
      * Get utilisateur
      *
-     * @return \App\Entity\User
+     * @return \Application\Sonata\UserBundle\Entity\User
      */
     public function getUtilisateur()
     {

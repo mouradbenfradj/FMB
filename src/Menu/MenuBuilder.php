@@ -200,7 +200,7 @@ class MenuBuilder
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
         $em = $this->container->get('doctrine')->getManager();
         // findMostRecent and Blog are just imaginary examples
-        $parcs = $em->getRepository('SSFMBBundle:Magasins')->findAll();
+        $parcs = $em->getRepository('App\Magasins')->findAll();
         if ($parcs) {
             foreach ($parcs as $parc) {
                 $menu->addChild($parc->getAbrevMagasin(), array(

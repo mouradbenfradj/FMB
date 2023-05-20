@@ -21,9 +21,9 @@ class LanterneController  extends AbstractController
                 $processus = null;
                 $lanternes = null;
             } else {
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $lanternes = $em->getRepository('SSFMBBundle:Lanterne')->findByParc($parcs);
-                $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
+                $parcs = $em->getRepository('App\Magasins')->findOneByIdMagasin($request->get('idparc'));
+                $lanternes = $em->getRepository('App/Lanterne')->findByParc($parcs);
+                $processus = $em->getRepository('App\Processus')->findAll();
             }
             if ($request->isMethod('POST')) {
                 $historique = new Historique();
@@ -31,17 +31,17 @@ class LanterneController  extends AbstractController
                 $historique->setUtilisateur($this->container->get('security.context')->getToken()->getUser());
                 $tacheEffectuer = array();
 
-                $lanterne = $em->getRepository('SSFMBBundle:Lanterne')->find($request->request->get('lanternechoix'));
+                $lanterne = $em->getRepository('App/Lanterne')->find($request->request->get('lanternechoix'));
                 $dateMiseAEau = new \DateTime($request->request->get('dateMAELanterne'));
-                $article = $em->getRepository('SSFMBBundle:Articles')->findOneByLibArticle($request->request->get('articlechoix'));
-                $stockArticle = $em->getRepository('SSFMBBundle:StocksArticles')->findOneBy(array('idStock' => $request->request->get('idstockparc'), 'refArticle' => $article));
-                $lanternearticle = $em->getRepository('SSFMBBundle:StocksLanternes')->getLanternePreparer($em->getRepository('SSFMBBundle:StocksArticlesSn')->getSAS($stockArticle, $request->request->get('articlelotchoix')), $lanterne);
+                $article = $em->getRepository('App/Articles')->findOneByLibArticle($request->request->get('articlechoix'));
+                $stockArticle = $em->getRepository('App/StocksArticles')->findOneBy(array('idStock' => $request->request->get('idstockparc'), 'refArticle' => $article));
+                $lanternearticle = $em->getRepository('App\StocksLanternes')->getLanternePreparer($em->getRepository('App/StocksArticlesSn')->getSAS($stockArticle, $request->request->get('articlelotchoix')), $lanterne);
                 $position = 0;
                 $idStockPlaceMAEO = array();
                 $idStockLanterneMAE = array();
-                $processusC = $em->getRepository('SSFMBBundle:Processus')->find($request->request->get('articlecyclechoix'));
+                $processusC = $em->getRepository('App\Processus')->find($request->request->get('articlecyclechoix'));
                 foreach ($request->request->get('placelanterne') as $emplacementlanterne) {
-                    $place = $em->getRepository('SSFMBBundle:Emplacement')->find($emplacementlanterne);
+                    $place = $em->getRepository('App\Emplacement')->find($emplacementlanterne);
                     array_push($idStockPlaceMAEO, $place);
                     array_push($idStockLanterneMAE, $lanternearticle[$position]);
                     $lanternearticle[$position]->setEmplacement($place);

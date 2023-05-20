@@ -27,7 +27,7 @@ class PrevisionSortieController  extends AbstractController
         if ($request->isMethod('POST')) {
             $implementation = new DefaultImpl($em);
             $datePrevision = new \DateTime($request->get('datePrevision'));
-            $tableauPrevisionSelect = array_merge_recursive($em->getRepository('SSFMBBundle:StocksPochesBS')->createQueryBuilder('sp')->where('sp.dateDeMiseAEau IS NOT NULL')->andWhere('sp.dateDeRetirement IS NULL')->getQuery()->getResult(), $em->getRepository('SSFMBBundle:StocksLanternes')->createQueryBuilder('sl')->where('sl.dateDeMiseAEau IS NOT NULL')->andWhere('sl.dateDeRetirement IS NULL')->getQuery()->getResult(), $em->getRepository('SSFMBBundle:StocksCordes')->createQueryBuilder('sc')->where('sc.dateDeMiseAEau IS NOT NULL')->andWhere('sc.dateDeRetirement IS NULL')->getQuery()->getResult());
+            $tableauPrevisionSelect = array_merge_recursive($em->getRepository('App/StocksPochesBS')->createQueryBuilder('sp')->where('sp.dateDeMiseAEau IS NOT NULL')->andWhere('sp.dateDeRetirement IS NULL')->getQuery()->getResult(), $em->getRepository('App\StocksLanternes')->createQueryBuilder('sl')->where('sl.dateDeMiseAEau IS NOT NULL')->andWhere('sl.dateDeRetirement IS NULL')->getQuery()->getResult(), $em->getRepository('App\StocksCordes')->createQueryBuilder('sc')->where('sc.dateDeMiseAEau IS NOT NULL')->andWhere('sc.dateDeRetirement IS NULL')->getQuery()->getResult());
             $choix = $request->get('operationCherche');
             $processusImplementation = new ProcessusImplementation($em);
 

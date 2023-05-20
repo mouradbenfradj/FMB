@@ -13,7 +13,7 @@ class HistoriqueOperationController  extends AbstractController
         $tableauOperationSelect = array();
         $tableauOperation = array();
         if ($request->isMethod('POST')) {
-            $tableauOperationSelect = array_merge_recursive($em->getRepository('SSFMBBundle:StocksPochesBS')->findAll(), $em->getRepository('SSFMBBundle:StocksLanternes')->findAll(), $em->getRepository('SSFMBBundle:StocksCordes')->findAll());
+            $tableauOperationSelect = array_merge_recursive($em->getRepository('App/StocksPochesBS')->findAll(), $em->getRepository('App\StocksLanternes')->findAll(), $em->getRepository('App\StocksCordes')->findAll());
             $dateDebut = new \DateTime($request->get('start'));
             $dateFin = new \DateTime($request->get('end'));
             $choix = $request->get('operationCherche');

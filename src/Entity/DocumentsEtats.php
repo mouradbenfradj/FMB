@@ -152,4 +152,14 @@ class DocumentsEtats
     {
         return $this->idEtatDoc;
     }
+
+    public function isOrdre(): ?bool
+    {
+        return $this->ordre;
+    }
+
+    public function isIsOpen(): ?bool
+    {
+        return $this->isOpen;
+    }
 }

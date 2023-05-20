@@ -32,7 +32,7 @@ class LanterneController  extends AbstractController
             if ($request->isMethod('POST')) {
                 $defaultmetier = new DefaultImpl($em);
                 $form->handleRequest($request);
-                $stockarticles = $em->getRepository('SSFMBBundle:StocksArticles')->findOneBy(array('idStock' => $form['libStock']->getData()->getIdStock(), 'refArticle' => $form['refArticle']->getData()->getRefArticle()));
+                $stockarticles = $em->getRepository('App/StocksArticles')->findOneBy(array('idStock' => $form['libStock']->getData()->getIdStock(), 'refArticle' => $form['refArticle']->getData()->getRefArticle()));
 
                 if (!empty($stockarticles)) {
                     $document = new Documents();
@@ -59,7 +59,7 @@ class LanterneController  extends AbstractController
                     $em->persist($docLineSn);
                     $em->persist($doclin2);
                     for ($j = 0; $j < $form['nombre']->getData(); $j++) {
-                        $stocksarticlessn = $em->getRepository('SSFMBBundle:StocksArticlesSn')->findOneBy(array('refStockArticle' => $stockarticles, 'numeroSerie' => $request->request->get("ss_fmbbundle_preparationlanterne")['numeroSerie']));
+                        $stocksarticlessn = $em->getRepository('App/StocksArticlesSn')->findOneBy(array('refStockArticle' => $stockarticles, 'numeroSerie' => $request->request->get("ss_fmbbundle_preparationlanterne")['numeroSerie']));
                         $stockslanternes = new StocksLanternes();
                         $stockslanternes->setDateDeCreation(new \DateTime($time[2] . '-' . $time[1] . '-' . $time[0]));
                         $stockslanternes->setArticle($stocksarticlessn);

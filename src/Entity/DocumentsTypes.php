@@ -219,4 +219,14 @@ class DocumentsTypes
     {
         return $this->idPdfModele;
     }
+
+    public function isIdTypeGroupe(): ?bool
+    {
+        return $this->idTypeGroupe;
+    }
+
+    public function isActif(): ?bool
+    {
+        return $this->actif;
+    }
 }

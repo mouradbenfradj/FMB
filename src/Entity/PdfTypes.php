@@ -62,4 +62,9 @@ class PdfTypes
     {
         return $this->idPdfType;
     }
+
+    public function isIdPdfType(): ?bool
+    {
+        return $this->idPdfType;
+    }
 }

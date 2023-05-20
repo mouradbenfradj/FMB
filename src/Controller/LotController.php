@@ -23,10 +23,10 @@ class LotController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Lot')->findAll();
+        $entities = $em->getRepository('App/Lot')->findAll();
 
         return $this->render(
-            'SSFMBBundle:Lot:index.html.twig',
+            'App/Lot:index.html.twig',
             array(
                 'entities' => $entities,
             )
@@ -52,7 +52,7 @@ class LotController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:Lot:new.html.twig',
+            'App/Lot:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -93,7 +93,7 @@ class LotController  extends AbstractController
         $form = $this->createCreateForm($entity);
 
         return $this->render(
-            'SSFMBBundle:Lot:new.html.twig',
+            'App/Lot:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -109,7 +109,7 @@ class LotController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Lot')->find($id);
+        $entity = $em->getRepository('App/Lot')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Lot entity.');
@@ -118,7 +118,7 @@ class LotController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Lot:show.html.twig',
+            'App/Lot:show.html.twig',
             array(
                 'entity' => $entity,
                 'delete_form' => $deleteForm->createView(),
@@ -150,7 +150,7 @@ class LotController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Lot')->find($id);
+        $entity = $em->getRepository('App/Lot')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Lot entity.');
@@ -160,7 +160,7 @@ class LotController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Lot:edit.html.twig',
+            'App/Lot:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -200,7 +200,7 @@ class LotController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Lot')->find($id);
+        $entity = $em->getRepository('App/Lot')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Lot entity.');
@@ -217,7 +217,7 @@ class LotController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:Lot:edit.html.twig',
+            'App/Lot:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -237,7 +237,7 @@ class LotController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Lot')->find($id);
+            $entity = $em->getRepository('App/Lot')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Lot entity.');

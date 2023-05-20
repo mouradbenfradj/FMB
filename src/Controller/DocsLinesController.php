@@ -23,10 +23,10 @@ class DocsLinesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:DocsLines')->findAll();
+        $entities = $em->getRepository('App/DocsLines')->findAll();
 
         return $this->render(
-            'SSFMBBundle:DocsLines:index.html.twig',
+            'App/DocsLines:index.html.twig',
             array(
                 'entities' => $entities,
             )
@@ -53,7 +53,7 @@ class DocsLinesController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:DocsLines:new.html.twig',
+            'App/DocsLines:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -94,7 +94,7 @@ class DocsLinesController  extends AbstractController
         $form = $this->createCreateForm($entity);
 
         return $this->render(
-            'SSFMBBundle:DocsLines:new.html.twig',
+            'App/DocsLines:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -110,7 +110,7 @@ class DocsLinesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:DocsLines')->find($id);
+        $entity = $em->getRepository('App/DocsLines')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find DocsLines entity.');
@@ -119,7 +119,7 @@ class DocsLinesController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:DocsLines:show.html.twig',
+            'App/DocsLines:show.html.twig',
             array(
                 'entity' => $entity,
                 'delete_form' => $deleteForm->createView(),
@@ -151,7 +151,7 @@ class DocsLinesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:DocsLines')->find($id);
+        $entity = $em->getRepository('App/DocsLines')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find DocsLines entity.');
@@ -161,7 +161,7 @@ class DocsLinesController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:DocsLines:edit.html.twig',
+            'App/DocsLines:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -201,7 +201,7 @@ class DocsLinesController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:DocsLines')->find($id);
+        $entity = $em->getRepository('App/DocsLines')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find DocsLines entity.');
@@ -218,7 +218,7 @@ class DocsLinesController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:DocsLines:edit.html.twig',
+            'App/DocsLines:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -238,7 +238,7 @@ class DocsLinesController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:DocsLines')->find($id);
+            $entity = $em->getRepository('App/DocsLines')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find DocsLines entity.');

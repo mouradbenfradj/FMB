@@ -24,18 +24,18 @@ class AwController  extends AbstractController
                 $stock = null;
                 $articles = null;
             } else {
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
-                $articles = $em->getRepository('SSFMBBundle:StocksArticles')->findByIdStock($parcs->getIdStock());
+                $parcs = $em->getRepository('App\Magasins')->findOneByIdMagasin($request->get('idparc'));
+                $processus = $em->getRepository('App\Processus')->findAll();
+                $articles = $em->getRepository('App/StocksArticles')->findByIdStock($parcs->getIdStock());
             }
 
             if ($request->isMethod('POST')) {
                 $implementation = new DefaultImpl($em);
-                $stock = $em->getRepository('SSFMBBundle:Stocks')->find($request->request->get('stockchoix'));
+                $stock = $em->getRepository('App/Stocks')->find($request->request->get('stockchoix'));
                 foreach ($request->request->get('placelanterne') as $emplacementcorde) {
-                    $place = $em->getRepository('SSFMBBundle:Emplacement')->find($emplacementcorde);
+                    $place = $em->getRepository('App\Emplacement')->find($emplacementcorde);
                     $slanterne = $place->getStockslanterne();
-                    $article = $em->getRepository('SSFMBBundle:Articles')->findOneByLibArticle($slanterne->getProcessus()->getArticleSortie());
+                    $article = $em->getRepository('App/Articles')->findOneByLibArticle($slanterne->getProcessus()->getArticleSortie());
                     if (!$article) {
                         $article = new Articles();
                         $article->setLibArticle($slanterne->getProcessus()->getArticleSortie());
@@ -61,14 +61,14 @@ class AwController  extends AbstractController
                         $em->persist($article);
                         $em->flush();
                     }
-                    $sarticle = $em->getRepository('SSFMBBundle:StocksArticles')->findOneBy(array('refArticle' => $article, 'idStock' => $stock));
+                    $sarticle = $em->getRepository('App/StocksArticles')->findOneBy(array('refArticle' => $article, 'idStock' => $stock));
                     if (!$sarticle) {
                         $sarticle = new StocksArticles();
                         $sarticle->setRefArticle($article);
                         $sarticle->setQte($implementation->calculerQuantiterLanterne($slanterne));
                         $sarticle->setIdStock($stock);
                         $em->persist($sarticle);
-                        $sarticlesn = $em->getRepository('SSFMBBundle:StocksArticlesSN')->getSAS($sarticle->getRefStockArticle(), $slanterne->getArticle()->getNumeroSerie());
+                        $sarticlesn = $em->getRepository('App/StocksArticlesSN')->getSAS($sarticle->getRefStockArticle(), $slanterne->getArticle()->getNumeroSerie());
                         if (!$sarticlesn) {
                             $sarticlesn = new StocksArticlesSn();
                             $sarticlesn->setNumeroSerie($slanterne->getArticle()->getNumeroSerie());
@@ -79,7 +79,7 @@ class AwController  extends AbstractController
                         }
                     } else {
                         $sarticle->setQte($sarticle->getQte() + $implementation->calculerQuantiterLanterne($slanterne));
-                        $sarticlesn = $em->getRepository('SSFMBBundle:StocksArticlesSN')->getSAS($sarticle->getRefStockArticle(), $slanterne->getArticle()->getNumeroSerie());
+                        $sarticlesn = $em->getRepository('App/StocksArticlesSN')->getSAS($sarticle->getRefStockArticle(), $slanterne->getArticle()->getNumeroSerie());
                         if (!$sarticlesn) {
                             $sarticlesn = new StocksArticlesSn();
                             $sarticlesn->setNumeroSerie($slanterne->getArticle()->getNumeroSerie());
@@ -127,20 +127,20 @@ class AwController  extends AbstractController
                 $stock = null;
                 $articles = null;
             } else {
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
-                $articles = $em->getRepository('SSFMBBundle:StocksArticles')->findByIdStock($parcs->getIdStock());
+                $parcs = $em->getRepository('App\Magasins')->findOneByIdMagasin($request->get('idparc'));
+                $processus = $em->getRepository('App\Processus')->findAll();
+                $articles = $em->getRepository('App/StocksArticles')->findByIdStock($parcs->getIdStock());
             }
 
             if ($request->isMethod('POST')) {
                 $date1 = new DateTime("now");
                 $implementationProcessus = new ProcessusImplementation();
-                $stock = $em->getRepository('SSFMBBundle:Stocks')->find($request->request->get('stockchoix'));
+                $stock = $em->getRepository('App/Stocks')->find($request->request->get('stockchoix'));
 
                 ///////////////////////////////////////////////::
 
                 foreach ($request->request->get('placecorde') as $emplacementcorde) {
-                    $place = $em->getRepository('SSFMBBundle:Emplacement')->find($emplacementcorde);
+                    $place = $em->getRepository('App\Emplacement')->find($emplacementcorde);
                     $interval = date_diff($place->getDateDeRemplissage(), $date1);
                     $scorde = $place->getStockscorde();
                     if ($scorde->getDateAssemblage()) {
@@ -148,7 +148,7 @@ class AwController  extends AbstractController
 
                             $actualProcess = $implementationProcessus->processusArticle($scorde->getProcessus(), $date1, $place->getDateDeRemplissage());
                             $cycleProcess = $implementationProcessus->cycleArticle($scorde->getProcessus(), $date1, $place->getDateDeRemplissage());
-                            $article = $em->getRepository('SSFMBBundle:Articles')->findOneByLibArticle($actualProcess->getArticleSortie() . $cycleProcess . " COM");
+                            $article = $em->getRepository('App/Articles')->findOneByLibArticle($actualProcess->getArticleSortie() . $cycleProcess . " COM");
                             if (!$article) {
                                 $article = new Articles();
                                 $article->setLibArticle($actualProcess->getArticleSortie() . $cycleProcess . " COM");
@@ -174,15 +174,15 @@ class AwController  extends AbstractController
                                 $em->persist($article);
                                 $em->flush();
                             }
-                            $sarticle = $em->getRepository('SSFMBBundle:StocksArticles')->findOneBy(array('refArticle' => $article, 'idStock' => $stock));
+                            $sarticle = $em->getRepository('App/StocksArticles')->findOneBy(array('refArticle' => $article, 'idStock' => $stock));
                             if (!$sarticle) {
                                 $sarticle = new StocksArticles();
                                 $sarticle->setRefArticle($article);
                                 $sarticle->setQte($poche->getQuantiter());
                                 $sarticle->setIdStock($stock);
                                 $em->persist($sarticle);
-                                $sarticlesn1 = $em->getRepository('SSFMBBundle:StocksArticlesSn')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
-                                $sarticlesn = $em->getRepository('SSFMBBundle:StocksArticlesSnVirtuel')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
+                                $sarticlesn1 = $em->getRepository('App/StocksArticlesSn')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
+                                $sarticlesn = $em->getRepository('App/StocksArticlesSnVirtuel')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
                                 if (!$sarticlesn && !$sarticlesn1) {
                                     $sarticlesn1 = new StocksArticlesSn();
                                     $sarticlesn1->setNumeroSerie($poche->getArticle()->getNumeroSerie());
@@ -196,8 +196,8 @@ class AwController  extends AbstractController
                                 }
                             } else {
                                 $sarticle->setQte($sarticle->getQte() + $poche->getQuantiter());
-                                $sarticlesn1 = $em->getRepository('SSFMBBundle:StocksArticlesSn')->getSAS($sarticle->getRefStockArticle(), $poche->getArticle()->getNumeroSerie());
-                                $sarticlesn = $em->getRepository('SSFMBBundle:StocksArticlesSnVirtuel')->getSAS($sarticle->getRefStockArticle(), $poche->getArticle()->getNumeroSerie());
+                                $sarticlesn1 = $em->getRepository('App/StocksArticlesSn')->getSAS($sarticle->getRefStockArticle(), $poche->getArticle()->getNumeroSerie());
+                                $sarticlesn = $em->getRepository('App/StocksArticlesSnVirtuel')->getSAS($sarticle->getRefStockArticle(), $poche->getArticle()->getNumeroSerie());
                                 if (!$sarticlesn && !$sarticlesn1) {
                                     $sarticlesn1 = new StocksArticlesSn();
                                     $sarticlesn1->setNumeroSerie($poche->getArticle()->getNumeroSerie());
@@ -221,7 +221,7 @@ class AwController  extends AbstractController
                         $cycleProcess = $implementationProcessus->cycleArticle($scorde->getProcessus(), $date1, $place->getDateDeRemplissage());
 
 
-                        $article = $em->getRepository('SSFMBBundle:Articles')->findOneByLibArticle($actualProcess->getArticleSortie() . $cycleProcess . " COM");
+                        $article = $em->getRepository('App/Articles')->findOneByLibArticle($actualProcess->getArticleSortie() . $cycleProcess . " COM");
                         if (!$article) {
                             $article = new Articles();
                             $article->setLibArticle($actualProcess->getArticleSortie() . $cycleProcess . " COM");
@@ -247,15 +247,15 @@ class AwController  extends AbstractController
                             $em->persist($article);
                             $em->flush();
                         }
-                        $sarticle = $em->getRepository('SSFMBBundle:StocksArticles')->findOneBy(array('refArticle' => $article, 'idStock' => $stock));
+                        $sarticle = $em->getRepository('App/StocksArticles')->findOneBy(array('refArticle' => $article, 'idStock' => $stock));
                         if (!$sarticle) {
                             $sarticle = new StocksArticles();
                             $sarticle->setRefArticle($article);
                             $sarticle->setQte($scorde->getQuantiter());
                             $sarticle->setIdStock($stock);
                             $em->persist($sarticle);
-                            $sarticlesn1 = $em->getRepository('SSFMBBundle:StocksArticlesSn')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
-                            $sarticlesn = $em->getRepository('SSFMBBundle:StocksArticlesSnVirtuel')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
+                            $sarticlesn1 = $em->getRepository('App/StocksArticlesSn')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
+                            $sarticlesn = $em->getRepository('App/StocksArticlesSnVirtuel')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
                             if (!$sarticlesn && !$sarticlesn1) {
                                 $sarticlesn1 = new StocksArticlesSn();
                                 $sarticlesn1->setNumeroSerie($scorde->getArticle()->getNumeroSerie());
@@ -269,8 +269,8 @@ class AwController  extends AbstractController
                             }
                         } else {
                             $sarticle->setQte($sarticle->getQte() + $scorde->getQuantiter());
-                            $sarticlesn1 = $em->getRepository('SSFMBBundle:StocksArticlesSn')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
-                            $sarticlesn = $em->getRepository('SSFMBBundle:StocksArticlesSnVirtuel')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
+                            $sarticlesn1 = $em->getRepository('App/StocksArticlesSn')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
+                            $sarticlesn = $em->getRepository('App/StocksArticlesSnVirtuel')->getSAS($sarticle->getRefStockArticle(), $scorde->getArticle()->getNumeroSerie());
                             if (!$sarticlesn && !$sarticlesn1) {
                                 $sarticlesn1 = new StocksArticlesSn();
                                 $sarticlesn1->setNumeroSerie($scorde->getArticle()->getNumeroSerie());

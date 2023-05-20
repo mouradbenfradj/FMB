@@ -122,4 +122,9 @@ class AnnuaireCategories
     {
         return $this->idCategorie;
     }
+
+    public function isOrdre(): ?bool
+    {
+        return $this->ordre;
+    }
 }

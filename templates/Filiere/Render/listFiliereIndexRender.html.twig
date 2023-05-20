@@ -5,7 +5,7 @@
                 {{ filiere.nomFiliere }}
                 <br>
                 {% if page == 'suivit' %}
-                    {% include 'SSFMBBundle:Filiere/Include:StatIndexInclude.html.twig' %}
+                    {% include 'App/Filiere/Include:StatIndexInclude.html.twig' %}
                     {{ include('Filiere/Include/observationInclude.html.twig', {filiere: filiere, id: id}) }}
                 {% endif %}
             </div>
@@ -18,7 +18,7 @@
                     {{ filiere.nomFiliere }}
                     <br>
                     {% if page == 'suivit' %}
-                        {% include 'SSFMBBundle:Filiere/Include:StatIndexInclude.html.twig' %}
+                        {% include 'App/Filiere/Include:StatIndexInclude.html.twig' %}
                     {% endif %}
                 </div>
                 {% include 'Segment/Include/listIndexInclude.html.twig' %}

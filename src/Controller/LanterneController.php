@@ -22,8 +22,8 @@ class LanterneController  extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $implementation = new DefaultImpl($em);
 
-        $lanternearticle = $em->getRepository('SSFMBBundle:StocksLanternes')->getLanternePreparer(
-            $em->getRepository('SSFMBBundle:StocksArticlesSn')
+        $lanternearticle = $em->getRepository('App\StocksLanternes')->getLanternePreparer(
+            $em->getRepository('App/StocksArticlesSn')
                 ->findOneBy(array('refStockArticle' => $request->get('ida'), 'numeroSerie' => $request->get('lot')))
             , $request->get('idl')
         );
@@ -52,8 +52,8 @@ class LanterneController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $implementation = new DefaultImpl($em);
-        $lanternearticle = $em->getRepository('SSFMBBundle:StocksLanternes')->getLanternePreparer(
-            $em->getRepository('SSFMBBundle:StocksArticlesSn')
+        $lanternearticle = $em->getRepository('App\StocksLanternes')->getLanternePreparer(
+            $em->getRepository('App/StocksArticlesSn')
                 ->findOneBy(array('refStockArticle' => $request->get('ida'), 'numeroSerie' => $request->get('lot')))
             , $request->get('idl')
         );

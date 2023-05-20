@@ -33,7 +33,7 @@
                         <table border="1" width="100%">
                             {% for place in entity.tacheEffectuer.positionDeMAE %}
                                 {{ render(controller(
-                                'SSFMBBundle:Emplacement:afficherSourceEmplacement',
+                                'App\Emplacement:afficherSourceEmplacement',
                                 { 'id': place.id }
                                 )) }}
                             {% endfor %}
@@ -51,7 +51,7 @@
                         <table border="1" width="100%">
                             {% for place in entity.tacheEffectuer.positionDeMAE %}
                                 {{ render(controller(
-                                'SSFMBBundle:Emplacement:afficherSourceEmplacement',
+                                'App\Emplacement:afficherSourceEmplacement',
                                 { 'id': place.id }
                                 )) }}
                             {% endfor %}

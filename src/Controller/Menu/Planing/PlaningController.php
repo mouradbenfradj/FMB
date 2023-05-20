@@ -5,6 +5,11 @@ namespace App\Controller\Menu\Planing;
 use DateTime;
 use App\Implementation\PlaningImplementation;
 use App\Implementation\ProcessusImplementation;
+use App\Repository\EmplacementRepository;
+use App\Repository\MagasinsRepository;
+use App\Repository\ProcessusRepository;
+use App\Repository\StocksCordesRepository;
+use App\Repository\StocksLanternesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,19 +23,26 @@ class PlaningController  extends AbstractController
  /**
      * @Route("/", name="app_planingdetravaille")
      */
-    public function planingdetravaille()
+    public function planingdetravaille(
+        Request $request,
+        MagasinsRepository $magasinsRepository,
+        ProcessusRepository $processusRepository,
+        StocksLanternesRepository $stocksLanternesRepository,
+        StocksCordesRepository $stocksCordesRepository,
+        EmplacementRepository $emplacementRepository
+        )
     {
         $em = $this->getDoctrine()->getManager();
         $nowDate = new DateTime("now");
         $tableAlertProcessus = array();
-        $parc = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-        $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
+        $parc = $magasinsRepository->findOneByIdMagasin($request->get('idparc'));
+        $processus = $processusRepository->findAll();
         if ($parc) {
             $planingImplementation = new PlaningImplementation();
             $processusImplementation = new ProcessusImplementation();
 
-            $lanternesfabriquer = $em->getRepository('SSFMBBundle:StocksLanternes')->getLanternePreparerYellowWarning($parc);
-            $lanternesfabriquerurgent = $em->getRepository('SSFMBBundle:StocksLanternes')->getLanternePreparerRedWarning($parc);
+            $lanternesfabriquer = $stocksLanternesRepository->getLanternePreparerYellowWarning($parc);
+            $lanternesfabriquerurgent = $stocksLanternesRepository->getLanternePreparerRedWarning($parc);
             foreach ($lanternesfabriquer as $lanterne) {
                 if (!isset($tableAlertProcessus['processus a éfféctuer']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')])) {
                     $tableAlertProcessus['processus a éfféctuer']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')] = array();
@@ -45,8 +57,8 @@ class PlaningController  extends AbstractController
                 }
                 array_push($tableAlertProcessus['processus urgent']['Lanterne Preparé'][$lanterne['nomLanterne']][$lanterne['libArticle']][$lanterne['numeroSerie']][$lanterne['dateDeCreation']->format('Y-m-d')], $lanterne['quantiter']);
             }
-            $cordesfabriquer = $em->getRepository('SSFMBBundle:StocksCordes')->getCordePreparerYellowWarning($parc);
-            $cordesfabriquerurgent = $em->getRepository('SSFMBBundle:StocksCordes')->getCordePreparerRedWarning($parc);
+            $cordesfabriquer = $stocksCordesRepository->getCordePreparerYellowWarning($parc);
+            $cordesfabriquerurgent = $stocksCordesRepository->getCordePreparerRedWarning($parc);
             foreach ($cordesfabriquer as $corde) {
                 if (!isset($tableAlertProcessus['processus a éfféctuer']['Corde Preparé'][$corde['nomCorde']][$corde['libArticle']][$corde['numeroSerie']][$corde['dateDeCreation']->format('Y-m-d')])) {
                     $tableAlertProcessus['processus a éfféctuer']['Corde Preparé'][$corde['nomCorde']][$corde['libArticle']][$corde['numeroSerie']][$corde['dateDeCreation']->format('Y-m-d')] = array();
@@ -64,7 +76,8 @@ class PlaningController  extends AbstractController
                 array_push($tableAlertProcessus['processus urgent']['Corde Preparé'][$corde['nomCorde']][$corde['libArticle']][$corde['numeroSerie']][$corde['dateDeCreation']->format('Y-m-d')], $corde['quantiter']);
             }
 
-            $places = $em->getRepository('SSFMBBundle:Emplacement')->getTotaleEmplacementByParc($parc);
+            //$places = $emplacementRepository->getTotaleEmplacementByParc($parc);
+            $places = $emplacementRepository->getTotaleEmplacementByParc($parc);
             foreach ($places as $place) {
                 if ($place->getStockslanterne()) {
                     $stock = $place->getStockslanterne();

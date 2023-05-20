@@ -24,9 +24,9 @@ class FlotteurController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Flotteur')->findAll();
+        $entities = $em->getRepository('App/Flotteur')->findAll();
 
-        return $this->render('SSFMBBundle:Flotteur:index.html.twig', array(
+        return $this->render('App/Flotteur:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -49,7 +49,7 @@ class FlotteurController  extends AbstractController
             return $this->redirect($this->generateUrl('flotteur_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('SSFMBBundle:Flotteur:new.html.twig', array(
+        return $this->render('App/Flotteur:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -83,7 +83,7 @@ class FlotteurController  extends AbstractController
         $entity = new Flotteur();
         $form = $this->createCreateForm($entity);
 
-        return $this->render('SSFMBBundle:Flotteur:new.html.twig', array(
+        return $this->render('App/Flotteur:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -97,7 +97,7 @@ class FlotteurController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Flotteur')->find($id);
+        $entity = $em->getRepository('App/Flotteur')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Flotteur entity.');
@@ -105,7 +105,7 @@ class FlotteurController  extends AbstractController
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Flotteur:show.html.twig', array(
+        return $this->render('App/Flotteur:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -135,7 +135,7 @@ class FlotteurController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Flotteur')->find($id);
+        $entity = $em->getRepository('App/Flotteur')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Flotteur entity.');
@@ -144,7 +144,7 @@ class FlotteurController  extends AbstractController
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Flotteur:edit.html.twig', array(
+        return $this->render('App/Flotteur:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -178,7 +178,7 @@ class FlotteurController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Flotteur')->find($id);
+        $entity = $em->getRepository('App/Flotteur')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Flotteur entity.');
@@ -194,7 +194,7 @@ class FlotteurController  extends AbstractController
             return $this->redirect($this->generateUrl('flotteur_edit', array('id' => $id)));
         }
 
-        return $this->render('SSFMBBundle:Flotteur:edit.html.twig', array(
+        return $this->render('App/Flotteur:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -212,7 +212,7 @@ class FlotteurController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Flotteur')->find($id);
+            $entity = $em->getRepository('App/Flotteur')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Flotteur entity.');
@@ -228,7 +228,7 @@ class FlotteurController  extends AbstractController
     public function findBySegmentAction(Segment $segment)
     {
         $em = $this->getDoctrine()->getManager();
-        $flotteurs = $em->getRepository('SSFMBBundle:Flotteur')->findBySegment($segment);
+        $flotteurs = $em->getRepository('App/Flotteur')->findBySegment($segment);
         return $this->render('Flotteur/Render/listFlotteurIndexRender.html.twig', array(
             'flotteurs' => $flotteurs));
     }

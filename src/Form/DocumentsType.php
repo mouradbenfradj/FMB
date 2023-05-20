@@ -32,7 +32,7 @@ class DocumentsType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'SS\FMBBundle\Entity\Documents',
+                'data_class' => 'App\Entity\Documents',
             )
         );
     }

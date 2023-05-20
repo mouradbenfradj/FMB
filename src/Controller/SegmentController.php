@@ -24,9 +24,9 @@ class SegmentController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Segment')->findAll();
+        $entities = $em->getRepository('App/Segment')->findAll();
 
-        return $this->render('SSFMBBundle:Segment:index.html.twig', array(
+        return $this->render('App/Segment:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -49,7 +49,7 @@ class SegmentController  extends AbstractController
             return $this->redirect($this->generateUrl('segment_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('SSFMBBundle:Segment:new.html.twig', array(
+        return $this->render('App/Segment:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -83,7 +83,7 @@ class SegmentController  extends AbstractController
         $entity = new Segment();
         $form = $this->createCreateForm($entity);
 
-        return $this->render('SSFMBBundle:Segment:new.html.twig', array(
+        return $this->render('App/Segment:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -97,7 +97,7 @@ class SegmentController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Segment')->find($id);
+        $entity = $em->getRepository('App/Segment')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Segment entity.');
@@ -105,7 +105,7 @@ class SegmentController  extends AbstractController
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Segment:show.html.twig', array(
+        return $this->render('App/Segment:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -135,7 +135,7 @@ class SegmentController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Segment')->find($id);
+        $entity = $em->getRepository('App/Segment')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Segment entity.');
@@ -144,7 +144,7 @@ class SegmentController  extends AbstractController
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Segment:edit.html.twig', array(
+        return $this->render('App/Segment:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -178,7 +178,7 @@ class SegmentController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Segment')->find($id);
+        $entity = $em->getRepository('App/Segment')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Segment entity.');
@@ -194,7 +194,7 @@ class SegmentController  extends AbstractController
             return $this->redirect($this->generateUrl('segment_edit', array('id' => $id)));
         }
 
-        return $this->render('SSFMBBundle:Segment:edit.html.twig', array(
+        return $this->render('App/Segment:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -212,7 +212,7 @@ class SegmentController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Segment')->find($id);
+            $entity = $em->getRepository('App/Segment')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Segment entity.');
@@ -228,7 +228,7 @@ class SegmentController  extends AbstractController
     public function findByFiliereAction(Filiere $filiere)
     {
         $em = $this->getDoctrine()->getManager();
-        $segments = $em->getRepository('SSFMBBundle:Segment')->findByFiliere($filiere);
+        $segments = $em->getRepository('App/Segment')->findByFiliere($filiere);
         return $this->render('Segment/Render/listSegmentIndexRender.html.twig', array(
             'segments' => $segments));
     }

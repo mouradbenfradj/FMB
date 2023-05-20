@@ -31,7 +31,7 @@ class FiliereController  extends AbstractController
 
         $entities = $filiereRepository->findAll();
 
-        return $this->render('SSFMBBundle:Filiere:index.html.twig', array(
+        return $this->render('App/Filiere:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -54,7 +54,7 @@ class FiliereController  extends AbstractController
             return $this->redirect($this->generateUrl('filiere_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('SSFMBBundle:Filiere:new.html.twig', array(
+        return $this->render('App/Filiere:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -88,7 +88,7 @@ class FiliereController  extends AbstractController
         $entity = new Filiere();
         $form = $this->createCreateForm($entity);
 
-        return $this->render('SSFMBBundle:Filiere:new.html.twig', array(
+        return $this->render('App/Filiere:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
         ));
@@ -109,7 +109,7 @@ class FiliereController  extends AbstractController
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Filiere:show.html.twig', array(
+        return $this->render('App/Filiere:show.html.twig', array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -148,7 +148,7 @@ class FiliereController  extends AbstractController
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('SSFMBBundle:Filiere:edit.html.twig', array(
+        return $this->render('App/Filiere:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -198,7 +198,7 @@ class FiliereController  extends AbstractController
             return $this->redirect($this->generateUrl('filiere_edit', array('id' => $id)));
         }
 
-        return $this->render('SSFMBBundle:Filiere:edit.html.twig', array(
+        return $this->render('App/Filiere:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -240,6 +240,7 @@ class FiliereController  extends AbstractController
         $filieress = $filiereRepository->getTotaleContenuFiliere($parc);
         $filieres = array();
         $pp = 0;
+        dd($filieress);
         foreach ($filieress as $item) {
             $filieres[$item['fiId']]['nomFiliere'] = $item['nomFiliere'];
             $filieres[$item['fiId']]['observation'] = $item['observation'];

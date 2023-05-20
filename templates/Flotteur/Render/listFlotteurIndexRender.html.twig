@@ -4,7 +4,7 @@
             {{ flotteur.nomFlotteur }}
         </div>
         {{ render(controller(
-        'SSFMBBundle:Emplacement:findByFlotteur',
+        'App\Emplacement:findByFlotteur',
         { 'flotteur': flotteur }
         )) }}
         {# {% include 'Emplacement/Render/listEmplacementIndexRender.html.twig' %}#}

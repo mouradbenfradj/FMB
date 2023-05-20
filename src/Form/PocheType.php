@@ -27,7 +27,7 @@ class PocheType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'SS\FMBBundle\Entity\Poche',
+                'data_class' => 'App\Entity\Poche',
             )
         );
     }

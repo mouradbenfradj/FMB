@@ -20,17 +20,17 @@ class PocheController  extends AbstractController
                 $poches = null;
                 $articles = null;
             } else {
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
-                $poches = $em->getRepository('SSFMBBundle:PochesBS')->findByParc($parcs);
-                $articles = $em->getRepository('SSFMBBundle:StocksArticles')->findByIdStock($parcs->getIdStock());
+                $parcs = $em->getRepository('App\Magasins')->findOneByIdMagasin($request->get('idparc'));
+                $processus = $em->getRepository('App\Processus')->findAll();
+                $poches = $em->getRepository('App/PochesBS')->findByParc($parcs);
+                $articles = $em->getRepository('App/StocksArticles')->findByIdStock($parcs->getIdStock());
             }
             if ($request->isMethod('POST')) {
                 $dateMiseAEau = new \DateTime($request->request->get('dateMAEPoche'));
-                $poche = $em->getRepository('SSFMBBundle:PochesBS')->find($request->request->get('pochechoix'));
+                $poche = $em->getRepository('App/PochesBS')->find($request->request->get('pochechoix'));
                 foreach ($request->request->get('placepoche') as $emplacementpoche) {
-                    $place = $em->getRepository('SSFMBBundle:Emplacement')->find($emplacementpoche);
-                    $pochearticle = $em->getRepository('SSFMBBundle:StocksPochesBS')->getPochePreparer($em->getRepository('SSFMBBundle:StocksArticlesSn')->getSAS($request->request->get('articlechoix'), $request->request->get('articlelotchoix')), $poche);
+                    $place = $em->getRepository('App\Emplacement')->find($emplacementpoche);
+                    $pochearticle = $em->getRepository('App/StocksPochesBS')->getPochePreparer($em->getRepository('App/StocksArticlesSn')->getSAS($request->request->get('articlechoix'), $request->request->get('articlelotchoix')), $poche);
                     $pochearticle[0]->setEmplacement($place);
                     $pochearticle[0]->setDateDeMiseAEau($dateMiseAEau);
                     $place->setStockspoches($pochearticle[0]);

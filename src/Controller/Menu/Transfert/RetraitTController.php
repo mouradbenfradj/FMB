@@ -22,10 +22,10 @@ class RetraitTController  extends AbstractController
                 $lanternes = null;
                 $articles = null;
             } else {
-                $parcs = $em->getRepository('SSFMBBundle:Magasins')->findOneByIdMagasin($request->get('idparc'));
-                $processus = $em->getRepository('SSFMBBundle:Processus')->findAll();
-                $lanternes = $em->getRepository('SSFMBBundle:Lanterne')->findByParc($parcs);
-                $articles = $em->getRepository('SSFMBBundle:StocksArticles')->findByIdStock($parcs->getIdStock());
+                $parcs = $em->getRepository('App\Magasins')->findOneByIdMagasin($request->get('idparc'));
+                $processus = $em->getRepository('App\Processus')->findAll();
+                $lanternes = $em->getRepository('App/Lanterne')->findByParc($parcs);
+                $articles = $em->getRepository('App/StocksArticles')->findByIdStock($parcs->getIdStock());
             }
             if ($request->isMethod('POST')) {
                 $session = new Session();
@@ -33,7 +33,7 @@ class RetraitTController  extends AbstractController
                 $session->set('lanterne', array());
                 $session->set('corde', array());
                 foreach ($request->request->get('place') as $emplacement) {
-                    $place = $em->getRepository('SSFMBBundle:Emplacement')->find($emplacement);
+                    $place = $em->getRepository('App\Emplacement')->find($emplacement);
                     $session->set('dateTransfertRetrait', new \DateTime($request->request->get('dateRetrait')));
                     $session->set('emplacement', array_merge($session->get('emplacement'), array($place)));
                     if ($place->getStockscorde() != null) {

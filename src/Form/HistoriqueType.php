@@ -28,7 +28,7 @@ class HistoriqueType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SS\FMBBundle\Entity\Historique'
+            'data_class' => 'App\Entity\Historique'
         ));
     }
 

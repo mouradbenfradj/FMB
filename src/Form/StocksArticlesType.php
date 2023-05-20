@@ -28,7 +28,7 @@ class StocksArticlesType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'SS\FMBBundle\Entity\StocksArticles',
+                'data_class' => 'App\Entity\StocksArticles',
             )
         );
     }

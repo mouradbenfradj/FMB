@@ -26,7 +26,7 @@ class FiliereType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SS\FMBBundle\Entity\Filiere'
+            'data_class' => 'App\Entity\Filiere'
         ));
     }
 

@@ -452,4 +452,14 @@ class DocsLines
 
         return $this;
     }
+
+    public function isVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function isPaForced(): ?bool
+    {
+        return $this->paForced;
+    }
 }

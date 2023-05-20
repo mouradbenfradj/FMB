@@ -27,7 +27,7 @@ class EmplacementType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'SS\FMBBundle\Entity\Emplacement',
+                'data_class' => 'App\Entity\Emplacement',
             )
         );
     }

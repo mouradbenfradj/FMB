@@ -23,10 +23,10 @@ class ParcController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Parc')->findAll();
+        $entities = $em->getRepository('App/Parc')->findAll();
 
         return $this->render(
-            'SSFMBBundle:Administration/Parc:index.html.twig',
+            'App/Administration/Parc:index.html.twig',
             array(
                 'entities' => $entities,
             )
@@ -52,7 +52,7 @@ class ParcController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:Administration/Parc:new.html.twig',
+            'App/Administration/Parc:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -93,7 +93,7 @@ class ParcController  extends AbstractController
         $form = $this->createCreateForm($entity);
 
         return $this->render(
-            'SSFMBBundle:Administration/Parc:new.html.twig',
+            'App/Administration/Parc:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -109,7 +109,7 @@ class ParcController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Parc')->find($id);
+        $entity = $em->getRepository('App/Parc')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Parc entity.');
@@ -118,7 +118,7 @@ class ParcController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Administration/Parc:show.html.twig',
+            'App/Administration/Parc:show.html.twig',
             array(
                 'entity' => $entity,
                 'delete_form' => $deleteForm->createView(),
@@ -150,7 +150,7 @@ class ParcController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Parc')->find($id);
+        $entity = $em->getRepository('App/Parc')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Parc entity.');
@@ -160,7 +160,7 @@ class ParcController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Administration/Parc:edit.html.twig',
+            'App/Administration/Parc:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -200,7 +200,7 @@ class ParcController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Parc')->find($id);
+        $entity = $em->getRepository('App/Parc')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Parc entity.');
@@ -217,7 +217,7 @@ class ParcController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:Administration/Parc:edit.html.twig',
+            'App/Administration/Parc:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -237,7 +237,7 @@ class ParcController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Parc')->find($id);
+            $entity = $em->getRepository('App/Parc')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Parc entity.');

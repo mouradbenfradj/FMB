@@ -60,11 +60,11 @@ class PocheACordeController  extends AbstractController
                                 $qteU = $contenu;
                                 if (!in_array($pocheId, $tabPocheId)) {
                                     array_push($tabPocheId, $pocheId);
-                                    $tabPocheEntity[$pocheId] = $em->getRepository('SSFMBBundle:PochesBS')->find($pocheId);
+                                    $tabPocheEntity[$pocheId] = $em->getRepository('App/PochesBS')->find($pocheId);
                                 }
                                 for ($cmp = 0; $cmp < $nbrAFabriquer; $cmp++) {
                                     $poche = $tabPocheEntity[$pocheId];
-                                    $stocksPocheBs = $em->getRepository('SSFMBBundle:StocksPochesBS')->findOneBy(array('pochesbs' => $pocheId, 'quantiter' => $qteU, 'pret' => false, 'dateDeCreation' => new \DateTime($date), 'cordeAssemblage' => null));
+                                    $stocksPocheBs = $em->getRepository('App/StocksPochesBS')->findOneBy(array('pochesbs' => $pocheId, 'quantiter' => $qteU, 'pret' => false, 'dateDeCreation' => new \DateTime($date), 'cordeAssemblage' => null));
                                     $stocksPocheBs->setCordeAssemblage($stockCorde);
                                     $stocksPocheBs->setDateAssemblage(new \DateTime($request->get('dateAssemblage')));
                                     $stockCorde->setArticle($stocksPocheBs->getArticle());

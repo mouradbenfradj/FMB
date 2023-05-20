@@ -23,10 +23,10 @@ class StockageController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('SSFMBBundle:Stockage')->findAll();
+        $entities = $em->getRepository('App/Stockage')->findAll();
 
         return $this->render(
-            'SSFMBBundle:Stockage:index.html.twig',
+            'App/Stockage:index.html.twig',
             array(
                 'entities' => $entities,
             )
@@ -52,7 +52,7 @@ class StockageController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:Stockage:new.html.twig',
+            'App/Stockage:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -93,7 +93,7 @@ class StockageController  extends AbstractController
         $form = $this->createCreateForm($entity);
 
         return $this->render(
-            'SSFMBBundle:Stockage:new.html.twig',
+            'App/Stockage:new.html.twig',
             array(
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -109,7 +109,7 @@ class StockageController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Stockage')->find($id);
+        $entity = $em->getRepository('App/Stockage')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Stockage entity.');
@@ -118,7 +118,7 @@ class StockageController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Stockage:show.html.twig',
+            'App/Stockage:show.html.twig',
             array(
                 'entity' => $entity,
                 'delete_form' => $deleteForm->createView(),
@@ -150,7 +150,7 @@ class StockageController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Stockage')->find($id);
+        $entity = $em->getRepository('App/Stockage')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Stockage entity.');
@@ -160,7 +160,7 @@ class StockageController  extends AbstractController
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render(
-            'SSFMBBundle:Stockage:edit.html.twig',
+            'App/Stockage:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -200,7 +200,7 @@ class StockageController  extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('SSFMBBundle:Stockage')->find($id);
+        $entity = $em->getRepository('App/Stockage')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Stockage entity.');
@@ -217,7 +217,7 @@ class StockageController  extends AbstractController
         }
 
         return $this->render(
-            'SSFMBBundle:Stockage:edit.html.twig',
+            'App/Stockage:edit.html.twig',
             array(
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
@@ -237,7 +237,7 @@ class StockageController  extends AbstractController
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('SSFMBBundle:Stockage')->find($id);
+            $entity = $em->getRepository('App/Stockage')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Stockage entity.');
