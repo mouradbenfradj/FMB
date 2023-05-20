@@ -21,13 +21,15 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "apexcharts": "3.16.1",
-        "bootstrap": "4.4.1",
+        "apexcharts": "^3.16.1",
+        "bootstrap": "^4.4.1",
         "feather-icons": "^4.29.0",
-        "flatpickr": "4.6.3",
-        "jquery": "3.4.1",
-        "jquery.counterup": "2.1.0",
-        "popper.js": "1.16.0",
-        "selectize": "^0.12.6"
+        "flatpickr": "^4.6.3",
+        "jquery": "^3.4.1",
+        "node-waves": "^0.7.6",
+        "popper.js": "^1.16.0",
+        "selectize": "^0.12.6",
+        "simplebar": "^5.1.0",
+        "waypoints": "^4.0.1"
     }
 }

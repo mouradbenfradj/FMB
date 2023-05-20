@@ -1,8 +1,5 @@
 <div class="tab-pane active" id="settings-tab" role="tabpanel">
-	<h6 class="font-weight-medium px-3 m-0 py-2 font-13 text-uppercase bg-light">
-		<span class="d-block py-1">Theme Settings</span>
-	</h6>
-
+	{% include "partials/sidebar/_title.html.twig" with {'span':'Theme Settings','class':'px-3 py-2 font-13 text-uppercase bg-light'} only %}
 	<div class="p-3">
 		<div class="alert alert-warning" role="alert">
 			<strong>Customize
@@ -10,7 +7,7 @@
 			the overall color scheme, sidebar menu, etc.
 		</div>
 
-		<h6 class="font-weight-medium font-14 mt-4 mb-2 pb-1">Color Scheme</h6>
+		{% include "partials/sidebar/_title.html.twig" with {'title':'Color Scheme','class':'font-14 mt-4 mb-2 pb-1'} only %}
 		<div class="custom-control custom-switch mb-1">
 			<input type="radio" class="custom-control-input" name="color-scheme-mode" value="light" id="light-mode-check" checked/>
 			<label class="custom-control-label" for="light-mode-check">Light Mode</label>
@@ -22,7 +19,8 @@
 		</div>
 
 		<!-- Width -->
-		<h6 class="font-weight-medium font-14 mt-4 mb-2 pb-1">Width</h6>
+		{% include "partials/sidebar/_title.html.twig" with {'title':'Width','class':'font-14 mt-4 mb-2 pb-1'} only %}
+
 		<div class="custom-control custom-switch mb-1">
 			<input type="radio" class="custom-control-input" name="width" value="fluid" id="fluid-check" checked/>
 			<label class="custom-control-label" for="fluid-check">Fluid</label>
@@ -33,8 +31,7 @@
 		</div>
 
 		<!-- Menu positions -->
-		<h6 class="font-weight-medium font-14 mt-4 mb-2 pb-1">Layout Positon</h6>
-
+		{% include "partials/sidebar/_title.html.twig" with {'title':'Layout Positon','class':'font-14 mt-4 mb-2 pb-1'} only %}
 		<div class="custom-control custom-switch mb-1">
 			<input type="radio" class="custom-control-input" name="menus-position" value="fixed" id="fixed-check" checked/>
 			<label class="custom-control-label" for="fixed-check">Fixed</label>
@@ -46,7 +43,7 @@
 		</div>
 
 		<!-- Topbar -->
-		<h6 class="font-weight-medium font-14 mt-4 mb-2 pb-1">Topbar</h6>
+		{% include "partials/sidebar/_title.html.twig" with {'title':'Topbar','class':'font-14 mt-4 mb-2 pb-1'} only %}
 
 		<div class="custom-control custom-switch mb-1">
 			<input type="radio" class="custom-control-input" name="topbar-color" value="dark" id="darktopbar-check" checked/>

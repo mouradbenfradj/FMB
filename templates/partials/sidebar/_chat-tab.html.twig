@@ -7,182 +7,55 @@
 		</div>
 	</form>
 
-	<h6 class="font-weight-medium px-3 mt-2 text-uppercase">Group Chats</h6>
+	{% include "partials/sidebar/_title.html.twig" with {'title':'Group Chats','class':'px-3 mt-2 text-uppercase'} only %}
 
 	<div class="p-2">
-    
 		{% set links = [
-            {'alert': 'success','message' : 'App Development'},
-            {'alert': 'warning','message' : 'Office Work'},
-            {'alert': 'danger','message' : 'Personal Group'}
-                        ] %}
+            {'alert': 'text-success','message' : 'App Development','linkClass':'mb-2'},
+            {'alert': 'text-warning','message' : 'Office Work','linkClass':'mb-2'},
+            {'alert': 'text-danger','message' : 'Personal Group','linkClass':'mb-2'},
+            {'alert': '','message' : 'Freelance','linkClass':''}
+        ] %}
 		{% for link in links %}
-			{% include "partials/sidebar/chat-tab/_link.html.twig" with {'link':link} %}
+			{% include "partials/sidebar/chat-tab/_link.html.twig" with {'link':link} only %}
 		{% endfor %}
-
-
-		<a href="javascript: void(0);" class="text-reset notification-item pl-3 d-block">
-			<i class="mdi mdi-checkbox-blank-circle-outline mr-1"></i>
-			<span class="mb-0 mt-1">Freelance</span>
-		</a>
 	</div>
 
-	<h6 class="font-weight-medium px-3 mt-3 text-uppercase">Favourites
-		<a href="javascript: void(0);" class="font-18 text-danger">
-			<i class="float-right mdi mdi-plus-circle"></i>
-		</a>
-	</h6>
+	{% include "partials/sidebar/_title.html.twig" with {'title':'Favourites','class':'px-3 mt-3 text-uppercase','icon':'text-danger'} only %}
 
 	<div class="p-2">
-		<a href="javascript: void(0);" class="text-reset notification-item">
-			<div class="media">
-				<div class="position-relative mr-2">
-					<img src="{{ asset('build/images/users/user-10.jpg') }}" class="rounded-circle avatar-sm" alt="user-pic">
-					<i class="mdi mdi-circle user-status online"></i>
-				</div>
-				<div class="media-body overflow-hidden">
-					<h6 class="mt-0 mb-1 font-14">Andrew Mackie</h6>
-					<div class="font-13 text-muted">
-						<p class="mb-0 text-truncate">It will seem like simplified English.</p>
-					</div>
-				</div>
-			</div>
-		</a>
-
-		<a href="javascript: void(0);" class="text-reset notification-item">
-			<div class="media">
-				<div class="position-relative mr-2">
-					<img src="{{ asset('build/images/users/user-1.jpg') }}" class="rounded-circle avatar-sm" alt="user-pic">
-					<i class="mdi mdi-circle user-status away"></i>
-				</div>
-				<div class="media-body overflow-hidden">
-					<h6 class="mt-0 mb-1 font-14">Rory Dalyell</h6>
-					<div class="font-13 text-muted">
-						<p class="mb-0 text-truncate">To an English person, it will seem like simplified</p>
-					</div>
-				</div>
-			</div>
-		</a>
-
-		<a href="javascript: void(0);" class="text-reset notification-item">
-			<div class="media">
-				<div class="position-relative mr-2">
-					<img src="{{ asset('build/images/users/user-9.jpg') }}" class="rounded-circle avatar-sm" alt="user-pic">
-					<i class="mdi mdi-circle user-status busy"></i>
-				</div>
-				<div class="media-body overflow-hidden">
-					<h6 class="mt-0 mb-1 font-14">Jaxon Dunhill</h6>
-					<div class="font-13 text-muted">
-						<p class="mb-0 text-truncate">To achieve this, it would be necessary.</p>
-					</div>
-				</div>
-			</div>
-		</a>
+		{% set linksMedia = [
+            {'image': 'user-10.jpg','icon' : 'online','user':'Andrew Mackie','comment':'It will seem like simplified English.'},
+            {'image': 'user-1.jpg','icon' : 'away','user':'Rory Dalyell','comment':'To an English person, it will seem like simplified'},
+            {'image': 'user-9.jpg','icon' : 'busy','user':'Jaxon Dunhill','comment':'To achieve this, it would be necessary.'}
+        ] %}
+		{% for linkMedia in linksMedia %}
+			{% include "partials/sidebar/chat-tab/_link-media.html.twig" with {'linkMedia':linkMedia} only %}
+		{% endfor %}
 	</div>
 
-	<h6 class="font-weight-medium px-3 mt-3 text-uppercase">Other Chats
-		<a href="javascript: void(0);" class="font-18 text-danger">
-			<i class="float-right mdi mdi-plus-circle"></i>
-		</a>
-	</h6>
+	{% include "partials/sidebar/_title.html.twig" with {'title':'Other Chats','class':'px-3 mt-3 text-uppercase','icon':'text-danger'} only %}
 
 	<div class="p-2 pb-4">
-		<a href="javascript: void(0);" class="text-reset notification-item">
-			<div class="media">
-				<div class="position-relative mr-2">
-					<img src="{{ asset('build/images/users/user-2.jpg') }}" class="rounded-circle avatar-sm" alt="user-pic">
-					<i class="mdi mdi-circle user-status online"></i>
-				</div>
-				<div class="media-body overflow-hidden">
-					<h6 class="mt-0 mb-1 font-14">Jackson Therry</h6>
-					<div class="font-13 text-muted">
-						<p class="mb-0 text-truncate">Everyone realizes why a new common language.</p>
-					</div>
-				</div>
-			</div>
-		</a>
+		{% set linksMedia = [
+            {'image': 'user-2.jpg','icon' : 'online','user':'Jackson Therry','comment':'Everyone realizes why a new common language.'},
+            {'image': 'user-4.jpg','icon' : 'away','user':'Charles Deakin','comment':'The languages only differ in their grammar.'},
+            {'image': 'user-5.jpg','icon' : 'online','user':'Ryan Salting','comment':'If several languages coalesce the grammar of the resulting.'},
+            {'image': 'user-6.jpg','icon' : 'online','user':'Sean Howse','comment':'It will seem like simplified English.'},
+            {'image': 'user-7.jpg','icon' : 'busy','user':'Dean Coward','comment':'The new common language will be more simple.'},
+            {'image': 'user-8.jpg','icon' : 'busy','user':'Hayley East','comment':'One could refuse to pay expensive translators.'}
+        ] %}
+		{% for linkMedia in linksMedia %}
+			{% include "partials/sidebar/chat-tab/_link-media.html.twig" with {'linkMedia':linkMedia} only %}
+		{% endfor %}
 
-		<a href="javascript: void(0);" class="text-reset notification-item">
-			<div class="media">
-				<div class="position-relative mr-2">
-					<img src="{{ asset('build/images/users/user-4.jpg') }}" class="rounded-circle avatar-sm" alt="user-pic">
-					<i class="mdi mdi-circle user-status away"></i>
-				</div>
-				<div class="media-body overflow-hidden">
-					<h6 class="mt-0 mb-1 font-14">Charles Deakin</h6>
-					<div class="font-13 text-muted">
-						<p class="mb-0 text-truncate">The languages only differ in their grammar.</p>
-					</div>
-				</div>
+		{% if linksMedia|length > 6 %}
+			<div class="text-center mt-3">
+				<a href="javascript:void(0);" class="btn btn-sm btn-white">
+					<i class="mdi mdi-spin mdi-loading mr-2"></i>
+					Load more
+				</a>
 			</div>
-		</a>
-
-		<a href="javascript: void(0);" class="text-reset notification-item">
-			<div class="media">
-				<div class="position-relative mr-2">
-					<img src="{{ asset('build/images/users/user-5.jpg') }}" class="rounded-circle avatar-sm" alt="user-pic">
-					<i class="mdi mdi-circle user-status online"></i>
-				</div>
-				<div class="media-body overflow-hidden">
-					<h6 class="mt-0 mb-1 font-14">Ryan Salting</h6>
-					<div class="font-13 text-muted">
-						<p class="mb-0 text-truncate">If several languages coalesce the grammar of the resulting.</p>
-					</div>
-				</div>
-			</div>
-		</a>
-
-		<a href="javascript: void(0);" class="text-reset notification-item">
-			<div class="media">
-				<div class="position-relative mr-2">
-					<img src="{{ asset('build/images/users/user-6.jpg') }}" class="rounded-circle avatar-sm" alt="user-pic">
-					<i class="mdi mdi-circle user-status online"></i>
-				</div>
-				<div class="media-body overflow-hidden">
-					<h6 class="mt-0 mb-1 font-14">Sean Howse</h6>
-					<div class="font-13 text-muted">
-						<p class="mb-0 text-truncate">It will seem like simplified English.</p>
-					</div>
-				</div>
-			</div>
-		</a>
-
-		<a href="javascript: void(0);" class="text-reset notification-item">
-			<div class="media">
-				<div class="position-relative mr-2">
-					<img src="{{ asset('build/images/users/user-7.jpg') }}" class="rounded-circle avatar-sm" alt="user-pic">
-					<i class="mdi mdi-circle user-status busy"></i>
-				</div>
-				<div class="media-body overflow-hidden">
-					<h6 class="mt-0 mb-1 font-14">Dean Coward</h6>
-					<div class="font-13 text-muted">
-						<p class="mb-0 text-truncate">The new common language will be more simple.</p>
-					</div>
-				</div>
-			</div>
-		</a>
-
-		<a href="javascript: void(0);" class="text-reset notification-item">
-			<div class="media">
-				<div class="position-relative mr-2">
-					<img src="{{ asset('build/images/users/user-8.jpg') }}" class="rounded-circle avatar-sm" alt="user-pic">
-					<i class="mdi mdi-circle user-status away"></i>
-				</div>
-				<div class="media-body overflow-hidden">
-					<h6 class="mt-0 mb-1 font-14">Hayley East</h6>
-					<div class="font-13 text-muted">
-						<p class="mb-0 text-truncate">One could refuse to pay expensive translators.</p>
-					</div>
-				</div>
-			</div>
-		</a>
-
-		<div class="text-center mt-3">
-			<a href="javascript:void(0);" class="btn btn-sm btn-white">
-				<i class="mdi mdi-spin mdi-loading mr-2"></i>
-				Load more
-			</a>
-		</div>
+		{% endif %}
 	</div>
-
 </div>

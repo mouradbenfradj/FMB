@@ -1,5 +1,6 @@
 <div class="tab-pane" id="tasks-tab" role="tabpanel">
-	<h6 class="font-weight-medium p-3 m-0 text-uppercase">Working Tasks</h6>
+	{% include "partials/sidebar/_title.html.twig" with {'title':'Working Tasks','class':'p-3 m-0 text-uppercase'} only %}
+
 	<div class="px-2">
 		<a href="javascript: void(0);" class="text-reset item-hovered d-block p-2">
 			<p class="text-muted mb-0">App Development<span class="float-right">75%</span>
@@ -26,8 +27,7 @@
 		</a>
 	</div>
 
-	<h6 class="font-weight-medium px-3 mb-0 mt-4 text-uppercase">Upcoming Tasks</h6>
-
+	{% include "partials/sidebar/_title.html.twig" with {'title':'Upcoming Tasks','class':'px-3 mb-0 mt-4 text-uppercase'} only %}
 	<div class="p-2">
 		<a href="javascript: void(0);" class="text-reset item-hovered d-block p-2">
 			<p class="text-muted mb-0">Sales Reporting<span class="float-right">12%</span>
