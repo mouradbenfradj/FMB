@@ -33,3 +33,12 @@ services:
         arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
+
+    admin.magasins:
+        class: App\Admin\MagasinsAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Asc\Magasins, manager_type: orm, label: Magasins }
+    admin.filiere:
+        class: App\Admin\FiliereAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Asc\Filiere, manager_type: orm, label: Filiere }
