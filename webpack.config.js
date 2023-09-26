@@ -33,6 +33,9 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('counterup', './assets/app_counterup.js')
+    .addEntry('apex_charts', './assets/app_apex_charts.js')
+    .addEntry('footable', './assets/app_footable-v3.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

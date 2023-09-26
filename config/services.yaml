@@ -23,6 +23,10 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\DataFixtures\OysterProToAscFixtures:
+        arguments:
+            $oysterProConnection: '@doctrine.dbal.oysterpro_connection'
+            $ascConnection: '@doctrine.dbal.default_connection'
     app.menu_builder:
         class: App\Menu\MenuBuilder
         arguments: ["@knp_menu.factory"]
@@ -34,11 +38,8 @@ services:
         tags:
             - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
 
-    admin.magasins:
-        class: App\Admin\MagasinsAdmin
+    admin.parc:
+        class: App\Admin\ParcAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Asc\Magasins, manager_type: orm, label: Magasins }
-    admin.filiere:
-        class: App\Admin\FiliereAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Asc\Filiere, manager_type: orm, label: Filiere }
+            - { name: sonata.admin, model_class: App\Entity\Asc\Parc, manager_type: orm, label: Parc }
+    

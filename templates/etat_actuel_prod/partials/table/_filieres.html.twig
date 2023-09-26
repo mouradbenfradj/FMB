@@ -1,0 +1,29 @@
+<tbody>
+    {% set pos = 0 %}
+    {% for filiere in filieres %}
+        <tr>
+            <td>{{filiere.nomFiliere}}</td>
+			<td>{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage: loop.index} only %}</td>
+			<td>{{ totalEmplacements(id,filiere.id)  }}</td>
+			<td>0</td>
+			<td>0</td>
+            <td>
+                {# Barre de progression pour le chargement des segments #}
+                <div id="progress-{{ loop.index }}"></div>
+            </td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+            <td>
+                <div class="custom-dd dd nestable_list_1" id="nestable_list_{{ loop.index }}">
+                    <!-- Contenu des segments chargé de manière asynchrone -->
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>

@@ -57,7 +57,7 @@ class AclObjectIdentities
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AclObjectIdentities", mappedBy="ancestor")
+     * @ORM\ManyToMany(targetEntity="AclObjectIdentities")
      */
     private $objectIdentity = array();
 

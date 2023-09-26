@@ -25,6 +25,12 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Asc'
                         prefix: 'App\Entity\Asc'
                         alias: Asc
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Tree/Entity"
+                        alias: GedmoTree # (optional) it will default to the name set for the mapping
+                        is_bundle: false
             oysterpro:
                 connection: oysterpro
                 mappings:

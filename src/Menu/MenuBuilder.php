@@ -1,29 +1,211 @@
 <?php
 namespace App\Menu;
 
-use App\Repository\MagasinsRepository;
+use App\Service\ParcService;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
 
 class MenuBuilder
 {
-    private $factory;
-    private $magasinsRepository;
-    private $security;
+    private $_factory;
+    private $_parcService;
+    private $_security;
 
-    public function __construct(FactoryInterface $factory,MagasinsRepository $magasinsRepository, Security $security)
+    public function __construct(FactoryInterface $factory, ParcService $parcService, Security $security)
     {
-        $this->factory = $factory;
-        $this->magasinsRepository = $magasinsRepository;
-        $this->security = $security;
+        $this->_factory = $factory;
+        $this->_parcService = $parcService;
+        $this->_security = $security;
     }
-
-    public function createMainMenu(RequestStack $requestStack)
+    
+    /**
+     * Function createMainMenu
+     *
+     * @return void
+     */
+    public function createMainMenu(/* RequestStack $requestStack */)
     {
-        $menu = $this->factory->createItem('root');
+        $menu = $this->_factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav');
-        $menu->addChild('Prod à faire') 
+        $menu->addChild('Statistiques') 
+            ->setAttribute('class', 'nav-item dropdown')
+            ->setUri("#")
+            ->setLinkAttributes(
+                [
+                    'class'=> 'nav-link dropdown-toggle arrow-none',
+                    'id'=> 'topnav-statistiques',
+                    'data-toggle'=> 'dropdown',
+                    'aria-haspopup'=> 'true',
+                    'aria-expanded'=> 'false',
+                    'role'=> 'button'
+                ]
+            )
+            ->setLabel('<i class="fe-anchor mr-1"></i> Statistiques <div class="arrow-down"></div>')
+            ->setExtra('safe_label', true)
+            ->setChildrenAttributes(
+                [
+                    'class'=> 'dropdown-menu',
+                    'aria-labelledbyaria-labelledby'=> 'topnav-statistiques'
+                ]
+            );
+        $menu->addChild('Etat Actuel Prod')
+            ->setAttribute('class', 'nav-item dropdown')
+            ->setUri("#")
+            ->setLinkAttributes(
+                [
+                    'class'=> 'nav-link dropdown-toggle arrow-none',
+                    'id'=> 'topnav-etat-actuel-prod',
+                    'data-toggle'=> 'dropdown',
+                    'aria-haspopup'=> 'true',
+                    'aria-expanded'=> 'false',
+                    'role'=> 'button'
+                ]
+            )
+            ->setLabel('<i class="fe-map mr-1"></i> Etat Actuel Prod <div class="arrow-down"></div>')
+            ->setExtra('safe_label', true)
+            ->setChildrenAttributes(
+                [
+                    'class'=> 'dropdown-menu',
+                    'aria-labelledbyaria-labelledby'=> 'topnav-actuel-prod'
+                ]
+            );
+        $menu->addChild('Prod à faire')
+            ->setAttribute('class', 'nav-item dropdown')
+            ->setUri("#")
+            ->setLinkAttributes(
+                [
+                    'class'=> 'nav-link dropdown-toggle arrow-none',
+                    'id'=> 'topnav-prod-a-faire',
+                    'data-toggle'=> 'dropdown',
+                    'aria-haspopup'=> 'true',
+                    'aria-expanded'=> 'false',
+                    'role'=> 'button'
+                ]
+            )
+            ->setLabel('<i class="fe-clipboard mr-1"></i> Prod à faire <div class="arrow-down"></div>')
+            ->setExtra('safe_label', true);
+        $menu->addChild('Alertes de travail')
+            ->setAttribute('class', 'nav-item dropdown')
+            ->setUri("#")
+            ->setLinkAttributes(
+                [
+                    'class'=> 'nav-link dropdown-toggle arrow-none',
+                    'id'=> 'topnav-alertes-de-travail',
+                    'data-toggle'=> 'dropdown',
+                    'aria-haspopup'=> 'true',
+                    'aria-expanded'=> 'false',
+                    'role'=> 'button'
+                ]
+            )
+            ->setLabel('<i class="fe-alert-triangle mr-1"></i> Alertes de travail <div class="arrow-down"></div>')
+            ->setExtra('safe_label', true)
+            ->setChildrenAttributes(
+                [
+                    'class'=> 'dropdown-menu',
+                    'aria-labelledbyaria-labelledby'=> 'topnav-alertes-de-travail'
+                ]
+            );
+        $menu->addChild('Prod par cycle')
+            ->setAttribute('class', 'nav-item dropdown')
+            ->setUri("#")
+            ->setLinkAttributes(
+                [
+                    'class'=> 'nav-link dropdown-toggle arrow-none',
+                    'id'=> 'topnav-prod-par-cycle',
+                    'data-toggle'=> 'dropdown',
+                    'aria-haspopup'=> 'true',
+                    'aria-expanded'=> 'false',
+                    'role'=> 'button'
+                ]
+            )
+            ->setLabel('<i class="fe-clock mr-1"></i> Prod par cycle <div class="arrow-down"></div>')
+            ->setExtra('safe_label', true)
+            ->setChildrenAttributes(
+                [
+                    'class'=> 'dropdown-menu',
+                    'aria-labelledbyaria-labelledby'=> 'topnav-prod-par-cycle'
+                ]
+            );
+        $menu->addChild('Outils de gestion')
+            ->setAttribute('class', 'nav-item dropdown')
+            ->setUri("#")
+            ->setLinkAttributes(
+                [
+                    'class'=> 'nav-link dropdown-toggle arrow-none',
+                    'id'=> 'topnav-outils-de-gestion',
+                    'data-toggle'=> 'dropdown',
+                    'aria-haspopup'=> 'true',
+                    'aria-expanded'=> 'false',
+                    'role'=> 'button'
+                ]
+            )
+            ->setLabel('<i class="fe-bar-chart-2 mr-1"></i> Outils de gestion <div class="arrow-down"></div>')
+            ->setExtra('safe_label', true)
+            ->setChildrenAttributes(
+                [
+                    'class'=> 'dropdown-menu',
+                    'aria-labelledbyaria-labelledby'=> 'topnav-outils-de-gestion'
+                ]
+            );
+            $menu['Outils de gestion']->addChild('Historique des opérations', 
+            ['route' => 'app_historique'])                
+            ->setLinkAttribute('class', 'dropdown-item');
+            $menu['Outils de gestion']->addChild('Détail tâches effectées', 
+            ['route' => 'app_historique'])
+            ->setLinkAttribute('class', 'dropdown-item');
+            $menu['Outils de gestion']->addChild('Prévisions des sorties', 
+            ['route' => 'app_prevision'])                
+            ->setLinkAttribute('class', 'dropdown-item');
+        $menu['Statistiques']
+            ->addChild(
+                'Tous', 
+                ['route' => 'app_default']
+            )
+            ->setLinkAttribute('class', 'dropdown-item');
+        $parcs = $this->_parcService->findAllFromParcCache();
+        foreach ($parcs as $parc) {
+            $menu['Statistiques']
+                ->addChild(
+                    $parc->getAbrevParc(), 
+                    [
+                        'route' => 'app_default',
+                        'routeParameters' => ['id' => $parc->getId()]
+                    ]
+                )   
+                ->setLinkAttribute('class', 'dropdown-item');
+            $menu['Etat Actuel Prod']
+                ->addChild(
+                    $parc->getAbrevParc(), 
+                    [
+                        'route' => 'app_etat_actuel_prod',
+                        'routeParameters' => ['id' => $parc->getId()]
+                    ]
+                )   
+                ->setLinkAttribute('class', 'dropdown-item');
+                $menu['Alertes de travail']
+                ->addChild(
+                    $parc->getAbrevParc(), 
+                    [
+                        'route' => 'app_alerte_de_travaille',
+                        'routeParameters' => ['id' => $parc->getId()]
+                    ]
+                )   
+                ->setLinkAttribute('class', 'dropdown-item');
+                $menu['Prod par cycle']
+                ->addChild(
+                    $parc->getAbrevParc(), 
+                    [
+                        'route' => 'app_etat_actuel_prod',
+                        'routeParameters' => ['id' => $parc->getId()]
+                    ]
+                )   
+                ->setLinkAttribute('class', 'dropdown-item');
+        }
+    
+            
+            
+            /* $menu->addChild('Prod à faire') 
             ->setAttribute('class', 'nav-item dropdown')
             ->setUri("#")
             ->setLinkAttribute('class', 'nav-link dropdown-toggle arrow-none')
@@ -47,15 +229,16 @@ class MenuBuilder
             ->setLinkAttribute('class','dropdown-item');
         $menu['Prod à faire']->addChild('Dashboard 4')
             ->setUri("#")
-            ->setLinkAttribute('class','dropdown-item');
+            ->setLinkAttribute('class','dropdown-item'); */
+
+            
+    
+            
 /*
                                     
                                         
                                     <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
-                                        <a href="index.html" class="dropdown-item">Dashboard 1</a>
-                                        <a href="dashboard-2.html" class="dropdown-item">Dashboard 2</a>
-                                        <a href="dashboard-3.html" class="dropdown-item">Dashboard 3</a>
-                                        <a href="dashboard-4.html" class="dropdown-item">Dashboard 4</a>
+                                       
                                     </div>
                                 </li>
 
@@ -400,11 +583,11 @@ class MenuBuilder
         return $menu;
     }public function createNewMainMenu(RequestStack $requestStack)
     {
-        $menu = $this->factory->createItem('root');
+        $menu = $this->_factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav');
         $menu->addChild('Statistiques');
         $menu->addChild('Etat Actuel Prod');
-        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->_security->isGranted('ROLE_SUPER_ADMIN')) {
             $menu->addChild('Prod à faire');
         }
         $menu->addChild('Alertes de travail');
@@ -414,7 +597,7 @@ class MenuBuilder
         $menu['Outils de gestion']->addChild('Détail tâches effectées');
         $menu['Outils de gestion']->addChild('Prévisions des sorties');
 
-        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->_security->isGranted('ROLE_SUPER_ADMIN')) {
             $menu['Prod à faire']->addChild('Préparation');
             $menu['Prod à faire']->addChild('Assemblage');
             $menu['Prod à faire']->addChild('MAE Lanternes');
@@ -436,66 +619,66 @@ class MenuBuilder
         //   $menu->setChildrenAttribute('class', 'nav navbar-nav');
         
         // findMostRecent and Blog are just imaginary examples
-        $parcs = $this->magasinsRepository->findAll();
+        $parcs = $this->parcRepository->findAll();
         if ($parcs) {
             foreach ($parcs as $parc) {
-                $menu['Statistiques']->addChild($parc->getAbrevMagasin(), array(
+                $menu['Statistiques']->addChild($parc->getAbrevParc(), array(
                     'route' => 'app_statistique',
-                    'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                    'routeParameters' => array('idparc' => $parc->getId())
                 ));
-                $menu['Etat Actuel Prod']->addChild($parc->getAbrevMagasin(), array(
+                $menu['Etat Actuel Prod']->addChild($parc->getAbrevParc(), array(
                     'route' => 'app_suivi',
-                    'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                    'routeParameters' => array('idparc' => $parc->getId())
                 ));
-                if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
-                    $menu['Prod à faire']['Passage Chaussettes']->addChild($parc->getAbrevMagasin(), array(
+                if ($this->_security->isGranted('ROLE_SUPER_ADMIN')) {
+                    $menu['Prod à faire']['Passage Chaussettes']->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_chaussement',
-                        'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                        'routeParameters' => array('idparc' => $parc->getId())
                     ));
 
-                    $menu['Prod à faire']["MAE Lanternes"]->addChild($parc->getAbrevMagasin(), array(
+                    $menu['Prod à faire']["MAE Lanternes"]->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_misaaeaulanterne',
-                        'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                        'routeParameters' => array('idparc' => $parc->getId())
                     ));
-                    $menu['Prod à faire']['Retrait AW Lanternes']->addChild($parc->getAbrevMagasin(), array(
+                    $menu['Prod à faire']['Retrait AW Lanternes']->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_retraitLanterne',
-                        'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                        'routeParameters' => array('idparc' => $parc->getId())
                     ));
                     $menu['Prod à faire']['Retrait AW Lanternes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-                    $menu['Prod à faire']["MAE Cordes"]->addChild($parc->getAbrevMagasin(), array(
+                    $menu['Prod à faire']["MAE Cordes"]->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_misaaeaucorde',
-                        'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                        'routeParameters' => array('idparc' => $parc->getId())
                     ));
-                    $menu['Prod à faire']["MAE Assemblages"]->addChild($parc->getAbrevMagasin(), array(
+                    $menu['Prod à faire']["MAE Assemblages"]->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_assemblagemiseaeauformulaire',
-                        'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                        'routeParameters' => array('idparc' => $parc->getId())
                     ));
-                    $menu['Prod à faire']["MAE Poches"]->addChild($parc->getAbrevMagasin(), array(
+                    $menu['Prod à faire']["MAE Poches"]->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_misaaeaupoche',
-                        'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                        'routeParameters' => array('idparc' => $parc->getId())
                     ));
-                    $menu['Prod à faire']['Retrait AW Cordes']->addChild($parc->getAbrevMagasin(), array(
+                    $menu['Prod à faire']['Retrait AW Cordes']->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_retraitcorde',
-                        'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                        'routeParameters' => array('idparc' => $parc->getId())
                     ));
                     $menu['Prod à faire']['Retrait AW Cordes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-                    $menu['Prod à faire']['Traitement Comercial']->addChild($parc->getAbrevMagasin(), array(
+                    $menu['Prod à faire']['Traitement Comercial']->addChild($parc->getAbrevParc(), array(
                         'route' => 'traitementcomerciale',
-                        'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                        'routeParameters' => array('idparc' => $parc->getId())
                     ));
                 }
-                $menu['Alertes de travail']->addChild($parc->getAbrevMagasin(), array(
+                $menu['Alertes de travail']->addChild($parc->getAbrevParc(), array(
                     'route' => 'app_planingdetravaille',
-                    'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                    'routeParameters' => array('idparc' => $parc->getId())
                 ));
-                $menu['Prod par cycle']->addChild($parc->getAbrevMagasin(), array(
+                $menu['Prod par cycle']->addChild($parc->getAbrevParc(), array(
                     'route' => 'app_processusgrocissement',
-                    'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                    'routeParameters' => array('idparc' => $parc->getId())
                 ));
-                if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
-                    $menu['Prod à faire']['Retrait Transfert']->addChild($parc->getAbrevMagasin(), array(
+                if ($this->_security->isGranted('ROLE_SUPER_ADMIN')) {
+                    $menu['Prod à faire']['Retrait Transfert']->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_transfert',
-                        'routeParameters' => array('idparc' => $parc->getIdMagasin())
+                        'routeParameters' => array('idparc' => $parc->getId())
                     ));
                 }
 
@@ -505,7 +688,7 @@ class MenuBuilder
 
         $menu['Statistiques']->setAttribute('class', 'has-submenu')->setUri("/")->setChildrenAttribute('class', 'submenu');
         $menu['Etat Actuel Prod']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
-        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->_security->isGranted('ROLE_SUPER_ADMIN')) {
             $menu['Prod à faire']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
         }
         $menu['Alertes de travail']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
@@ -516,7 +699,7 @@ class MenuBuilder
         $menu['Outils de gestion']['Prévisions des sorties']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
 
 
-        if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->_security->isGranted('ROLE_SUPER_ADMIN')) {
             $menu['Prod à faire']['Préparation']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
             $menu['Prod à faire']['Assemblage']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
             $menu['Prod à faire']['MAE Lanternes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
