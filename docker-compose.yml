@@ -1,21 +1,63 @@
-version: '3'
-
+version: "3.8"
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+    database:
+        image: mysql:5.7
+        container_name: db_asc
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: 'mourad'
+            MYSQL_DATABASE: asc
+        ports:
+            - '3306:3306'
+        networks:
+            - dev
+    oyster:
+        image: mysql:5.7
+        container_name: db_oyster
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: 'mourad'
+            MYSQL_DATABASE: oyster
+        ports:
+            - '3307:3306'
+        networks:
+            - dev
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin_asc
+        restart: always
+        depends_on:
+            - database
+            - oyster
+        ports:
+            - 8080:80
+        environment:
+            PMA_HOSTS: database,oyster
+            PMA_PORT: 3306
+        networks:
+            - dev
+    maildev:
+        image: maildev/maildev
+        container_name: maildev_asc
+        command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+        ports:
+          - "8081:80"
+        restart: always
+        networks:
+            - dev
+    www:
+        build: php
+        container_name: www_asc
+        ports:
+          - "2512:80"
+        volumes:
+            - ./php/vhosts:/etc/apache2/sites-enabled
+            - ./:/var/www/asc
+        restart: always
+        networks:
+            - dev
+networks:
+    dev:
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+    db-data:
