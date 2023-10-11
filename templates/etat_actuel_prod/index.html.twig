@@ -1,28 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+	<div id="parc-id" data-id="{{ id }}"></div>
 	{% include "partials/_pageTitle.html.twig" with {id: id,menu:'Etat actuel produc'} only %}
-	<div class="row">
+	{{ render(path('app_filiere', {id: id})) }} 
+	{# <div class="row">
 		<div class="col-sm-12">
 			<div class="card-box">
-				<h4 class="header-title">{{choixParc(id)}}</h4>
-				{% include "etat_actuel_prod/partials/_tri.html.twig" only %}
-				{% include "etat_actuel_prod/partials/_nbrAffichage.html.twig" with {filieres: filieres} only %}
-				{% include "etat_actuel_prod/partials/_table.html.twig" with {id: id, filieres: filieres} only %}
+				<h4 class="header-title">Triggers</h4>
+				<div id="jsGrid"></div>
 			</div>
-			<!-- end card-box -->
 		</div>
-		<!-- end col -->
-	</div>
-	<!-- end row -->
+	</div> #}
 {% endblock %}
 
 {% block javascripts %}
-	{{ encore_entry_script_tags('footable') }}
-{# 
-	<script>
-		document.addEventListener( "DOMContentLoaded", function ()
-{ {% for filiere in filieres %}
-loadSegments( {{ filiere.id }}, {{ loop.index }} );{% endfor %} } );
-	</script> #}
+	{{ encore_entry_script_tags('etat_actuel_prod') }}
 {% endblock %}

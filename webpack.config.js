@@ -35,7 +35,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('counterup', './assets/app_counterup.js')
     .addEntry('apex_charts', './assets/app_apex_charts.js')
-    .addEntry('footable', './assets/app_footable-v3.js')
+    .addEntry('etat_actuel_prod', './assets/etat_actuel_prod.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

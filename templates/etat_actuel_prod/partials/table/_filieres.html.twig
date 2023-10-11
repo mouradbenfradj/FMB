@@ -1,16 +1,13 @@
 <tbody>
-    {% set pos = 0 %}
-    {% for filiere in filieres %}
-        <tr>
-            <td>{{filiere.nomFiliere}}</td>
+	{% set pos = 0 %}
+	{% for filiere in filieres %}
+		<tr>
+			<td>{{filiere.nomFiliere}}</td>
 			<td>{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage: loop.index} only %}</td>
 			<td>{{ totalEmplacements(id,filiere.id)  }}</td>
 			<td>0</td>
 			<td>0</td>
-            <td>
-                {# Barre de progression pour le chargement des segments #}
-                <div id="progress-{{ loop.index }}"></div>
-            </td>
+			<td>{{ filiere.segments|map(segment => "#{segment.longeur}")|reduce((l, v) => l + v)  }}</td>
 			<td>0</td>
 			<td>0</td>
 			<td>0</td>
@@ -19,11 +16,43 @@
 			<td>0</td>
 			<td>0</td>
 			<td>0</td>
-            <td>
-                <div class="custom-dd dd nestable_list_1" id="nestable_list_{{ loop.index }}">
-                    <!-- Contenu des segments chargé de manière asynchrone -->
-                </div>
-            </td>
-        </tr>
-    {% endfor %}
+			<td>
+				<div class="custom-dd dd nestable_list_1" id="nestable_list_1">
+					<ol class="dd-list">
+						{% set pos = pos+1 %}
+						{% for segment in filiere.segments %}
+							<li class="dd-item" data-id="{{ pos }}">
+								<div class="dd-handle">
+									{{segment.nomSegment}}
+									{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage: loop.index} only %}
+
+								</div>
+								<ol class="dd-list">
+									<li class="dd-item" data-id="{{pos+filiere.id+ segment.id }}">
+										{% set pos = pos+filiere.id+ segment.id %}
+										<div class="dd-handle">
+
+											<table class="table table-striped mb-0">
+												<tbody>
+													{% for flotteur in segment.flotteurs %}
+														<tr>
+															<th scope="row">{{flotteur.nomFlotteur}}</th>
+ 															{% include "etat_actuel_prod/partials/table/_emplacements.html.twig" with {emplacements: flotteur.emplacements} only %}
+ 														</tr>
+													{% endfor %}
+												</tbody>
+											</table>
+
+											<!-- end table-responsive-->
+										</div>
+									</li>
+								</ol>
+							</li>
+						{% endfor %}
+					</ol>
+
+				</div>
+			</td>
+		</tr>
+	{% endfor %}
 </tbody>

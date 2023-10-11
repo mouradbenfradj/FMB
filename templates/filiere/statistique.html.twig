@@ -1,0 +1,7 @@
+{% for box in cardBoxes %}
+	{% if loop.index == 1 %}
+		{% include "default/partials/_card-box-primary.html.twig" with box only %}
+	{% else %}
+		{% include "default/partials/_card-box-info.html.twig" with box only %}
+	{% endif %}
+{% endfor %}

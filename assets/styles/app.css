@@ -1,5 +1,20 @@
 
 @import "~../css/bootstrap-creative.min.css";
 @import "~../css/app-creative.min.css";
+@import '~nestable2/dist/jquery.nestable.min.css';
  
 @import "~../css/icons.min.css";
+.footable-row-detail-value {
+    display: table-cell;
+    width: 82%;
+}
+.dd {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+    max-width: 100% !important;
+    list-style: none;
+    font-size: 13px;
+    line-height: 20px;
+}

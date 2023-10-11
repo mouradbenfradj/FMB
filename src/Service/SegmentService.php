@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\Asc\Segment;
-use App\Repository\Asc\SegmentRepository;
+use App\Entity\Asc\FiliereComposite\Segment;
+use App\Repository\Asc\FiliereComposite\SegmentRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Contracts\Cache\CacheInterface;
 

@@ -16,11 +16,16 @@ help:
 	@echo ""
 
 # Target to install project dependencies using Composer and Yarn.
-install: composer yarn-install
+install: composer yarn-install yarn-dev
+update: composer-update yarn-update yarn-dev
 
 # Target to run Composer commands.
 composer:
 	@docker-compose exec www composer $(filter-out $@,$(MAKECMDGOALS))
+composer-update:
+	@docker-compose exec www composer update
+composer-require:
+	@docker-compose exec www composer require "dama/doctrine-test-bundle:^6" --dev
 
 # Target to install dependencies with Yarn.
 yarn-install:
@@ -28,11 +33,13 @@ yarn-install:
 
 # Target to update dependencies with Yarn.
 yarn-update:
-	@docker-compose exec www yarn update
+	@docker-compose exec www yarn upgrade
 
-# Target to run Yarn development scripts.
 yarn-dev:
 	@docker-compose exec www yarn dev
+
+yarn-add:
+	@docker-compose exec www yarn add nestable2
 
 # Target to import SQL dump into the 'oyster' database.
 .PHONY: import-db-oyster
@@ -44,14 +51,45 @@ import-db-oyster:
 create-db-and-migrate:
 	@docker-compose exec www php bin/console doctrine:database:create --if-not-exists
 	@docker-compose exec www php bin/console doctrine:database:create --if-not-exists --connection=oysterpro
+	@docker-compose exec www php bin/console doctrine:database:create --if-not-exists --env=test
 	@docker-compose exec www php bin/console doctrine:migrations:migrate --no-interaction
+	@docker-compose exec www php bin/console doctrine:migrations:migrate -n --env=test
+delete-db:
+	@docker-compose exec www php bin/console doctrine:database:drop --force
 
 make-migration:
 	@docker-compose exec www php bin/console make:migration 
+dsu:
+	@docker-compose exec www php bin/console d:s:u -f 
 
-# Target to load fixtures using Doctrine Fixtures Bundle.
 load-fixtures:
 	@docker-compose exec www php bin/console doctrine:fixtures:load --no-interaction
 
-# Ajoutez cette nouvelle cible à la liste des cibles disponibles.
 .PHONY: load-fixtures
+cc:
+	@docker-compose exec www php bin/console cache:clear --no-warmup
+
+.PHONY: cc
+entity:
+	@docker-compose exec www php bin/console make:entity
+
+.PHONY: entity
+controller:
+	@docker-compose exec www php bin/console make:controller
+
+.PHONY: controller
+crud:
+	@docker-compose exec www php bin/console make:crud
+
+.PHONY: crud
+regenerate-g-s:
+	@docker-compose exec www php bin/console make:entity --regenerate
+
+.PHONY: regenerate-g-s
+
+tests:
+	@docker-compose exec www php bin/console doctrine:database:drop --force --env=test || true
+	@docker-compose exec www php bin/console doctrine:database:create --env=test
+	@docker-compose exec www php bin/console doctrine:migrations:migrate -n --env=test
+	@docker-compose exec www php bin/phpunit $@
+.PHONY: tests

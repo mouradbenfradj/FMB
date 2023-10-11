@@ -1,0 +1,4 @@
+{
+    "php.debug.executablePath": "/usr/local/bin/php",
+    "symfony-vscode.phpExecutablePath": "/usr/local/bin/php"
+}

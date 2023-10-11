@@ -3,10 +3,11 @@
 namespace App\Service;
 
 use App\Entity\Asc\Parc;
+use App\Interfaces\StatistiqueInterface;
 use App\Repository\Asc\ParcRepository;
 use Symfony\Contracts\Cache\CacheInterface;
 
-class ParcService
+class ParcService  implements StatistiqueInterface
 {
     private $_cache;
     private $_parcRepository;
@@ -38,7 +39,7 @@ class ParcService
         }
         return $parcResult;
     }
-    
+
     public function countParcCache(int $id): int
     {
         $somme = 0;
@@ -49,8 +50,34 @@ class ParcService
         return $somme;
     }
 
-    public function deleteParcCache(): array
+    public function deleteParcCache(): void
     {
         $this->_cache->delete('all_parc');
+    }
+
+    public function total(?int $parcId): int
+    {
+        $somme = 0;
+        if ($parcId == 0)
+            $somme = count($this->findAllFromParcCache());
+        else
+            $somme += 1;
+        return $somme;
+    }
+    public function aEau(string $article): array
+    {
+        return [];
+    }
+    public function vides(): int
+    {
+        return 0;
+    }
+    public function preparees($article): array
+    {
+        return [];
+    }
+    public function assembleesPreparees($article): array
+    {
+        return [];
     }
 }

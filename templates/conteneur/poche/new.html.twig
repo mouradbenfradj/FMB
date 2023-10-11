@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Poche{% endblock %}
+
+{% block body %}
+    <h1>Create new Poche</h1>
+
+    {{ include('conteneur/poche/_form.html.twig') }}
+
+    <a href="{{ path('app_conteneur_poche_index') }}">back to list</a>
+{% endblock %}

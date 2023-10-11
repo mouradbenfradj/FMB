@@ -10,7 +10,18 @@ use App\Service\SegmentService;
 
 class SegmentController extends AbstractController
 {
-    
+
+    /**
+     * @Route("/segment/{id<\d+>}", name="app_segment", methods={"GET","HEAD"}, requirements={"id"="\d+"})
+     */
+    public function etatActuelProd($segment): Response
+    {
+        return $this->render('segment/etatActuelProd.html.twig', [
+            'id' => $id,
+            'filieres' => $filiereRepository->findByParcId($id),
+        ]);
+    }
+
     /**
      * @Route("/get_segments_by_filiere/{id}", name="get_segments_by_filiere")
      */

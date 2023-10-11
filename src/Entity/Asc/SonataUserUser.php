@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc;
 
-use App\Repository\SonataUserUserRepository;
+use App\Repository\Asc\SonataUserUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Sonata\UserBundle\Entity\BaseUser;
 
