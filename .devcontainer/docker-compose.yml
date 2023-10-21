@@ -51,8 +51,8 @@ services:
         ports:
           - "2512:80"
         volumes:
+            - ../:/var/www/asc
             - ./php/vhosts:/etc/apache2/sites-enabled
-            - ./:/var/www/asc
         restart: always
         networks:
             - dev

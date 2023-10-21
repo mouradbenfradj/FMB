@@ -54,6 +54,7 @@ create-db-and-migrate:
 	@docker-compose exec www php bin/console doctrine:database:create --if-not-exists --env=test
 	@docker-compose exec www php bin/console doctrine:migrations:migrate --no-interaction
 	@docker-compose exec www php bin/console doctrine:migrations:migrate -n --env=test
+.PHONY: create-db-and-migrate
 delete-db:
 	@docker-compose exec www php bin/console doctrine:database:drop --force
 
