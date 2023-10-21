@@ -28,7 +28,7 @@ class Parc
     /**
      * @var int
      *
-     * @ORM\Column(name="id_magasin", type="smallint", nullable=false, unique=true)
+     * @ORM\Column(name="id_parc", type="smallint", nullable=false, unique=true)
      */
     private $idParc;
 
@@ -73,6 +73,12 @@ class Parc
         $this->lanternes = new ArrayCollection();
     }
 
+    public function initParc(int $idParc, string $abrevParc, string $libParc)
+    {
+        $this->idParc = $idParc;
+        $this->abrevParc = $abrevParc;
+        $this->libParc = $libParc;
+    }
     public function getId(): ?int
     {
         return $this->id;

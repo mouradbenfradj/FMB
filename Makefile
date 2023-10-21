@@ -71,7 +71,7 @@ cc:
 
 .PHONY: cc
 entity:
-	@docker-compose exec www php bin/console make:entity
+	@docker-compose exec www php bin/console make:entity Asc\Stock\StockArticle
 
 .PHONY: entity
 controller:
@@ -93,3 +93,12 @@ tests:
 	@docker-compose exec www php bin/console doctrine:migrations:migrate -n --env=test
 	@docker-compose exec www php bin/phpunit $@
 .PHONY: tests
+teste-case:
+	@docker-compose exec www php bin/console make:test TestCase Entity\\ParcTest
+.PHONY: teste-case
+web-teste-case:
+	@docker-compose exec www php bin/console make:test WebTestCase  Service\\FiliereService
+.PHONY: web-teste-case
+kernel-teste-case:
+	@docker-compose exec www php bin/console make:test KernelTestCase  Service\\FiliereService
+.PHONY: kernel-teste-case

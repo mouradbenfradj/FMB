@@ -1,4 +1,10 @@
 {
-    "php.debug.executablePath": "/usr/local/bin/php",
-    "symfony-vscode.phpExecutablePath": "/usr/local/bin/php"
-}
+    "php.executablePath": "/usr/local/bin/php",
+    "php.validate.executablePath": "/usr/local/bin/php",
+    "php.validate.run": "onType",
+    "php.validate.enable": true,
+    "phpunit.phpunitPath": "/var/www/asc/bin/phpunit",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true
+  }
+  

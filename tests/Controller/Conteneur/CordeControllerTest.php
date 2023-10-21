@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Test\Controller\Asc\Conteneur;
+namespace App\Tests\Controller\Asc\Conteneur;
 
-use App\Entity\Asc\Conteneur\Lanterne;
-use App\Repository\Asc\Conteneur\LanterneRepository;
+use App\Entity\Asc\Conteneur\Corde;
+use App\Repository\Asc\Conteneur\CordeRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class LanterneControllerTest extends WebTestCase
+class CordeControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
-    private LanterneRepository $repository;
-    private string $path = '/conteneur/lanterne/';
+    private CordeRepository $repository;
+    private string $path = '/conteneur/corde/';
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Lanterne::class);
+        $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Corde::class);
 
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
@@ -28,7 +28,7 @@ class LanterneControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Lanterne index');
+        self::assertPageTitleContains('Corde index');
 
         // Use the $crawler to perform additional assertions e.g.
         // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
@@ -43,11 +43,9 @@ class LanterneControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
-            'lanterne[nomLanterne]' => 'Testing',
-        ]);
+        $this->client->submitForm('Save', []);
 
-        self::assertResponseRedirects('/conteneur/lanterne/');
+        self::assertResponseRedirects('/conteneur/corde/');
 
         self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
     }
@@ -55,15 +53,14 @@ class LanterneControllerTest extends WebTestCase
     public function testShow(): void
     {
         $this->markTestIncomplete();
-        $fixture = new Lanterne();
-        $fixture->setNomLanterne('My Title');
+        $fixture = new Corde();
 
         $this->repository->add($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Lanterne');
+        self::assertPageTitleContains('Corde');
 
         // Use assertions to check that the properties are properly displayed.
     }
@@ -71,22 +68,17 @@ class LanterneControllerTest extends WebTestCase
     public function testEdit(): void
     {
         $this->markTestIncomplete();
-        $fixture = new Lanterne();
-        $fixture->setNomLanterne('My Title');
+        $fixture = new Corde();
 
         $this->repository->add($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
-        $this->client->submitForm('Update', [
-            'lanterne[nomLanterne]' => 'Something New',
-        ]);
+        $this->client->submitForm('Update', []);
 
-        self::assertResponseRedirects('/conteneur/lanterne/');
+        self::assertResponseRedirects('/conteneur/corde/');
 
         $fixture = $this->repository->findAll();
-
-        self::assertSame('Something New', $fixture[0]->getNomLanterne());
     }
 
     public function testRemove(): void
@@ -95,8 +87,7 @@ class LanterneControllerTest extends WebTestCase
 
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
-        $fixture = new Lanterne();
-        $fixture->setNomLanterne('My Title');
+        $fixture = new Corde();
 
         $this->repository->add($fixture, true);
 
@@ -106,6 +97,6 @@ class LanterneControllerTest extends WebTestCase
         $this->client->submitForm('Delete');
 
         self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
-        self::assertResponseRedirects('/conteneur/lanterne/');
+        self::assertResponseRedirects('/conteneur/corde/');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Test\Controller\Asc\Conteneur;
+namespace App\Tests\Controller\Asc\Conteneur;
 
 use App\Entity\Asc\Conteneur\Poche;
 use App\Repository\Asc\Conteneur\PocheRepository;
@@ -43,8 +43,7 @@ class PocheControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
-        ]);
+        $this->client->submitForm('Save', []);
 
         self::assertResponseRedirects('/conteneur/poche/');
 
@@ -75,13 +74,11 @@ class PocheControllerTest extends WebTestCase
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
-        $this->client->submitForm('Update', [
-        ]);
+        $this->client->submitForm('Update', []);
 
         self::assertResponseRedirects('/conteneur/poche/');
 
         $fixture = $this->repository->findAll();
-
     }
 
     public function testRemove(): void

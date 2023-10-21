@@ -3,8 +3,12 @@
 namespace App\Entity\Asc\Conteneur;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Asc\FiliereComposite\Emplacement;
 use App\Entity\Asc\Parc;
+use App\Entity\Asc\Stock\StockCorde;
 use App\Repository\Asc\Conteneur\CordeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,9 +39,31 @@ class Corde
      */
     private $nomCorde;
 
+    /**
+     * @ORM\OneToOne(targetEntity=emplacement::class, inversedBy="corde", cascade={"persist", "remove"})
+     */
+    private $emplacement;
+
+    /**
+     * @ORM\OneToMany(targetEntity=StockCorde::class, mappedBy="corde", orphanRemoval=true)
+     */
+    private $stockCordes;
+
+    public function __construct()
+    {
+        $this->stockCordes = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function initCorde(Parc $parc, string $nomCorde, int $quantiter)
+    {
+        $this->parc = $parc;
+        $this->nomCorde = $nomCorde;
+        $this->quantiter = $quantiter;
     }
 
     public function getParc(): ?Parc
@@ -72,6 +98,48 @@ class Corde
     public function setNomCorde(string $nomCorde): self
     {
         $this->nomCorde = $nomCorde;
+
+        return $this;
+    }
+
+    public function getEmplacement(): ?Emplacement
+    {
+        return $this->emplacement;
+    }
+
+    public function setEmplacement(?Emplacement $emplacement): self
+    {
+        $this->emplacement = $emplacement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockCorde>
+     */
+    public function getStockCordes(): Collection
+    {
+        return $this->stockCordes;
+    }
+
+    public function addStockCorde(StockCorde $stockCorde): self
+    {
+        if (!$this->stockCordes->contains($stockCorde)) {
+            $this->stockCordes[] = $stockCorde;
+            $stockCorde->setCorde($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockCorde(StockCorde $stockCorde): self
+    {
+        if ($this->stockCordes->removeElement($stockCorde)) {
+            // set the owning side to null (unless already changed)
+            if ($stockCorde->getCorde() === $this) {
+                $stockCorde->setCorde(null);
+            }
+        }
 
         return $this;
     }

@@ -53,6 +53,14 @@ class Filiere
     {
         $this->segments = new ArrayCollection();
     }
+    public function initFiliere(Parc $parc, string $nomFiliere, string $aireDeTravaille, ?array $observation = null)
+    {
+        $this->parc = $parc;
+        $this->nomFiliere = $nomFiliere;
+        $this->aireDeTravaille = $aireDeTravaille;
+        $this->observation = $observation;
+
+    }
 
     public function getId(): ?int
     {
@@ -136,5 +144,4 @@ class Filiere
 
         return $this;
     }
-
 }

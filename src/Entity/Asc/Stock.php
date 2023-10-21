@@ -4,6 +4,7 @@ namespace App\Entity\Asc;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Asc\Parc;
+use App\Entity\Asc\Stock\StockArticle;
 use App\Repository\Asc\StockRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -47,9 +48,22 @@ class Stock
      */
     private $stocksArticles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=StockArticle::class, mappedBy="stock")
+     */
+    private $stockArticles;
+
     public function __construct()
     {
         $this->stocksArticles = new ArrayCollection();
+        $this->stockArticles = new ArrayCollection();
+    }
+    public function initStock(Parc $parc, string $libStock, string $abrevStock, bool $actif)
+    {
+         $this->parc= $parc;
+         $this->libStock= $libStock;
+         $this->abrevStock=$abrevStock;
+         $this->actif= $actif;
     }
 
     public function getId(): ?int
@@ -129,6 +143,36 @@ class Stock
             // set the owning side to null (unless already changed)
             if ($stocksArticle->getStock() === $this) {
                 $stocksArticle->setStock(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockArticle>
+     */
+    public function getStockArticles(): Collection
+    {
+        return $this->stockArticles;
+    }
+
+    public function addStockArticle(StockArticle $stockArticle): self
+    {
+        if (!$this->stockArticles->contains($stockArticle)) {
+            $this->stockArticles[] = $stockArticle;
+            $stockArticle->setStock($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockArticle(StockArticle $stockArticle): self
+    {
+        if ($this->stockArticles->removeElement($stockArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($stockArticle->getStock() === $this) {
+                $stockArticle->setStock(null);
             }
         }
 

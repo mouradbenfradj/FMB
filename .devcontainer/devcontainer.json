@@ -1,0 +1,7 @@
+{
+	"name": "Symfony 5.4 Development",
+	"dockerComposeFile": ["docker-compose.yml"],
+	"service": "www",
+	"workspaceFolder": "/var/www/asc"
+  }
+  

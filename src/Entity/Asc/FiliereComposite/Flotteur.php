@@ -42,6 +42,11 @@ class Flotteur
     {
         $this->emplacements = new ArrayCollection();
     }
+    public function initFlotteur(Segment $segment, string $nomFlotteur)
+    {
+        $this->segment = $segment;
+        $this->nomFlotteur = $nomFlotteur;
+    }
 
     public function getId(): ?int
     {

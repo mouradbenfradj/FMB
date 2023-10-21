@@ -3,6 +3,7 @@
 namespace App\Entity\Asc\Conteneur;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Asc\FiliereComposite\Emplacement;
 use App\Entity\Asc\Parc;
 use App\Repository\Asc\Conteneur\LanterneRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -40,6 +41,18 @@ class Lanterne
      */
     private $nbrPoche;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Emplacement::class, inversedBy="lanterne", cascade={"persist", "remove"})
+     */
+    private $emplacement;
+
+    public function initLanterne(Parc $parc, string $nomLanterne, string $quantiter, string $nbrpoche)
+    {
+        $this->parc = $parc;
+        $this->nomLanterne = $nomLanterne;
+        $this->quantiter = $quantiter;
+        $this->nbrPoche = $nbrpoche;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +102,18 @@ class Lanterne
     public function setNbrPoche(int $nbrPoche): self
     {
         $this->nbrPoche = $nbrPoche;
+
+        return $this;
+    }
+
+    public function getEmplacement(): ?Emplacement
+    {
+        return $this->emplacement;
+    }
+
+    public function setEmplacement(?Emplacement $emplacement): self
+    {
+        $this->emplacement = $emplacement;
 
         return $this;
     }

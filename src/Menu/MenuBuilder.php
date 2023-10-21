@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Menu;
 
 use App\Service\ParcService;
@@ -18,194 +19,113 @@ class MenuBuilder
         $this->_parcService = $parcService;
         $this->_security = $security;
     }
-    
+
     /**
      * Function createMainMenu
      *
      * @return void
      */
-    public function createMainMenu(/* RequestStack $requestStack */)
+    public function createMainMenu()
     {
         $menu = $this->_factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav');
-        $menu->addChild('Statistiques') 
+
+        $this->addDropdownMenuItem(
+            $menu,
+            'Statistiques',
+            'topnav-statistiques',
+            'fe-anchor',
+            [
+                ['Tous', 'app_default', 'dropdown-item']
+            ]
+        );
+
+        $this->addDropdownMenuItem(
+            $menu,
+            'Etat Actuel Prod',
+            'topnav-etat-actuel-prod',
+            'fe-map',
+            []
+        );
+
+        $this->addDropdownMenuItem(
+            $menu,
+            'Prod à faire',
+            'topnav-prod-a-faire',
+            'fe-clipboard',
+            []
+        );
+
+        $this->addDropdownMenuItem(
+            $menu,
+            'Alertes de travail',
+            'topnav-alertes-de-travail',
+            'fe-alert-triangle',
+            []
+        );
+
+        $this->addDropdownMenuItem(
+            $menu,
+            'Prod par cycle',
+            'topnav-prod-par-cycle',
+            'fe-clock',
+            []
+        );
+
+        $this->addDropdownMenuItem(
+            $menu,
+            'Outils de gestion',
+            'topnav-outils-de-gestion',
+            'fe-bar-chart-2',
+            [
+                ['Historique des opérations', 'app_historique', 'dropdown-item'],
+                ['Détail tâches effectuées', 'app_historique', 'dropdown-item'],
+                ['Prévisions des sorties', 'app_prevision', 'dropdown-item'],
+            ]
+        );
+
+        return $menu;
+    }
+
+    private function addDropdownMenuItem($menu, $label, $linkId, $iconClass, $dropdownItems)
+    {
+        $menu->addChild($label)
             ->setAttribute('class', 'nav-item dropdown')
             ->setUri("#")
             ->setLinkAttributes(
                 [
-                    'class'=> 'nav-link dropdown-toggle arrow-none',
-                    'id'=> 'topnav-statistiques',
-                    'data-toggle'=> 'dropdown',
-                    'aria-haspopup'=> 'true',
-                    'aria-expanded'=> 'false',
-                    'role'=> 'button'
+                    'class' => 'nav-link dropdown-toggle arrow-none',
+                    'id' => 'topnav-' . $linkId,
+                    'data-toggle' => 'dropdown',
+                    'aria-haspopup' => 'true',
+                    'aria-expanded' => 'false',
+                    'role' => 'button',
                 ]
             )
-            ->setLabel('<i class="fe-anchor mr-1"></i> Statistiques <div class="arrow-down"></div>')
-            ->setExtra('safe_label', true)
-            ->setChildrenAttributes(
-                [
-                    'class'=> 'dropdown-menu',
-                    'aria-labelledbyaria-labelledby'=> 'topnav-statistiques'
-                ]
-            );
-        $menu->addChild('Etat Actuel Prod')
-            ->setAttribute('class', 'nav-item dropdown')
-            ->setUri("#")
-            ->setLinkAttributes(
-                [
-                    'class'=> 'nav-link dropdown-toggle arrow-none',
-                    'id'=> 'topnav-etat-actuel-prod',
-                    'data-toggle'=> 'dropdown',
-                    'aria-haspopup'=> 'true',
-                    'aria-expanded'=> 'false',
-                    'role'=> 'button'
-                ]
-            )
-            ->setLabel('<i class="fe-map mr-1"></i> Etat Actuel Prod <div class="arrow-down"></div>')
-            ->setExtra('safe_label', true)
-            ->setChildrenAttributes(
-                [
-                    'class'=> 'dropdown-menu',
-                    'aria-labelledbyaria-labelledby'=> 'topnav-actuel-prod'
-                ]
-            );
-        $menu->addChild('Prod à faire')
-            ->setAttribute('class', 'nav-item dropdown')
-            ->setUri("#")
-            ->setLinkAttributes(
-                [
-                    'class'=> 'nav-link dropdown-toggle arrow-none',
-                    'id'=> 'topnav-prod-a-faire',
-                    'data-toggle'=> 'dropdown',
-                    'aria-haspopup'=> 'true',
-                    'aria-expanded'=> 'false',
-                    'role'=> 'button'
-                ]
-            )
-            ->setLabel('<i class="fe-clipboard mr-1"></i> Prod à faire <div class="arrow-down"></div>')
+            ->setLabel('<i class="' . $iconClass . ' mr-1"></i> ' . $label . ' <div class="arrow-down"></div>')
             ->setExtra('safe_label', true);
-        $menu->addChild('Alertes de travail')
-            ->setAttribute('class', 'nav-item dropdown')
-            ->setUri("#")
-            ->setLinkAttributes(
+
+        if (!empty($dropdownItems)) {
+            $menu[$label]->setChildrenAttributes(
                 [
-                    'class'=> 'nav-link dropdown-toggle arrow-none',
-                    'id'=> 'topnav-alertes-de-travail',
-                    'data-toggle'=> 'dropdown',
-                    'aria-haspopup'=> 'true',
-                    'aria-expanded'=> 'false',
-                    'role'=> 'button'
-                ]
-            )
-            ->setLabel('<i class="fe-alert-triangle mr-1"></i> Alertes de travail <div class="arrow-down"></div>')
-            ->setExtra('safe_label', true)
-            ->setChildrenAttributes(
-                [
-                    'class'=> 'dropdown-menu',
-                    'aria-labelledbyaria-labelledby'=> 'topnav-alertes-de-travail'
+                    'class' => 'dropdown-menu',
+                    'aria-labelledby' => 'topnav-' . $linkId
                 ]
             );
-        $menu->addChild('Prod par cycle')
-            ->setAttribute('class', 'nav-item dropdown')
-            ->setUri("#")
-            ->setLinkAttributes(
-                [
-                    'class'=> 'nav-link dropdown-toggle arrow-none',
-                    'id'=> 'topnav-prod-par-cycle',
-                    'data-toggle'=> 'dropdown',
-                    'aria-haspopup'=> 'true',
-                    'aria-expanded'=> 'false',
-                    'role'=> 'button'
-                ]
-            )
-            ->setLabel('<i class="fe-clock mr-1"></i> Prod par cycle <div class="arrow-down"></div>')
-            ->setExtra('safe_label', true)
-            ->setChildrenAttributes(
-                [
-                    'class'=> 'dropdown-menu',
-                    'aria-labelledbyaria-labelledby'=> 'topnav-prod-par-cycle'
-                ]
-            );
-        $menu->addChild('Outils de gestion')
-            ->setAttribute('class', 'nav-item dropdown')
-            ->setUri("#")
-            ->setLinkAttributes(
-                [
-                    'class'=> 'nav-link dropdown-toggle arrow-none',
-                    'id'=> 'topnav-outils-de-gestion',
-                    'data-toggle'=> 'dropdown',
-                    'aria-haspopup'=> 'true',
-                    'aria-expanded'=> 'false',
-                    'role'=> 'button'
-                ]
-            )
-            ->setLabel('<i class="fe-bar-chart-2 mr-1"></i> Outils de gestion <div class="arrow-down"></div>')
-            ->setExtra('safe_label', true)
-            ->setChildrenAttributes(
-                [
-                    'class'=> 'dropdown-menu',
-                    'aria-labelledbyaria-labelledby'=> 'topnav-outils-de-gestion'
-                ]
-            );
-            $menu['Outils de gestion']->addChild('Historique des opérations', 
-            ['route' => 'app_historique'])                
-            ->setLinkAttribute('class', 'dropdown-item');
-            $menu['Outils de gestion']->addChild('Détail tâches effectées', 
-            ['route' => 'app_historique'])
-            ->setLinkAttribute('class', 'dropdown-item');
-            $menu['Outils de gestion']->addChild('Prévisions des sorties', 
-            ['route' => 'app_prevision'])                
-            ->setLinkAttribute('class', 'dropdown-item');
-        $menu['Statistiques']
-            ->addChild(
-                'Tous', 
-                ['route' => 'app_default']
-            )
-            ->setLinkAttribute('class', 'dropdown-item');
-        $parcs = $this->_parcService->findAllFromParcCache();
-        foreach ($parcs as $parc) {
-            $menu['Statistiques']
-                ->addChild(
-                    $parc->getAbrevParc(), 
-                    [
-                        'route' => 'app_default',
-                        'routeParameters' => ['id' => $parc->getId()]
-                    ]
-                )   
-                ->setLinkAttribute('class', 'dropdown-item');
-            $menu['Etat Actuel Prod']
-                ->addChild(
-                    $parc->getAbrevParc(), 
-                    [
-                        'route' => 'app_etat_actuel_prod',
-                        'routeParameters' => ['id' => $parc->getId()]
-                    ]
-                )   
-                ->setLinkAttribute('class', 'dropdown-item');
-                $menu['Alertes de travail']
-                ->addChild(
-                    $parc->getAbrevParc(), 
-                    [
-                        'route' => 'app_alerte_de_travaille',
-                        'routeParameters' => ['id' => $parc->getId()]
-                    ]
-                )   
-                ->setLinkAttribute('class', 'dropdown-item');
-                $menu['Prod par cycle']
-                ->addChild(
-                    $parc->getAbrevParc(), 
-                    [
-                        'route' => 'app_etat_actuel_prod',
-                        'routeParameters' => ['id' => $parc->getId()]
-                    ]
-                )   
-                ->setLinkAttribute('class', 'dropdown-item');
+
+            foreach ($dropdownItems as $item) {
+                $menu[$label]->addChild($item[0], ['route' => $item[1]])
+                    ->setLinkAttribute('class', $item[2]);
+            }
         }
-    
-            
-            
-            /* $menu->addChild('Prod à faire') 
+    }
+
+
+
+
+
+
+    /* $menu->addChild('Prod à faire') 
             ->setAttribute('class', 'nav-item dropdown')
             ->setUri("#")
             ->setLinkAttribute('class', 'nav-link dropdown-toggle arrow-none')
@@ -231,10 +151,10 @@ class MenuBuilder
             ->setUri("#")
             ->setLinkAttribute('class','dropdown-item'); */
 
-            
-    
-            
-/*
+
+
+
+    /*
                                     
                                         
                                     <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
@@ -580,8 +500,7 @@ class MenuBuilder
                                     </div>
                                 </li>
                             </ul> <!-- end navbar--> */
-        return $menu;
-    }public function createNewMainMenu(RequestStack $requestStack)
+    public function createNewMainMenu(RequestStack $requestStack)
     {
         $menu = $this->_factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav');
@@ -617,7 +536,7 @@ class MenuBuilder
             $menu['Outils de gestion']['Prévisions des sorties']->addChild('Courbes', array('route' => 'previsionFutureCourbe'));
         }
         //   $menu->setChildrenAttribute('class', 'nav navbar-nav');
-        
+
         // findMostRecent and Blog are just imaginary examples
         $parcs = $this->parcRepository->findAll();
         if ($parcs) {
@@ -681,9 +600,7 @@ class MenuBuilder
                         'routeParameters' => array('idparc' => $parc->getId())
                     ));
                 }
-
             }
-
         }
 
         $menu['Statistiques']->setAttribute('class', 'has-submenu')->setUri("/")->setChildrenAttribute('class', 'submenu');

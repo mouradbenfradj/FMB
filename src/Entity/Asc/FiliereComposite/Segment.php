@@ -46,6 +46,12 @@ class Segment
     {
         $this->flotteurs = new ArrayCollection();
     }
+    public function initSegment(Filiere $filiere, string $nomSegment, string $longeur)
+    {
+        $this->filiere = $filiere;
+        $this->nomSegment = $nomSegment;
+        $this->longeur = $longeur;
+    }
 
     public function getId(): ?int
     {
