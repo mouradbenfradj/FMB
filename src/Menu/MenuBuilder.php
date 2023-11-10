@@ -2,6 +2,7 @@
 
 namespace App\Menu;
 
+use App\Entity\Asc\Parc;
 use App\Service\ParcService;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -29,17 +30,21 @@ class MenuBuilder
     {
         $menu = $this->_factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav');
+        $parcs = $this->_parcService->findAllFromParcCache();
 
         $this->addDropdownMenuItem(
             $menu,
             'Statistiques',
             'topnav-statistiques',
             'fe-anchor',
-            [
-                ['Tous', 'app_default', 'dropdown-item']
-            ]
+            array_merge(
+                [['Tous', 'app_default', 'dropdown-item', null]],
+                array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
+            )
         );
-
+        /* 
+        dd(array_map(fn ($parc): string => [$parc->getAbrevParc(), 'app_default', 'dropdown-item'], $parcs));
+        dd($parcs); */
         $this->addDropdownMenuItem(
             $menu,
             'Etat Actuel Prod',
@@ -78,9 +83,9 @@ class MenuBuilder
             'topnav-outils-de-gestion',
             'fe-bar-chart-2',
             [
-                ['Historique des opérations', 'app_historique', 'dropdown-item'],
-                ['Détail tâches effectuées', 'app_historique', 'dropdown-item'],
-                ['Prévisions des sorties', 'app_prevision', 'dropdown-item'],
+                ['Historique des opérations', 'app_historique', 'dropdown-item', null],
+                ['Détail tâches effectuées', 'app_historique', 'dropdown-item', null],
+                ['Prévisions des sorties', 'app_prevision', 'dropdown-item', null],
             ]
         );
 
@@ -114,8 +119,10 @@ class MenuBuilder
             );
 
             foreach ($dropdownItems as $item) {
-                $menu[$label]->addChild($item[0], ['route' => $item[1]])
-                    ->setLinkAttribute('class', $item[2]);
+                $menu[$label]->addChild($item[0], [
+                    'route' => $item[1],
+                    'routeParameters' => ['id' =>  $item[3]]
+                ])->setLinkAttribute('class', $item[2]);
             }
         }
     }
