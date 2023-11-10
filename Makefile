@@ -29,6 +29,8 @@ composer-update-container:
 	composer update
 composer-require:
 	@docker-compose exec www composer require "dama/doctrine-test-bundle:^6" --dev
+composer-require-container:
+	composer require sonata-project/timeline-bundle
 
 # Target to install dependencies with Yarn.
 yarn-install:

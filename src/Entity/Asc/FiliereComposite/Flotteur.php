@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=FlotteurRepository::class)
  */
 class Flotteur
@@ -34,13 +35,17 @@ class Flotteur
 
 
     /**
-     * @ORM\OneToMany(targetEntity=Emplacement::class, mappedBy="flotteur")
+     * @ORM\OneToMany(targetEntity=Emplacement::class, mappedBy="flotteur",cascade={"persist"})
      */
     private $emplacements;
 
     public function __construct()
     {
         $this->emplacements = new ArrayCollection();
+    }
+    public function __toString(): string
+    {
+        return $this->nomFlotteur;
     }
     public function initFlotteur(Segment $segment, string $nomFlotteur)
     {
@@ -105,5 +110,17 @@ class Flotteur
         }
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function generateEmplacement()
+    {
+        for ($place = 1; $place <= 10; $place++) {
+            $emplacement = new Emplacement();
+            $emplacement->setPlace($place);
+            $this->addEmplacement($emplacement);
+        }
     }
 }

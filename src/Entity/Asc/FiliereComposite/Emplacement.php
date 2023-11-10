@@ -54,7 +54,10 @@ class Emplacement
      */
     private $dateRemplissage;
 
-
+    public function __toString(): string
+    {
+        return $this->place;
+    }
     public function initEmplacement(Flotteur $flotteur, int $place)
     {
         $this->flotteur = $flotteur;

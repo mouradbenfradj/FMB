@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=SegmentRepository::class)
  */
 class Segment
@@ -38,7 +39,7 @@ class Segment
     private $filiere;
 
     /**
-     * @ORM\OneToMany(targetEntity=Flotteur::class, mappedBy="segment")
+     * @ORM\OneToMany(targetEntity=Flotteur::class, mappedBy="segment",cascade={"persist"})
      */
     private $flotteurs;
 
@@ -122,5 +123,18 @@ class Segment
         }
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function generateFlotteur()
+    {
+        $nbFlotteur = $this->longeur / 5;
+        for ($nb = 0; $nb < $nbFlotteur; $nb++) {
+            $flotteur = new Flotteur();
+            $flotteur->setNomFlotteur($this->nomSegment . $nb);
+            $this->addFlotteur($flotteur);
+        }
     }
 }
