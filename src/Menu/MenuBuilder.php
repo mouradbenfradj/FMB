@@ -543,61 +543,61 @@ class MenuBuilder
             foreach ($parcs as $parc) {
                 $menu['Statistiques']->addChild($parc->getAbrevParc(), array(
                     'route' => 'app_statistique',
-                    'routeParameters' => array('idparc' => $parc->getId())
+                    'routeParameters' => array('id' => $parc->getId())
                 ));
                 $menu['Etat Actuel Prod']->addChild($parc->getAbrevParc(), array(
                     'route' => 'app_suivi',
-                    'routeParameters' => array('idparc' => $parc->getId())
+                    'routeParameters' => array('id' => $parc->getId())
                 ));
                 if ($this->_security->isGranted('ROLE_SUPER_ADMIN')) {
                     $menu['Prod à faire']['Passage Chaussettes']->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_chaussement',
-                        'routeParameters' => array('idparc' => $parc->getId())
+                        'routeParameters' => array('id' => $parc->getId())
                     ));
 
                     $menu['Prod à faire']["MAE Lanternes"]->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_misaaeaulanterne',
-                        'routeParameters' => array('idparc' => $parc->getId())
+                        'routeParameters' => array('id' => $parc->getId())
                     ));
                     $menu['Prod à faire']['Retrait AW Lanternes']->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_retraitLanterne',
-                        'routeParameters' => array('idparc' => $parc->getId())
+                        'routeParameters' => array('id' => $parc->getId())
                     ));
                     $menu['Prod à faire']['Retrait AW Lanternes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
                     $menu['Prod à faire']["MAE Cordes"]->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_misaaeaucorde',
-                        'routeParameters' => array('idparc' => $parc->getId())
+                        'routeParameters' => array('id' => $parc->getId())
                     ));
                     $menu['Prod à faire']["MAE Assemblages"]->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_assemblagemiseaeauformulaire',
-                        'routeParameters' => array('idparc' => $parc->getId())
+                        'routeParameters' => array('id' => $parc->getId())
                     ));
                     $menu['Prod à faire']["MAE Poches"]->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_misaaeaupoche',
-                        'routeParameters' => array('idparc' => $parc->getId())
+                        'routeParameters' => array('id' => $parc->getId())
                     ));
                     $menu['Prod à faire']['Retrait AW Cordes']->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_retraitcorde',
-                        'routeParameters' => array('idparc' => $parc->getId())
+                        'routeParameters' => array('id' => $parc->getId())
                     ));
                     $menu['Prod à faire']['Retrait AW Cordes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
                     $menu['Prod à faire']['Traitement Comercial']->addChild($parc->getAbrevParc(), array(
                         'route' => 'traitementcomerciale',
-                        'routeParameters' => array('idparc' => $parc->getId())
+                        'routeParameters' => array('id' => $parc->getId())
                     ));
                 }
                 $menu['Alertes de travail']->addChild($parc->getAbrevParc(), array(
                     'route' => 'app_planingdetravaille',
-                    'routeParameters' => array('idparc' => $parc->getId())
+                    'routeParameters' => array('id' => $parc->getId())
                 ));
                 $menu['Prod par cycle']->addChild($parc->getAbrevParc(), array(
                     'route' => 'app_processusgrocissement',
-                    'routeParameters' => array('idparc' => $parc->getId())
+                    'routeParameters' => array('id' => $parc->getId())
                 ));
                 if ($this->_security->isGranted('ROLE_SUPER_ADMIN')) {
                     $menu['Prod à faire']['Retrait Transfert']->addChild($parc->getAbrevParc(), array(
                         'route' => 'app_transfert',
-                        'routeParameters' => array('idparc' => $parc->getId())
+                        'routeParameters' => array('id' => $parc->getId())
                     ));
                 }
             }

@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource()
  * @ORM\Entity(repositoryClass=CordeRepository::class)
  */
-class Corde
+class Corde extends Conteneur
 {
     /**
      * @ORM\Id
@@ -29,15 +29,6 @@ class Corde
      */
     private $parc;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $quantiter;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $nomCorde;
 
     /**
      * @ORM\OneToOne(targetEntity=emplacement::class, inversedBy="corde", cascade={"persist", "remove"})
@@ -62,8 +53,7 @@ class Corde
     public function initCorde(Parc $parc, string $nomCorde, int $quantiter)
     {
         $this->parc = $parc;
-        $this->nomCorde = $nomCorde;
-        $this->quantiter = $quantiter;
+        $this->init($nomCorde, $quantiter);
     }
 
     public function getParc(): ?Parc
@@ -78,29 +68,7 @@ class Corde
         return $this;
     }
 
-    public function getQuantiter(): ?int
-    {
-        return $this->quantiter;
-    }
 
-    public function setQuantiter(int $quantiter): self
-    {
-        $this->quantiter = $quantiter;
-
-        return $this;
-    }
-
-    public function getNomCorde(): ?string
-    {
-        return $this->nomCorde;
-    }
-
-    public function setNomCorde(string $nomCorde): self
-    {
-        $this->nomCorde = $nomCorde;
-
-        return $this;
-    }
 
     public function getEmplacement(): ?Emplacement
     {

@@ -4,6 +4,8 @@ namespace App\Entity\Asc\Stock;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Asc\Conteneur\Corde;
+use App\Interfaces\Visiteur\Operation\EntityInterface;
+use App\Interfaces\Visiteur\Operation\OperationInterface;
 use App\Repository\Asc\Stock\StockCordeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource()
  * @ORM\Entity(repositoryClass=StockCordeRepository::class)
  */
-class StockCorde
+class StockCorde extends StockConteneur implements EntityInterface
 {
     /**
      * @ORM\Id
@@ -20,15 +22,6 @@ class StockCorde
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $quantiter;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $pret;
 
     /**
      * @ORM\Column(type="date")
@@ -81,29 +74,7 @@ class StockCorde
         return $this->id;
     }
 
-    public function getQuantiter(): ?int
-    {
-        return $this->quantiter;
-    }
 
-    public function setQuantiter(int $quantiter): self
-    {
-        $this->quantiter = $quantiter;
-
-        return $this;
-    }
-
-    public function isPret(): ?bool
-    {
-        return $this->pret;
-    }
-
-    public function setPret(bool $pret): self
-    {
-        $this->pret = $pret;
-
-        return $this;
-    }
 
     public function getDatedecreation(): ?\DateTimeInterface
     {
@@ -211,5 +182,28 @@ class StockCorde
         $this->corde = $corde;
 
         return $this;
+    }
+
+    public function accept(OperationInterface $operationInterface)
+    {
+    }
+    public function preparation(OperationInterface $operationInterface)
+    {
+        $operationInterface->preparationCorde($this);
+    }
+    public function assemblage(OperationInterface $operationInterface)
+    {
+    }
+    public function miseAEau(OperationInterface $operationInterface)
+    {
+    }
+    public function chaussage(OperationInterface $operationInterface)
+    {
+    }
+    public function retraitTransfert(OperationInterface $operationInterface)
+    {
+    }
+    public function traitementCommerciale(OperationInterface $operationInterface)
+    {
     }
 }

@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Asc\Conteneur\Corde;
 use App\Entity\Asc\Conteneur\Lanterne;
 use App\Entity\Asc\FiliereComposite\Filiere;
-use App\Entity\Asc\Stock;
+use App\Entity\Asc\Stock\Stock;
 use App\Repository\Asc\ParcRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -25,12 +25,6 @@ class Parc
      */
     private $id;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_parc", type="smallint", nullable=false, unique=true)
-     */
-    private $idParc;
 
     /**
      * @var string
@@ -73,27 +67,18 @@ class Parc
         $this->lanternes = new ArrayCollection();
     }
 
-    public function initParc(int $idParc, string $abrevParc, string $libParc)
+    public function __toString()
     {
-        $this->idParc = $idParc;
+        return $this->libParc;
+    }
+    public function initParc(string $abrevParc, string $libParc)
+    {
         $this->abrevParc = $abrevParc;
         $this->libParc = $libParc;
     }
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdParc(): ?int
-    {
-        return $this->idParc;
-    }
-
-    public function setIdParc(int $idParc): self
-    {
-        $this->idParc = $idParc;
-
-        return $this;
     }
 
     public function getLibParc(): ?string

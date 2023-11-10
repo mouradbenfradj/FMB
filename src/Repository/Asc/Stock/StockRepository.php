@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\Asc;
+namespace App\Repository\Asc\Stock;
 
-use App\Entity\Asc\Stock;
+use App\Entity\Asc\Stock\Stock;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method Stock|null find($id, $lockMode = null, $lockVersion = null)
  * @method Stock|null findOneBy(array $criteria, array $orderBy = null)
- * @method Stock[]    findAll()
+ * @method stock[]    findAll()
  * @method Stock[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class StockRepository extends ServiceEntityRepository

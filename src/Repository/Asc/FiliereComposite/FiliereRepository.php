@@ -42,11 +42,11 @@ class FiliereRepository extends ServiceEntityRepository
     /**
      * @return Filiere[] Returns an array of Filiere objects
      */
-    public function findByParcId(int $idParc): array
+    public function findByParcId(int $id): array
     {
         return $this->createQueryBuilder('f')
             ->andWhere('f.parc = :id')
-            ->setParameter('id', $idParc)
+            ->setParameter('id', $id)
             ->innerJoin('f.segments', 's')
             ->innerJoin('s.flotteurs', 'fl')
             ->innerJoin('fl.emplacements', 'e')

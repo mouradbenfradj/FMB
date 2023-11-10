@@ -10,24 +10,24 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 final class FiliereAdmin extends AbstractAdmin
 {
-    
+
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('id');
+        $form->add('nomFiliere')->add('observation')->add('parc')->add('aireDeTravaille');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id');
+        $datagrid->add('id')->add('nomFiliere')->add('observation')->add('parc')->add('aireDeTravaille')->add('segments');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id');
+        $list->addIdentifier('id')->add('nomFiliere')->add('observation')->add('parc')->add('aireDeTravaille')->add('segments');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id');
+        $show->add('id')->add('nomFiliere')->add('observation')->add('parc')->add('aireDeTravaille')->add('segments');
     }
 }

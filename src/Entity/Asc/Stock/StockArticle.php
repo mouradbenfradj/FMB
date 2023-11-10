@@ -3,7 +3,7 @@
 namespace App\Entity\Asc\Stock;
 
 use App\Entity\Asc\Articles;
-use App\Entity\Asc\Stock;
+use App\Entity\Asc\Stock\Stock;
 use App\Repository\Asc\Stock\StockArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 

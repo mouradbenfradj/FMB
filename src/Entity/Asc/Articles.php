@@ -8,6 +8,7 @@ use App\Repository\Asc\ArticlesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ApiResource()
@@ -43,16 +44,34 @@ class Articles
     private $descLongue;
 
     /**
-     * @ORM\OneToMany(targetEntity=StocksArticles::class, mappedBy="article", orphanRemoval=true)
-     */
-    private $stocksArticles;
-
-    /**
      * @ORM\ManyToOne(targetEntity=FruitDeMer::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fruitDeMer;
 
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var \DateTime $contentChanged
+     *
+     * @ORM\Column(name="content_changed", type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"title", "body"})
+     */
+    private $contentChanged;
     /**
      * @ORM\OneToMany(targetEntity=StockArticle::class, mappedBy="article", orphanRemoval=true)
      */
@@ -60,7 +79,6 @@ class Articles
 
     public function __construct()
     {
-        $this->stocksArticles = new ArrayCollection();
         $this->stockArticles = new ArrayCollection();
     }
     public function initArticle(FruitDeMer $fruitDeMer, string $refArticle, string $libArticle, ?string $descCourte, ?string $descLongue)
@@ -125,35 +143,7 @@ class Articles
         return $this;
     }
 
-    /**
-     * @return Collection<int, StocksArticles>
-     */
-    public function getStocksArticles(): Collection
-    {
-        return $this->stocksArticles;
-    }
 
-    public function addStocksArticle(StocksArticles $stocksArticle): self
-    {
-        if (!$this->stocksArticles->contains($stocksArticle)) {
-            $this->stocksArticles[] = $stocksArticle;
-            $stocksArticle->setArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStocksArticle(StocksArticles $stocksArticle): self
-    {
-        if ($this->stocksArticles->removeElement($stocksArticle)) {
-            // set the owning side to null (unless already changed)
-            if ($stocksArticle->getArticle() === $this) {
-                $stocksArticle->setArticle(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getFruitDeMer(): ?FruitDeMer
     {
@@ -195,5 +185,20 @@ class Articles
         }
 
         return $this;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    public function getContentChanged()
+    {
+        return $this->contentChanged;
     }
 }

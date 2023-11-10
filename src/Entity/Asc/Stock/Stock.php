@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity\Asc;
+namespace App\Entity\Asc\Stock;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Asc\Parc;
 use App\Entity\Asc\Stock\StockArticle;
-use App\Repository\Asc\StockRepository;
+use App\Repository\Asc\Stock\StockRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,26 +44,25 @@ class Stock
     private $parc;
 
     /**
-     * @ORM\OneToMany(targetEntity=StocksArticles::class, mappedBy="stock", orphanRemoval=true)
-     */
-    private $stocksArticles;
-
-    /**
      * @ORM\OneToMany(targetEntity=StockArticle::class, mappedBy="stock")
      */
     private $stockArticles;
 
     public function __construct()
     {
-        $this->stocksArticles = new ArrayCollection();
         $this->stockArticles = new ArrayCollection();
     }
+    public function __toString()
+    {
+        return $this->libStock;
+    }
+
     public function initStock(Parc $parc, string $libStock, string $abrevStock, bool $actif)
     {
-         $this->parc= $parc;
-         $this->libStock= $libStock;
-         $this->abrevStock=$abrevStock;
-         $this->actif= $actif;
+        $this->parc = $parc;
+        $this->libStock = $libStock;
+        $this->abrevStock = $abrevStock;
+        $this->actif = $actif;
     }
 
     public function getId(): ?int
@@ -119,35 +118,6 @@ class Stock
         return $this;
     }
 
-    /**
-     * @return Collection<int, StocksArticles>
-     */
-    public function getStocksArticles(): Collection
-    {
-        return $this->stocksArticles;
-    }
-
-    public function addStocksArticle(StocksArticles $stocksArticle): self
-    {
-        if (!$this->stocksArticles->contains($stocksArticle)) {
-            $this->stocksArticles[] = $stocksArticle;
-            $stocksArticle->setStock($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStocksArticle(StocksArticles $stocksArticle): self
-    {
-        if ($this->stocksArticles->removeElement($stocksArticle)) {
-            // set the owning side to null (unless already changed)
-            if ($stocksArticle->getStock() === $this) {
-                $stocksArticle->setStock(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, StockArticle>

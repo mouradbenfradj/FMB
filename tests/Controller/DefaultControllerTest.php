@@ -78,7 +78,6 @@ class DefaultControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->path);
         $parc = new Parc();
         $parc->setAbrevParc('12');
-        $parc->setIdParc(10);
         $parc->setLibParc('12');
         $this->parcRepository->add($parc, true);
         $corde = new Corde();

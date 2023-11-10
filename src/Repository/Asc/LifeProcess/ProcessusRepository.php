@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\Asc;
+namespace App\Repository\Asc\LifeProcess;
 
-use App\Entity\Asc\Processus;
+use App\Entity\Asc\LifeProcess\Processus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

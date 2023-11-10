@@ -11,10 +11,10 @@ class ConteneurService
         $finder = new Finder();
         $finder->files()->in(__DIR__ . '/../Entity/Asc/Conteneur');
         $entityNames = [];
-
         foreach ($finder as $file) {
             $fileName = pathinfo($file->getRelativePathname(), PATHINFO_FILENAME);
-            $entityNames[] = $fileName;
+            if ($fileName != 'Conteneur')
+                $entityNames[] = $fileName;
         }
         return $entityNames;
     }

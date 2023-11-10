@@ -4,7 +4,7 @@ namespace App\Tests\Entity;
 
 use App\Entity\Asc\Parc;
 use App\Entity\Asc\FiliereComposite\Filiere;
-use App\Entity\Asc\Stock;
+use App\Entity\Asc\Stock\Stock;
 use App\Entity\Asc\Conteneur\Corde;
 use App\Entity\Asc\Conteneur\Lanterne;
 use PHPUnit\Framework\TestCase;
@@ -16,11 +16,9 @@ class ParcTest extends TestCase
     {
         $parc = new Parc();
 
-        $parc->setIdParc(1);
         $parc->setLibParc('Test Parc');
         $parc->setAbrevParc('TP');
 
-        $this->assertSame(1, $parc->getIdParc());
         $this->assertSame('Test Parc', $parc->getLibParc());
         $this->assertSame('TP', $parc->getAbrevParc());
     }
