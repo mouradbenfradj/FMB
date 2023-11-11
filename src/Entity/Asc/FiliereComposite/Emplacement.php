@@ -34,20 +34,6 @@ class Emplacement
     private $flotteur;
 
 
-    /**
-     * @ORM\OneToOne(targetEntity=Corde::class, mappedBy="emplacement", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $corde;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Lanterne::class, mappedBy="emplacement", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $lanterne;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Poche::class, mappedBy="emplacement", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $poche;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -92,41 +78,6 @@ class Emplacement
         return $this;
     }
 
-    public function getCorde(): ?Corde
-    {
-        return $this->corde;
-    }
-
-    public function setCorde(?Corde $corde): self
-    {
-        $this->corde = $corde;
-
-        return $this;
-    }
-
-    public function getLanterne(): ?Lanterne
-    {
-        return $this->lanterne;
-    }
-
-    public function setLanterne(?Lanterne $lanterne): self
-    {
-        $this->lanterne = $lanterne;
-
-        return $this;
-    }
-
-    public function getPoche(): ?Poche
-    {
-        return $this->poche;
-    }
-
-    public function setPoche(?Poche $poche): self
-    {
-        $this->poche = $poche;
-
-        return $this;
-    }
     public function setDateRemplissage(\DateTimeInterface $dateRemplissage)
     {
         $this->dateRemplissage = $dateRemplissage;

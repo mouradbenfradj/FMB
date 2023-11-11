@@ -4,17 +4,21 @@ namespace App\Service\Conteneur;
 
 use App\Interfaces\StatistiqueInterface;
 use App\Repository\Asc\Conteneur\CordeRepository;
+use App\Repository\Asc\Stock\StockCordeRepository;
 
 class CordeService implements StatistiqueInterface
 {
 
     private $_cache;
     private $_cordeRepository;
+    private $_stockCordeRepository;
 
     public function __construct(
-        CordeRepository $cordeRepository
+        CordeRepository $cordeRepository,
+        StockCordeRepository $stockCordeRepository
     ) {
         $this->_cordeRepository = $cordeRepository;
+        $this->stockCordeRepository = $stockCordeRepository;
     }
 
     public function total(?int $parcId): int
@@ -22,9 +26,9 @@ class CordeService implements StatistiqueInterface
 
         $somme = 0;
         if ($parcId == 0)
-            $somme = count($this->_cordeRepository->findAll());
+            $somme = count($this->_stockCordeRepository->findAll());
         else
-            $somme += 1;
+            $somme = count($this->_stockCordeRepository->findBy([]));
         return $somme;
     }
     public function aEau(string $article): array

@@ -24,11 +24,6 @@ class StockCorde extends StockConteneur implements EntityInterface
 
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $datedecreation;
-
-    /**
      * @ORM\Column(type="date", nullable=true)
      */
     private $datederetirement;
@@ -75,18 +70,6 @@ class StockCorde extends StockConteneur implements EntityInterface
     }
 
 
-
-    public function getDatedecreation(): ?\DateTimeInterface
-    {
-        return $this->datedecreation;
-    }
-
-    public function setDatedecreation(\DateTimeInterface $datedecreation): self
-    {
-        $this->datedecreation = $datedecreation;
-
-        return $this;
-    }
 
     public function getDatederetirement(): ?\DateTimeInterface
     {

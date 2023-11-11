@@ -10,24 +10,24 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 final class StockCordeAdmin extends AbstractAdmin
 {
-    
+
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('id');
+        $form->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement')->add('corde');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id');
+        $datagrid->add('id')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement')->add('corde');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id');
+        $list->addIdentifier('id')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement')->add('corde');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id');
+        $show->add('id')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement')->add('corde');
     }
 }

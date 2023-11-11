@@ -13,21 +13,21 @@ final class CordeAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('parc')->add('quantiter')->add('nom')->add('emplacement');
+        $form->add('parc')->add('quantiter')->add('nom');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('parc')->add('quantiter')->add('nom')->add('emplacement');
+        $datagrid->add('parc')->add('quantiter')->add('nom');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('parc')->add('quantiter')->add('nom')->add('emplacement');
+        $list->addIdentifier('id')->add('parc')->add('quantiter')->add('nom');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('parc')->add('quantiter')->add('nom')->add('emplacement');
+        $show->add('parc')->add('quantiter')->add('nom');
     }
 }

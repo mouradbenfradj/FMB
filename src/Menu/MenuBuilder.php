@@ -3,6 +3,7 @@
 namespace App\Menu;
 
 use App\Entity\Asc\Parc;
+use App\Service\ConteneurService;
 use App\Service\ParcService;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -13,12 +14,14 @@ class MenuBuilder
     private $_factory;
     private $_parcService;
     private $_security;
+    private $_conteneurService;
 
-    public function __construct(FactoryInterface $factory, ParcService $parcService, Security $security)
+    public function __construct(FactoryInterface $factory, ParcService $parcService, Security $security, ConteneurService $conteneurService)
     {
         $this->_factory = $factory;
         $this->_parcService = $parcService;
         $this->_security = $security;
+        $this->_conteneurService = $conteneurService;
     }
 
     /**
@@ -42,15 +45,50 @@ class MenuBuilder
                 array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
             )
         );
-        /* 
-        dd(array_map(fn ($parc): string => [$parc->getAbrevParc(), 'app_default', 'dropdown-item'], $parcs));
-        dd($parcs); */
+        $conteneurs = $this->_conteneurService->getContainerList();
+        $subMenuEtatMAEActuelProd = function ($conteneur) {
+            if ($conteneur != 'Poche')
+                return ['MAE ' . $conteneur . 's', 'app_default', 'dropdown-item', null];
+        };
+
         $this->addDropdownMenuItem(
             $menu,
             'Etat Actuel Prod',
             'topnav-etat-actuel-prod',
             'fe-map',
-            []
+            array_merge(
+                [
+                    ['Préparation', 'app_default', 'dropdown-item', null],
+                    ['Assemblage', 'app_default', 'dropdown-item', null]
+                ],
+                array_filter(array_map($subMenuEtatMAEActuelProd, $conteneurs)),
+                [
+                    ['MAE Assemblages', 'app_default', 'dropdown-item', null],
+                    ['MAE Poches', 'app_default', 'dropdown-item', null],
+                    ['Passage Chaussettes', 'app_default', 'dropdown-item', null],
+                    ['Retrait Transfert', 'app_default', 'dropdown-item', null],
+                    ['Retrait AW Lanternes', 'app_default', 'dropdown-item', null],
+                    ['Retrait AW Cordes', 'app_default', 'dropdown-item', null],
+                    ['Traitement Comercial', 'app_default', 'dropdown-item', null]
+
+                ]
+            ),
+            /*
+            
+            $menu['Prod à faire']['Préparation']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Assemblage']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['MAE Lanternes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['MAE Cordes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['MAE Assemblages']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['MAE Poches']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Passage Chaussettes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Retrait Transfert']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Retrait AW Lanternes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Retrait AW Cordes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+            $menu['Prod à faire']['Traitement Comercial']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
+       
+            */
+
         );
 
         $this->addDropdownMenuItem(
@@ -58,7 +96,7 @@ class MenuBuilder
             'Prod à faire',
             'topnav-prod-a-faire',
             'fe-clipboard',
-            []
+            array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
         );
 
         $this->addDropdownMenuItem(
@@ -66,7 +104,7 @@ class MenuBuilder
             'Alertes de travail',
             'topnav-alertes-de-travail',
             'fe-alert-triangle',
-            []
+            array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
         );
 
         $this->addDropdownMenuItem(
@@ -74,7 +112,7 @@ class MenuBuilder
             'Prod par cycle',
             'topnav-prod-par-cycle',
             'fe-clock',
-            []
+            array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
         );
 
         $this->addDropdownMenuItem(
@@ -91,7 +129,6 @@ class MenuBuilder
 
         return $menu;
     }
-
     private function addDropdownMenuItem($menu, $label, $linkId, $iconClass, $dropdownItems)
     {
         $menu->addChild($label)

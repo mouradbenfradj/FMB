@@ -20,6 +20,11 @@ abstract class StockConteneur
      */
     private $pret;
 
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $datedecreation;
     public function getQuantiter(): ?int
     {
         return $this->quantiter;
@@ -40,6 +45,17 @@ abstract class StockConteneur
     public function setPret(bool $pret): self
     {
         $this->pret = $pret;
+
+        return $this;
+    }
+    public function getDatedecreation(): ?\DateTimeInterface
+    {
+        return $this->datedecreation;
+    }
+
+    public function setDatedecreation(\DateTimeInterface $datedecreation): self
+    {
+        $this->datedecreation = $datedecreation;
 
         return $this;
     }

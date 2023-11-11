@@ -4,32 +4,42 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version20231021152830 extends AbstractMigration
+class Version20231021152830 extends AbstractMigration
 {
-    public function getDescription(): string
+    protected $connection;
+
+    public function __construct(Connection $connection)
     {
-        return '';
+        $this->connection = $connection;
     }
 
     public function up(Schema $schema): void
     {
+        ini_set('max_execution_time', '0');
+        ini_set('memory_limit', '512M');
 
-        // Get the SQL file content
-        $sqlContent = file_get_contents(__DIR__ . '/admin_oysterpro_db.sql');
+        // Check if the current connection is associated with the 'oysterpro' database
+        if ($this->isOysterProConnection()) {
 
-        // Execute the SQL queries
-        //$this->addSql($sqlContent, [], [], ['connection' => 'oysterpro']);
+            foreach (explode(';', file_get_contents(__DIR__ . '/admin_oysterpro_db.sql')) as $sql) {
+                $this->addSql($sql);
+            }
+        }
     }
 
-    public function down(Schema $schema): void
+    /**
+     * Check if the current connection is associated with the 'oysterpro' database.
+     *
+     * @return bool
+     */
+    private function isOysterProConnection(): bool
     {
-        // this down() migration is auto-generated, please modify it to your needs
-
+        // Replace 'oysterpro' with the actual name of the 'oysterpro' database
+        $connectionParams = $this->connection->getParams();
+        return $connectionParams['dbname'] === 'oysterpro';
     }
 }

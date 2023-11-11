@@ -3,7 +3,6 @@
 namespace App\Entity\Asc\Conteneur;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\Asc\FiliereComposite\Emplacement;
 use App\Entity\Asc\Parc;
 use App\Entity\Asc\Stock\StockLanterne;
 use App\Repository\Asc\Conteneur\PocheRepository;
@@ -32,10 +31,6 @@ class Poche
      */
     private $piece;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Emplacement::class, inversedBy="poche", cascade={"persist", "remove"})
-     */
-    private $emplacement;
 
 
     public function initPoche(StockLanterne $stockLanterne, int $position, string $piece)
@@ -69,18 +64,6 @@ class Poche
     public function setPiece(int $piece): self
     {
         $this->piece = $piece;
-
-        return $this;
-    }
-
-    public function getEmplacement(): ?Emplacement
-    {
-        return $this->emplacement;
-    }
-
-    public function setEmplacement(?Emplacement $emplacement): self
-    {
-        $this->emplacement = $emplacement;
 
         return $this;
     }

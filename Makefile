@@ -58,7 +58,8 @@ import-db-oyster:
 	 docker-compose exec oyster bash -c "mysql -u root -pmourad oyster < /tmp/admin_oysterpro_db.sql"
 .PHONY: import-db-oyster-container
 import-db-oyster-container:
-	docker-compose exec oyster bash -c "mysql -u root -pmourad oyster < migrations/admin_oysterpro_db.sql"
+	php bin/console doctrine:migrations:migrate --no-interaction
+# docker-compose exec oyster bash -c "mysql -u root -pmourad oyster < migrations/admin_oysterpro_db.sql"
 
 
 create-db-and-migrate:
@@ -75,14 +76,18 @@ create-db-and-migrate-container:
 	php bin/console doctrine:database:create --if-not-exists --env=test
 	php bin/console doctrine:migrations:migrate --no-interaction
 	php bin/console doctrine:migrations:migrate -n --env=test
+	php bin/console doctrine:migrations:migrate --dry-run -n --no-interaction --em=oysterpro
 .PHONY: create-db-and-migrate
 delete-db:
 	@docker-compose exec www php bin/console doctrine:database:drop --force
 delete-db-container:
-	php bin/console doctrine:database:drop --force
+	php bin/console doctrine:database:drop --force 
+	php bin/console doctrine:database:drop --force --connection=oysterpro
 
 make-migration:
 	@docker-compose exec www php bin/console make:migration 
+make-migration-container:
+	php bin/console doctrine:migrations:migrate --connection="oysterpro"
 dsu:
 	@docker-compose exec www php bin/console d:s:u -f 
 dsu-container:

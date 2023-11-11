@@ -3,7 +3,6 @@
 namespace App\Entity\Asc\Conteneur;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\Asc\FiliereComposite\Emplacement;
 use App\Entity\Asc\Parc;
 use App\Entity\Asc\Stock\StockCorde;
 use App\Repository\Asc\Conteneur\CordeRepository;
@@ -31,11 +30,6 @@ class Corde extends Conteneur
 
 
     /**
-     * @ORM\OneToOne(targetEntity=emplacement::class, inversedBy="corde", cascade={"persist", "remove"})
-     */
-    private $emplacement;
-
-    /**
      * @ORM\OneToMany(targetEntity=StockCorde::class, mappedBy="corde", orphanRemoval=true)
      */
     private $stockCordes;
@@ -45,6 +39,11 @@ class Corde extends Conteneur
         $this->stockCordes = new ArrayCollection();
     }
 
+
+    public function __toString(): string
+    {
+        return $this->getNom();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -69,18 +68,6 @@ class Corde extends Conteneur
     }
 
 
-
-    public function getEmplacement(): ?Emplacement
-    {
-        return $this->emplacement;
-    }
-
-    public function setEmplacement(?Emplacement $emplacement): self
-    {
-        $this->emplacement = $emplacement;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, StockCorde>
