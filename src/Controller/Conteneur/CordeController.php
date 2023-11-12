@@ -27,7 +27,7 @@ class CordeController extends AbstractController
         $statistiqueService->setConteneur($cordeService);
         $cardBoxes = [
             ['text' => 'Total<br>' . $conteneur . 's', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Total ' . $conteneur . 's<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
+            ['text' => 'Total ' . $conteneur . 's<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->aEau($parcId)],
             ['text' => $conteneur . 's Huîtres<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
             ['text' => $conteneur . 's Moules<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
             ['text' => $conteneur . 's<br>vides', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],

@@ -18,16 +18,16 @@ final class EmplacementAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id')->add('place')->add('flotteur')->add('corde')->add('lanterne')->add('poche')->add('dateRemplissage');
+        $datagrid->add('id')->add('place')->add('flotteur')->add('dateRemplissage');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('place')->add('flotteur')->add('corde')->add('lanterne')->add('poche')->add('dateRemplissage');
+        $list->addIdentifier('id')->add('place')->add('flotteur')->add('dateRemplissage');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id')->add('place')->add('flotteur')->add('corde')->add('lanterne')->add('poche')->add('dateRemplissage');
+        $show->add('id')->add('place')->add('flotteur')->add('dateRemplissage');
     }
 }

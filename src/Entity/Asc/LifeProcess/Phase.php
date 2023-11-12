@@ -38,6 +38,10 @@ class Phase
     {
         $this->process = new ArrayCollection();
     }
+    public function __toString(): string
+    {
+        return $this->nomPhase;
+    }
 
     public function getId(): ?int
     {

@@ -81,6 +81,10 @@ class Articles
     {
         $this->stockArticles = new ArrayCollection();
     }
+    public function __toString(): string
+    {
+        return $this->libArticle;
+    }
     public function initArticle(FruitDeMer $fruitDeMer, string $refArticle, string $libArticle, ?string $descCourte, ?string $descLongue)
     {
         $this->fruitDeMer = $fruitDeMer;

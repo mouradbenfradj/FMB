@@ -42,9 +42,9 @@ class FiliereService implements StatistiqueInterface
             $somme += count($this->getFilieres($parcId));
         return  $somme;
     }
-    public function aEau(string $article): array
+    public function aEau(?int $parcId = 0, ?int $article): int
     {
-        return [];
+        return 0;
     }
     public function vides(): int
     {

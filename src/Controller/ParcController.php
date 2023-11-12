@@ -18,7 +18,7 @@ class ParcController extends AbstractController
     {
         $statistiqueService->setConteneur($parcService);
         $cardBoxes = [
-            ['text' => 'Total Parc', 'icon' => 'fe-sliders', 'total' => $statistiqueService->total($parcId)]
+            ['text' => 'Total Parcs', 'icon' => 'fe-home', 'total' => $statistiqueService->total($parcId)]
         ];
         return $this->render('parc/statistique.html.twig', [
             'cardBoxes' => $cardBoxes,

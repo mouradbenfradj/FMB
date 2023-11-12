@@ -69,6 +69,11 @@ class Cycle
      */
     private $couleurFondText;
 
+    public function __toString(): string
+    {
+        return $this->nomCycle;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

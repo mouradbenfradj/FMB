@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\Form\Type\CollectionType;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 final class FiliereAdmin extends AbstractAdmin
@@ -13,7 +14,17 @@ final class FiliereAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('nomFiliere')->add('observation')->add('parc')->add('aireDeTravaille');
+        $form->add('nomFiliere')->add('observation')->add('parc')->add('aireDeTravaille')
+            ->add('segments', CollectionType::class, [
+                'type_options' => [
+                    // Prevents the "Delete" option from being displayed
+                    'delete' => true
+                ]
+            ], [
+                'edit' => 'inline',
+                'inline' => 'table',
+                'sortable' => 'position',
+            ]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void

@@ -39,6 +39,11 @@ class Processus
     {
         $this->cycles = new ArrayCollection();
     }
+    public function __toString(): string
+    {
+        return $this->nomProcessus;
+    }
+
 
     public function getId(): ?int
     {

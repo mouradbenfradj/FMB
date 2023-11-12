@@ -5,6 +5,8 @@ namespace App\Entity\Asc\Stock;
 use App\Entity\Asc\Articles;
 use App\Entity\Asc\Stock\Stock;
 use App\Repository\Asc\Stock\StockArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +36,16 @@ class StockArticle
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;
+
+    /**
+     * @ORM\OneToMany(targetEntity=StockArticleSn::class, mappedBy="stockArticle", orphanRemoval=true)
+     */
+    private $stockArticleSns;
+
+    public function __construct()
+    {
+        $this->stockArticleSns = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -72,6 +84,36 @@ class StockArticle
     public function setArticle(?Articles $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockArticleSn>
+     */
+    public function getStockArticleSns(): Collection
+    {
+        return $this->stockArticleSns;
+    }
+
+    public function addStockArticleSn(StockArticleSn $stockArticleSn): self
+    {
+        if (!$this->stockArticleSns->contains($stockArticleSn)) {
+            $this->stockArticleSns[] = $stockArticleSn;
+            $stockArticleSn->setStockArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockArticleSn(StockArticleSn $stockArticleSn): self
+    {
+        if ($this->stockArticleSns->removeElement($stockArticleSn)) {
+            // set the owning side to null (unless already changed)
+            if ($stockArticleSn->getStockArticle() === $this) {
+                $stockArticleSn->setStockArticle(null);
+            }
+        }
 
         return $this;
     }

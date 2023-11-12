@@ -23,40 +23,6 @@ class StockCorde extends StockConteneur implements EntityInterface
     private $id;
 
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $datederetirement;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $datederetraittransfert;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $datedemaetransfert;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $dateDeMiseAEaudate;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $chaussement;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $dateassemblage;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $datechaussement;
 
     /**
      * @ORM\ManyToOne(targetEntity=Corde::class, inversedBy="stockCordes")
@@ -71,89 +37,7 @@ class StockCorde extends StockConteneur implements EntityInterface
 
 
 
-    public function getDatederetirement(): ?\DateTimeInterface
-    {
-        return $this->datederetirement;
-    }
 
-    public function setDatederetirement(?\DateTimeInterface $datederetirement): self
-    {
-        $this->datederetirement = $datederetirement;
-
-        return $this;
-    }
-
-    public function getDatederetraittransfert(): ?\DateTimeInterface
-    {
-        return $this->datederetraittransfert;
-    }
-
-    public function setDatederetraittransfert(?\DateTimeInterface $datederetraittransfert): self
-    {
-        $this->datederetraittransfert = $datederetraittransfert;
-
-        return $this;
-    }
-
-    public function getDatedemaetransfert(): ?\DateTimeInterface
-    {
-        return $this->datedemaetransfert;
-    }
-
-    public function setDatedemaetransfert(?\DateTimeInterface $datedemaetransfert): self
-    {
-        $this->datedemaetransfert = $datedemaetransfert;
-
-        return $this;
-    }
-
-    public function getDateDeMiseAEaudate(): ?\DateTimeInterface
-    {
-        return $this->dateDeMiseAEaudate;
-    }
-
-    public function setDateDeMiseAEaudate(?\DateTimeInterface $dateDeMiseAEaudate): self
-    {
-        $this->dateDeMiseAEaudate = $dateDeMiseAEaudate;
-
-        return $this;
-    }
-
-    public function isChaussement(): ?bool
-    {
-        return $this->chaussement;
-    }
-
-    public function setChaussement(bool $chaussement): self
-    {
-        $this->chaussement = $chaussement;
-
-        return $this;
-    }
-
-    public function getDateassemblage(): ?\DateTimeInterface
-    {
-        return $this->dateassemblage;
-    }
-
-    public function setDateassemblage(?\DateTimeInterface $dateassemblage): self
-    {
-        $this->dateassemblage = $dateassemblage;
-
-        return $this;
-    }
-
-    public function getDatechaussement(): ?\DateTimeInterface
-    {
-        return $this->datechaussement;
-    }
-
-    public function setDatechaussement(?\DateTimeInterface $datechaussement): self
-    {
-        $this->datechaussement = $datechaussement;
-
-        return $this;
-    }
 
     public function getCorde(): ?Corde
     {

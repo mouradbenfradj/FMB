@@ -24,7 +24,7 @@ class FiliereController extends AbstractController
     {
         $statistiqueService->setConteneur($filiereService);
         $cardBoxes = [
-            ['text' => 'Total Filiere', 'icon' => 'fe-sliders', 'total' => $statistiqueService->total($parcId)]
+            ['text' => 'Total Filières', 'icon' => 'fe-sliders', 'total' => $statistiqueService->total($parcId)]
         ];
         return $this->render('filiere/statistique.html.twig', [
             'cardBoxes' => $cardBoxes,

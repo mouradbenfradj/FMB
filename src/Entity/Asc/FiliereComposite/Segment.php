@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
- * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=SegmentRepository::class)
  */
 class Segment
@@ -31,6 +30,10 @@ class Segment
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
     private $longeur;
+    /**
+     * @ORM\Column(type="float", nullable=false)
+     */
+    private $pas;
 
     /**
      * @ORM\ManyToOne(targetEntity=Filiere::class, inversedBy="segments")
@@ -43,9 +46,20 @@ class Segment
      */
     private $flotteurs;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Flottabiliter::class, inversedBy="segments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $flottabiliter;
+
     public function __construct()
     {
         $this->flotteurs = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->nomSegment;
     }
     public function initSegment(Filiere $filiere, string $nomSegment, string $longeur)
     {
@@ -59,6 +73,17 @@ class Segment
         return $this->id;
     }
 
+    public function getPas(): ?string
+    {
+        return $this->pas;
+    }
+
+    public function setPas(string $pas): self
+    {
+        $this->pas = $pas;
+
+        return $this;
+    }
     public function getNomSegment(): ?string
     {
         return $this->nomSegment;
@@ -125,16 +150,15 @@ class Segment
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function generateFlotteur()
+    public function getFlottabiliter(): ?Flottabiliter
     {
-        $nbFlotteur = $this->longeur / 5;
-        for ($nb = 0; $nb < $nbFlotteur; $nb++) {
-            $flotteur = new Flotteur();
-            $flotteur->setNomFlotteur($this->nomSegment . $nb);
-            $this->addFlotteur($flotteur);
-        }
+        return $this->flottabiliter;
+    }
+
+    public function setFlottabiliter(?Flottabiliter $flottabiliter): self
+    {
+        $this->flottabiliter = $flottabiliter;
+
+        return $this;
     }
 }

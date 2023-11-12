@@ -16,8 +16,8 @@ final class ArticlesAdmin extends AbstractAdmin
     {
         $form
             ->with('Article')
-            ->add('refArticle')
             ->add('fruitDeMer')
+            ->add('refArticle')
             ->add('libArticle')
             ->add('descCourte')
             ->add('descLongue')
@@ -37,16 +37,16 @@ final class ArticlesAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id')->add('refArticle')->add('libArticle')->add('descCourte')->add('descLongue')->add('stockArticles');
+        $datagrid->add('id')->add('refArticle')->add('libArticle')->add('descCourte')->add('descLongue')->add('stockArticles')->add('fruitDeMer');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('refArticle')->add('libArticle')->add('descCourte')->add('descLongue')->add('stockArticles');
+        $list->addIdentifier('id')->add('refArticle')->add('libArticle')->add('descCourte')->add('descLongue')->add('stockArticles')->add('fruitDeMer');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id')->add('refArticle')->add('libArticle')->add('descCourte')->add('descLongue')->add('stockArticles');
+        $show->add('id')->add('refArticle')->add('libArticle')->add('descCourte')->add('descLongue')->add('stockArticles')->add('fruitDeMer');
     }
 }

@@ -87,7 +87,7 @@ delete-db-container:
 make-migration:
 	@docker-compose exec www php bin/console make:migration 
 make-migration-container:
-	php bin/console doctrine:migrations:migrate --connection="oysterpro"
+	php bin/console doctrine:migrations:migrate --em=oysterpro  --write-sql --no-interaction
 dsu:
 	@docker-compose exec www php bin/console d:s:u -f 
 dsu-container:
@@ -108,7 +108,7 @@ entity:
 
 .PHONY: entity
 entity-container:
-	php bin/console make:entity Asc\\Operation
+	php bin/console make:entity Asc\\FiliereComposite\\Segment
 
 .PHONY: entity-container
 controller:

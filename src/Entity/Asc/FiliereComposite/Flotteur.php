@@ -39,6 +39,12 @@ class Flotteur
      */
     private $emplacements;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Flottabiliter::class, inversedBy="flotteurs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $flottabiliter;
+
     public function __construct()
     {
         $this->emplacements = new ArrayCollection();
@@ -122,5 +128,17 @@ class Flotteur
             $emplacement->setPlace($place);
             $this->addEmplacement($emplacement);
         }
+    }
+
+    public function getFlottabiliter(): ?Flottabiliter
+    {
+        return $this->flottabiliter;
+    }
+
+    public function setFlottabiliter(?Flottabiliter $flottabiliter): self
+    {
+        $this->flottabiliter = $flottabiliter;
+
+        return $this;
     }
 }

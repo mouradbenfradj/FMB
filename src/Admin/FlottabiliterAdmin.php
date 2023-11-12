@@ -8,26 +8,26 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-final class SegmentAdmin extends AbstractAdmin
+final class FlottabiliterAdmin extends AbstractAdmin
 {
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('nomSegment')->add('longeur')->add('pas')->add('flottabiliter');
+        $form->add('nomFlottabiliter')->add('volume')->add('kgf');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id')->add('nomSegment')->add('longeur')->add('pas')->add('filiere')->add('flottabiliter')->add('flotteurs');
+        $datagrid->add('id')->add('nomFlottabiliter')->add('volume')->add('kgf')->add('flotteurs');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('nomSegment')->add('longeur')->add('pas')->add('filiere')->add('flottabiliter')->add('flotteurs');
+        $list->addIdentifier('id')->add('nomFlottabiliter')->add('volume')->add('kgf')->add('flotteurs');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id')->add('nomSegment')->add('longeur')->add('pas')->add('filiere')->add('flottabiliter')->add('flotteurs');
+        $show->add('id')->add('nomFlottabiliter')->add('volume')->add('kgf')->add('flotteurs');
     }
 }

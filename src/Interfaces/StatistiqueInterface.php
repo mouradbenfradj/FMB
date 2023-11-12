@@ -5,7 +5,7 @@ namespace App\Interfaces;
 interface StatistiqueInterface
 {
 	public function total(?int $parcId): int;
-	public function aEau(string $article): array;
+	public function aEau(?int $parcId = 0, ?int $article): int;
 	public function vides(): int;
 	public function preparees($article): array;
 	public function assembleesPreparees($article): array;

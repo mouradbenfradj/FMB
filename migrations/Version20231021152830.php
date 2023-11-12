@@ -26,7 +26,9 @@ class Version20231021152830 extends AbstractMigration
         if ($this->isOysterProConnection()) {
 
             foreach (explode(';', file_get_contents(__DIR__ . '/admin_oysterpro_db.sql')) as $sql) {
-                $this->addSql($sql);
+                if (strlen(trim($sql)) > 0) {
+                    $this->addSql($sql);
+                }
             }
         }
     }

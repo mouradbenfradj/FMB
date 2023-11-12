@@ -114,7 +114,7 @@ services:
                   model_class: App\Entity\Asc\FiliereComposite\Filiere,
                   manager_type: orm,
                   label: Filiere,
-                  group: Filiere Composant,
+                  group: Composants Filiere,
               }
     admin.segment:
         class: App\Admin\SegmentAdmin
@@ -124,7 +124,7 @@ services:
                   model_class: App\Entity\Asc\FiliereComposite\Segment,
                   manager_type: orm,
                   label: Segment,
-                  group: Filiere Composant,
+                  group: Composants Filiere,
               }
     admin.flotteur:
         class: App\Admin\FlotteurAdmin
@@ -134,7 +134,7 @@ services:
                   model_class: App\Entity\Asc\FiliereComposite\Flotteur,
                   manager_type: orm,
                   label: Flotteur,
-                  group: Filiere Composant,
+                  group: Composants Filiere,
               }
     admin.emplacement:
         class: App\Admin\EmplacementAdmin
@@ -144,7 +144,17 @@ services:
                   model_class: App\Entity\Asc\FiliereComposite\Emplacement,
                   manager_type: orm,
                   label: Emplacement,
-                  group: Filiere Composant,
+                  group: Composants Filiere,
+              }
+    admin.flottabiliter:
+        class: App\Admin\FlottabiliterAdmin
+        tags:
+            - {
+                  name: sonata.admin,
+                  model_class: App\Entity\Asc\FiliereComposite\Flottabiliter,
+                  manager_type: orm,
+                  label: Flottabiliter,
+                  group: Composants Filiere,
               }
     admin.stock.article:
         class: App\Admin\StockArticleAdmin

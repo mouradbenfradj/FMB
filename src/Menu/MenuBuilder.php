@@ -56,23 +56,7 @@ class MenuBuilder
             'Etat Actuel Prod',
             'topnav-etat-actuel-prod',
             'fe-map',
-            array_merge(
-                [
-                    ['Préparation', 'app_default', 'dropdown-item', null],
-                    ['Assemblage', 'app_default', 'dropdown-item', null]
-                ],
-                array_filter(array_map($subMenuEtatMAEActuelProd, $conteneurs)),
-                [
-                    ['MAE Assemblages', 'app_default', 'dropdown-item', null],
-                    ['MAE Poches', 'app_default', 'dropdown-item', null],
-                    ['Passage Chaussettes', 'app_default', 'dropdown-item', null],
-                    ['Retrait Transfert', 'app_default', 'dropdown-item', null],
-                    ['Retrait AW Lanternes', 'app_default', 'dropdown-item', null],
-                    ['Retrait AW Cordes', 'app_default', 'dropdown-item', null],
-                    ['Traitement Comercial', 'app_default', 'dropdown-item', null]
-
-                ]
-            ),
+            array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_etat_actuel_prod', 'dropdown-item', $parc->getId()], $parcs),
             /*
             
             $menu['Prod à faire']['Préparation']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
@@ -96,7 +80,23 @@ class MenuBuilder
             'Prod à faire',
             'topnav-prod-a-faire',
             'fe-clipboard',
-            array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
+            array_merge(
+                [
+                    ['Préparation', 'app_default', 'dropdown-item', null],
+                    ['Assemblage', 'app_default', 'dropdown-item', null]
+                ],
+                array_filter(array_map($subMenuEtatMAEActuelProd, $conteneurs)),
+                [
+                    ['MAE Assemblages', 'app_default', 'dropdown-item', null],
+                    ['MAE Poches', 'app_default', 'dropdown-item', null],
+                    ['Passage Chaussettes', 'app_default', 'dropdown-item', null],
+                    ['Retrait Transfert', 'app_default', 'dropdown-item', null],
+                    ['Retrait AW Lanternes', 'app_default', 'dropdown-item', null],
+                    ['Retrait AW Cordes', 'app_default', 'dropdown-item', null],
+                    ['Traitement Comercial', 'app_default', 'dropdown-item', null]
+
+                ]
+            )
         );
 
         $this->addDropdownMenuItem(

@@ -34,7 +34,7 @@ class DefaultControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->path);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains($this->selecteurParc . 'p', 'Total Parc');
+        $this->assertSelectorTextContains($this->selecteurParc . 'p', 'Total Parcs');
         $this->assertSelectorTextContains($this->selecteurParc . 'div > div:nth-child(2) > div > h3 > span', '0');
 
         $this->assertSelectorTextContains($this->selecteurFiliere . 'p', 'Total Filiere');
