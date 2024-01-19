@@ -14,7 +14,8 @@ final class FiliereAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('nomFiliere')->add('observation')->add('parc')->add('aireDeTravaille')
+        $form->with('Filiere')->add('parc')->add('nomFiliere')->add('observation')->add('aireDeTravaille')->end()
+            ->with('Segments')
             ->add('segments', CollectionType::class, [
                 'type_options' => [
                     // Prevents the "Delete" option from being displayed
@@ -24,7 +25,7 @@ final class FiliereAdmin extends AbstractAdmin
                 'edit' => 'inline',
                 'inline' => 'table',
                 'sortable' => 'position',
-            ]);
+            ])->end();
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void

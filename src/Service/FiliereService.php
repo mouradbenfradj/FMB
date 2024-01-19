@@ -5,22 +5,23 @@ namespace App\Service;
 use App\Entity\Asc\FiliereComposite\Filiere;
 use App\Interfaces\StatistiqueInterface;
 use App\Repository\Asc\FiliereComposite\FiliereRepository;
+use App\Service\Cache\ParcCacheService;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class FiliereService implements StatistiqueInterface
 {
     private $cache;
-    private $_parcService;
+    private $_parcCacheService;
     private $_filiereRepository;
 
     public function __construct(
-        ParcService $parcService,
+        ParcCacheService $parcCacheService,
         FiliereRepository $filiereRepository,
         CacheInterface $cache
     ) {
         $this->cache = $cache;
-        $this->_parcService = $parcService;
+        $this->_parcCacheService = $parcCacheService;
         $this->_filiereRepository = $filiereRepository;
     }
     /**
@@ -36,7 +37,7 @@ class FiliereService implements StatistiqueInterface
     {
         $somme = 0;
         if ($parcId == 0)
-            foreach ($this->_parcService->findAllFromParcCache() as  $parc)
+            foreach ($this->_parcCacheService->findAllFromParcCache() as  $parc)
                 $somme += count($this->getFilieres($parc->getId()));
         else
             $somme += count($this->getFilieres($parcId));

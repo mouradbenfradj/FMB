@@ -47,7 +47,7 @@ class Segment
     private $flotteurs;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Flottabiliter::class, inversedBy="segments")
+     * @ORM\ManyToOne(targetEntity=Flottabiliter::class, inversedBy="segments", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $flottabiliter;

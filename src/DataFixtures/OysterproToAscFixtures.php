@@ -13,7 +13,7 @@ use App\Entity\Asc\Parc;
 use App\Entity\Asc\Stock\Stock;
 use App\Entity\Asc\FiliereComposite\Segment;
 use App\Entity\Asc\FruitDeMer;
-use App\Service\ParcService;
+use App\Service\Cache\ParcCacheService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\DBAL\Connection;
@@ -23,18 +23,18 @@ class OysterproToAscFixtures extends Fixture
 
     private $oysterProConnection;
     private $ascConnection;
-    private $parcService;
+    private $parcCacheService;
 
-    public function __construct(Connection $oysterProConnection, Connection $ascConnection, ParcService $parcService)
+    public function __construct(Connection $oysterProConnection, Connection $ascConnection, ParcCacheService $parcCacheService)
     {
         $this->oysterProConnection = $oysterProConnection;
         $this->ascConnection = $ascConnection;
-        $this->parcService = $parcService;
+        $this->parcCacheService = $parcCacheService;
     }
 
     public function load(ObjectManager $manager): void
     {
-        $this->parcService->deleteParcCache();
+        $this->parcCacheService->deleteParcCache();
         $oysterProParcFiliere = $this->oysterProConnection->fetchAllAssociative('SELECT * FROM magasins');
 
         foreach ($oysterProParcFiliere as $data) {
@@ -114,6 +114,6 @@ class OysterproToAscFixtures extends Fixture
         }
 
         $manager->flush();
-        $this->parcService->findAllFromParcCache();
+        $this->parcCacheService->findAllFromParcCache();
     }
 }

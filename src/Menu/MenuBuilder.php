@@ -4,7 +4,7 @@ namespace App\Menu;
 
 use App\Entity\Asc\Parc;
 use App\Service\ConteneurService;
-use App\Service\ParcService;
+use App\Service\Cache\ParcCacheService;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
@@ -12,14 +12,14 @@ use Symfony\Component\Security\Core\Security;
 class MenuBuilder
 {
     private $_factory;
-    private $_parcService;
+    private $_parcCacheService;
     private $_security;
     private $_conteneurService;
 
-    public function __construct(FactoryInterface $factory, ParcService $parcService, Security $security, ConteneurService $conteneurService)
+    public function __construct(FactoryInterface $factory, ParcCacheService $parcCacheService, Security $security, ConteneurService $conteneurService)
     {
         $this->_factory = $factory;
-        $this->_parcService = $parcService;
+        $this->_parcCacheService = $parcCacheService;
         $this->_security = $security;
         $this->_conteneurService = $conteneurService;
     }
@@ -29,29 +29,54 @@ class MenuBuilder
      *
      * @return void
      */
-    public function createMainMenu()
+    public function createMainMenu(RequestStack $requestStack)
     {
         $menu = $this->_factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav');
-        $parcs = $this->_parcService->findAllFromParcCache();
-
-        $this->addDropdownMenuItem(
-            $menu,
+        $parcs = $this->_parcCacheService->findAllFromParcCache();
+        $menu->addChild(
             'Statistiques',
-            'topnav-statistiques',
-            'fe-anchor',
-            array_merge(
-                [['Tous', 'app_default', 'dropdown-item', null]],
-                array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
+            [
+                'route' => 'app_default',
+                'routeParameters' => ['id' => $requestStack->getCurrentRequest()->get('id')]
+            ]
+        )
+            ->setAttribute('class', 'nav-item dropdown')
+            ->setLinkAttributes(
+                [
+                    'class' => 'nav-link dropdown-toggle arrow-none',
+                    'id' => 'topnav-topnav-statistiques',
+                    /*                     'data-toggle' => 'dropdown', */
+                    'aria-haspopup' => 'true',
+                    'aria-expanded' => 'false',
+                    'role' => 'button',
+                ]
             )
-        );
+            ->setLabel('<i class="fe-anchor mr-1"></i> Statistiques '/* <div class="arrow-down"></div> */)
+            ->setExtra('safe_label', true);
+        $menu->addChild(
+            'Etat Actuel Prod',
+            [
+                'route' => 'app_etat_actuel_prod',
+                'routeParameters' => ['id' => $requestStack->getCurrentRequest()->get('id')]
+            ]
+        )
+            ->setAttribute('class', 'nav-item dropdown')
+            ->setLinkAttributes(
+                [
+                    'class' => 'nav-link dropdown-toggle arrow-none',
+                    'id' => 'topnav-etat-actuel-prod',
+                    /*                     'data-toggle' => 'dropdown', */
+                    'aria-haspopup' => 'true',
+                    'aria-expanded' => 'false',
+                    'role' => 'button',
+                ]
+            )
+            ->setLabel('<i class="fe-map mr-1"></i> Etat Actuel Prod '/* <div class="arrow-down"></div> */)
+            ->setExtra('safe_label', true);
         $conteneurs = $this->_conteneurService->getContainerList();
-        $subMenuEtatMAEActuelProd = function ($conteneur) {
-            if ($conteneur != 'Poche')
-                return ['MAE ' . $conteneur . 's', 'app_default', 'dropdown-item', null];
-        };
 
-        $this->addDropdownMenuItem(
+        /* $this->addDropdownMenuItem(
             $menu,
             'Etat Actuel Prod',
             'topnav-etat-actuel-prod',
@@ -71,10 +96,14 @@ class MenuBuilder
             $menu['Prod à faire']['Retrait AW Cordes']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
             $menu['Prod à faire']['Traitement Comercial']->setAttribute('class', 'has-submenu')->setUri("#")->setChildrenAttribute('class', 'submenu');
        
-            */
+            
 
-        );
+        ); */
 
+        $subMenuEtatMAEActuelProd = function ($conteneur) {
+            if ($conteneur != 'Poche')
+                return ['MAE ' . $conteneur . 's', 'app_default', 'dropdown-item', null];
+        };
         $this->addDropdownMenuItem(
             $menu,
             'Prod à faire',

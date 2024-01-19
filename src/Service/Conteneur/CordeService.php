@@ -5,7 +5,7 @@ namespace App\Service\Conteneur;
 use App\Interfaces\StatistiqueInterface;
 use App\Repository\Asc\Conteneur\CordeRepository;
 use App\Repository\Asc\Stock\StockCordeRepository;
-use App\Service\ParcService;
+use App\Service\Cache\ParcCacheService;
 
 class CordeService implements StatistiqueInterface
 {
@@ -13,16 +13,16 @@ class CordeService implements StatistiqueInterface
     private $_cache;
     private $_cordeRepository;
     private $_stockCordeRepository;
-    private $_parcService;
+    private $_parcCacheService;
 
     public function __construct(
         CordeRepository $cordeRepository,
-        ParcService $parcService,
+        ParcCacheService $parcCacheService,
         StockCordeRepository $stockCordeRepository
     ) {
         $this->_cordeRepository = $cordeRepository;
         $this->_stockCordeRepository = $stockCordeRepository;
-        $this->_parcService = $parcService;
+        $this->_parcCacheService = $parcCacheService;
     }
 
     public function total(?int $parcId): int
@@ -30,7 +30,7 @@ class CordeService implements StatistiqueInterface
 
         $somme = 0;
         if ($parcId == 0)
-            foreach ($this->_parcService->findAllFromParcCache() as  $parc) {
+            foreach ($this->_parcCacheService->findAllFromParcCache() as  $parc) {
                 $cordes = $this->_cordeRepository->findByParc($parc->getId());
                 $somme += array_sum(array_map(fn ($corde): int => $corde->getQuantiter(), $cordes));
             }

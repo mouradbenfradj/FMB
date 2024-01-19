@@ -22,7 +22,8 @@ update-container: composer-update-container yarn-update-container yarn-dev-conta
 
 # Target to run Composer commands.
 composer:
-	@docker-compose exec www composer $(filter-out $@,$(MAKECMDGOALS))
+	composer $(filter-out $@,$(MAKECMDGOALS))
+#	@docker-compose exec www composer $(filter-out $@,$(MAKECMDGOALS))
 composer-update:
 	@docker-compose exec www composer update
 composer-update-container:
@@ -34,14 +35,16 @@ composer-require-container:
 
 # Target to install dependencies with Yarn.
 yarn-install:
-	@docker-compose exec www yarn install
+	yarn install
+#	@docker-compose exec www yarn install
 
 # Target to update dependencies with Yarn.
 yarn-update:
 	@docker-compose exec www yarn upgrade
 
 yarn-dev:
-	@docker-compose exec www yarn dev
+	yarn dev
+#	@docker-compose exec www yarn dev
 yarn-update-container:
 	yarn upgrade
 
