@@ -45,7 +45,7 @@ class Filiere
     private $aireDeTravaille;
 
     /**
-     * @ORM\OneToMany(targetEntity=Segment::class, mappedBy="filiere")
+     * @ORM\OneToMany(targetEntity=Segment::class, mappedBy="filiere",cascade={"persist"})
      */
     private $segments;
 

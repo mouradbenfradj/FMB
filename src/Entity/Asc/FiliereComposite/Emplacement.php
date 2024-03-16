@@ -28,37 +28,62 @@ class Emplacement
     private $place;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Flotteur::class, inversedBy="emplacements")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $flotteur;
-
-
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateRemplissage;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Segment::class, inversedBy="emplacements")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $segment;
+
+    private $flotteur;
+    /**
+     * Undocumented function
+     *
+     * @return string
+     */
     public function __toString(): string
     {
         return $this->place;
     }
-    public function initEmplacement(Flotteur $flotteur, int $place)
+    /**
+     * Undocumented function
+     *
+     * @param integer $place
+     * @return void
+     */
+    public function initEmplacement(int $place)
     {
-        $this->flotteur = $flotteur;
         $this->place = $place;
     }
+    /**
+     * Undocumented function
+     *
+     * @return integer|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return integer|null
+     */
     public function getPlace(): ?int
     {
         return $this->place;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param integer $place
+     * @return self
+     */
     public function setPlace(int $place): self
     {
         $this->place = $place;
@@ -66,25 +91,70 @@ class Emplacement
         return $this;
     }
 
-    public function getFlotteur(): ?Flotteur
-    {
-        return $this->flotteur;
-    }
-
-    public function setFlotteur(?Flotteur $flotteur): self
-    {
-        $this->flotteur = $flotteur;
-
-        return $this;
-    }
-
+    /**
+     * Undocumented function
+     *
+     * @param \DateTimeInterface $dateRemplissage
+     * @return void
+     */
     public function setDateRemplissage(\DateTimeInterface $dateRemplissage)
     {
         $this->dateRemplissage = $dateRemplissage;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function getDateRemplissage()
     {
         return $this->dateRemplissage;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return Segment|null
+     */
+    public function getSegment(): ?Segment
+    {
+        return $this->segment;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Segment|null $segment
+     * @return self
+     */
+    public function setSegment(?Segment $segment): self
+    {
+        $this->segment = $segment;
+
+        return $this;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return FlotteurSegment|null
+     */
+    public function getFlotteur(): ?FlotteurSegment
+    {
+        return $this->flotteur;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param FlotteurSegment|null $flotteur
+     * @return self
+     */
+    public function setFlotteur(?FlotteurSegment $flotteur): self
+    {
+        $this->flotteur = $flotteur;
+
+        return $this;
     }
 }

@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=SegmentRepository::class)
  */
 class Segment
@@ -26,14 +27,16 @@ class Segment
      */
     private $nomSegment;
 
+
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
+     * @ORM\Column(type="float")
      */
-    private $longeur;
+    private $pas = 1;
+
     /**
-     * @ORM\Column(type="float", nullable=false)
+     * @ORM\Column(type="float")
      */
-    private $pas;
+    private $longeur = 1;
 
     /**
      * @ORM\ManyToOne(targetEntity=Filiere::class, inversedBy="segments")
@@ -42,30 +45,46 @@ class Segment
     private $filiere;
 
     /**
-     * @ORM\OneToMany(targetEntity=Flotteur::class, mappedBy="segment",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Emplacement::class, mappedBy="segment",cascade={"persist"},fetch="EAGER")
      */
-    private $flotteurs;
+    private $emplacements;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Flottabiliter::class, inversedBy="segments", fetch="EAGER")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=FlotteurSegment::class, mappedBy="segment",cascade={"persist"},fetch="EAGER")
      */
-    private $flottabiliter;
+    private $flotteurSegments;
 
     public function __construct()
     {
-        $this->flotteurs = new ArrayCollection();
+        $this->emplacements = new ArrayCollection();
+        $this->flotteurSegments = new ArrayCollection();
     }
 
     public function __toString(): string
     {
         return $this->nomSegment;
     }
-    public function initSegment(Filiere $filiere, string $nomSegment, string $longeur)
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function generateEmplacement()
+    {
+        for ($place = 1; $place <= ($this->longeur / $this->pas); $place++) {
+            $emplacement = new Emplacement();
+            $emplacement->setPlace($place);
+            $this->addEmplacement($emplacement);
+        }
+    }
+
+
+
+    public function initSegment(Filiere $filiere, string $nomSegment, float $pas, float $longeur)
     {
         $this->filiere = $filiere;
         $this->nomSegment = $nomSegment;
         $this->longeur = $longeur;
+        $this->pas = $pas;
     }
 
     public function getId(): ?int
@@ -73,17 +92,6 @@ class Segment
         return $this->id;
     }
 
-    public function getPas(): ?string
-    {
-        return $this->pas;
-    }
-
-    public function setPas(string $pas): self
-    {
-        $this->pas = $pas;
-
-        return $this;
-    }
     public function getNomSegment(): ?string
     {
         return $this->nomSegment;
@@ -92,18 +100,6 @@ class Segment
     public function setNomSegment(string $nomSegment): self
     {
         $this->nomSegment = $nomSegment;
-
-        return $this;
-    }
-
-    public function getLongeur(): ?string
-    {
-        return $this->longeur;
-    }
-
-    public function setLongeur(string $longeur): self
-    {
-        $this->longeur = $longeur;
 
         return $this;
     }
@@ -121,43 +117,95 @@ class Segment
     }
 
     /**
-     * @return Collection<int, Flotteur>
+     * @return Collection<int, Emplacement>
      */
-    public function getFlotteurs(): Collection
+    public function getEmplacements(): Collection
     {
-        return $this->flotteurs;
+        return $this->emplacements;
     }
 
-    public function addFlotteur(Flotteur $flotteur): self
+    public function addEmplacement(Emplacement $emplacement): self
     {
-        if (!$this->flotteurs->contains($flotteur)) {
-            $this->flotteurs[] = $flotteur;
-            $flotteur->setSegment($this);
+        if (!$this->emplacements->contains($emplacement)) {
+            $this->emplacements[] = $emplacement;
+            $emplacement->setSegment($this);
         }
 
         return $this;
     }
 
-    public function removeFlotteur(Flotteur $flotteur): self
+    public function removeEmplacement(Emplacement $emplacement): self
     {
-        if ($this->flotteurs->removeElement($flotteur)) {
+        if ($this->emplacements->removeElement($emplacement)) {
             // set the owning side to null (unless already changed)
-            if ($flotteur->getSegment() === $this) {
-                $flotteur->setSegment(null);
+            if ($emplacement->getSegment() === $this) {
+                $emplacement->setSegment(null);
             }
         }
 
         return $this;
     }
 
-    public function getFlottabiliter(): ?Flottabiliter
+    /**
+     * Undocumented function
+     *
+     * @return float|null
+     */
+    public function getPas(): ?float
     {
-        return $this->flottabiliter;
+        return $this->pas;
     }
 
-    public function setFlottabiliter(?Flottabiliter $flottabiliter): self
+    public function setPas(float $pas): self
     {
-        $this->flottabiliter = $flottabiliter;
+        $this->pas = $pas;
+
+        return $this;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return float|null
+     */
+    public function getLongeur(): ?float
+    {
+        return $this->longeur;
+    }
+
+    public function setLongeur(float $longeur): self
+    {
+        $this->longeur = $longeur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FlotteurSegment>
+     */
+    public function getFlotteurSegments(): Collection
+    {
+        return $this->flotteurSegments;
+    }
+
+    public function addFlotteurSegment(FlotteurSegment $flotteurSegment): self
+    {
+        if (!$this->flotteurSegments->contains($flotteurSegment)) {
+            $this->flotteurSegments[] = $flotteurSegment;
+            $flotteurSegment->setSegment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFlotteurSegment(FlotteurSegment $flotteurSegment): self
+    {
+        if ($this->flotteurSegments->removeElement($flotteurSegment)) {
+            // set the owning side to null (unless already changed)
+            if ($flotteurSegment->getSegment() === $this) {
+                $flotteurSegment->setSegment(null);
+            }
+        }
 
         return $this;
     }

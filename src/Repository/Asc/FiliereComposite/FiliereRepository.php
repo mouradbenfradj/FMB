@@ -48,8 +48,8 @@ class FiliereRepository extends ServiceEntityRepository
             ->andWhere('f.parc = :id')
             ->setParameter('id', $id)
             ->innerJoin('f.segments', 's')
-            ->innerJoin('s.flotteurs', 'fl')
-            ->innerJoin('fl.emplacements', 'e')
+            /*             ->innerJoin('s.flotteurs', 'fl') */
+            ->innerJoin('s.emplacements', 'e')
             ->orderBy('f.nomFiliere', 'ASC')
             ->getQuery()
             ->getResult();

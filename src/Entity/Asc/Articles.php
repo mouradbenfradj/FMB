@@ -205,4 +205,25 @@ class Articles
     {
         return $this->contentChanged;
     }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function setUpdated(\DateTimeInterface $updated): self
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    public function setContentChanged(?\DateTimeInterface $contentChanged): self
+    {
+        $this->contentChanged = $contentChanged;
+
+        return $this;
+    }
 }

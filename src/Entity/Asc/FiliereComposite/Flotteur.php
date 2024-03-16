@@ -26,37 +26,45 @@ class Flotteur
      * @ORM\Column(type="string", length=255)
      */
     private $nomFlotteur;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $volume;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Segment::class, inversedBy="flotteurs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="float", nullable=true)
      */
-    private $segment;
-
+    private $kgf;
 
     /**
-     * @ORM\OneToMany(targetEntity=Emplacement::class, mappedBy="flotteur",cascade={"persist"})
+     * @ORM\Column(type="float")
      */
-    private $emplacements;
+    private $taux;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Flottabiliter::class, inversedBy="flotteurs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=FlotteurSegment::class, mappedBy="flotteur")
      */
-    private $flottabiliter;
+    private $flotteurSegments;
 
     public function __construct()
     {
-        $this->emplacements = new ArrayCollection();
+        $this->flotteurSegments = new ArrayCollection();
     }
+
     public function __toString(): string
     {
         return $this->nomFlotteur;
     }
-    public function initFlotteur(Segment $segment, string $nomFlotteur)
+    public function initFlotteur(string $nomFlotteur)
     {
-        $this->segment = $segment;
         $this->nomFlotteur = $nomFlotteur;
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function calculeKfg()
+    {
+        $this->kgf = $this->volume * $this->taux;
     }
 
     public function getId(): ?int
@@ -76,68 +84,69 @@ class Flotteur
         return $this;
     }
 
-    public function getSegment(): ?Segment
+
+    public function getVolume(): ?int
     {
-        return $this->segment;
+        return $this->volume;
     }
 
-    public function setSegment(?Segment $segment): self
+    public function setVolume(int $volume): self
     {
-        $this->segment = $segment;
+        $this->volume = $volume;
+
+        return $this;
+    }
+
+    public function getKgf(): ?float
+    {
+        return $this->kgf;
+    }
+
+    public function setKgf(?float $kgf): self
+    {
+        $this->kgf = $kgf;
+
+        return $this;
+    }
+
+    public function getTaux(): ?float
+    {
+        return $this->taux;
+    }
+
+    public function setTaux(float $taux): self
+    {
+        $this->taux = $taux;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Emplacement>
+     * @return Collection<int, FlotteurSegment>
      */
-    public function getEmplacements(): Collection
+    public function getFlotteurSegments(): Collection
     {
-        return $this->emplacements;
+        return $this->flotteurSegments;
     }
 
-    public function addEmplacement(Emplacement $emplacement): self
+    public function addFlotteurSegment(FlotteurSegment $flotteurSegment): self
     {
-        if (!$this->emplacements->contains($emplacement)) {
-            $this->emplacements[] = $emplacement;
-            $emplacement->setFlotteur($this);
+        if (!$this->flotteurSegments->contains($flotteurSegment)) {
+            $this->flotteurSegments[] = $flotteurSegment;
+            $flotteurSegment->setFlotteur($this);
         }
 
         return $this;
     }
 
-    public function removeEmplacement(Emplacement $emplacement): self
+    public function removeFlotteurSegment(FlotteurSegment $flotteurSegment): self
     {
-        if ($this->emplacements->removeElement($emplacement)) {
+        if ($this->flotteurSegments->removeElement($flotteurSegment)) {
             // set the owning side to null (unless already changed)
-            if ($emplacement->getFlotteur() === $this) {
-                $emplacement->setFlotteur(null);
+            if ($flotteurSegment->getFlotteur() === $this) {
+                $flotteurSegment->setFlotteur(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function generateEmplacement()
-    {
-        for ($place = 1; $place <= 10; $place++) {
-            $emplacement = new Emplacement();
-            $emplacement->setPlace($place);
-            $this->addEmplacement($emplacement);
-        }
-    }
-
-    public function getFlottabiliter(): ?Flottabiliter
-    {
-        return $this->flottabiliter;
-    }
-
-    public function setFlottabiliter(?Flottabiliter $flottabiliter): self
-    {
-        $this->flottabiliter = $flottabiliter;
 
         return $this;
     }

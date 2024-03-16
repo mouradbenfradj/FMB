@@ -15,12 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class EtatActuelProdController extends AbstractController
 {
     /**
-     * @Route("/{id}", name="app_etat_actuel_prod")
+     * @Route("/{parcID}", name="app_etat_actuel_prod")
      */
-    public function index(int $id): Response
+    public function index(int $parcID): Response
     {
         return $this->render('etat_actuel_prod/index.html.twig', [
-            'id' => $id
+            'parcID' => $parcID
         ]);
     }
 }

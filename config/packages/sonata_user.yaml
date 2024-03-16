@@ -12,3 +12,5 @@ sonata_user:
             template: "@SonataUser/Admin/Security/Resetting/email.html.twig"
             address: sonata@localhost
             sender_name: Sonata Admin
+    profile:
+        default_avatar: build/images/favicon.ico

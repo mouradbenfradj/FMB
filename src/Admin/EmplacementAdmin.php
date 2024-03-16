@@ -13,21 +13,21 @@ final class EmplacementAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('place')->add('flotteur')->add('dateRemplissage');
+        $form->add('place')->add('segment')->add('dateRemplissage');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id')->add('place')->add('flotteur')->add('dateRemplissage');
+        $datagrid->add('id')->add('place')->add('segment')->add('dateRemplissage');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('place')->add('flotteur')->add('dateRemplissage');
+        $list->addIdentifier('id')->add('place')->add('segment')->add('dateRemplissage');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id')->add('place')->add('flotteur')->add('dateRemplissage');
+        $show->add('id')->add('place')->add('segment')->add('dateRemplissage');
     }
 }

@@ -32,13 +32,13 @@ class FiliereController extends AbstractController
     }
 
     /**
-     * @Route("/{id<\d+>}", name="app_filiere", methods={"GET","HEAD"}, requirements={"id"="\d+"})
+     * @Route("/{parcID<\d+>}", name="app_filiere", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
      */
-    public function etatActuelProd(int $id = 0, FiliereRepository $filiereRepository): Response
+    public function etatActuelProd(int $parcID = 0, FiliereRepository $filiereRepository): Response
     {
         return $this->render('filiere/etatActuelProd.html.twig', [
-            'id' => $id,
-            'filieres' => $filiereRepository->findByParcId($id),
+            'parcID' => $parcID,
+            'filieres' => $filiereRepository->findByParcId($parcID),
         ]);
     }
 

@@ -146,14 +146,14 @@ services:
                   label: Emplacement,
                   group: Composants Filiere,
               }
-    admin.flottabiliter:
-        class: App\Admin\FlottabiliterAdmin
+    admin.flotteur_segment:
+        class: App\Admin\FlotteurSegmentAdmin
         tags:
             - {
                   name: sonata.admin,
-                  model_class: App\Entity\Asc\FiliereComposite\Flottabiliter,
+                  model_class: App\Entity\Asc\FiliereComposite\FlotteurSegment,
                   manager_type: orm,
-                  label: Flottabiliter,
+                  label: FlotteurSegment,
                   group: Composants Filiere,
               }
     admin.stock.article:
