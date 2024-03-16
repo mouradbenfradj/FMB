@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc\Stock;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Entity\Asc\Parc;
 use App\Entity\Asc\Stock\StockArticle;
 use App\Repository\Asc\Stock\StockRepository;
@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+  
  * @ORM\Entity(repositoryClass=StockRepository::class)
  */
 class Stock

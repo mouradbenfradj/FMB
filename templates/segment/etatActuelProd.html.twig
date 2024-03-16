@@ -15,8 +15,9 @@
 				<ol class="dd-list">
 					{% set pos = pos+1 %}
 					<li class="dd-item" data-id="{{ pos }}">
-						{{ dump(segment.flotteurSegments|map(flotteur => range(0, segment.longeur, flotteur.pas))) }}
-						<div class="dd-handle">
+						{{ dump(segment.flotteurSegments|map(flotteur => (range(flotteur.distanceDeDepart, segment.longeur, flotteur.pas)|length*flotteur.flotteur.volume*flotteur.flotteur.taux))) }}
+{# 						{{ dump(segment.flotteurSegments|map(flotteur => range(flotteur.distanceDeDepart, segment.longeur, flotteur.pas))) }}
+ #}						<div class="dd-handle">
 							<table class="table table-striped mb-0">
 								<tbody>
 									{# {% for flotteur in segment.flotteurs %}

@@ -2,14 +2,14 @@
 
 namespace App\Entity\Asc\Stock;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Interfaces\Visiteur\Operation\EntityInterface;
 use App\Interfaces\Visiteur\Operation\OperationInterface;
 use App\Repository\Asc\Stock\StockLanterneRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+  
  * @ORM\Entity(repositoryClass=StockLanterneRepository::class)
  */
 class StockLanterne extends StockConteneur implements EntityInterface

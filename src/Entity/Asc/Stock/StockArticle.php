@@ -47,6 +47,9 @@ class StockArticle
         $this->stockArticleSns = new ArrayCollection();
     }
 
+    public function __toString(){
+        return $this->article->getLibArticle();
+    }
     public function getId(): ?int
     {
         return $this->id;

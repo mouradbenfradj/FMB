@@ -2,15 +2,16 @@
 
 namespace App\Entity\Asc\Stock;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Entity\Asc\Conteneur\Corde;
+use App\Entity\Asc\FiliereComposite\Emplacement;
 use App\Interfaces\Visiteur\Operation\EntityInterface;
 use App\Interfaces\Visiteur\Operation\OperationInterface;
 use App\Repository\Asc\Stock\StockCordeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+  
  * @ORM\Entity(repositoryClass=StockCordeRepository::class)
  */
 class StockCorde extends StockConteneur implements EntityInterface
@@ -29,6 +30,16 @@ class StockCorde extends StockConteneur implements EntityInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private $corde;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=StockArticleSn::class, inversedBy="stockCordes")
+     */
+    private $stockArticleSn;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Emplacement::class, inversedBy="stockCordes")
+     */
+    private $emplacement;
 
     public function getId(): ?int
     {
@@ -72,5 +83,29 @@ class StockCorde extends StockConteneur implements EntityInterface
     }
     public function traitementCommerciale(OperationInterface $operationInterface)
     {
+    }
+
+    public function getStockArticleSn(): ?StockArticleSn
+    {
+        return $this->stockArticleSn;
+    }
+
+    public function setStockArticleSn(?StockArticleSn $stockArticleSn): self
+    {
+        $this->stockArticleSn = $stockArticleSn;
+
+        return $this;
+    }
+
+    public function getEmplacement(): ?Emplacement
+    {
+        return $this->emplacement;
+    }
+
+    public function setEmplacement(?Emplacement $emplacement): self
+    {
+        $this->emplacement = $emplacement;
+
+        return $this;
     }
 }

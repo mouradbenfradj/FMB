@@ -2,14 +2,14 @@
 
 namespace App\Entity\Asc\Conteneur;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Entity\Asc\Parc;
 use App\Entity\Asc\Stock\StockLanterne;
 use App\Repository\Asc\Conteneur\PocheRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+  
  * @ORM\Entity(repositoryClass=PocheRepository::class)
  */
 class Poche

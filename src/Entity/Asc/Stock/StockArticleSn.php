@@ -3,6 +3,8 @@
 namespace App\Entity\Asc\Stock;
 
 use App\Repository\Asc\Stock\StockArticleSnRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,6 +35,19 @@ class StockArticleSn
      */
     private $stockArticle;
 
+    /**
+     * @ORM\OneToMany(targetEntity=StockCorde::class, mappedBy="stockArticleSn")
+     */
+    private $stockCordes;
+
+    public function __construct()
+    {
+        $this->stockCordes = new ArrayCollection();
+    }
+
+    public function __toString(){
+        return $this->numeroSerie;
+    }
 
     public function getId(): ?int
     {
@@ -71,6 +86,36 @@ class StockArticleSn
     public function setStockArticle(?StockArticle $stockArticle): self
     {
         $this->stockArticle = $stockArticle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockCorde>
+     */
+    public function getStockCordes(): Collection
+    {
+        return $this->stockCordes;
+    }
+
+    public function addStockCorde(StockCorde $stockCorde): self
+    {
+        if (!$this->stockCordes->contains($stockCorde)) {
+            $this->stockCordes[] = $stockCorde;
+            $stockCorde->setStockArticleSn($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockCorde(StockCorde $stockCorde): self
+    {
+        if ($this->stockCordes->removeElement($stockCorde)) {
+            // set the owning side to null (unless already changed)
+            if ($stockCorde->getStockArticleSn() === $this) {
+                $stockCorde->setStockArticleSn(null);
+            }
+        }
 
         return $this;
     }

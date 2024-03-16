@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc\Conteneur;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Entity\Asc\Parc;
 use App\Entity\Asc\Stock\StockCorde;
 use App\Repository\Asc\Conteneur\CordeRepository;
@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+  
  * @ORM\Entity(repositoryClass=CordeRepository::class)
  */
 class Corde extends Conteneur
@@ -28,6 +28,11 @@ class Corde extends Conteneur
      */
     private $parc;
 
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $longeur = 1;
 
     /**
      * @ORM\OneToMany(targetEntity=StockCorde::class, mappedBy="corde", orphanRemoval=true)
@@ -95,6 +100,18 @@ class Corde extends Conteneur
                 $stockCorde->setCorde(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLongeur(): ?float
+    {
+        return $this->longeur;
+    }
+
+    public function setLongeur(float $longeur): self
+    {
+        $this->longeur = $longeur;
 
         return $this;
     }

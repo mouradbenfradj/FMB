@@ -2,13 +2,13 @@
 
 namespace App\Entity\Asc\Conteneur;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Entity\Asc\Parc;
 use App\Repository\Asc\Conteneur\LanterneRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+  
  * @ORM\Entity(repositoryClass=LanterneRepository::class)
  */
 class Lanterne  extends Conteneur

@@ -2,14 +2,14 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Repository\Asc\FiliereComposite\SegmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+  
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=SegmentRepository::class)
  */

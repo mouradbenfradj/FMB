@@ -13,21 +13,21 @@ final class StockArticleAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('quantiter')->add('stock');
+        $form->add('article')->add('quantiter')->add('stock');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('quantiter')->add('stock');
+        $datagrid->add('article')->add('quantiter')->add('stock');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('quantiter')->add('stock');
+        $list->addIdentifier('id')->add('article')->add('quantiter')->add('stock');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('quantiter')->add('stock');
+        $show->add('article')->add('quantiter')->add('stock');
     }
 }

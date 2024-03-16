@@ -2,15 +2,18 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Entity\Asc\Conteneur\Corde;
 use App\Entity\Asc\Conteneur\Lanterne;
 use App\Entity\Asc\Conteneur\Poche;
+use App\Entity\Asc\Stock\StockCorde;
 use App\Repository\Asc\FiliereComposite\EmplacementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+  
  * @ORM\Entity(repositoryClass=EmplacementRepository::class)
  */
 class Emplacement
@@ -39,6 +42,16 @@ class Emplacement
     private $segment;
 
     private $flotteur;
+
+    /**
+     * @ORM\OneToMany(targetEntity=StockCorde::class, mappedBy="emplacement")
+     */
+    private $stockCordes;
+
+    public function __construct()
+    {
+        $this->stockCordes = new ArrayCollection();
+    }
     /**
      * Undocumented function
      *
@@ -154,6 +167,36 @@ class Emplacement
     public function setFlotteur(?FlotteurSegment $flotteur): self
     {
         $this->flotteur = $flotteur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockCorde>
+     */
+    public function getStockCordes(): Collection
+    {
+        return $this->stockCordes;
+    }
+
+    public function addStockCorde(StockCorde $stockCorde): self
+    {
+        if (!$this->stockCordes->contains($stockCorde)) {
+            $this->stockCordes[] = $stockCorde;
+            $stockCorde->setEmplacement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockCorde(StockCorde $stockCorde): self
+    {
+        if ($this->stockCordes->removeElement($stockCorde)) {
+            // set the owning side to null (unless already changed)
+            if ($stockCorde->getEmplacement() === $this) {
+                $stockCorde->setEmplacement(null);
+            }
+        }
 
         return $this;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Entity\Asc\Parc;
 use App\Repository\Asc\FiliereComposite\FiliereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Filiere 
- * @ApiResource()
+  
  * @ORM\Entity(repositoryClass=FiliereRepository::class)
  */
 class Filiere

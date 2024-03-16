@@ -27,12 +27,12 @@ final class SegmentAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id')->add('nomSegment')->add('longeur')->add('pas')->add('filiere')->add('emplacements');
+        $datagrid->add('id')->add('nomSegment')->add('longeur')->add('pas')->add('filiere')->add('flotteurSegments')->add('emplacements');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('nomSegment')->add('longeur')->add('pas')->add('filiere')->add('emplacements');
+        $list->addIdentifier('id')->add('nomSegment')->add('longeur')->add('pas')->add('filiere')->add('flotteurSegments')->add('emplacements');
     }
 
     protected function configureShowFields(ShowMapper $show): void

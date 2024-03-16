@@ -30,7 +30,7 @@ services:
             - database
             - oyster
         ports:
-            - 8080:80
+            - "8080:80"
         environment:
             PMA_HOSTS: database,oyster
             PMA_PORT: 3306

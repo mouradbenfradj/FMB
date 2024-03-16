@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+ 
 use App\Entity\Asc\Stock\StockArticle;
 use App\Repository\Asc\ArticlesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ApiResource()
+  
  * @ORM\Entity(repositoryClass=ArticlesRepository::class)
  */
 class Articles

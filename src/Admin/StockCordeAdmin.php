@@ -13,21 +13,21 @@ final class StockCordeAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement')->add('corde');
+        $form->add('corde')->add('stockArticleSn')->add('emplacement')->add('quantiter')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement')->add('corde');
+        $datagrid->add('id')->add('corde')->add('stockArticleSn')->add('quantiter')->add('emplacement')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement')->add('corde');
+        $list->addIdentifier('id')->add('corde')->add('stockArticleSn')->add('quantiter')->add('emplacement')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement')->add('corde');
+        $show->add('id')->add('corde')->add('stockArticleSn')->add('quantiter')->add('emplacement')->add('datedecreation')->add('datederetirement')->add('datederetraittransfert')->add('datedemaetransfert')->add('dateDeMiseAEaudate')->add('chaussement')->add('dateassemblage')->add('datechaussement');
     }
 }

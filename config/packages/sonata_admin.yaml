@@ -166,6 +166,16 @@ services:
                   label: StockArticle,
                   group: Stockage,
               }
+    admin.stock.article_sn:
+        class: App\Admin\StockArticleSnAdmin
+        tags:
+            - {
+                  name: sonata.admin,
+                  model_class: App\Entity\Asc\Stock\StockArticleSn,
+                  manager_type: orm,
+                  label: StockArticleSn,
+                  group: Stockage,
+              }
     admin.stock.corde:
         class: App\Admin\StockCordeAdmin
         tags:

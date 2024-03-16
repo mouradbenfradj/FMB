@@ -18,7 +18,7 @@ abstract class StockConteneur
     /**
      * @ORM\Column(type="boolean")
      */
-    private $pret;
+    private $pret = false;
 
 
     /**

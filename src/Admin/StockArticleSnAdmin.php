@@ -8,26 +8,26 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-final class CordeAdmin extends AbstractAdmin
+final class StockArticleSnAdmin extends AbstractAdmin
 {
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('parc')->add('longeur')->add('quantiter')->add('nom');
+        $form->add('stockArticle')->add('numeroSerie')->add('snQte');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('parc')->add('longeur')->add('quantiter')->add('nom');
+        $datagrid->add('stockArticle')->add('numeroSerie')->add('snQte');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('parc')->add('longeur')->add('quantiter')->add('nom');
+        $list->addIdentifier('id')->add('stockArticle')->add('numeroSerie')->add('snQte');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('parc')->add('longeur')->add('quantiter')->add('nom');
+        $show->add('stockArticle')->add('numeroSerie')->add('snQte');
     }
 }
