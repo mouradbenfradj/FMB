@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Lanterne{% endblock %}
+
+{% block body %}
+    <h1>Edit Lanterne</h1>
+
+    {{ include('conteneur/lanterne/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_conteneur_lanterne_index') }}">back to list</a>
+
+    {{ include('conteneur/lanterne/_delete_form.html.twig') }}
+{% endblock %}

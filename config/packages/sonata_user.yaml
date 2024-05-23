@@ -1,0 +1,16 @@
+sonata_user:
+    mailer: sonata.user.mailer.default # Service used to send emails
+    security_acl: false
+
+    impersonating:
+        route: app_default
+        parameters: { path: / }
+    class:
+        user: App\Entity\Asc\SonataUserUser
+    resetting:
+        email:
+            template: "@SonataUser/Admin/Security/Resetting/email.html.twig"
+            address: sonata@localhost
+            sender_name: Sonata Admin
+    profile:
+        default_avatar: build/images/favicon.ico

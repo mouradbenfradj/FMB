@@ -1,0 +1,61 @@
+<div class="tab-pane" id="chat-tab" role="tabpanel">
+
+	<form class="search-bar p-3">
+		<div class="position-relative">
+			<input type="text" class="form-control" placeholder="Search...">
+			<span class="mdi mdi-magnify"></span>
+		</div>
+	</form>
+
+	{% include "partials/sidebar/_title.html.twig" with {'title':'Group Chats','class':'px-3 mt-2 text-uppercase'} only %}
+
+	<div class="p-2">
+		{% set links = [
+            {'alert': 'text-success','message' : 'App Development','linkClass':'mb-2'},
+            {'alert': 'text-warning','message' : 'Office Work','linkClass':'mb-2'},
+            {'alert': 'text-danger','message' : 'Personal Group','linkClass':'mb-2'},
+            {'alert': '','message' : 'Freelance','linkClass':''}
+        ] %}
+		{% for link in links %}
+			{% include "partials/sidebar/chat-tab/_link.html.twig" with {'link':link} only %}
+		{% endfor %}
+	</div>
+
+	{% include "partials/sidebar/_title.html.twig" with {'title':'Favourites','class':'px-3 mt-3 text-uppercase','icon':'text-danger'} only %}
+
+	<div class="p-2">
+		{% set linksMedia = [
+            {'image': 'user-10.jpg','icon' : 'online','user':'Andrew Mackie','comment':'It will seem like simplified English.'},
+            {'image': 'user-1.jpg','icon' : 'away','user':'Rory Dalyell','comment':'To an English person, it will seem like simplified'},
+            {'image': 'user-9.jpg','icon' : 'busy','user':'Jaxon Dunhill','comment':'To achieve this, it would be necessary.'}
+        ] %}
+		{% for linkMedia in linksMedia %}
+			{% include "partials/sidebar/chat-tab/_link-media.html.twig" with {'linkMedia':linkMedia} only %}
+		{% endfor %}
+	</div>
+
+	{% include "partials/sidebar/_title.html.twig" with {'title':'Other Chats','class':'px-3 mt-3 text-uppercase','icon':'text-danger'} only %}
+
+	<div class="p-2 pb-4">
+		{% set linksMedia = [
+            {'image': 'user-2.jpg','icon' : 'online','user':'Jackson Therry','comment':'Everyone realizes why a new common language.'},
+            {'image': 'user-4.jpg','icon' : 'away','user':'Charles Deakin','comment':'The languages only differ in their grammar.'},
+            {'image': 'user-5.jpg','icon' : 'online','user':'Ryan Salting','comment':'If several languages coalesce the grammar of the resulting.'},
+            {'image': 'user-6.jpg','icon' : 'online','user':'Sean Howse','comment':'It will seem like simplified English.'},
+            {'image': 'user-7.jpg','icon' : 'busy','user':'Dean Coward','comment':'The new common language will be more simple.'},
+            {'image': 'user-8.jpg','icon' : 'busy','user':'Hayley East','comment':'One could refuse to pay expensive translators.'}
+        ] %}
+		{% for linkMedia in linksMedia %}
+			{% include "partials/sidebar/chat-tab/_link-media.html.twig" with {'linkMedia':linkMedia} only %}
+		{% endfor %}
+
+		{% if linksMedia|length > 6 %}
+			<div class="text-center mt-3">
+				<a href="javascript:void(0);" class="btn btn-sm btn-white">
+					<i class="mdi mdi-spin mdi-loading mr-2"></i>
+					Load more
+				</a>
+			</div>
+		{% endif %}
+	</div>
+</div>

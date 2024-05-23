@@ -1,0 +1,14 @@
+/*Plugins css*/
+@import "../libs/nestable2/jquery.nestable.min.css";
+@import "../libs/flatpickr/flatpickr.min.css";
+@import "../libs/selectize/css/selectize.bootstrap3.css";
+
+/*App css*/
+ @import "../css/bootstrap-creative.min.css"; 
+ @import "../css/app-creative.min.css"; 
+
+/* @import "../css/bootstrap-dark.min.css"; */
+/* @import "../css/app-dark.min.css"; */
+
+/*icons*/
+@import "../css/icons.min.css";

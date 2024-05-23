@@ -1,0 +1,41 @@
+<div class="custom-dd dd nestable_list_1" id="nestable_list_1">
+	<ol class="dd-list">
+		{% for segment in filiere.segments %}
+			{% set pos = pos+1 %}
+			<li class="dd-item" data-id="{{ pos }}">
+				<div class="dd-handle">
+					{{segment.nomSegment}}
+					{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage: loop.index} only %}
+					{# <table class="table table-striped mb-0">
+					<tbody>
+					{% include "etat_actuel_prod/partials/table/_emplacements.html.twig" with {emplacements: segment.emplacements} only %}
+					</tbody>
+					</table> #}
+				</div>
+				<ol class="dd-list">
+					{% set pos = pos+1 %}
+					<li class="dd-item" data-id="{{ pos }}">
+						{{ dump(segment.flotteurSegments|map(flotteur => (range(flotteur.distanceDeDepart, segment.longeur, flotteur.pas)|length*flotteur.flotteur.volume*flotteur.flotteur.taux))) }}
+{# 						{{ dump(segment.flotteurSegments|map(flotteur => range(flotteur.distanceDeDepart, segment.longeur, flotteur.pas))) }}
+ #}						<div class="dd-handle">
+							<table class="table table-striped mb-0">
+								<tbody>
+									{# {% for flotteur in segment.flotteurs %}
+									{% set pos = pos+1 %}
+									<tr>
+									<th scope="row">{{flotteur.nomFlotteur}}</th>
+									{% include "etat_actuel_prod/partials/table/_emplacements.html.twig" with {emplacements: flotteur.emplacements} only %}
+									</tr>
+									{% endfor %} #}
+								</tbody>
+							</table>
+
+							<!-- end table-responsive-->
+						</div>
+					</li>
+				</ol>
+			</li>
+		{% endfor %}
+	</ol>
+
+</div>

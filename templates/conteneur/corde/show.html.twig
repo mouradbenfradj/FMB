@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Corde{% endblock %}
+
+{% block body %}
+    <h1>Corde</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ corde.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_conteneur_corde_index') }}">back to list</a>
+
+    <a href="{{ path('app_conteneur_corde_edit', {'id': corde.id}) }}">edit</a>
+
+    {{ include('conteneur/corde/_delete_form.html.twig') }}
+{% endblock %}
