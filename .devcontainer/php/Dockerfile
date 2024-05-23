@@ -14,6 +14,11 @@ RUN service apache2 restart
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
     mv composer.phar /usr/local/bin/composer
 
+# Installation de Symfony CLI
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+RUN mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
+
+
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
