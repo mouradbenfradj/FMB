@@ -1,6 +1,8 @@
 {
     "name": "Symfony Development",
-    "dockerComposeFile": ["docker-compose.yml"],
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
     "service": "www",
     "workspaceFolder": "/var/www/asc",
     "remoteEnv": {
@@ -14,10 +16,15 @@
         "fabpot.vscode-symfony",
         "sianglim.slim",
         "neilbrayfield.php-docblocker",
-        "mikestead.dotenv"
+        "mikestead.dotenv",
+        "ms-azuretools.vscode-docker",
+        "xdebug.php-debug",
+        "TheNouillet.symfony-vscode"
     ],
     "settings": {
         "docker.host": "tcp://localhost:2375", // Indique l'adresse de l'hôte Docker Desktop
-        "docker.remotePlatform": {"os": "linux"} // Indique le système d'exploitation du conteneur
+        "docker.remotePlatform": {
+            "os": "linux"
+        } // Indique le système d'exploitation du conteneur
     }
 }
