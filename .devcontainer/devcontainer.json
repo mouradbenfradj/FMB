@@ -1,23 +1,30 @@
 {
-	"name": "Symfony Development",
-	"dockerComposeFile": ["docker-compose.yml"],
-	"service": "www",
-	"workspaceFolder": "/var/www/asc",
-	"remoteEnv": {
-		"APP_ENV": "dev",
-		"APP_DEBUG": "1",
-		"DATABASE_URL": "mysql://root:mourad@database:3306/asc"
-	},
-	"extensions": [
-		"felixfbecker.php-debug",
-		"dbaeumer.vscode-eslint",
-		"editorconfig.editorconfig"
-	],
-	"settings": {
-		"docker.host": "tcp://localhost:2375",
-		"docker.remotePlatform": {"os": "linux"},
-		"php.validate.enable": true,
-		"phpunit.phpunit": "/var/www/asc/vendor/bin/phpunit",
-		"symfony-vscode.devFolders": ["src", "config", "templates"]
-	}
+    "name": "Symfony Development",
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
+    "service": "www",
+    "workspaceFolder": "/var/www/asc",
+    "remoteEnv": {
+        "APP_ENV": "dev",
+        "APP_DEBUG": "1",
+        "DATABASE_URL": "mysql://root:mourad@database:3306/asc"
+    },
+    "extensions": [
+        "felixfbecker.php-debug",
+        "bmewburn.vscode-intelephense-client",
+        "fabpot.vscode-symfony",
+        "sianglim.slim",
+        "neilbrayfield.php-docblocker",
+        "mikestead.dotenv",
+        "ms-azuretools.vscode-docker",
+        "xdebug.php-debug",
+        "TheNouillet.symfony-vscode"
+    ],
+    "settings": {
+        "docker.host": "tcp://localhost:2375", // Indique l'adresse de l'hôte Docker Desktop
+        "docker.remotePlatform": {
+            "os": "linux"
+        } // Indique le système d'exploitation du conteneur
+    }
 }

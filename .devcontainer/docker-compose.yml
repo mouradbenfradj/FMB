@@ -1,63 +1,63 @@
 version: "3.8"
 services:
-    database:
-        image: mysql:5.7
-        container_name: db_asc
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: 'mourad'
-            MYSQL_DATABASE: asc
-        ports:
-            - '3306:3306'
-        networks:
-            - dev
-    oyster:
-        image: mysql:5.7
-        container_name: db_oyster
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: 'mourad'
-            MYSQL_DATABASE: oyster
-        ports:
-            - '3307:3306'
-        networks:
-            - dev
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin_asc
-        restart: always
-        depends_on:
-            - database
-            - oyster
-        ports:
-            - "8080:80"
-        environment:
-            PMA_HOSTS: database,oyster
-            PMA_PORT: 3306
-        networks:
-            - dev
-    maildev:
-        image: maildev/maildev
-        container_name: maildev_asc
-        command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
-        ports:
-          - "8081:80"
-        restart: always
-        networks:
-            - dev
-    www:
-        build: php
-        container_name: www_asc
-        ports:
-          - "2512:80"
-        volumes:
-            - ../:/var/www/asc
-            - ./php/vhosts:/etc/apache2/sites-enabled
-        restart: always
-        networks:
-            - dev
+  database:
+    image: mysql:5.7
+    container_name: db_asc
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "mourad"
+      MYSQL_DATABASE: asc
+    ports:
+      - "3309:3306"
+    networks:
+      - dev
+  oyster:
+    image: mysql:5.7
+    container_name: db_oyster
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "mourad"
+      MYSQL_DATABASE: oyster
+    ports:
+      - "3307:3306"
+    networks:
+      - dev
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_asc
+    restart: always
+    depends_on:
+      - database
+      - oyster
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOSTS: database,oyster
+      PMA_PORT: 3309
+    networks:
+      - dev
+  maildev:
+    image: maildev/maildev
+    container_name: maildev_asc
+    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+    ports:
+      - "8081:80"
+    restart: always
+    networks:
+      - dev
+  www:
+    build: php
+    container_name: www_asc
+    ports:
+      - "2512:80"
+    volumes:
+      - ../:/var/www/asc
+      - ./php/vhosts:/etc/apache2/sites-enabled
+    restart: always
+    networks:
+      - dev
 networks:
-    dev:
+  dev:
 
 volumes:
-    db-data:
+  db-data:
