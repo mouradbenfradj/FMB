@@ -9,11 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class OutilsDeGestionController extends AbstractController
 {
     /**
-     * @Route("/prevision", name="app_prevision")
+     * @Route("/prevision/{parcID}", name="app_prevision")
      */
-    public function prevision(): Response
+    public function prevision(int $parcID): Response
     {
         return $this->render('outils_de_gestion/prevision.html.twig', [
+            'parcID' => $parcID,
             'controller_name' => 'OutilsDeGestionController',
         ]);
     }
