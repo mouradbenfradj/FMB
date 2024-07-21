@@ -3,7 +3,7 @@ sonata_user:
     security_acl: false
 
     impersonating:
-        route: app_default
+        route: app_statistique
         parameters: { path: / }
     class:
         user: App\Entity\Asc\SonataUserUser
