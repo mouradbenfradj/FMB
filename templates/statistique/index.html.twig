@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-	{% include "partials/_pageTitle.html.twig" with {parcID: parcID,menu:'Statistiques'|trabs} only %}
+	{% include "partials/_pageTitle.html.twig" with {parcID: parcID,menu:'Statistiques'|trans} only %}
 	<div class="row">
 		{{ render(path('app_parc_statistique', {parcId: parcID})) }}
 		{{ render(path('app_filiere_statistique', {parcId: parcID})) }}
