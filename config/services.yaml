@@ -22,11 +22,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    App\DataFixtures\OysterProToAscFixtures:
+    App\DataFixtures\ParcOysterproToAscFixtures:
         arguments:
-            $oysterProConnection: '@doctrine.dbal.oysterpro_connection'
-            $ascConnection: '@doctrine.dbal.default_connection'
+            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
+            $ascManager: '@doctrine.orm.default_entity_manager'
+    App\DataFixtures\StockOysterproToAscFixtures:
+        arguments:
+            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
+            $ascManager: '@doctrine.orm.default_entity_manager'
+
     app.menu_builder:
         class: App\Menu\MenuBuilder
         arguments: ["@knp_menu.factory"]
