@@ -12,7 +12,7 @@ help:
 	@echo "  yarn-install  Install dependencies with Yarn"
 	@echo "  yarn-update   Update dependencies with Yarn"
 	@echo "  yarn-dev      Run Yarn development scripts"
-	@echo "  import-db     Import SQL dump into the 'oyster' database"
+	@echo "  import-db     Import SQL dump into the 'oysterpro' database"
 	@echo ""
 
 # Target to install project dependencies using Composer and Yarn.
