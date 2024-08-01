@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
 
-class UserFixtures extends Fixture  implements FixtureGroupInterface
+class UserFixtures extends Fixture implements FixtureGroupInterface
 {
     private $passwordEncoder;
 
@@ -37,6 +37,6 @@ class UserFixtures extends Fixture  implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['user'];
+        return ['migration', 'user'];
     }
 }

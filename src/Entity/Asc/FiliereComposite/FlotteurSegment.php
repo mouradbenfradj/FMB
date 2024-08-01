@@ -51,6 +51,14 @@ class FlotteurSegment
     private $pas = 1;
 
 
+    public function initFlotteurSegment(Segment $segment, Flotteur $flotteur, int $nombre, float $distanceDeDepart , float $pas)
+    {
+        $this->segment = $segment;
+        $this->flotteur = $flotteur;
+        $this->nombre = $nombre;
+        $this->distanceDeDepart = $distanceDeDepart;
+        $this->pas = $pas;
+    }
     public function getId(): ?int
     {
         return $this->id;

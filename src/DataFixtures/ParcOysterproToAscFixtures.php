@@ -28,7 +28,7 @@ class ParcOysterproToAscFixtures extends Fixture implements FixtureGroupInterfac
         $oysterProParcFiliere = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM magasins');
         foreach ($oysterProParcFiliere as $data) {
             $parc = new Parc();
-            $parc->initParc(intval($data['id_magasin']), $data['abrev_magasin'], $data['lib_magasin']);
+            $parc->initParc($data['abrev_magasin'], $data['lib_magasin']);
             $this->ascManager->persist($parc);
             $this->addReference($data['id_magasin'], $parc);
         }
