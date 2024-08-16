@@ -21,11 +21,12 @@ final class Version20231021152830 extends AbstractMigration
      */
     protected const DB_NAME = 'oysterpro';
     protected const SQL_FILE = __DIR__ . '/admin_oysterpro_db.sql';
+    protected const DELIMITER = '--DELIMITER--';
 
     public function up(Schema $schema): void
     {
         ini_set('max_execution_time', '0');
-        ini_set('memory_limit', '2048M');
+        ini_set('memory_limit', '512M');
 
         if ($this->isOysterProConnection()) {
             $this->executeSqlFile();
@@ -37,29 +38,52 @@ final class Version20231021152830 extends AbstractMigration
         $connectionParams = $this->connection->getParams();
         return $connectionParams['dbname'] === self::DB_NAME;
     }
-
     protected function executeSqlFile(): void
     {
-        if (!file_exists(self::SQL_FILE)) {
-            echo "Le fichier SQL n'existe pas.\n";
-            return;
-        }
+        $this->connection->executeQuery('SET GLOBAL max_allowed_packet = 1073741824;');
+        $this->connection->executeQuery('SET GLOBAL wait_timeout = 31536000;');
 
-        $sqlCommands = explode(';', file_get_contents(self::SQL_FILE));
+        $sqlCommands = file_exists(self::SQL_FILE)
+            ? explode(self::DELIMITER, file_get_contents(self::SQL_FILE))
+            : [];
+
+        $batchSize = 1000; // Nombre de commandes SQL par lot
+        $batch = [];
 
         foreach ($sqlCommands as $sql) {
             $sql = trim($sql);
             if (!empty($sql)) {
-                try {
-                    $this->addSql($sql);
-                    echo "Commande SQL exécutée : $sql\n";
-                } catch (\Exception $e) {
-                    echo "Erreur lors de l'exécution de la commande SQL : $sql\n";
-                    echo "Message d'erreur : " . $e->getMessage() . "\n";
+                $batch[] = $sql;
+                if (count($batch) >= $batchSize) {
+                    $this->executeBatch($batch);
+                    $batch = [];
                 }
             }
         }
+
+        // Exécuter les commandes restantes
+        if (!empty($batch)) {
+            $this->executeBatch($batch);
+        }
     }
+
+
+
+    protected function executeBatch(array $batch): void
+    {
+        try {
+            $this->connection->beginTransaction();
+            foreach ($batch as $sql) {
+                $this->addSql($sql);
+            }
+            $this->connection->commit();
+        } catch (\Exception $e) {
+            $this->connection->rollBack();
+            echo "Erreur lors de l'exécution du lot de commandes SQL.\n";
+            echo "Message d'erreur : " . $e->getMessage() . "\n";
+        }
+    }
+
 
     public function postUp(Schema $schema): void
     {

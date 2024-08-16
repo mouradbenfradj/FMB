@@ -79,7 +79,7 @@ create-db-and-migrate-container:
 	php bin/console doctrine:database:create --if-not-exists --env=test
 	php bin/console doctrine:migrations:migrate --no-interaction
 	php bin/console doctrine:migrations:migrate -n --env=test
-	php bin/console doctrine:migrations:migrate --dry-run -n --no-interaction --em=oysterpro
+	php bin/console doctrine:migrations:migrate -n --no-interaction --em=oysterpro
 .PHONY: create-db-and-migrate
 delete-db:
 	@docker-compose exec www php bin/console doctrine:database:drop --force
