@@ -57,7 +57,7 @@ yarn-add:
 # Target to import SQL dump into the 'oyster' database.
 .PHONY: import-db-oyster
 import-db-oyster:
-	@docker cp migrations\admin_oysterpro_db.sql db_oyster:/tmp/admin_oysterpro_db.sql && \
+	@docker cp migrations\admin_oysterpro_db.sql db_oysterpro:/tmp/admin_oysterpro_db.sql && \
 	 docker-compose exec oyster bash -c "mysql -u root -pmourad oyster < /tmp/admin_oysterpro_db.sql"
 .PHONY: import-db-oyster-container
 import-db-oyster-container:

@@ -53,6 +53,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "config": {
+        "process-timeout": 100000,
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "php-http/discovery": true,

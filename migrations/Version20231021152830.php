@@ -25,7 +25,7 @@ final class Version20231021152830 extends AbstractMigration
     public function up(Schema $schema): void
     {
         ini_set('max_execution_time', '0');
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '2048M');
 
         if ($this->isOysterProConnection()) {
             $this->executeSqlFile();
@@ -40,14 +40,23 @@ final class Version20231021152830 extends AbstractMigration
 
     protected function executeSqlFile(): void
     {
-        $sqlCommands = file_exists(self::SQL_FILE)
-            ? explode(';', file_get_contents(self::SQL_FILE))
-            : [];
+        if (!file_exists(self::SQL_FILE)) {
+            echo "Le fichier SQL n'existe pas.\n";
+            return;
+        }
+
+        $sqlCommands = explode(';', file_get_contents(self::SQL_FILE));
 
         foreach ($sqlCommands as $sql) {
             $sql = trim($sql);
             if (!empty($sql)) {
-                $this->addSql($sql);
+                try {
+                    $this->addSql($sql);
+                    echo "Commande SQL exécutée : $sql\n";
+                } catch (\Exception $e) {
+                    echo "Erreur lors de l'exécution de la commande SQL : $sql\n";
+                    echo "Message d'erreur : " . $e->getMessage() . "\n";
+                }
             }
         }
     }
