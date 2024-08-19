@@ -6,16 +6,16 @@ use App\Entity\Asc\SonataUserUser;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture implements FixtureGroupInterface
 {
-    private $passwordEncoder;
+    private $passwordHasher;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
     }
 
     public function load(ObjectManager $manager)
@@ -26,7 +26,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setRoles(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN']);
 
         // encode the plain password
-        $user->setPassword($this->passwordEncoder->encodePassword(
+        $user->setPassword($this->passwordHasher->hashPassword(
             $user,
             'mourad'
         ));

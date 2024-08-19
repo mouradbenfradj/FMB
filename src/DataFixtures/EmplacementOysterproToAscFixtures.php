@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Asc\FiliereComposite\Emplacement;
 use App\Entity\Asc\FiliereComposite\Flotteur;
 use App\Entity\Asc\FiliereComposite\FlotteurSegment;
 use App\Service\Cache\ParcCacheService;
@@ -11,7 +12,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 
-class FlotteurOysterproToAscFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+class EmplacementOysterproToAscFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
     private $oysterProManager;
     private $ascManager;
@@ -27,23 +28,14 @@ class FlotteurOysterproToAscFixtures extends Fixture implements FixtureGroupInte
     public function load(ObjectManager $manager): void
     {
         $this->parcCacheService->deleteParcCache();
-        $flotteursData = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM flotteur');
-        $arrayFlotteur = [];
-        foreach ($flotteursData as $flotteurData) {
-            $segment = $this->getReference('segment' . $flotteurData['segment_id']);
-            if (!isset($arrayFlotteur[substr($flotteurData['nomFlotteur'], 0, 1)])) {
-                $flotteur = new Flotteur();
-                $flotteur->initFlotteur(substr($flotteurData['nomFlotteur'], 0, 1), 0, 0, 0);
-                $arrayFlotteur[substr($flotteurData['nomFlotteur'], 0, 1)] = $flotteur;
-            }
-
-            $flotteurSegment = new FlotteurSegment();
-            $flotteurSegment->initFlotteurSegment($segment, $arrayFlotteur[substr($flotteurData['nomFlotteur'], 0, 1)], 1, 0, 10);
-            $manager->getClassMetadata(get_class($flotteur))->setLifecycleCallbacks(array());
-            $manager->persist($flotteur);
-            $manager->persist($flotteurSegment);
+        $emplacementsData = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM emplacement');
+        foreach ($emplacementsData as $emplacementData) {
+            $flotteur = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM flotteur WHERE id = ' . $emplacementData['flotteur_id']);
+            $segment = $this->getReference('segment' . $flotteur[0]['segment_id']);
+            $emplacement = new Emplacement();
+            $emplacement->initEmplacement($segment, $emplacementData['place']);
+            $manager->persist($emplacement);
         }
-
         $this->ascManager->flush();
     }
 
@@ -56,6 +48,6 @@ class FlotteurOysterproToAscFixtures extends Fixture implements FixtureGroupInte
 
     public static function getGroups(): array
     {
-        return ['migration', 'flotteur'];
+        return ['migration', 'emplacement'];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
- 
+
 use App\Repository\Asc\FiliereComposite\FlotteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -55,9 +55,12 @@ class Flotteur
     {
         return $this->nomFlotteur;
     }
-    public function initFlotteur(string $nomFlotteur)
+    public function initFlotteur(string $nomFlotteur, int $volume, float $kgf, float $taux)
     {
         $this->nomFlotteur = $nomFlotteur;
+        $this->volume = $volume;
+        $this->taux = $taux;
+        $this->kgf = $kgf;
     }
     /**
      * @ORM\PrePersist

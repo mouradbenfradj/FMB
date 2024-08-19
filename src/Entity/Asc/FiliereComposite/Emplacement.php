@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
- 
+
 use App\Entity\Asc\Conteneur\Corde;
 use App\Entity\Asc\Conteneur\Lanterne;
 use App\Entity\Asc\Conteneur\Poche;
@@ -67,8 +67,9 @@ class Emplacement
      * @param integer $place
      * @return void
      */
-    public function initEmplacement(int $place)
+    public function initEmplacement(Segment $segment, int $place)
     {
+        $this->segment = $segment;
         $this->place = $place;
     }
     /**

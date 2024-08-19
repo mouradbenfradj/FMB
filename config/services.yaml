@@ -34,6 +34,14 @@ services:
         arguments:
             $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
             $ascManager: '@doctrine.orm.default_entity_manager'
+    App\DataFixtures\FlotteurOysterproToAscFixtures:
+        arguments:
+            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
+            $ascManager: '@doctrine.orm.default_entity_manager'
+    App\DataFixtures\EmplacementOysterproToAscFixtures:
+        arguments:
+            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
+            $ascManager: '@doctrine.orm.default_entity_manager'
     App\DataFixtures\StockOysterproToAscFixtures:
         arguments:
             $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
