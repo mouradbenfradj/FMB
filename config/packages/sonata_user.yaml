@@ -1,6 +1,6 @@
 sonata_user:
     mailer: sonata.user.mailer.default # Service used to send emails
-    security_acl: false
+    security_acl: true
 
     impersonating:
         route: app_statistique
