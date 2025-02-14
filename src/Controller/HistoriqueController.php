@@ -9,11 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class HistoriqueController extends AbstractController
 {
     /**
-     * @Route("/historique", name="app_historique")
+     * @Route("/historique/{parcID}", name="app_historique")
      */
-    public function index(): Response
+    public function index(int $parcID): Response
     {
         return $this->render('historique/index.html.twig', [
+            'parcID' => $parcID,
             'controller_name' => 'HistoriqueController',
         ]);
     }

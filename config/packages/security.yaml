@@ -6,12 +6,22 @@ security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Sonata\UserBundle\Model\UserInterface: auto
+
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
+        all_users:
+            chain:
+                providers: ["backend_users", "sonata_user_bundle"]
         sonata_user_bundle:
             id: sonata.user.security.user_provider
-        users_in_memory: { memory: null }
-
+        backend_users:
+            memory:
+                users:
+                    admin:
+                        {
+                            password: "$2y$13$n.aoTOuXZbGd9A1FihS2Cexr/A44tx2HmCVYT8LWtx2OwFucm0opm",
+                            roles: ["ROLE_ADMIN", "ROLE_SUPER_ADMIN"],
+                        }
     firewalls:
         admin:
             lazy: true
@@ -35,7 +45,7 @@ security:
         main:
             lazy: true
             pattern: /(.*)
-            provider: sonata_user_bundle
+            provider: all_users
             context: user
             form_login:
                 login_path: sonata_user_admin_security_login
@@ -69,8 +79,8 @@ security:
         # Secured part of the site
         # This config requires being logged for the whole site and having the admin role for the admin part.
         # Change these rules to adapt them to your needs
-        #- { path: ^/admin/, role: ROLE_ADMIN }
-        #- { path: ^/.*, role: ROLE_ADMIN }
+        - { path: ^/admin/, role: PUBLIC_ACCESS }
+        - { path: ^/.*, role: PUBLIC_ACCESS }
 
 when@test:
     security:

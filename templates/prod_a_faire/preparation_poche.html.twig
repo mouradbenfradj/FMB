@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+  <!-- Form row -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          {# <h4 class="header-title">Form row</h4>
+					<p class="text-muted font-13">
+						You may also swap
+						<code class="highlighter-rouge">.row</code>
+						for
+						<code class="highlighter-rouge">.form-row</code>, a variation of our standard grid row that overrides the default column gutters for tighter and more compact layouts.
+					</p>
+ #}
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="inputEmail4" class="col-form-label">Le stock qui contient vos articles</label>
+                <select id="ss_fmbbundle_preparationpoche_libStock" name="ss_fmbbundle_preparationpoche[libStock]" required="required" class="form-control" style="display: block;">
+                  <option value="1">Stock Parc FMB</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputAddress" class="col-form-label">choix du Poche</label>
+              <select id="ss_fmbbundle_preparationpoche_nomPoche" name="ss_fmbbundle_preparationpoche[nomPoche]" required="required" class="form-control" style="display: block;">
+                <option value="1">POCHES HUITRES</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="inputAddress2" class="col-form-label">nombre de Poche non utilisé en stock</label>
+              <input type="text" id="ss_fmbbundle_preparationpoche_quantiterEnStock" name="ss_fmbbundle_preparationpoche[quantiterEnStock]" required="required" class="form-control" readonly="" value="Readonly value" style="display: block;" />
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2" class="col-form-label">Date de la Préparation des Poches</label>
+              <input type="text" id="ss_fmbbundle_preparationpoche_date" name="ss_fmbbundle_preparationpoche[date]" required="required" class="form-control" placeholder="dd/mm/yyyy" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity" class="col-form-label">article</label>
+                <select id="ss_fmbbundle_preparationpoche_refArticle" name="ss_fmbbundle_preparationpoche[refArticle]" class="form-control">
+                  <option value="57f7b215a37d7">NAISSAIN MOULES</option>
+                  <option value="57f7b2756cf76">CORDE MOULES</option>
+                  <option value="57f7b2f0e9ade">HUITRES COM</option>
+                  <option value="57f8c47ec88d5">CORDE HUITRES</option>
+                  <option value="58273b6adc1c2">HUITRES H3 COM</option>
+                  <option value="584e84abd8c7e">HUITRES G0 COM</option>
+                  <option value="584e84ad57061">HUITRES G5 COM</option>
+                  <option value="587cd72f75b11">HUITRES G4 COM</option>
+                  <option value="589761d46526a">HUITRES G3 COM</option>
+                  <option value="58dca30779df2">HUITRES G6 COM</option>
+                  <option value="592158a199d57">MOULE ROYALE2 COM</option>
+                  <option value="59e1eef931387">MOULE ROYALE5 COM</option>
+                  <option value="5a101e22194f5">H3 COM9 COM</option>
+                  <option value="5b136fa0309b8">MOULE SUPER1 COM</option>
+                  <option value="5b3b88f1b622f">MOULE SUPER2 COM</option>
+                  <option value="5b3b88f40c910">CORDE HUITRES5 COM</option>
+                  <option value="5b6417b26a640">HUITRES G1 COM</option>
+                  <option value="5b8c25ce3f50d">MOULE EXTRA2 COM</option>
+                  <option value="5bb26bd57c4ca">HUITRE G6 COM</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="inputState" class="col-form-label">lot</label>
+                <select id="ss_fmbbundle_preparationpoche_numeroSerie" name="ss_fmbbundle_preparationpoche[numeroSerie]" class="form-control" style="display: block;">
+                  <option value="M2015">M2015</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="inputZip" class="col-form-label">Densiter</label>
+                <input type="number" readonly="true" value="0" class="form-control" id="totalqte" style="display: block;" />
+                <input type="text" id="ss_fmbbundle_preparationpoche_qte" name="ss_fmbbundle_preparationpoche[qte]" required="required" class="form-control" onblur="validation($('#ss_fmbbundle_preparationpoche_quantiterEnStock').val(),$('#totalqte').val(),this.value,$('#ss_fmbbundle_preparationpoche_nombre').val())" style="display: block;" />
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="inputState" class="col-form-label">nombre de Poche a fabriquer</label>
+              <input type="text" id="ss_fmbbundle_preparationpoche_nombre" name="ss_fmbbundle_preparationpoche[nombre]" required="required" class="form-control" onblur="validation($('#ss_fmbbundle_preparationpoche_quantiterEnStock').val(),$('#totalqte').val(),$('#ss_fmbbundle_preparationpoche_qte').val(),this.value)" />
+            </div>
+            <button type="submit" class="btn btn-primary waves-effect waves-light">Fabriqué</button>
+          </form>
+        </div>
+        <!-- end card-body -->
+      </div>
+      <!-- end card -->
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end row -->
+{% endblock %}

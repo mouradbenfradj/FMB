@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc;
 
- 
+
 use App\Entity\Asc\Stock\StockArticle;
 use App\Repository\Asc\ArticlesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,7 +44,7 @@ class Articles
     private $descLongue;
 
     /**
-     * @ORM\ManyToOne(targetEntity=FruitDeMer::class, inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity=FruitDeMer::class, inversedBy="articles",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $fruitDeMer;

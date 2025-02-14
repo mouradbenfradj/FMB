@@ -19,7 +19,11 @@ abstract class Conteneur
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
-
+    /* 
+    public function __toString()
+    {
+        return $this->nom;
+    } */
     public function init(string $nom, int $quantiter)
     {
         $this->nom = $nom;

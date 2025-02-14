@@ -2,17 +2,15 @@
 
 namespace App\Entity\Asc\Conteneur;
 
- 
+
 use App\Entity\Asc\Parc;
-use App\Entity\Asc\Stock\StockLanterne;
 use App\Repository\Asc\Conteneur\PocheRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  
  * @ORM\Entity(repositoryClass=PocheRepository::class)
  */
-class Poche
+class Poche extends Conteneur
 {
     /**
      * @ORM\Id
@@ -22,48 +20,31 @@ class Poche
     private $id;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\ManyToOne(targetEntity=parc::class, inversedBy="cordes",cascade={"persist"})
      */
-    private $position;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $piece;
+    private $parc;
 
 
-
-    public function initPoche(StockLanterne $stockLanterne, int $position, string $piece)
+    public function initPoche(Parc $parc, string $nomPoche, int $nbrTotaleEnStock)
     {
-        //$this->stockLanterne = $stockLanterne;
-        $this->position = $position;
-        $this->piece = $piece;
+        $this->parc = $parc;
+        $this->init($nomPoche, $nbrTotaleEnStock);
     }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPosition(): ?int
+
+    public function getParc(): ?Parc
     {
-        return $this->position;
+        return $this->parc;
     }
 
-    public function setPosition(int $position): self
+    public function setParc(?Parc $parc): self
     {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    public function getPiece(): ?int
-    {
-        return $this->piece;
-    }
-
-    public function setPiece(int $piece): self
-    {
-        $this->piece = $piece;
+        $this->parc = $parc;
 
         return $this;
     }

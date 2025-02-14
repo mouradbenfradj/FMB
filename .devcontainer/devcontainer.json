@@ -1,23 +1,57 @@
 {
     "name": "Symfony Development",
-    "dockerComposeFile": ["docker-compose.yml"],
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
     "service": "www",
+    "context": "..",
     "workspaceFolder": "/var/www/asc",
     "remoteEnv": {
         "APP_ENV": "dev",
         "APP_DEBUG": "1",
-        "DATABASE_URL": "mysql://root:mourad@database:3306/asc"
+        "DATABASE_URL": "mysql://root:mourad@database:3306/asc",
+        "XDEBUG_MODE": "debug,develop",
+        "XDEBUG_CONFIG": "client_host=host.docker.internal"
     },
     "extensions": [
         "felixfbecker.php-debug",
+        "felixfbecker.php-intellisense",
+        "mehedidracula.php-namespace-resolver",
+        "junstyle.php-cs-fixer",
         "bmewburn.vscode-intelephense-client",
         "fabpot.vscode-symfony",
         "sianglim.slim",
         "neilbrayfield.php-docblocker",
-        "mikestead.dotenv"
+        "mikestead.dotenv",
+        "ms-azuretools.vscode-docker",
+        "xdebug.php-debug",
+        "TheNouillet.symfony-vscode",
+        "ms-vscode.makefile-tools",
+        "mblode.twig-language-2",
+        "junstyle.twig-language",
+        "zepich.twig-braces-helper",
+        "redhat.vscode-yaml",
+        "ritwickdey.LiveServer",
+        "Vue.volar",
+        "Blackboxapp.blackbox",
+        "github.vscode-github-actions"
     ],
     "settings": {
-        "docker.host": "tcp://localhost:2375", // Indique l'adresse de l'hôte Docker Desktop
-        "docker.remotePlatform": {"os": "linux"} // Indique le système d'exploitation du conteneur
-    }
+        "docker.host": "tcp://localhost:2375",
+        "docker.remotePlatform": {
+            "os": "linux"
+        },
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "php.debug.executablePath": "/usr/local/bin/php",
+        "php.debug.idekey": "VSCODE"
+    },
+    "build": {
+        "args": {
+            "VARIANT": "bullseye"
+        }
+    },
+    "mounts": [
+        "source=${localWorkspaceFolder}/.vscode,target=/root/.vscode,type=bind",
+        "source=${localWorkspaceFolder}/data,target=/var/www/asc/data,type=bind"
+    ]
 }

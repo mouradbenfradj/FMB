@@ -2,15 +2,12 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
- 
-use App\Repository\Asc\FiliereComposite\EmplacementRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\Asc\FiliereComposite\FlotteurSegmentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  
+ * @ApiResource    
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=FlotteurSegmentRepository::class)
  */
@@ -51,6 +48,19 @@ class FlotteurSegment
     private $pas = 1;
 
 
+    public function __toString()
+    {
+        return $this->flotteur->getNomFlotteur();
+    }
+
+    public function initFlotteurSegment(Segment $segment, Flotteur $flotteur, int $nombre, float $distanceDeDepart, float $pas)
+    {
+        $this->segment = $segment;
+        $this->flotteur = $flotteur;
+        $this->nombre = $nombre;
+        $this->distanceDeDepart = $distanceDeDepart;
+        $this->pas = $pas;
+    }
     public function getId(): ?int
     {
         return $this->id;

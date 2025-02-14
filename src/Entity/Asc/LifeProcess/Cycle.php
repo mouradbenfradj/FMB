@@ -32,19 +32,19 @@ class Cycle
     private $nomCycle;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AlerteVert::class, inversedBy="cycles")
+     * @ORM\ManyToOne(targetEntity=AlerteVert::class, inversedBy="cycles",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $alerteVert;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AlerteJaune::class, inversedBy="cycles")
+     * @ORM\ManyToOne(targetEntity=AlerteJaune::class, inversedBy="cycles",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $alerteJaune;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AlerteRouge::class, inversedBy="cycles")
+     * @ORM\ManyToOne(targetEntity=AlerteRouge::class, inversedBy="cycles",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $alerteRouge;

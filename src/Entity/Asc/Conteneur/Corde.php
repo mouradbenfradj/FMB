@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc\Conteneur;
 
- 
+
 use App\Entity\Asc\Parc;
 use App\Entity\Asc\Stock\StockCorde;
 use App\Repository\Asc\Conteneur\CordeRepository;
@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  
  * @ORM\Entity(repositoryClass=CordeRepository::class)
  */
 class Corde extends Conteneur
@@ -24,7 +23,7 @@ class Corde extends Conteneur
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Parc::class, inversedBy="cordes")
+     * @ORM\ManyToOne(targetEntity=Parc::class, inversedBy="cordes",cascade={"persist"})
      */
     private $parc;
 

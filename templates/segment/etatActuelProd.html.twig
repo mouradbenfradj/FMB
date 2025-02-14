@@ -1,41 +1,223 @@
-<div class="custom-dd dd nestable_list_1" id="nestable_list_1">
+<div class="custom-dd-empty dd nestable_list_3">
 	<ol class="dd-list">
 		{% for segment in filiere.segments %}
-			{% set pos = pos+1 %}
-			<li class="dd-item" data-id="{{ pos }}">
-				<div class="dd-handle">
-					{{segment.nomSegment}}
-					{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage: loop.index} only %}
-					{# <table class="table table-striped mb-0">
-					<tbody>
-					{% include "etat_actuel_prod/partials/table/_emplacements.html.twig" with {emplacements: segment.emplacements} only %}
-					</tbody>
-					</table> #}
+
+			<li class="dd-item dd3-item" data-id="15">
+				<div class="dd-handle dd3-handle"></div>
+				<div class="dd3-content">
+					Segment
+					{{ segment.nomSegment }}
 				</div>
 				<ol class="dd-list">
-					{% set pos = pos+1 %}
-					<li class="dd-item" data-id="{{ pos }}">
-						{{ dump(segment.flotteurSegments|map(flotteur => (range(flotteur.distanceDeDepart, segment.longeur, flotteur.pas)|length*flotteur.flotteur.volume*flotteur.flotteur.taux))) }}
-{# 						{{ dump(segment.flotteurSegments|map(flotteur => range(flotteur.distanceDeDepart, segment.longeur, flotteur.pas))) }}
- #}						<div class="dd-handle">
-							<table class="table table-striped mb-0">
+					<li class="dd-item dd3-item" data-id="16">
+						<div class="dd3-content">
+							<table width="100%">
 								<tbody>
-									{# {% for flotteur in segment.flotteurs %}
-									{% set pos = pos+1 %}
 									<tr>
-									<th scope="row">{{flotteur.nomFlotteur}}</th>
-									{% include "etat_actuel_prod/partials/table/_emplacements.html.twig" with {emplacements: flotteur.emplacements} only %}
+										<th>
+											Nom Segment
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>
+											Segment
+											{{ segment.nomSegment }}
+										</td>
 									</tr>
-									{% endfor %} #}
+									<tr>
+										<th>
+											Remplissage Segment (%)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage:((segment.totaleCordes/segment.nombreEmplacements )*100)|round} only %}
+											<div class="row">
+												<div class="col-lg-4">
+													<div class="grid-container">
+														Places totales
+														{{segment.nombreEmplacements}}
+
+													</div>
+												</div>
+												<div class="col-lg-4">
+													<div class="grid-container">
+														Places Remplies
+														{{segment.totaleCordes}}
+
+													</div>
+												</div>
+												<div class="col-lg-4">
+													<div class="grid-container">
+														Places Vides
+														{{segment.nombreEmplacements - segment.totaleCordes}}
+
+													</div>
+												</div>
+
+											</div>
+
+
+										</td>
+									</tr>
+									<tr>
+										<th>Flottabilité Segment (%)<span class="footable-sort-indicator"></span>
+										</th>
+										<td>{% include "etat_actuel_prod/partials/_flottabiliter.html.twig" with {remplissage: segment.flottabiliter, poid: segment.poidCordes} only %}
+											<div class="row">
+												<div class="col-lg-3">
+													<div class="grid-container">
+														F
+														{{segment.volumesTotale}}
+														(L)
+													</div>
+												</div>
+												<div class="col-lg-3">
+													<div class="grid-container">
+														F
+														{{segment.flottabiliter}}
+														(kgf)
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="grid-container">
+														Production
+														{{segment.poidCordes}}
+														(kgf)
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+
+									<tr>
+										<th>
+											Taille Segment (m)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>{{ segment.longeur  }}</td>
+									</tr>
+									<tr>
+										<th>
+											Total Emplacements (u)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>{{segment.nombreEmplacements }}</td>
+									</tr>
+									<tr>
+										<th>
+											Emplacements Vides (u)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>0</td>
+									</tr>
+									<tr>
+										<th>
+											Emplacements Remplis (u)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>0</td>
+									</tr>
+									<tr>
+										<th>
+											Total Cordes (u)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>{{segment.totaleCordes }}</td>
+									</tr>
+									<tr>
+										<th>
+											Total Cordes Huitre (u)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>0</td>
+									</tr>
+									<tr>
+										<th>
+											Total Cordes Moule (u)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>0</td>
+									</tr>
+									<tr>
+										<th>
+											Total Lanternes (u)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>0</td>
+									</tr>
+									<tr>
+										<th>
+											Total Poches (u)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>0</td>
+									</tr>
+									<tr>
+										<th>
+											Total Passages chaussettes (u)
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>0</td>
+									</tr>
+									<tr>
+										<th>
+											Dérniere Date De MAE
+											<span class="footable-sort-indicator"></span>
+										</th>
+										<td>0</td>
+									</tr>
+
 								</tbody>
 							</table>
-
-							<!-- end table-responsive-->
 						</div>
 					</li>
+					<li class="dd-item dd3-item" data-id="17">
+						<div class="dd3-content">
+							<table class="table table-striped mb-0">
+								<tbody>
+									{% set distanceSurSegment = 0 %}
+									{% set distance10Emplacement = 0 %}
+									{% for emplacement in segment.emplacements %}
+										{% if loop.index0 % 10 == 0 %}
+											{% set distance10Emplacement = distanceSurSegment + (segment.pas * 10) %}
+											<tr>
+												<td>
+													{% for flotteur in segment.flotteurSegments %}
+														{% set distanceDeDepart = flotteur.distanceDeDepart %}
+														{% for i in range(1, flotteur.nombre) %}
+															{% if distanceDeDepart >= distanceSurSegment and distanceDeDepart < distance10Emplacement %}
+																<span>
+																	<b>{{ flotteur.flotteur.nomFlotteur }}</b>
+																	distance:
+																	{{ distanceDeDepart }}
+																	volume:
+																	{{ flotteur.flotteur.volume }}
+																	kgf:
+																	{{ flotteur.flotteur.kgf }}
+																	<br/>
+																</span>
+															{% endif %}
+															{% set distanceDeDepart = flotteur.distanceDeDepart + (i * flotteur.pas) %}
+														{% endfor %}
+													{% endfor %}
+												</td>
+											{% endif %}
+											<td>{{ emplacement.place }}
+												{% for stockCorde in emplacement.stockCordes %}
+													<br>{{ stockCorde.id }}
+												{% endfor %}
+											</td>
+											{% if loop.index0 % 10 == 9 or loop.last %}
+												{% set distanceSurSegment = distanceSurSegment + (segment.pas * 10) %}
+											</tr>
+										{% endif %}
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</li>
+
 				</ol>
 			</li>
+
 		{% endfor %}
 	</ol>
-
 </div>

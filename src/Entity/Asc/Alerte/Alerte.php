@@ -30,6 +30,10 @@ abstract class Alerte
      */
     private $avantNombreAnnee;
 
+    public function    __toString()
+    {
+        return $this->nomAlerte;
+    }
 
 
 

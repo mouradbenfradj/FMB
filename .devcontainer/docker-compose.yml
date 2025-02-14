@@ -11,13 +11,13 @@ services:
       - "3309:3306"
     networks:
       - dev
-  oyster:
-    image: mysql:5.7
-    container_name: db_oyster
+  oysterpro:
+    image: mysql:5.5
+    container_name: db_oysterpro
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "mourad"
-      MYSQL_DATABASE: oyster
+      MYSQL_DATABASE: oysterpro
     ports:
       - "3307:3306"
     networks:
@@ -28,11 +28,11 @@ services:
     restart: always
     depends_on:
       - database
-      - oyster
+      - oysterpro
     ports:
       - "8080:80"
     environment:
-      PMA_HOSTS: database,oyster
+      PMA_HOSTS: database,oysterpro
       PMA_PORT: 3309
     networks:
       - dev
@@ -56,8 +56,14 @@ services:
     restart: always
     networks:
       - dev
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
 networks:
   dev:
+
 
 volumes:
   db-data:

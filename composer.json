@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "amphp/http-client": "4.2.1",
+        "api-platform/core": "^2.7",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
@@ -53,6 +54,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "config": {
+        "process-timeout": 100000,
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "php-http/discovery": true,

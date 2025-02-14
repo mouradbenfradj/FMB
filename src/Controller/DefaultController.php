@@ -18,11 +18,11 @@ class DefaultController extends AbstractController
      */
     public function indexNoLocale(Request $request, int $parcID = 0): Response
     {
-        return $this->redirectToRoute('app_default', ['_locale' => $request->getLocale(), 'parcID' => $parcID]);
+        return $this->redirectToRoute('app_statistique', ['_locale' => $request->getLocale(), 'parcID' => $parcID]);
     }
 
     /**
-     * @Route("/stat/{_locale}/{parcID<\d+>}", name="app_default", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/statd/{_locale}/{parcID<\d+>}", name="app_default", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
      */
     public function index(int $parcID = 0, ConteneurService $conteneurService): Response
     {
@@ -40,5 +40,13 @@ class DefaultController extends AbstractController
         return $this->render('default/alerte-de-travaille.html.twig', [
             'id' => $id
         ]);
+    }
+
+    /**
+     * @Route("/vue", name="vue_app")
+     */
+    public function vueApp(): Response
+    {
+        return $this->render('vue_template.html.twig');
     }
 }

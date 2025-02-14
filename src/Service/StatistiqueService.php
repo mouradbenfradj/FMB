@@ -22,6 +22,7 @@ class StatistiqueService
     {
         return $this->statistiqueInterface->total($parcId);
     }
+
     public function aEau(?int $parcId = 0, ?int $article = null): int
     {
         return $this->statistiqueInterface->aEau($parcId, $article);

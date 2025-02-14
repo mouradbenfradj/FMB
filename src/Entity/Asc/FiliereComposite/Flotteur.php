@@ -2,14 +2,14 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
- 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\Asc\FiliereComposite\FlotteurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  
+ * @ApiResource      
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=FlotteurRepository::class)
  */
@@ -46,6 +46,19 @@ class Flotteur
      */
     private $flotteurSegments;
 
+
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function calculerKgf()
+    {
+        $this->kgf = $this->volume * $this->taux;
+    }
+
+
+
     public function __construct()
     {
         $this->flotteurSegments = new ArrayCollection();
@@ -55,16 +68,12 @@ class Flotteur
     {
         return $this->nomFlotteur;
     }
-    public function initFlotteur(string $nomFlotteur)
+    public function initFlotteur(string $nomFlotteur, int $volume, float $taux, float $kgf)
     {
         $this->nomFlotteur = $nomFlotteur;
-    }
-    /**
-     * @ORM\PrePersist
-     */
-    public function calculeKfg()
-    {
-        $this->kgf = $this->volume * $this->taux;
+        $this->volume = $volume;
+        $this->taux = $taux;
+        $this->kgf = $kgf;
     }
 
     public function getId(): ?int

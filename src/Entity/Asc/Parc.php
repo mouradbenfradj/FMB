@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc;
 
- 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Asc\Conteneur\Corde;
 use App\Entity\Asc\Conteneur\Lanterne;
 use App\Entity\Asc\FiliereComposite\Filiere;
@@ -12,8 +12,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
-  
+ * @ApiResource
  * @ORM\Entity(repositoryClass=ParcRepository::class)
  */
 class Parc

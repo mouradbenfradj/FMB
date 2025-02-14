@@ -43,6 +43,6 @@ class ParcExtension extends AbstractExtension
         if ($desiredParc) {
             return $desiredParc->getAbrevParc();
         }
-        return "Tous les parcs";
+        return "Tous.les.parcs";
     }
 }

@@ -1,9 +1,10 @@
 sonata_user:
     mailer: sonata.user.mailer.default # Service used to send emails
     security_acl: false
+    manager_type: orm # can be orm or mongodb
 
     impersonating:
-        route: app_default
+        route: app_statistique
         parameters: { path: / }
     class:
         user: App\Entity\Asc\SonataUserUser
@@ -11,6 +12,6 @@ sonata_user:
         email:
             template: "@SonataUser/Admin/Security/Resetting/email.html.twig"
             address: sonata@localhost
-            sender_name: Sonata Admin
+            sender_name: ASC
     profile:
         default_avatar: build/images/favicon.ico

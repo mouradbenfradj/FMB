@@ -39,7 +39,7 @@ class Stock
     private $actif;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Parc::class, inversedBy="stocks")
+     * @ORM\ManyToOne(targetEntity=Parc::class, inversedBy="stocks", cascade={"persist"})
      */
     private $parc;
 

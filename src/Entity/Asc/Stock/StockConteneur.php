@@ -14,6 +14,14 @@ abstract class StockConteneur
      * @ORM\Column(type="integer")
      */
     private $quantiter;
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $poid;
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $longeur;
 
     /**
      * @ORM\Column(type="boolean")
@@ -174,6 +182,29 @@ abstract class StockConteneur
     public function setDatechaussement(?\DateTimeInterface $datechaussement): self
     {
         $this->datechaussement = $datechaussement;
+
+        return $this;
+    }
+
+    public function getPoid(): ?float
+    {
+        return $this->poid;
+    }
+
+    public function setPoid(float $poid): self
+    {
+        $this->poid = $poid;
+
+        return $this;
+    }
+    public function getLongeur(): ?float
+    {
+        return $this->longeur;
+    }
+
+    public function setLongeur(float $longeur): self
+    {
+        $this->longeur = $longeur;
 
         return $this;
     }

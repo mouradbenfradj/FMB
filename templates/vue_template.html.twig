@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="utf-8" />
+        <title>{% block title %}Logiciel ASC by TAC & SIDRATSOFT{% endblock %}</title>        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="" name="description" />
+        <meta content="ASC" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    		<link rel="shortcut icon" href="{{ asset('build/images/favicon.ico') }}">
+        {% block stylesheets %}
+        {{ encore_entry_link_tags('vue') }}
+			    <link href="{{ asset('build/css/bootstrap-creative-dark.min.css') }}" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" disabled/>
+			    <link href="{{ asset('build/css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/css" id="app-dark-stylesheet" disabled/>
+		    {% endblock %}
+    </head>
+
+    <body data-layout-mode="horizontal" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
+ <div id="app"></div>
+    {% block javascripts %}
+    {{ encore_entry_script_tags('vue') }}
+		{% endblock %}
+  </body>
+</html>

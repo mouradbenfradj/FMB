@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
- 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Asc\Conteneur\Corde;
 use App\Entity\Asc\Conteneur\Lanterne;
 use App\Entity\Asc\Conteneur\Poche;
@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  
+ * @ApiResource      
  * @ORM\Entity(repositoryClass=EmplacementRepository::class)
  */
 class Emplacement
@@ -36,17 +36,16 @@ class Emplacement
     private $dateRemplissage;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Segment::class, inversedBy="emplacements")
+     * @ORM\ManyToOne(targetEntity=Segment::class, inversedBy="emplacements",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $segment;
-
-    private $flotteur;
 
     /**
      * @ORM\OneToMany(targetEntity=StockCorde::class, mappedBy="emplacement")
      */
     private $stockCordes;
+
 
     public function __construct()
     {
@@ -67,8 +66,9 @@ class Emplacement
      * @param integer $place
      * @return void
      */
-    public function initEmplacement(int $place)
+    public function initEmplacement(Segment $segment, int $place)
     {
+        $this->segment = $segment;
         $this->place = $place;
     }
     /**
@@ -148,28 +148,6 @@ class Emplacement
         return $this;
     }
 
-    /**
-     * Undocumented function
-     *
-     * @return FlotteurSegment|null
-     */
-    public function getFlotteur(): ?FlotteurSegment
-    {
-        return $this->flotteur;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param FlotteurSegment|null $flotteur
-     * @return self
-     */
-    public function setFlotteur(?FlotteurSegment $flotteur): self
-    {
-        $this->flotteur = $flotteur;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, StockCorde>

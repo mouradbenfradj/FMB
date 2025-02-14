@@ -2,14 +2,14 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
- 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\Asc\FiliereComposite\SegmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  
+ * @ApiResource    
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=SegmentRepository::class)
  */
@@ -60,6 +60,65 @@ class Segment
         $this->flotteurSegments = new ArrayCollection();
     }
 
+    public function getFlottabiliter(): float
+    {
+        $somme = 0;
+        foreach ($this->flotteurSegments as $flotteurSegment) {
+            $nombre = $flotteurSegment->getNombre();
+
+            for ($i = 0; $i < $nombre; $i++) {
+                $somme += $flotteurSegment->getFlotteur()->getKgf();
+            }
+        }
+        if (!$somme) {
+            return 1;
+        }
+        return $somme;
+    }
+
+    public function getVolumesTotale(): float
+    {
+        $somme = 0;
+        foreach ($this->flotteurSegments as $flotteurSegment) {
+            $nombre = $flotteurSegment->getNombre();
+
+            for ($i = 0; $i < $nombre; $i++) {
+                $somme += $flotteurSegment->getFlotteur()->getVolume();
+            }
+        }
+        if (!$somme) {
+            return 1;
+        }
+        return $somme;
+    }
+
+    public function getNombreEmplacements(): int
+    {
+        return count($this->getEmplacements());
+    }
+    public function getTotaleCordes(): int
+    {
+        $somme = 0;
+
+        foreach ($this->getEmplacements() as $emplacement) {
+            if (count($emplacement->getStockCordes()))
+                $somme += 1;
+        }
+
+        return $somme;
+    }
+    public function getPoidCordes(): int
+    {
+        $somme = 0;
+
+        foreach ($this->getEmplacements() as $emplacement) {
+            foreach ($emplacement->getStockCordes() as $stockCordes) {
+                $somme += $stockCordes->getPoid();
+            }
+        }
+
+        return $somme;
+    }
     public function __toString(): string
     {
         return $this->nomSegment;

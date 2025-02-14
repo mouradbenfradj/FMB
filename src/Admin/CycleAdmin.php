@@ -13,21 +13,21 @@ final class CycleAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('id');
+        $form->add('id')->add('processus')->add('processus')->add('nomCycle')->add('alerteVert')->add('alerteJaune')->add('alerteRouge')->add('numDebCycle')->add('numFinCycle')->add('couleurTexte')->add('couleurFondText');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id');
+        $datagrid->add('id')->add('processus')->add('nomCycle')->add('alerteVert')->add('alerteJaune')->add('alerteRouge')->add('numDebCycle')->add('numFinCycle')->add('couleurTexte')->add('couleurFondText');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id');
+        $list->addIdentifier('id')->add('processus')->add('nomCycle')->add('alerteVert')->add('alerteJaune')->add('alerteRouge')->add('numDebCycle')->add('numFinCycle')->add('couleurTexte')->add('couleurFondText');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id');
+        $show->add('id')->add('processus')->add('nomCycle')->add('alerteVert')->add('alerteJaune')->add('alerteRouge')->add('numDebCycle')->add('numFinCycle')->add('couleurTexte')->add('couleurFondText');
     }
 }

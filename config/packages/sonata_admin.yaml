@@ -28,15 +28,6 @@ services:
                   label: Stock,
                   group: Stockage,
               }
-    admin.articles:
-        class: App\Admin\ArticlesAdmin
-        tags:
-            - {
-                  name: sonata.admin,
-                  model_class: App\Entity\Asc\Articles,
-                  manager_type: orm,
-                  label: Article,
-              }
     admin.corde:
         class: App\Admin\CordeAdmin
         tags:
@@ -54,7 +45,17 @@ services:
                   name: sonata.admin,
                   model_class: App\Entity\Asc\FruitDeMer,
                   manager_type: orm,
-                  label: FruitDeMer,
+                  label: ESPECE,
+              }
+
+    admin.articles:
+        class: App\Admin\ArticlesAdmin
+        tags:
+            - {
+                  name: sonata.admin,
+                  model_class: App\Entity\Asc\Articles,
+                  manager_type: orm,
+                  label: Article,
               }
     admin.lanterne:
         class: App\Admin\LanterneAdmin

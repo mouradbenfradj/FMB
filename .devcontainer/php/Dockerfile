@@ -1,7 +1,7 @@
 FROM php:7.4-apache
 
 # Configuration de l'Apache
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN echo "ServerName asc" >> /etc/apache2/apache2.conf
 
 # Installation des dépendances
 RUN apt-get update \
@@ -23,6 +23,12 @@ RUN service apache2 restart
 # Installation de Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Installation de Symfony CLI
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+RUN mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
+
+
+# Install Node.js
 # Installation de Node.js et Yarn
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \

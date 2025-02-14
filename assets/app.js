@@ -1,8 +1,9 @@
 import './styles/app.css';
-import 'jquery';
+import $ from 'jquery';
 import 'bootstrap';
-import 'simplebar';
-import waypoint from 'waypoints/lib/jquery.waypoints.js';
+import SimpleBar from 'simplebar';
+import 'waypoints/lib/jquery.waypoints.js';
+
 import 'node-waves';
-import 'classnames';
+import classNames from 'classnames';
 import './js/app.min';
