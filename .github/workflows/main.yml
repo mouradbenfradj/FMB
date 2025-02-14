@@ -45,6 +45,7 @@ jobs:
       - name: assets:install
         run: |
           DATABASE_URL="sqlite://:memory:" php bin/console assets:install --symlink --no-debug
+          OYSTERPRO_DATABASE_URL="sqlite://:memory:" php bin/console assets:install --symlink --no-debug
 
       - name: Build assets with Yarn
         run: |
