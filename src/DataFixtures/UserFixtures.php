@@ -24,6 +24,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setUsername('mourad');
         $user->setEmail('mourad.ben.fradj@gmail.com');
         $user->setRoles(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN']);
+        $user->setEnabled(true); // Assurez-vous que cette méthode existe dans votre entité
 
         // encode the plain password
         $user->setPassword($this->passwordHasher->hashPassword(

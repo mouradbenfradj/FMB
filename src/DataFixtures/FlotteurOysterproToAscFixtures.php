@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Asc\FiliereComposite\Flotteur;
-use App\Entity\Asc\FiliereComposite\FlotteurSegment;
 use App\Service\Cache\ParcCacheService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -29,19 +28,28 @@ class FlotteurOysterproToAscFixtures extends Fixture implements FixtureGroupInte
         $this->parcCacheService->deleteParcCache();
         $flotteursData = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM flotteur');
         $arrayFlotteur = [];
+
         foreach ($flotteursData as $flotteurData) {
-            $segment = $this->getReference('segment' . $flotteurData['segment_id']);
             if (!isset($arrayFlotteur[substr($flotteurData['nomFlotteur'], 0, 1)])) {
                 $flotteur = new Flotteur();
-                $flotteur->initFlotteur(substr($flotteurData['nomFlotteur'], 0, 1), 0, 0, 0);
-                $arrayFlotteur[substr($flotteurData['nomFlotteur'], 0, 1)] = $flotteur;
-            }
+                $nomFlotteur = substr($flotteurData['nomFlotteur'], 0, 1);
+                switch ($nomFlotteur) {
+                    case 'A':
+                        $flotteur->initFlotteur($nomFlotteur, 200, 2, 400);
+                        break;
+                    case 'B':
+                        $flotteur->initFlotteur($nomFlotteur, 50, 2.5, 125);
+                        break;
 
-            $flotteurSegment = new FlotteurSegment();
-            $flotteurSegment->initFlotteurSegment($segment, $arrayFlotteur[substr($flotteurData['nomFlotteur'], 0, 1)], 1, 0, 10);
-            $manager->getClassMetadata(get_class($flotteur))->setLifecycleCallbacks(array());
-            $manager->persist($flotteur);
-            $manager->persist($flotteurSegment);
+                    default:
+                        $flotteur->initFlotteur($nomFlotteur, 0, 0, 0);
+                        break;
+                }
+                $manager->getClassMetadata(get_class($flotteur))->setLifecycleCallbacks(array());
+                $manager->persist($flotteur);
+                $arrayFlotteur[$nomFlotteur] = $flotteur;
+                $this->addReference('flotteur' . $nomFlotteur, $flotteur);
+            }
         }
 
         $this->ascManager->flush();

@@ -1,0 +1,54 @@
+<div class="custom-dd dd nestable_list_1" id="nestable_list_1">
+  <ol class="dd-list">
+    {% for segment in filiere.segments %}
+      <li class="dd-item">
+        <div class="dd-handle">
+          Segment {{ segment.nomSegment }}
+          <table class="table table-striped mb-0">
+            <tbody>
+              {# Itérer par plages de 10 emplacements sans chevauchement #}
+              {% for i in range(0, segment.longeur / segment.pas, 10) %}
+                <tr>
+                  <td>
+                    {# Afficher les flotteurs dans cette plage de 10 emplacements #}
+                    {% set flotteursDansPlage = [] %}
+                    {% for flotteur in segment.flotteurSegments %}
+                      {% set emplacementIndex = flotteur.distanceDeDepart / segment.pas %}
+                      {% if emplacementIndex >= i and emplacementIndex < i + 10 %}
+                        {% set flotteursDansPlage = flotteursDansPlage|merge([flotteur]) %}
+                      {% endif %}
+                    {% endfor %}
+                    {% if flotteursDansPlage is not empty %}
+                      {% for flotteur in flotteursDansPlage %}
+                        {{ flotteur.flotteur.nomFlotteur }} ({{ flotteur.distanceDeDepart }})<br />
+                      {% endfor %}
+                    {% else %}
+                      Aucun flotteur
+                    {% endif %}
+                  </td>
+
+                  {% for j in range(i, i + 9) %}
+                    {% if j < segment.longeur / segment.pas and segment.emplacements[j] is defined %}
+                      {% set emplacement = segment.emplacements[j] %}
+                      {% set emplacementOccupe = false %}
+                      {% for flotteur in segment.flotteurSegments %}
+                        {% set emplacementIndex = flotteur.distanceDeDepart / segment.pas %}
+                        {% if emplacementIndex == j %}
+                          {% set emplacementOccupe = true %}
+                        {% endif %}
+                      {% endfor %}
+                      {# Afficher l'emplacement avec emplacement.place #}
+                      <td>
+                        <span style="color: {{ emplacementOccupe ? 'red' : 'black' }};">{{ emplacement.place }}</span>
+                      </td>
+                    {% endif %}
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </li>
+    {% endfor %}
+  </ol>
+</div>

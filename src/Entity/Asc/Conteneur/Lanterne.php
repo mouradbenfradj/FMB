@@ -2,13 +2,12 @@
 
 namespace App\Entity\Asc\Conteneur;
 
- 
+
 use App\Entity\Asc\Parc;
 use App\Repository\Asc\Conteneur\LanterneRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  
  * @ORM\Entity(repositoryClass=LanterneRepository::class)
  */
 class Lanterne  extends Conteneur
@@ -21,7 +20,7 @@ class Lanterne  extends Conteneur
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Parc::class, inversedBy="lanternes")
+     * @ORM\ManyToOne(targetEntity=Parc::class, inversedBy="lanternes",cascade={"persist"})
      */
     private $parc;
 

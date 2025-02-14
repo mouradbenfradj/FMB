@@ -2,7 +2,7 @@
 
 namespace App\Entity\Asc\Stock;
 
- 
+
 use App\Entity\Asc\Conteneur\Corde;
 use App\Entity\Asc\FiliereComposite\Emplacement;
 use App\Interfaces\Visiteur\Operation\EntityInterface;
@@ -22,8 +22,6 @@ class StockCorde extends StockConteneur implements EntityInterface
      * @ORM\Column(type="integer")
      */
     private $id;
-
-
 
     /**
      * @ORM\ManyToOne(targetEntity=Corde::class, inversedBy="stockCordes")
@@ -62,28 +60,16 @@ class StockCorde extends StockConteneur implements EntityInterface
         return $this;
     }
 
-    public function accept(OperationInterface $operationInterface)
-    {
-    }
+    public function accept(OperationInterface $operationInterface) {}
     public function preparation(OperationInterface $operationInterface)
     {
         $operationInterface->preparationCorde($this);
     }
-    public function assemblage(OperationInterface $operationInterface)
-    {
-    }
-    public function miseAEau(OperationInterface $operationInterface)
-    {
-    }
-    public function chaussage(OperationInterface $operationInterface)
-    {
-    }
-    public function retraitTransfert(OperationInterface $operationInterface)
-    {
-    }
-    public function traitementCommerciale(OperationInterface $operationInterface)
-    {
-    }
+    public function assemblage(OperationInterface $operationInterface) {}
+    public function miseAEau(OperationInterface $operationInterface) {}
+    public function chaussage(OperationInterface $operationInterface) {}
+    public function retraitTransfert(OperationInterface $operationInterface) {}
+    public function traitementCommerciale(OperationInterface $operationInterface) {}
 
     public function getStockArticleSn(): ?StockArticleSn
     {

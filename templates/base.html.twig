@@ -9,9 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
 		<meta content="Coderthemes" name="author"/>
-		<meta
-		http-equiv="X-UA-Compatible" content="IE=edge"/>
-		<!-- App favicon -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<link rel="shortcut icon" href="{{ asset('build/images/favicon.ico') }}">
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
@@ -19,59 +17,25 @@
 			<link href="{{ asset('build/css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/css" id="app-dark-stylesheet" disabled/>
 		{% endblock %}
 	</head>
-
-	<body
-		data-layout-mode="horizontal" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
-
-		<!-- Begin page -->
-		<div
-			id="wrapper">
-
-			<!-- Topbar Start -->
+	<body data-layout-mode="horizontal" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
+		<div id="wrapper">
 			{% include '_topbar.html.twig' with {parcID: parcID} only %}
-			<!-- end Topbar -->
 			{% include '_topnav.html.twig' only %}
-			<!-- ============================================================== -->
-			<!-- Start Page Content here -->
-			<!-- ============================================================== -->
-				<div class="content-page"> <div
-					class="content">
-					<!-- Start Content-->
-					<div
-						class="container-fluid">
+			<div class="content-page">
+				<div class="content">
+					<div class="container-fluid"> {% block body %}{% endblock %}
+						</div>
 
-						<!-- end page title -->
-						{% block body %}{% endblock %}
 					</div>
-					<!-- container -->
-
+					{% include '_footer.html.twig' only %}
 				</div>
-				<!-- content -->
-
-				<!-- Footer Start -->
-				{% include '_footer.html.twig' only %}
-				<!-- end Footer -->
-
 			</div>
+			{% include '_sidebar.html.twig' only %}
+			<div class="rightbar-overlay"></div>
+			{% block javascripts %}
 
-			<!-- ============================================================== -->
-		<!-- End Page content -->
-			<!-- ============================================================== -->
+				{{ encore_entry_script_tags('app') }}
 
-
-		</div>
-		<!-- END wrapper -->
-
-		<!-- Right Sidebar -->
-		{% include '_sidebar.html.twig' only %}<!-- /Right-bar -->
-
-		<!-- Right bar overlay--><div class="rightbar-overlay"> </div>
-
-		<!-- Vendor js -->
-
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-		{% endblock %}
-
-	</body>
-</html>
+			{% endblock %}
+		</body>
+	</html>

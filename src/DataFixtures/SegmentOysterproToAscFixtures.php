@@ -28,16 +28,18 @@ class SegmentOysterproToAscFixtures extends Fixture implements FixtureGroupInter
         $this->parcCacheService->deleteParcCache();
         $segmentsData = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM segment');
         foreach ($segmentsData as $segmentData) {
+            $flotteursCount = $this->oysterProManager->getConnection()->fetchOne('SELECT COUNT(*) FROM flotteur WHERE segment_id = ' . $segmentData['id']);
+
             $segment = new Segment();
             $filiere = $this->getReference('filiere' . $segmentData['filiere_id']);
-            $segment->initSegment($filiere, $segmentData['nomSegment'],0, $segmentData['longeur']);
+            $pasEmplacement = $segmentData['longeur'] / ($flotteursCount * 10);
+            $segment->initSegment($filiere, $segmentData['nomSegment'], $pasEmplacement, $segmentData['longeur']);
             $manager->getClassMetadata(get_class($segment))->setLifecycleCallbacks(array());
             $manager->persist($segment);
             $this->addReference('segment' . $segmentData['id'], $segment);
         }
         $this->ascManager->flush();
     }
-
     public function getDependencies()
     {
         return array(

@@ -13,21 +13,21 @@ final class PocheAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('position')->add('piece')->add('emplacement');
+        $form->add('parc')->add('quantiter')->add('nom');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id')->add('position')->add('piece')->add('emplacement');
+        $datagrid->add('parc')->add('quantiter')->add('nom');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('position')->add('piece')->add('emplacement');
+        $list->addIdentifier('id')->add('parc')->add('quantiter')->add('nom');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('id')->add('position')->add('piece')->add('emplacement');
+        $show->add('parc')->add('quantiter')->add('nom');
     }
 }

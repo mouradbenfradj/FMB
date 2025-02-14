@@ -34,7 +34,7 @@ class todelete
         $menu = $this->_factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav');
         $parcs = $this->_parcCacheService->findAllFromParcCache();
-        $menu->addChild('Statistiques', ['route' => 'app_default', 'routeParameters' => ['parcID' => $requestStack->getCurrentRequest()->get('parcID')]])
+        $menu->addChild('Tableau de bord', ['route' => 'app_default', 'routeParameters' => ['parcID' => $requestStack->getCurrentRequest()->get('parcID')]])
             ->setAttribute('class', 'nav-item dropdown')
             ->setLinkAttributes(
                 [
@@ -46,7 +46,7 @@ class todelete
                     'role' => 'button',
                 ]
             )
-            ->setLabel('<i class="fe-anchor mr-1"></i> Statistiques '/* <div class="arrow-down"></div> */)
+            ->setLabel('<i class="fe-anchor mr-1"></i> Tableau de bord '/* <div class="arrow-down"></div> */)
             ->setExtra('safe_label', true);
 
 
@@ -95,23 +95,25 @@ class todelete
                     'aria-labelledby' => 'topnav-topnav-prod_a_faire'
                 ]
             );
-        foreach (array_merge(
-            [
-                ['Préparation', 'app_preparation', 'dropdown-item', null],
-                ['Assemblage', 'app_assemblage', 'dropdown-item', null]
-            ],
-            array_filter(array_map($subMenuEtatMAEActuelProd, $conteneurs)),
-            [
-                ['MAE Assemblages', 'app_mise_a_eau', 'dropdown-item', null],
-                ['MAE Poches', 'app_mise_a_eau', 'dropdown-item', null],
-                ['Passage Chaussettes', 'app_chaussement', 'dropdown-item', null],
-                ['Retrait Transfert', 'app_retrait', 'dropdown-item', null],
-                ['Retrait AW Lanternes', 'app_retrait', 'dropdown-item', null],
-                ['Retrait AW Cordes', 'app_retrait', 'dropdown-item', null],
-                ['Traitement Comercial', 'app_commerciale', 'dropdown-item', null]
+        foreach (
+            array_merge(
+                [
+                    ['Préparation', 'app_preparation', 'dropdown-item', null],
+                    ['Assemblage', 'app_assemblage', 'dropdown-item', null]
+                ],
+                array_filter(array_map($subMenuEtatMAEActuelProd, $conteneurs)),
+                [
+                    ['MAE Assemblages', 'app_mise_a_eau', 'dropdown-item', null],
+                    ['MAE Poches', 'app_mise_a_eau', 'dropdown-item', null],
+                    ['Passage Chaussettes', 'app_chaussement', 'dropdown-item', null],
+                    ['Retrait Transfert', 'app_retrait', 'dropdown-item', null],
+                    ['Retrait AW Lanternes', 'app_retrait', 'dropdown-item', null],
+                    ['Retrait AW Cordes', 'app_retrait', 'dropdown-item', null],
+                    ['Traitement Comercial', 'app_commerciale', 'dropdown-item', null]
 
-            ]
-        ) as $item) {
+                ]
+            ) as $item
+        ) {
             $menu['Prod à faire']->addChild($item[0], [
                 'route' => $item[1],
                 'routeParameters' => ['parcID' =>  $item[3]]
@@ -173,7 +175,7 @@ class todelete
             'Alertes de travail',
             'topnav-alertes-de-travail',
             'fe-alert-triangle',
-            array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
+            array_map(fn($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
         );
 
         $this->addDropdownMenuItem(
@@ -181,7 +183,7 @@ class todelete
             'Prod par cycle',
             'topnav-prod-par-cycle',
             'fe-clock',
-            array_map(fn ($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
+            array_map(fn($parc): array => [$parc->getAbrevParc(), 'app_default', 'dropdown-item', $parc->getId()], $parcs)
         );
 
         $this->addDropdownMenuItem(

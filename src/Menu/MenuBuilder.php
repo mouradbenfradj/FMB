@@ -33,13 +33,20 @@ class MenuBuilder
     {
         $menu = $this->_factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav');
-        $parcs = $this->_parcCacheService->findAllFromParcCache();
+        //$parcs = $this->_parcCacheService->findAllFromParcCache();
+        $parcID = $requestStack->getCurrentRequest()->get('parcID');
+
+        if ($parcID instanceof Parc) {
+            $parcID = $parcID->getId();
+        } else {
+            $parcID = $parcID;
+        }
         $menu->addChild(
-            'Statistiques',
+            'Tableau de bord',
             [
                 'route' => 'app_statistique',
                 'routeParameters' => [
-                    'parcID' => $requestStack->getCurrentRequest()->get('parcID')
+                    'parcID' =>  $parcID
                 ]
             ]
         )
@@ -54,12 +61,17 @@ class MenuBuilder
                     'role' => 'button',
                 ]
             )
-            ->setLabel('<i class="fe-anchor mr-1"></i> Statistiques '/* <div class="arrow-down"></div> */)
+            ->setLabel('<i class="fe-anchor mr-1"></i> Tableau de bord '/* <div class="arrow-down"></div> */)
             ->setExtra('safe_label', true);
-        if ($requestStack->getCurrentRequest()->get('parcID') != 0) {
+        if ($parcID != 0) {
             $menu->addChild(
                 'Etat Actuel Prod',
-                ['route' => 'app_etat_actuel_prod', 'routeParameters' => ['parcID' => $requestStack->getCurrentRequest()->get('parcID')]]
+                [
+                    'route' => 'app_etat_actuel_prod',
+                    'routeParameters' => [
+                        'parcID' =>  $parcID
+                    ]
+                ]
             )
                 ->setAttribute('class', 'nav-item dropdown')
                 ->setLinkAttributes(
@@ -80,7 +92,7 @@ class MenuBuilder
             if ($conteneur != 'Poche')
                 return ['MAE ' . $conteneur . 's', 'app_default', 'dropdown-item', null];
         };
-        if ($requestStack->getCurrentRequest()->get('parcID') != 0) {
+        if ($parcID != 0) {
             $menu->addChild('Prod à faire')
                 ->setAttribute('class', 'nav-item dropdown')
                 ->setUri("#")
@@ -102,26 +114,32 @@ class MenuBuilder
                     ]
                 );
 
-            foreach (array_merge(
-                [
-                    ['Préparation', 'app_preparation', 'dropdown-item', null],
-                    ['Assemblage', 'app_assemblage', 'dropdown-item', null]
-                ],
-                array_filter(array_map($subMenuEtatMAEActuelProd, $conteneurs)),
-                [
-                    ['MAE Assemblages', 'app_mise_a_eau', 'dropdown-item', null],
-                    ['MAE Poches', 'app_mise_a_eau', 'dropdown-item', null],
-                    ['Passage Chaussettes', 'app_chaussement', 'dropdown-item', null],
-                    ['Retrait Transfert', 'app_retrait', 'dropdown-item', null],
-                    ['Retrait AW Lanternes', 'app_retrait', 'dropdown-item', null],
-                    ['Retrait AW Cordes', 'app_retrait', 'dropdown-item', null],
-                    ['Traitement Comercial', 'app_commerciale', 'dropdown-item', null]
+            foreach (
+                array_merge(
+                    [
+                        ['Préparation Corde', 'app_preparation_corde', 'dropdown-item', null],
+                        ['Préparation Lanterne', 'app_preparation_lanterne', 'dropdown-item', null],
+                        ['Préparation Poche', 'app_preparation_poche', 'dropdown-item', null],
+                        ['Assemblage', 'app_assemblage', 'dropdown-item', null]
+                    ],
+                    array_filter(array_map($subMenuEtatMAEActuelProd, $conteneurs)),
+                    [
+                        ['MAE Assemblages', 'app_mise_a_eau', 'dropdown-item', null],
+                        ['MAE Poches', 'app_mise_a_eau', 'dropdown-item', null],
+                        ['Passage Chaussettes', 'app_chaussement', 'dropdown-item', null],
+                        ['Retrait Transfert', 'app_retrait', 'dropdown-item', null],
+                        ['Retrait AW Lanternes', 'app_retrait', 'dropdown-item', null],
+                        ['Retrait AW Cordes', 'app_retrait', 'dropdown-item', null],
+                        ['Traitement Comercial', 'app_commerciale', 'dropdown-item', null]
 
-                ]
-            ) as $item) {
+                    ]
+                ) as $item
+            ) {
                 $menu['Prod à faire']->addChild($item[0], [
                     'route' => $item[1],
-                    'routeParameters' => ['parcID' =>  $item[3]]
+                    'routeParameters' => [
+                        'parcID' =>  $parcID
+                    ]
                 ])->setLinkAttribute('class', $item[2]);
             }
 
@@ -129,12 +147,9 @@ class MenuBuilder
                 'Alertes de travail',
                 [
                     'route' => 'app_alertes_de_travail',
-                    /* 'routeParameters' => [
-                    'parcID' => $requestStack->getCurrentRequest()->get('parcID')
-                ] */
+                    'routeParameters' => ['parcID' =>   $parcID]
                 ]
-            )
-                ->setAttribute('class', 'nav-item dropdown')
+            )->setAttribute('class', 'nav-item dropdown')
                 ->setLinkAttributes(
                     [
                         'class' => 'nav-link dropdown-toggle arrow-none',
@@ -153,7 +168,7 @@ class MenuBuilder
                 [
                     'route' => 'app_prod_par_cycle',
                     /* 'routeParameters' => [
-                    'parcID' => $requestStack->getCurrentRequest()->get('parcID')
+                    'parcID' =>  $parcID
                 ] */
                 ]
             )
@@ -178,9 +193,9 @@ class MenuBuilder
             'topnav-outils-de-gestion',
             'fe-bar-chart-2',
             [
-                ['Historique des opérations', 'app_historique', 'dropdown-item', $requestStack->getCurrentRequest()->get('parcID')],
-                ['Détail tâches effectuées', 'app_historique', 'dropdown-item', $requestStack->getCurrentRequest()->get('parcID')],
-                ['Prévisions des sorties', 'app_prevision', 'dropdown-item', $requestStack->getCurrentRequest()->get('parcID')],
+                ['Historique des opérations', 'app_historique', 'dropdown-item',  $parcID],
+                ['Détail tâches effectuées', 'app_historique', 'dropdown-item',  $parcID],
+                ['Prévisions des sorties', 'app_prevision', 'dropdown-item',  $parcID],
             ]
         );
 

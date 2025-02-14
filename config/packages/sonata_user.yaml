@@ -1,6 +1,7 @@
 sonata_user:
     mailer: sonata.user.mailer.default # Service used to send emails
     security_acl: false
+    manager_type: orm # can be orm or mongodb
 
     impersonating:
         route: app_statistique

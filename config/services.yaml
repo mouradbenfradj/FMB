@@ -8,44 +8,117 @@ parameters:
 services:
     # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
+        autowire: true # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/'
+        resource: "../src/"
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+            - "../src/DependencyInjection/"
+            - "../src/Entity/"
+            - "../src/Kernel.php"
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\DataFixtures\AppFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\AlerteJauneFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\AlerteRougeFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\AlerteVertFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\ArticleFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\CordeFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\CycleFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\LanterneFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\PocheFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\ProcessusFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\StockArticleFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\StockArticleSnFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\StockLanterneFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\StockCordeFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+
     App\DataFixtures\ParcOysterproToAscFixtures:
         arguments:
-            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
-            $ascManager: '@doctrine.orm.default_entity_manager'
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
     App\DataFixtures\FiliereOysterproToAscFixtures:
         arguments:
-            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
-            $ascManager: '@doctrine.orm.default_entity_manager'
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
     App\DataFixtures\SegmentOysterproToAscFixtures:
         arguments:
-            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
-            $ascManager: '@doctrine.orm.default_entity_manager'
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
     App\DataFixtures\FlotteurOysterproToAscFixtures:
         arguments:
-            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
-            $ascManager: '@doctrine.orm.default_entity_manager'
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\FlotteurSegmentOysterproToAscFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
     App\DataFixtures\EmplacementOysterproToAscFixtures:
         arguments:
-            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
-            $ascManager: '@doctrine.orm.default_entity_manager'
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\FruitDeMerFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
     App\DataFixtures\StockOysterproToAscFixtures:
         arguments:
-            $oysterProManager: '@doctrine.orm.oysterpro_entity_manager'
-            $ascManager: '@doctrine.orm.default_entity_manager'
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\StockPocheFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
+    App\DataFixtures\PhaseFixtures:
+        arguments:
+            $oysterProManager: "@doctrine.orm.oysterpro_entity_manager"
+            $ascManager: "@doctrine.orm.default_entity_manager"
 
     app.menu_builder:
         class: App\Menu\MenuBuilder
@@ -57,3 +130,13 @@ services:
         arguments: ["@request_stack"]
         tags:
             - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
+
+    App\Entity\Asc\Parc:
+        class: App\Entity\Asc\Parc
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
+    twig_renderer:
+        class: App\Renderer\TwigRenderer
+        arguments:
+            - "@twig"

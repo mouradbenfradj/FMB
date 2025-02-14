@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+  <!-- Form row -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          {# 
+          <h4 class="header-title">Form row</h4>
+          <p class="text-muted font-13">
+            You may also swap
+            <code class="highlighter-rouge">.row</code>
+            for
+            <code class="highlighter-rouge">.form-row</code>, a variation of our standard grid row that overrides the default column gutters for tighter and more compact layouts.
+          </p> #}
+
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="inputState" class="col-form-label">Le stock qui contient vos articles</label>
+                <select id="inputState" class="form-control">
+                  <option value="1">Stock Parc FMB</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="inputState" class="col-form-label">choix du Corde</label>
+                <select id="inputState" class="form-control">
+                  <option value="CORDE M 3M">CORDE M 3M</option>
+                  <option value="CORDE H 4M">CORDE H 4M</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputAddress" class="col-form-label">nombre de Corde non utilisé en stock</label>
+              <input type="text" class="form-control" id="inputAddress" readonly="" placeholder="      " />
+            </div>
+
+            <div class="form-group">
+              <label for="inputAddress2" class="col-form-label">Date de la Préparation des Cordes</label>
+              <input type="text" id="basic-datepicker" class="form-control flatpickr-input" placeholder="Basic datepicker" readonly="readonly" />
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2" class="col-form-label">article</label>
+              {#  <select id="inputState" class="form-control">
+                <option>Choose</option>
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+              </select> #}
+              <select id="ss_fmbbundle_preparationcorde_refArticle" name="ss_fmbbundle_preparationcorde[refArticle]" class="form-control">
+                <option value="57f7b215a37d7">NAISSAIN MOULES</option>
+                <option value="57f7b2756cf76">CORDE MOULES</option>
+                <option value="57f8c47ec88d5">CORDE HUITRES</option>
+                <option value="59d3a1de015d7">CORDE DEMI MOULE</option>
+                <option value="5b3b88f40c910">CORDE HUITRES5 COM</option>
+                <option value="5b8c25ce6c593">CORDE DEMI MOULE5 COM</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2" class="col-form-label">lot</label>
+              <select id="inputState" class="form-control">
+                <option value="M2015">M2015</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2" class="col-form-label">Densiter</label>
+              {#               <input type="text" disabled class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
+ #} <input type="number" readonly="true" value="0" class="form-control" id="totalqte" style="display: block;" />
+              {#               <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
+ #} <input type="text" id="ss_fmbbundle_preparationcorde_qte" name="ss_fmbbundle_preparationcorde[qte]" required="required" class="form-control" style="display: block;" />
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2" class="col-form-label">nombre de Corde a fabriquer</label>
+              {# <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" /> #}
+              <input type="text" id="ss_fmbbundle_preparationcorde_nombre" name="ss_fmbbundle_preparationcorde[nombre]" required="required" class="form-control" onblur="validation($('#ss_fmbbundle_preparationcorde_quantiterEnStock').val(),$('#totalqte').val(),$('#ss_fmbbundle_preparationcorde_qte').val(),this.value)" />
+            </div>
+            {# 
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity" class="col-form-label">City</label>
+                <input type="text" class="form-control" id="inputCity" />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="inputState" class="col-form-label">State</label>
+                <select id="inputState" class="form-control">
+                  <option>Choose</option>
+                  <option>Option 1</option>
+                  <option>Option 2</option>
+                  <option>Option 3</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="inputZip" class="col-form-label">Zip</label>
+                <input type="text" class="form-control" id="inputZip" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck11" />
+                <label class="custom-control-label" for="customCheck11">Check this custom checkbox</label>
+              </div>
+            </div> #}
+
+            <button type="submit" class="btn btn-primary waves-effect waves-light">Fabriqué</button>
+          </form>
+        </div>
+        <!-- end card-body -->
+      </div>
+      <!-- end card -->
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end row -->
+{% endblock %}

@@ -1,0 +1,88 @@
+name: FTP Deploy
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          tools: composer
+
+      - name: Create .env.local file
+        run: |
+          echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > projet/.env.local
+          echo "APP_ENV=prod" >> projet/.env.local
+          echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> projet/.env.local
+
+      - name: Install PHP dependencies
+        run: |
+          cd projet
+          composer install --optimize-autoloader --no-scripts
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install Node.js dependencies with Yarn
+        run: |
+          cd projet
+          yarn install
+      # Exécution de la commande assets:install avec une variable d'environnement DATABASE_URL factice
+      - name: assets:install
+        run: |
+          cd projet
+          DATABASE_URL="sqlite://:memory:" php bin/console assets:install --symlink --no-debug
+
+      - name: Build assets with Yarn
+        run: |
+          cd projet
+          yarn dev
+
+      - name: Create necessary directories via FTP
+        run: |
+          echo -e "open ${{ secrets.FTP_SERVER }}\nuser ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}\nmkdir /www/var/cache/prod\nbye" > ftp-commands.txt
+          ftp -n < ftp-commands.txt
+
+      - name: Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: "./"
+          server-dir: "/www/"
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.bfg-report*/**
+            **/var/cache/**
+
+      - name: Trigger migrations
+        run: |
+          curl --insecure "https://www.municipaliternumerique.com/migrate.php?password=TonMotDePasseUltraSecurise"
+
+      - name: Delete TmpFolder
+        uses: StephanThierry/ftp-delete-action@v2.1
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          remoteDirectories: "./var/cache/prod"
+          workingDir: "./www/"
+          ignoreSSL: "1"

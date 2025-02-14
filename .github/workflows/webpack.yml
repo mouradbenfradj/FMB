@@ -2,9 +2,9 @@ name: Symfony Project with Webpack and Yarn
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["webpack"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["webpack"]
 
 jobs:
   build:
@@ -15,19 +15,19 @@ jobs:
         node-version: [14.x, 16.x, 18.x]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install Yarn
-      run: npm install -g yarn
+      - name: Install Yarn
+        run: npm install -g yarn
 
-    - name: Install dependencies
-      run: yarn install
+      - name: Install dependencies
+        run: yarn install
 
-    - name: Build
-      run: |
-        yarn dev
+      - name: Build
+        run: |
+          yarn dev

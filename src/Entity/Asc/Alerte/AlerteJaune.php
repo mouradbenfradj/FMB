@@ -46,7 +46,7 @@ class AlerteJaune extends Alerte
     {
         if (!$this->cycles->contains($cycle)) {
             $this->cycles[] = $cycle;
-            $cycle->setAlerteVert($this);
+            $cycle->setAlerteJaune($this);
         }
 
         return $this;
@@ -56,8 +56,8 @@ class AlerteJaune extends Alerte
     {
         if ($this->cycles->removeElement($cycle)) {
             // set the owning side to null (unless already changed)
-            if ($cycle->getAlerteVert() === $this) {
-                $cycle->setAlerteVert(null);
+            if ($cycle->getAlerteJaune() === $this) {
+                $cycle->setAlerteJaune(null);
             }
         }
 

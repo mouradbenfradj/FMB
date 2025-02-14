@@ -2,12 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Asc\FiliereComposite\Emplacement;
 use App\Entity\Asc\FiliereComposite\Filiere;
-use App\Entity\Asc\FiliereComposite\Flotteur;
-use App\Entity\Asc\FiliereComposite\Segment;
-use App\Entity\Asc\Parc;
-use App\Entity\Asc\Stock\Stock;
 use App\Service\Cache\ParcCacheService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -34,7 +29,7 @@ class FiliereOysterproToAscFixtures extends Fixture implements FixtureGroupInter
         $filiereDatas = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM filiere');
         foreach ($filiereDatas as $data) {
             $filiere = new Filiere();
-            $parc = $this->getReference($data['magasin']);
+            $parc = $this->getReference('parc' . $data['magasin']);
             $filiere->initFiliere($parc, $data['nomFiliere'], $data['aireDeTravaille']);
             $manager->persist($filiere);
             $this->addReference('filiere' . $data['id'], $filiere);

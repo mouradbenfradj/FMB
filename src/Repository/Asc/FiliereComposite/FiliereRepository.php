@@ -54,7 +54,21 @@ class FiliereRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    /**
+     * Compte le nombre de filières associées à un parc donné.
+     *
+     * @param int $parcId L'ID du parc
+     * @return int Nombre de filières
+     */
+    public function countByParc(int $parcId): int
+    {
+        return $this->createQueryBuilder('f')
+            ->select('COUNT(f.id)')
+            ->andWhere('f.parc = :parcId')
+            ->setParameter('parcId', $parcId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     //    public function findOneBySomeField($value): ?Filiere
     //    {
     //        return $this->createQueryBuilder('f')

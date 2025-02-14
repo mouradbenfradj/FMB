@@ -31,22 +31,38 @@ class StatistiqueExtension extends AbstractExtension
         return [
             new TwigFunction('total', [$this, 'total']),
             new TwigFunction('totalEmplacements', [$this, 'totalEmplacements']),
+            new TwigFunction('totalEmplacementsVide', [$this, 'totalEmplacementsVide']),
         ];
     }
 
     public function totalEmplacements(int $parcId, int $idFiliere)
     {
         $somme = 0;
-        /* $filieres = $this->_filiereService->getFilieres($parcId);
+        $filieres = $this->_filiereService->getFilieres($parcId);
         foreach ($filieres as $filiere) {
             if ($filiere->getId() === $idFiliere) {
                 foreach ($filiere->getSegments() as $segment) {
-                    foreach ($segment->getFlotteurs() as $flotteur) {
-                        $somme += count($flotteur->getEmplacements());
+                    $somme += count($segment->getEmplacements());
+                }
+            }
+        }
+        return $somme;
+    }
+
+    public function totalEmplacementsVide(int $parcId, int $idFiliere)
+    {
+        $somme = 0;
+        $filieres = $this->_filiereService->getFilieres($parcId);
+        foreach ($filieres as $filiere) {
+            if ($filiere->getId() === $idFiliere) {
+                foreach ($filiere->getSegments() as $segment) {
+                    foreach ($segment->getEmplacements() as $emplacement) {
+                        if (!empty($emplacement->getStockCordes()))
+                            $somme += 1;
                     }
                 }
             }
-        } */
+        }
         return $somme;
     }
     public function total(int $parcId = 0, string $conteneur, ?string $article = null, bool $inWater = false)

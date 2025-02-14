@@ -1,0 +1,47 @@
+<div class="custom-dd dd nestable_list_1" id="nestable_list_1">
+  <ol class="dd-list">
+    {% for segment in filiere.segments %}
+      <li class="dd-item">
+        <div class="dd-handle">
+          Segment {{ segment.nomSegment }}
+          <table class="table table-striped mb-0">
+            <tbody>
+              {# Itérer par plages de 10 emplacements sans chevauchement #}
+              {% for i in range(0, segment.longeur / segment.pas, 10) %}
+                <tr>
+                  <td>
+                    {# Afficher les flotteurs dans cette plage de 10 emplacements #}
+                    {% set flotteursDansPlage = [] %}
+                    {% for flotteur in segment.flotteurSegments %}
+                      {% if flotteur.emplacement and flotteur.emplacement.place >= i * segment.pas and flotteur.emplacement.place < (i + 10) * segment.pas %}
+                        {% set flotteursDansPlage = flotteursDansPlage|merge([flotteur]) %}
+                      {% endif %}
+                    {% endfor %}
+                    {% if flotteursDansPlage is not empty %}
+                      {% for flotteur in flotteursDansPlage %}
+                        {{ flotteur.flotteur.nomFlotteur }} ({{ flotteur.emplacement.place }})<br />
+                      {% endfor %}
+                    {% else %}
+                      Aucun flotteur
+                    {% endif %}
+                  </td>
+
+                  {% for j in range(i, i + 9) %}
+                    {% if j < segment.longeur / segment.pas and segment.emplacements[j] is defined %}
+                      {% set emplacement = segment.emplacements[j] %}
+                      {% set emplacementOccupe = emplacement.flotteur is not empty %}
+                      {# Afficher l'emplacement avec emplacement.place #}
+                      <td>
+                        <span style="color: {{ emplacementOccupe ? 'red' : 'black' }};">{{ emplacement.place }}</span>
+                      </td>
+                    {% endif %}
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </li>
+    {% endfor %}
+  </ol>
+</div>

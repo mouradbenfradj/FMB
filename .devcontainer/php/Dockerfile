@@ -1,7 +1,7 @@
 FROM php:7.4-apache
 
 # Configuration de l'Apache
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN echo "ServerName asc" >> /etc/apache2/apache2.conf
 
 # Installation des dépendances
 RUN apt-get update \

@@ -41,4 +41,12 @@ class DefaultController extends AbstractController
             'id' => $id
         ]);
     }
+
+    /**
+     * @Route("/vue", name="vue_app")
+     */
+    public function vueApp(): Response
+    {
+        return $this->render('vue_template.html.twig');
+    }
 }

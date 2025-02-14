@@ -25,7 +25,7 @@ class Processus
     private $nomProcessus;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cycle::class, mappedBy="processus")
+     * @ORM\OneToMany(targetEntity=Cycle::class, mappedBy="processus",cascade={"persist"})
      */
     private $cycles;
 

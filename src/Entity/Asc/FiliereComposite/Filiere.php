@@ -2,7 +2,11 @@
 
 namespace App\Entity\Asc\FiliereComposite;
 
- 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
+
 use App\Entity\Asc\Parc;
 use App\Repository\Asc\FiliereComposite\FiliereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +15,46 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Filiere 
-  
+ * @ApiResource(
+ *     collectionOperations={
+ *         "get",
+ *         "get_by_parc"={
+ *             "method"="GET",
+ *             "path"="/filieres/parc/{parcId}",
+ *             "openapi_context"={
+ *                 "summary"="Liste des filières pour un parc donné",
+ *                 "parameters"={
+ *                     {
+ *                         "name"="parcId",
+ *                         "in"="path",
+ *                         "required"=true,
+ *                         "type"="integer",
+ *                         "description"="ID du parc"
+ *                     }
+ *                 }
+ *             }
+ *         },
+ *         "count_by_parc"={
+ *             "method"="GET",
+ *             "path"="/filieres/parc/{parcId}/count",
+ *             "openapi_context"={
+ *                 "summary"="Compter le nombre de filières pour un parc donné",
+ *                 "parameters"={
+ *                     {
+ *                         "name"="parcId",
+ *                         "in"="path",
+ *                         "required"=true,
+ *                         "type"="integer",
+ *                         "description"="ID du parc"
+ *                     }
+ *                 }
+ *             },
+ *             "controller"=FiliereRepository::class,
+ *             "defaults"={"method"="countByParc"}
+ *         }
+ *     }
+ * )
+ * @ApiFilter(SearchFilter::class, properties={"parc": "exact"})
  * @ORM\Entity(repositoryClass=FiliereRepository::class)
  */
 class Filiere
@@ -124,6 +167,82 @@ class Filiere
     public function getSegments(): Collection
     {
         return $this->segments;
+    }
+
+
+
+    public function getFlottabiliter(): float
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            $somme += $segment->getFlottabiliter();
+        }
+        if (!$somme) {
+            return 1;
+        }
+        return $somme;
+    }
+
+    public function getVolumesTotale(): float
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            $somme += $segment->getVolumesTotale();
+        }
+        if (!$somme) {
+            return 1;
+        }
+        return $somme;
+    }
+
+    public function getTotaleCordes(): int
+    {
+        $somme = 0;
+
+        foreach ($this->segments as $segment) {
+
+            $somme += $segment->getTotaleCordes();
+        }
+
+        return $somme;
+    }
+    public function getPoidCordes(): int
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            $somme += $segment->getPoidCordes();
+        }
+        return $somme;
+    }
+
+
+
+    public function getNombreEmplacements(): int
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            $somme += $segment->getNombreEmplacements();
+        }
+        return $somme;
+    }
+    public function getNombreEmplacementsVide(): int
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            foreach ($segment->getEmplacements() as $emplacement) {
+                if (!empty($emplacement->getStockCordes()))
+                    $somme += 1;
+            }
+        }
+        return $somme;
+    }
+    public function getNombreEmplacementsRemplit(): int
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            $somme += $segment->getTotaleCordes();
+        }
+        return $somme;
     }
 
     public function addSegment(Segment $segment): self

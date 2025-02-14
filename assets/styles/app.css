@@ -18,3 +18,12 @@
     font-size: 13px;
     line-height: 20px;
 }
+
+.progress {
+    display: flex;
+    height: 1.75rem;
+    overflow: hidden;
+    font-size: 1.65625rem;
+    background-color: #424e5a;
+    border-radius: 0.25rem; }
+  

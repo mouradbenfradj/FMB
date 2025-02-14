@@ -3,8 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Asc\FiliereComposite\Emplacement;
-use App\Entity\Asc\FiliereComposite\Flotteur;
-use App\Entity\Asc\FiliereComposite\FlotteurSegment;
 use App\Service\Cache\ParcCacheService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -24,25 +22,31 @@ class EmplacementOysterproToAscFixtures extends Fixture implements FixtureGroupI
         $this->ascManager = $ascManager;
         $this->parcCacheService = $parcCacheService;
     }
-
     public function load(ObjectManager $manager): void
     {
         $this->parcCacheService->deleteParcCache();
         $emplacementsData = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM emplacement');
+
         foreach ($emplacementsData as $emplacementData) {
-            $flotteur = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM flotteur WHERE id = ' . $emplacementData['flotteur_id']);
-            $segment = $this->getReference('segment' . $flotteur[0]['segment_id']);
+            $flotteurOysterPro = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM flotteur WHERE id = ' . $emplacementData['flotteur_id']);
+            $segment = $this->getReference('segment' . $flotteurOysterPro[0]['segment_id']);
+
             $emplacement = new Emplacement();
             $emplacement->initEmplacement($segment, $emplacementData['place']);
+            $emplacement->setSegment($segment);
+
             $manager->persist($emplacement);
+            $this->addReference('emplacement' . $emplacementData['id'], $emplacement);
         }
+
         $this->ascManager->flush();
     }
+
 
     public function getDependencies()
     {
         return array(
-            SegmentOysterproToAscFixtures::class,
+            FlotteurSegmentOysterproToAscFixtures::class,
         );
     }
 

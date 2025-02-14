@@ -27,16 +27,24 @@ class StockOysterproToAscFixtures extends Fixture implements FixtureGroupInterfa
     public function load(ObjectManager $manager): void
     {
         $this->parcCacheService->deleteParcCache();
-        $oysterProParcFiliere = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM magasins');
-        foreach ($oysterProParcFiliere as $data) {
-            $oysterProStocks = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM stocks WHERE id_stock = ' . intval($data['id_stock']));
-            foreach ($oysterProStocks as $stockData) {
-                $stock = new stock();
-                $parc = $this->getReference($data['id_magasin']);
-                $stock->initStock($parc, $stockData['lib_stock'], $stockData['abrev_stock'], $stockData['actif']);
-                $this->ascManager->persist($stock);
-            }
+        $oysterProStocks = $this->oysterProManager->getConnection()->fetchAllAssociative('SELECT * FROM stocks');
+        foreach ($oysterProStocks as $stockData) {
+            /* 
+            [
+            "id_stock" => "1"
+            "ref_adr_stock" => null
+            "lib_stock" => "Stock Parc FMB"
+            "abrev_stock" => "SFMB"
+            "actif" => "1"
+            ]
+            */
+            $stock = new stock();
+            $parc = $this->getReference('parc' . $stockData['id_stock']);
+            $stock->initStock($parc, $stockData['lib_stock'], $stockData['abrev_stock'], $stockData['actif']);
+            $this->ascManager->persist($stock);
+            $this->addReference('stock' . $stockData['id_stock'], $stock);
         }
+
         $this->ascManager->flush();
     }
 

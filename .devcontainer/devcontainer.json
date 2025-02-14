@@ -4,6 +4,7 @@
         "docker-compose.yml"
     ],
     "service": "www",
+    "context": "..",
     "workspaceFolder": "/var/www/asc",
     "remoteEnv": {
         "APP_ENV": "dev",
@@ -14,6 +15,9 @@
     },
     "extensions": [
         "felixfbecker.php-debug",
+        "felixfbecker.php-intellisense",
+        "mehedidracula.php-namespace-resolver",
+        "junstyle.php-cs-fixer",
         "bmewburn.vscode-intelephense-client",
         "fabpot.vscode-symfony",
         "sianglim.slim",
@@ -22,7 +26,15 @@
         "ms-azuretools.vscode-docker",
         "xdebug.php-debug",
         "TheNouillet.symfony-vscode",
-        "ms-vscode.makefile-tools"
+        "ms-vscode.makefile-tools",
+        "mblode.twig-language-2",
+        "junstyle.twig-language",
+        "zepich.twig-braces-helper",
+        "redhat.vscode-yaml",
+        "ritwickdey.LiveServer",
+        "Vue.volar",
+        "Blackboxapp.blackbox",
+        "github.vscode-github-actions"
     ],
     "settings": {
         "docker.host": "tcp://localhost:2375",
