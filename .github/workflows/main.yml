@@ -21,9 +21,9 @@ jobs:
 
       - name: Create .env.local file
         run: |
-          echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > projet/.env.local
-          echo "APP_ENV=prod" >> projet/.env.local
-          echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> projet/.env.local
+          echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > .env.local
+          echo "APP_ENV=prod" >> .env.local
+          echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
 
       - name: Install PHP dependencies
         run: |
