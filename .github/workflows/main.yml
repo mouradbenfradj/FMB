@@ -64,6 +64,13 @@ jobs:
           exclude: |
             **/.git*
             **/.git*/**
+            **/.vscode*/**
+            **/app/**
+            **/assets/**
+            **/bin/**
+            **/config/**
+            **/data/**
+            **/migrations/**
             **/node_modules/**
             **/.bfg-report*/**
             **/var/cache/**
