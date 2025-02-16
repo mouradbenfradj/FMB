@@ -26,6 +26,10 @@ jobs:
           echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
           echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > .env.local
 
+      - name: Test MySQL connection
+        run: |
+          mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} -h${{ secrets.DB_HOST }} -e "SHOW DATABASES;"
+
       - name: Install PHP dependencies
         run: |
           composer install --optimize-autoloader --no-scripts
@@ -41,8 +45,7 @@ jobs:
       - name: Install Node.js dependencies with Yarn
         run: |
           yarn install
-      # Exécution de la commande assets:install avec la configuration MySQL
-    
+
       - name: assets:install
         run: |
           php bin/console assets:install --symlink --no-debug
