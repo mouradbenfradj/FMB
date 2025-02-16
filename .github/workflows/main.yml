@@ -25,6 +25,7 @@ jobs:
           echo "APP_ENV=dev" >> .env.local
           echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
           echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > .env.local
+          echo "MESSENGER_TRANSPORT_DSN=\"doctrine://default?auto_setup=0" > .env.local
 
       - name: Install PHP dependencies
         run: |
