@@ -2,9 +2,9 @@ doctrine:
     dbal:
         connections:
             default:
-                url: '%env(resolve:DATABASE_URL)%'
+                url: "%env(resolve:DATABASE_URL)%"
             oysterpro:
-                url: '%env(resolve:OYSTERPRO_DATABASE_URL)%'
+                url: "%env(resolve:OYSTERPRO_DATABASE_URL)%"
         default_connection: default
 
         # IMPORTANT: You MUST configure your server version,
@@ -22,7 +22,7 @@ doctrine:
                     SonataUserBundle: ~
                     ASC:
                         is_bundle: false
-                        dir: '%kernel.project_dir%/src/Entity/Asc'
+                        dir: "%kernel.project_dir%/src/Entity/Asc"
                         prefix: 'App\Entity\Asc'
                         alias: Asc
                     gedmo_tree:
@@ -37,7 +37,7 @@ doctrine:
                     Customer:
                         is_bundle: false
                         type: annotation
-                        dir: '%kernel.project_dir%/src/Entity/Oysterpro'
+                        dir: "%kernel.project_dir%/src/Entity/Oysterpro"
                         prefix: 'App\Entity\Oysterpro'
                         alias: Oysterpro
 
@@ -45,13 +45,19 @@ when@test:
     doctrine:
         dbal:
             # "TEST_TOKEN" is typically set by ParaTest
-            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+            dbname_suffix: "_test%env(default::TEST_TOKEN)%"
 
 when@prod:
     doctrine:
+        dbal:
+            connections:
+                # Exclure la connexion 'oysterpro' en production
+                default:
+                    url: "%env(resolve:DATABASE_URL)%"
+            default_connection: default
         orm:
             auto_generate_proxy_classes: false
-            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            proxy_dir: "%kernel.build_dir%/doctrine/orm/Proxies"
             query_cache_driver:
                 type: pool
                 pool: doctrine.system_cache_pool

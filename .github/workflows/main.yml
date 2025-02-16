@@ -21,11 +21,10 @@ jobs:
 
       - name: Create .env.local file
         run: |
-          echo "OYSTERPRO_DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > .env.local
-          echo "APP_ENV=dev" >> .env.local
-          echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
           echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > .env.local
-          echo "MESSENGER_TRANSPORT_DSN=\"doctrine://default?auto_setup=0\"" > .env.local
+          echo "APP_ENV=prod" >> .env.local
+          echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
+          # OYSTERPRO_DATABASE_URL n'est pas défini en production
 
       - name: Install PHP dependencies
         run: |
@@ -43,14 +42,22 @@ jobs:
         run: |
           yarn install
 
+      - name: Create necessary directories
+        run: |
+          mkdir -p var
 
       - name: assets:install
         run: |
-          DATABASE_URL="sqlite://:memory:" php bin/console assets:install --symlink --no-debug
-  
+          DATABASE_URL="sqlite://%kernel.project_dir%/var/data.db" php bin/console assets:install --symlink --no-debug
+
       - name: Build assets with Yarn
         run: |
           yarn dev
+
+      - name: Create necessary directories via FTP
+        run: |
+          echo -e "open ${{ secrets.FTP_SERVER }}\nuser ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}\nmkdir /www/var/cache/prod\nbye" > ftp-commands.txt
+          ftp -n < ftp-commands.txt
 
       - name: Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
@@ -69,7 +76,7 @@ jobs:
 
       - name: Trigger migrations
         run: |
-          curl --insecure "https://www.municipaliternumerique.com/migrate.php?password=MBF6mm09761130"
+          curl --insecure "https://www.municipaliternumerique.com/migrate.php?password=TonMotDePasseUltraSecurise"
 
       - name: Delete TmpFolder
         uses: StephanThierry/ftp-delete-action@v2.1
