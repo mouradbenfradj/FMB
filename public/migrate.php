@@ -8,7 +8,6 @@ use Symfony\Component\Dotenv\Dotenv;
 // Charge les composants Symfony et exécute les migrations
 require __DIR__ . '/../vendor/autoload.php';
 
-// Mot de passe simple pour sécuriser l'accès
 $password = 'MBF6mm09761130';
 
 // Vérifie le mot de passe
@@ -31,7 +30,7 @@ $application->setAutoExit(false);
 // Définir la variable d'environnement pour exclure la migration
 putenv('SKIP_MIGRATION_20231021152830=true');
 
-// Pour le débogage, initialiser les sorties
+// Initialiser les sorties pour le débogage
 $outputSchemaUpdate = new BufferedOutput();
 $outputAssetsInstall = new BufferedOutput();
 
