@@ -27,6 +27,15 @@ $kernel->boot();
 $application = new Application($kernel);
 $application->setAutoExit(false);
 
+// Exécute la commande doctrine:migrations:migrate
+$inputMigrate = new ArrayInput([
+    'command' => 'doctrine:migrations:migrate',
+    '--no-interaction' => true,
+]);
+$outputMigrate = new BufferedOutput();
+
+$application->run($inputMigrate, $outputMigrate);
+
 // Définir la variable d'environnement pour exclure la migration
 putenv('SKIP_MIGRATION_20231021152830=true');
 
