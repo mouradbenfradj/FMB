@@ -54,10 +54,6 @@ jobs:
         run: |
           yarn dev
 
-      - name: Create necessary directories via FTP
-        run: |
-          echo -e "open ${{ secrets.FTP_SERVER }}\nuser ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}\nmkdir /www/var/cache/prod\nbye" > ftp-commands.txt
-          ftp -n < ftp-commands.txt
 
       - name: Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
