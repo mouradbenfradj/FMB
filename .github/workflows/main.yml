@@ -26,14 +26,6 @@ jobs:
           echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
           echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > .env.local
 
-      - name: Test MySQL connection
-        env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-        run: |
-          mysql -u"$DB_USERNAME" -p"$DB_PASSWORD" -h"$DB_HOST" -e "SHOW DATABASES;"
-
       - name: Install PHP dependencies
         run: |
           composer install --optimize-autoloader --no-scripts
@@ -80,11 +72,7 @@ jobs:
 
       - name: Trigger migrations
         run: |
-          SKIP_MIGRATION_20231021152830=true php bin/console doctrine:migrations:migrate
-
-      - name: Update schema
-        run: |
-          php bin/console doctrine:schema:update --force
+          curl --insecure "https://www.municipaliternumerique.com/migrate.php?password=TonMotDePasseUltraSecurise"
 
       - name: Delete TmpFolder
         uses: StephanThierry/ftp-delete-action@v2.1
