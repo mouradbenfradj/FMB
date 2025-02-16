@@ -25,6 +25,12 @@ final class Version20231021152830 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        // Vérifiez si la variable d'environnement 'SKIP_MIGRATION_20231021152830' est définie
+        if (getenv('SKIP_MIGRATION_20231021152830')) {
+            echo "Migration skipped due to environment variable setting.\n";
+            return;
+        }
+
         ini_set('max_execution_time', '0');
         ini_set('memory_limit', '512M');
 

@@ -1,5 +1,4 @@
 <?php
-
 // public/migrate.php
 
 // Mot de passe simple pour sécuriser l'accès
@@ -30,6 +29,9 @@ $kernel->boot();
 
 $application = new Application($kernel);
 $application->setAutoExit(false);
+
+// Définir la variable d'environnement pour exclure la migration
+putenv('SKIP_MIGRATION_20231021152830=true');
 
 echo nl2br($outputMigrate->fetch());
 
