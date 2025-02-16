@@ -49,12 +49,6 @@ when@test:
 
 when@prod:
     doctrine:
-        dbal:
-            connections:
-                # Exclure la connexion 'oysterpro' en production
-                default:
-                    url: "%env(resolve:DATABASE_URL)%"
-            default_connection: default
         orm:
             auto_generate_proxy_classes: false
             proxy_dir: "%kernel.build_dir%/doctrine/orm/Proxies"
