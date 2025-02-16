@@ -46,10 +46,6 @@ jobs:
         run: |
           mkdir -p var
 
-      - name: assets:install
-        run: |
-          DATABASE_URL="sqlite://%kernel.project_dir%/var/data.db" php bin/console assets:install --symlink --no-debug
-
       - name: Build assets with Yarn
         run: |
           yarn dev
