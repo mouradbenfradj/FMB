@@ -41,8 +41,15 @@ $inputSchemaUpdate = new ArrayInput([
     '--force' => true, // Force l'exécution sans confirmation
     '--no-interaction' => true, // Pas d'interaction
 ]);
+// Exécute la commande doctrine:schema:update
+$inputAssets = new ArrayInput([
+    'command' => 'assets:install',
+    '--symlink' => true, // Force l'exécution sans confirmation
+    '--no-debug' => true, // Pas d'interaction
+]);
 $outputSchemaUpdate = new BufferedOutput();
 
+$application->run($inputAssets, $outputSchemaUpdate);
 $application->run($inputSchemaUpdate, $outputSchemaUpdate);
 
 echo nl2br($outputSchemaUpdate->fetch());
