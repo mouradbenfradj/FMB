@@ -14,6 +14,7 @@ if (!isset($_GET['password']) || $_GET['password'] !== $password) {
 
 // Charge les composants Symfony et exécute les migrations
 require __DIR__ . '/../vendor/autoload.php';
+
 use Symfony\Component\Dotenv\Dotenv;
 
 // Charge les variables d'environnement
@@ -29,15 +30,6 @@ $kernel->boot();
 
 $application = new Application($kernel);
 $application->setAutoExit(false);
-
-// Exécute la commande doctrine:migrations:migrate
-$inputMigrate = new ArrayInput([
-    'command' => 'doctrine:migrations:migrate',
-    '--no-interaction' => true,
-]);
-$outputMigrate = new BufferedOutput();
-
-$application->run($inputMigrate, $outputMigrate);
 
 echo nl2br($outputMigrate->fetch());
 
