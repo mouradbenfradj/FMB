@@ -45,7 +45,6 @@ jobs:
     
       - name: assets:install
         run: |
-          cd projet
           DATABASE_URL="sqlite://:memory:" php bin/console assets:install --symlink --no-debug
 
 
