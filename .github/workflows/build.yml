@@ -13,11 +13,8 @@ jobs:
 
     steps:         
             
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Build assets with Yarn
-        run: yarn build
+        run: yarn dev
 
     outputs:
       success: true
