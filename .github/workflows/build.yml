@@ -15,7 +15,10 @@ jobs:
 
       - name: Afficher le répertoire actuel
         run: pwd
-              
+        
+      - name: Lister les fichiers dans le répertoire courant
+        run: ls -la
+                    
       - name: Build assets with Yarn
         run: yarn dev
 
