@@ -45,14 +45,12 @@ jobs:
         run: ls -la
       - name: Install Node.js dependencies with Yarn
         run: yarn install
-
-      - name: Upload vendor and node_modules as artifacts
-        uses: actions/upload-artifact@v4
+      - name: Download vendor and node_modules artifacts
+        uses: actions/download-artifact@v4
         with:
           name: dependencies
-          path: |
-            vendor
-            node_modules
+          path: ./artifacts
+      
     outputs:
       success: true
 

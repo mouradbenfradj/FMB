@@ -19,13 +19,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dependencies
-          path: .
+          path: ./artifacts  # Télécharger dans un sous-répertoire pour mieux vérifier
 
-      - name: Afficher le répertoire actuel
+      - name: 
         run: pwd
-        
-      - name: Lister les fichiers dans le répertoire courant
-        run: ls -la
+
+      - name: List files after downloading artifact
+        run: ls -la ./artifacts  # Vérifier si les fichiers sont téléchargés correctement
 
       - name: Build assets with Yarn
         run: yarn dev
