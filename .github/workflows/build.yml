@@ -13,7 +13,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # Ajout de l'étape de checkout pour récupérer le code du dépôt
+        uses: actions/checkout@v4
+
+      - name: Download vendor and node_modules artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dependencies
+          path: .
 
       - name: Afficher le répertoire actuel
         run: pwd
