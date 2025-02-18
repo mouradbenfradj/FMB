@@ -12,7 +12,10 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:         
-            
+
+      - name: Afficher le répertoire actuel
+        run: pwd
+              
       - name: Build assets with Yarn
         run: yarn dev
 

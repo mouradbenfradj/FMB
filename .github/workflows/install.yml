@@ -13,11 +13,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Afficher le répertoire actuel
+        run: pwd
+ 
+
       - name: Set up PHP 7.4
         uses: shivammathur/setup-php@v2
         with:
           php-version: 7.4
           tools: composer
+
+      - name: Afficher le répertoire actuel
+        run: pwd
+ 
 
       - name: Create .env.local file
         run: |
@@ -27,17 +35,32 @@ jobs:
           echo "MESSENGER_TRANSPORT_DSN=\"doctrine://default?auto_setup=0\"" >> .env.local
           # OYSTERPRO_DATABASE_URL n'est pas défini en production
 
+      - name: Afficher le répertoire actuel
+        run: pwd
+ 
+
       - name: Install PHP dependencies
         run: composer install --optimize-autoloader --no-scripts
+
+      - name: Afficher le répertoire actuel
+        run: pwd
+ 
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v2
         with:
           node-version: "20"
 
+      - name: Afficher le répertoire actuel
+        run: pwd
+ 
+
       - name: Install Yarn
         run: npm install -g yarn
 
+      - name: Afficher le répertoire actuel
+        run: pwd
+ 
       - name: Install Node.js dependencies with Yarn
         run: yarn install
 
