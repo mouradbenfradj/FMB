@@ -23,3 +23,9 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./ # Modifier selon ton projet
           server-dir: "/www/"
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.bfg-report*/**
+            **/var/cache/**
