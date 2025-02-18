@@ -11,14 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
-    steps:         
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Ajout de l'étape de checkout pour récupérer le code du dépôt
 
       - name: Afficher le répertoire actuel
         run: pwd
         
       - name: Lister les fichiers dans le répertoire courant
         run: ls -la
-                    
+
       - name: Build assets with Yarn
         run: yarn dev
 
