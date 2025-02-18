@@ -1,38 +1,24 @@
-name: Install Dependencies
+name: Build Assets
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Install Dependencies"]
+    types:
+      - completed
 
 jobs:
-  install:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up PHP 7.4
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          tools: composer
+      - name: Create necessary directories
+        run: mkdir -p var
 
-      - name: Install PHP dependencies
-        run: composer install --optimize-autoloader --no-scripts
-
-      - name: Set up Node.js 20
-        uses: actions/setup-node@v2
-        with:
-          node-version: "20"
-
-      - name: Install Yarn
-        run: npm install -g yarn
-
-      - name: Install Node.js dependencies with Yarn
-        run: yarn install
+      - name: Build assets with Yarn
+        run: yarn dev
 
     outputs:
       success: true
-
