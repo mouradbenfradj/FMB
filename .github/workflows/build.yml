@@ -9,16 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create necessary directories
-        run: mkdir -p var
-
       - name: Build assets with Yarn
-        run: yarn dev
+        run: yarn build
 
     outputs:
       success: true
