@@ -41,15 +41,9 @@ jobs:
       - name: Install Node.js dependencies with Yarn
         run: yarn install
 
-      # Vérification de la présence du fichier yarn.lock
-      - name: Verify yarn.lock presence
-        run: |
-          if [ ! -f yarn.lock ]; then
-            echo "yarn.lock is missing. Generating it now..."
-            yarn install
-          else
-            echo "yarn.lock is already present."
-          fi
+        
+      - name: Build assets with Yarn
+        run: yarn build
 
     outputs:
       success: true
