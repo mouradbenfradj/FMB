@@ -11,7 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
-    steps:
+    steps:         
+      - name: Verify Encore installation
+        run: yarn list --pattern "@symfony/webpack-encore"
+        
+      - name: Install Node.js dependencies with Yarn
+        run: |
+          yarn install --frozen-lockfile
+            
       - name: Checkout code
         uses: actions/checkout@v4
 
