@@ -40,22 +40,15 @@ jobs:
 
       - name: Install Node.js dependencies with Yarn
         run: yarn install
-        
+
       - name: Create necessary directories and SQLite database
         run: |
           mkdir -p var
           touch var/data.db
           chmod -R 777 var
-          echo "DATABASE_URL=sqlite://%kernel.project_dir%/var/data.db" >> .env
 
-      - name: Verify SQLite database file exists
-        run: ls -la var
-
-      - name: assets:install
-        run: DATABASE_URL=sqlite://%kernel.project_dir%/var/data.db php bin/console assets:install --symlink --no-debug
-
-      - name: Remove SQLite database configuration
-        run: sed -i '/DATABASE_URL=sqlite/d' .env
+      - name: Run assets:install with SQLite
+        run: php assets_install.php
 
       - name: Build assets with Yarn
         run: yarn dev
