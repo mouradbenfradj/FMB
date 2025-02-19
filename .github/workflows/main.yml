@@ -74,11 +74,6 @@ jobs:
             **/node_modules/**
             **/.bfg-report*/**
             **/var/cache/**
-            public/bundles/sonatatwig/**
-            public/bundles/sonataform/**
-            public/bundles/sonataadmin/**
-            public/bundles/sonatauser/**
-            public/bundles/apiplatform/**
       - name: Trigger migrations
         run: |
           curl --insecure "https://www.municipaliternumerique.com/migrate.php?password=MBF6mm09761130"

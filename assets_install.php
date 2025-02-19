@@ -19,8 +19,6 @@ $application->setAutoExit(false);
 // Exécuter la commande assets:install
 $input = new ArrayInput([
     'command' => 'assets:install',
-    '--symlink' => true,
-    '--no-debug' => true,
 ]);
 
 $output = new ConsoleOutput();
