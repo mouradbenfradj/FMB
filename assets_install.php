@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 require 'vendor/autoload.php';
 
-// Définir la variable d'environnement pour SQLite temporairement
+// Définir les variables d'environnement pour SQLite temporairement
 putenv('DATABASE_URL=sqlite://' . realpath(__DIR__) . '/var/data.db');
+putenv('OYSTERPRO_DATABASE_URL=sqlite://' . realpath(__DIR__) . '/var/oysterpro.db');
 
 $kernel = new \App\Kernel('dev', false);
 $kernel->boot();
