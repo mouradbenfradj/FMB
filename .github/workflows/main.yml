@@ -70,7 +70,7 @@ jobs:
             **/node_modules/**
             **/.bfg-report*/**
             **/var/cache/**
-          overwrite: true 
+            **/apiplatform/**
 
       - name: Trigger migrations
         run: |
