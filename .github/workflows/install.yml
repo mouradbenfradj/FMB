@@ -46,8 +46,11 @@ jobs:
       - name: Install Node.js dependencies with Yarn
         run: yarn install
 
+      - name: assets:install
+        run: php bin/console assets:install
+
       - name: Build assets with Yarn
-        run: yarn build
+        run: yarn dev
     outputs:
       success: true
 
