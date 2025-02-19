@@ -59,9 +59,6 @@ jobs:
       - name: Install FTP client
         run: sudo apt-get install -y ftp
 
-      - name: Create generated directories on FTP server
-        run: |
-            lftp -e "open ${{ secrets.FTP_SERVER }}; user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}; mkdir -p /www/public/bundles/sonatatwig /www/public/bundles/sonataform /www/public/bundles/sonataadmin /www/public/bundles/sonatauser /www/public/bundles/apiplatform; bye"
 
       - name: Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
@@ -77,7 +74,11 @@ jobs:
             **/node_modules/**
             **/.bfg-report*/**
             **/var/cache/**
-
+            public/bundles/sonatatwig
+            public/bundles/sonataform
+            public/bundles/sonataadmin
+            public/bundles/sonatauser
+            public/bundles/apiplatform
       - name: Trigger migrations
         run: |
           curl --insecure "https://www.municipaliternumerique.com/migrate.php?password=MBF6mm09761130"
