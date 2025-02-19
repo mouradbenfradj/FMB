@@ -46,16 +46,17 @@ jobs:
           mkdir -p var
           touch var/data.db
           chmod -R 777 var
-          echo "DATABASE_URL=\"sqlite:///%kernel.project_dir%/var/data.db\"" > .env.local
+          echo "DATABASE_URL=\"sqlite:///%kernel.project_dir%/var/data.db\"" > .env.sqlite
 
       - name: Verify SQLite database file exists
         run: ls -la var
 
       - name: assets:install
-        run: php bin/console assets:install --symlink --no-debug
+        run: DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" php bin/console assets:install --symlink --no-debug --env=sqlite
 
       - name: Reset .env.local file for MySQL
         run: |
+          rm .env.sqlite
           echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > .env.local
           echo "APP_ENV=dev" >> .env.local
           echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
