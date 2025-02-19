@@ -61,16 +61,7 @@ jobs:
 
       - name: Create generated directories on FTP server
         run: |
-          ftp -n ${{ secrets.FTP_SERVER }} <<END_SCRIPT
-          quote USER ${{ secrets.FTP_USERNAME }}
-          quote PASS ${{ secrets.FTP_PASSWORD }}
-          mkdir -p /www/public/bundles/sonatatwig
-          mkdir -p /www/public/bundles/sonataform
-          mkdir -p /www/public/bundles/sonataadmin
-          mkdir -p /www/public/bundles/sonatauser
-          mkdir -p /www/public/bundles/apiplatform
-          quit
-          END_SCRIPT
+            lftp -e "open ${{ secrets.FTP_SERVER }}; user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}; mkdir -p /www/public/bundles/sonatatwig /www/public/bundles/sonataform /www/public/bundles/sonataadmin /www/public/bundles/sonatauser /www/public/bundles/apiplatform; bye"
 
       - name: Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
