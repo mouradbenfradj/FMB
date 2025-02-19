@@ -56,6 +56,14 @@ jobs:
       - name: Build assets with Yarn
         run: yarn dev
 
+      - name: Create directories on FTP server
+        run: |
+          lftp -e "
+            open ${{ secrets.FTP_SERVER }};
+            user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }};
+            mkdir -p /www/apiplatform;
+            bye;
+          "
 
       - name: Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
