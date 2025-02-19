@@ -40,13 +40,16 @@ jobs:
 
       - name: Install Node.js dependencies with Yarn
         run: yarn install
-      - name: Create necessary directories with permissions
+        
+      - name: Create necessary directories and SQLite database
         run: |
-          mkdir -p $(pwd)/var
-          chmod -R 777 $(pwd)/var
+          mkdir -p var
+          touch var/data.db
+          chmod -R 777 var
 
       - name: assets:install
-        run: DATABASE_URL="sqlite://:memory:" php bin/console assets:install --symlink --no-debug        
+        run: DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" php bin/console assets:install --symlink --no-debug      
+
       - name: Build assets with Yarn
         run: yarn dev
 
