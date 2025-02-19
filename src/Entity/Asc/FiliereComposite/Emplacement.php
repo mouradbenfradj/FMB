@@ -3,9 +3,6 @@
 namespace App\Entity\Asc\FiliereComposite;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\Asc\Conteneur\Corde;
-use App\Entity\Asc\Conteneur\Lanterne;
-use App\Entity\Asc\Conteneur\Poche;
 use App\Entity\Asc\Stock\StockCorde;
 use App\Repository\Asc\FiliereComposite\EmplacementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
