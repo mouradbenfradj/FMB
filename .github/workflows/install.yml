@@ -19,7 +19,7 @@ jobs:
           php-version: 7.4
           tools: composer
 
-      - name: Create .env.local file
+      - name: Create .env.local file for MySQL
         run: |
           echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > .env.local
           echo "APP_ENV=dev" >> .env.local
@@ -40,15 +40,26 @@ jobs:
 
       - name: Install Node.js dependencies with Yarn
         run: yarn install
-        
+
       - name: Create necessary directories and SQLite database
         run: |
           mkdir -p var
           touch var/data.db
           chmod -R 777 var
+          echo "DATABASE_URL=\"sqlite:///%kernel.project_dir%/var/data.db\"" > .env.local
+
+      - name: Verify SQLite database file exists
+        run: ls -la var
 
       - name: assets:install
-        run: DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" php bin/console assets:install --symlink --no-debug      
+        run: php bin/console assets:install --symlink --no-debug
+
+      - name: Reset .env.local file for MySQL
+        run: |
+          echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" > .env.local
+          echo "APP_ENV=dev" >> .env.local
+          echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
+          echo "MESSENGER_TRANSPORT_DSN=\"doctrine://default?auto_setup=0\"" >> .env.local
 
       - name: Build assets with Yarn
         run: yarn dev
