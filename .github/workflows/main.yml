@@ -68,7 +68,12 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: "./"
           server-dir: "/www/"
+          dangerous-clean-slate	: true
           exclude:  |
+            **/.devcontainer/**
+            **/.github/**
+            **/.idea/**
+            **/.vscode/**
             **/.git*
             **/.git*/**
             **/node_modules/**
