@@ -17,7 +17,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 7.4
-          tools: composer
+          tools: composer:v2.8.4
 
       - name: Create .env.local file for MySQL
         run: |
@@ -55,15 +55,6 @@ jobs:
 
       - name: Build assets with Yarn
         run: yarn dev
-
-      - name: Create directories on FTP server
-        run: |
-          lftp -e "
-            open ${{ secrets.FTP_SERVER }};
-            user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }};
-            mkdir -p /www/apiplatform;
-            bye;
-          "
 
       - name: Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
