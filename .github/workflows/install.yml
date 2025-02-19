@@ -43,14 +43,18 @@ jobs:
         
       - name: Lister les fichiers dans le répertoire courant
         run: ls -la
+
       - name: Install Node.js dependencies with Yarn
         run: yarn install
 
+      - name: Create necessary directories
+        run: mkdir -p var
+
       - name: assets:install
-        run: php bin/console assets:install
+        run: DATABASE_URL="sqlite://%kernel.project_dir%/var/data.db" php bin/console assets:install
 
       - name: Build assets with Yarn
         run: yarn dev
+
     outputs:
       success: true
-
