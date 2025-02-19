@@ -6,14 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 require 'vendor/autoload.php';
 
+// Définir la variable d'environnement pour SQLite temporairement
+putenv('DATABASE_URL=sqlite://' . realpath(__DIR__) . '/var/data.db');
+
 $kernel = new \App\Kernel('dev', false);
 $kernel->boot();
 
 $application = new Application($kernel);
 $application->setAutoExit(false);
-
-// Définir la variable d'environnement pour SQLite temporairement
-putenv('DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db');
 
 // Exécuter la commande assets:install
 $input = new ArrayInput([
