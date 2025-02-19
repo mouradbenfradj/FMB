@@ -34,19 +34,17 @@ class MenuBuilder
         $menu = $this->_factory->createItem('root');
         $menu->setChildrenAttribute('class', 'navbar-nav');
         //$parcs = $this->_parcCacheService->findAllFromParcCache();
-        $parcID = $requestStack->getCurrentRequest()->get('parcID');
-
-        if ($parcID instanceof Parc) {
-            $parcID = $parcID->getId();
-        } else {
-            $parcID = $parcID;
-        }
+        $parc = $requestStack->getCurrentRequest()->get('parc');
+        if (!$parc)
+            $parcID = 0;
+        else
+            $parcID = $parc->getId();
         $menu->addChild(
             'Tableau de bord',
             [
                 'route' => 'app_statistique',
                 'routeParameters' => [
-                    'parcID' =>  $parcID
+                    'parc' =>   $parcID
                 ]
             ]
         )
@@ -63,13 +61,13 @@ class MenuBuilder
             )
             ->setLabel('<i class="fe-anchor mr-1"></i> Tableau de bord '/* <div class="arrow-down"></div> */)
             ->setExtra('safe_label', true);
-        if ($parcID != 0) {
+        if ($parc) {
             $menu->addChild(
                 'Etat Actuel Prod',
                 [
                     'route' => 'app_etat_actuel_prod',
                     'routeParameters' => [
-                        'parcID' =>  $parcID
+                        'parc' =>   $parcID
                     ]
                 ]
             )
@@ -92,7 +90,7 @@ class MenuBuilder
             if ($conteneur != 'Poche')
                 return ['MAE ' . $conteneur . 's', 'app_default', 'dropdown-item', null];
         };
-        if ($parcID != 0) {
+        if ($parc) {
             $menu->addChild('Prod à faire')
                 ->setAttribute('class', 'nav-item dropdown')
                 ->setUri("#")
@@ -138,7 +136,7 @@ class MenuBuilder
                 $menu['Prod à faire']->addChild($item[0], [
                     'route' => $item[1],
                     'routeParameters' => [
-                        'parcID' =>  $parcID
+                        'parc' =>   $parcID
                     ]
                 ])->setLinkAttribute('class', $item[2]);
             }
@@ -147,7 +145,7 @@ class MenuBuilder
                 'Alertes de travail',
                 [
                     'route' => 'app_alertes_de_travail',
-                    'routeParameters' => ['parcID' =>   $parcID]
+                    'routeParameters' => ['parc' =>  $parcID]
                 ]
             )->setAttribute('class', 'nav-item dropdown')
                 ->setLinkAttributes(
@@ -168,7 +166,7 @@ class MenuBuilder
                 [
                     'route' => 'app_prod_par_cycle',
                     /* 'routeParameters' => [
-                    'parcID' =>  $parcID
+                    'parc' =>   $parcID
                 ] */
                 ]
             )
@@ -193,9 +191,9 @@ class MenuBuilder
             'topnav-outils-de-gestion',
             'fe-bar-chart-2',
             [
-                ['Historique des opérations', 'app_historique', 'dropdown-item',  $parcID],
-                ['Détail tâches effectuées', 'app_historique', 'dropdown-item',  $parcID],
-                ['Prévisions des sorties', 'app_prevision', 'dropdown-item',  $parcID],
+                ['Historique des opérations', 'app_historique', 'dropdown-item',   $parcID],
+                ['Détail tâches effectuées', 'app_historique', 'dropdown-item',   $parcID],
+                ['Prévisions des sorties', 'app_prevision', 'dropdown-item',   $parcID],
             ]
         );
 
@@ -230,7 +228,7 @@ class MenuBuilder
             foreach ($dropdownItems as $item) {
                 $menu[$label]->addChild($item[0], [
                     'route' => $item[1],
-                    'routeParameters' => ['parcID' =>  $item[3]]
+                    'routeParameters' => ['parc' =>  $item[3]]
                 ])->setLinkAttribute('class', $item[2]);
             }
         }

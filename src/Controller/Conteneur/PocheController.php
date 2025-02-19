@@ -3,6 +3,7 @@
 namespace App\Controller\Conteneur;
 
 use App\Entity\Asc\Conteneur\Poche;
+use App\Entity\Asc\Parc;
 use App\Form\Asc\Conteneur\PocheType;
 use App\Repository\Asc\Conteneur\PocheRepository;
 use App\Service\Conteneur\PocheService;
@@ -19,19 +20,19 @@ class PocheController extends AbstractController
 {
 
     /**
-     * @Route("/statistique/{parcId}/{conteneur}", name="app_conteneur_poche_statistique", methods={"GET"})
+     * @Route("/statistique/{conteneur}/{parc}", name="app_conteneur_poche_statistique", methods={"GET"})
      */
-    public function statistique(int $parcId = 0, string $conteneur, StatistiqueService $statistiqueService, PocheService $pocheService): Response
+    public function statistique(Parc $parc = null, string $conteneur, StatistiqueService $statistiqueService, PocheService $pocheService): Response
     {
         $statistiqueService->setConteneur($pocheService);
         $cardBoxes = [
-            ['text' => 'Total<br>Poches', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Poches<br>à l\'eau', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Poches<br>vides', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Poches<br>Préparées', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Poches<br>Assemblées', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Poches Assemblées<br>à l\'eau', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Chaussettes Poches<br>à l\'eau', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parcId)]
+            ['text' => 'Total<br>Poches', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Poches<br>à l\'eau', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Poches<br>vides', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Poches<br>Préparées', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Poches<br>Assemblées', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Poches Assemblées<br>à l\'eau', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Chaussettes Poches<br>à l\'eau', 'icon' => 'fe-shopping-bag', 'total' => $statistiqueService->total($parc)]
         ];
         return $this->render('conteneur/poche/statistique.html.twig', [
             'cardBoxes' => $cardBoxes,

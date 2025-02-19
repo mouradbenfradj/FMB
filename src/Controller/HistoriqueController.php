@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Asc\Parc;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,12 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class HistoriqueController extends AbstractController
 {
     /**
-     * @Route("/historique/{parcID}", name="app_historique")
+     * @Route("/historique/{parc}", name="app_historique")
      */
-    public function index(int $parcID): Response
+    public function index(Parc $parc = null): Response
     {
         return $this->render('historique/index.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'HistoriqueController',
         ]);
     }

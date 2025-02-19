@@ -63,7 +63,12 @@
 					{% for filiere in filieres %}
 						<tr>
 							<td>{{filiere.nomFiliere}}</td>
-							<td>{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage:(( filiere.totaleCordes/filiere.nombreEmplacements)*100)|round} only %}
+							<td>
+								{% if filiere.nombreEmplacements == 0 %}
+									{{ dump(filiere.totaleCordes) }}
+									{{ dump(filiere.nombreEmplacements) }}
+								{% endif %}
+								{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage: ((filiere.totaleCordes * 100 ) / (filiere.nombreEmplacements == 0 ?1 : filiere.nombreEmplacements))|round } only %}
 								<div class="row">
 									<div class="col-lg-4">
 										<div class="grid-container">

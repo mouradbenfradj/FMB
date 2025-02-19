@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\Asc\Parc;
 use App\Service\FiliereService;
 use App\Service\ParcService;
 use Twig\Extension\AbstractExtension;
@@ -35,10 +36,10 @@ class StatistiqueExtension extends AbstractExtension
         ];
     }
 
-    public function totalEmplacements(int $parcId, int $idFiliere)
+    public function totalEmplacements(Parc $parc, int $idFiliere)
     {
         $somme = 0;
-        $filieres = $this->_filiereService->getFilieres($parcId);
+        $filieres = $parc->getFilieres();
         foreach ($filieres as $filiere) {
             if ($filiere->getId() === $idFiliere) {
                 foreach ($filiere->getSegments() as $segment) {
@@ -49,10 +50,10 @@ class StatistiqueExtension extends AbstractExtension
         return $somme;
     }
 
-    public function totalEmplacementsVide(int $parcId, int $idFiliere)
+    public function totalEmplacementsVide(Parc $parc, int $idFiliere)
     {
         $somme = 0;
-        $filieres = $this->_filiereService->getFilieres($parcId);
+        $filieres = $parc->getFilieres();
         foreach ($filieres as $filiere) {
             if ($filiere->getId() === $idFiliere) {
                 foreach ($filiere->getSegments() as $segment) {
@@ -65,19 +66,19 @@ class StatistiqueExtension extends AbstractExtension
         }
         return $somme;
     }
-    public function total(int $parcId = 0, string $conteneur, ?string $article = null, bool $inWater = false)
+    public function total(Parc $parc = null, string $conteneur, ?string $article = null, bool $inWater = false)
     {
         $somme = 0;
         switch ($conteneur) {
             case 'parc':
-                $somme = $this->_parcService->countParcCache($parcId);
+                $somme = $this->_parcService->countParcCache($parc);
                 break;
             case 'filiere':
-                if ($parcId == 0)
+                if (!$parc)
                     foreach ($this->_parcService->findAllFromParcCache() as  $parc)
                         $somme += count($this->_filiereService->getFilieres($parc->getId()));
                 else
-                    $somme += count($this->_filiereService->getFilieres($parcId));
+                    $somme += count($this->_filiereService->getFilieres($parc));
 
                 break;
             default:

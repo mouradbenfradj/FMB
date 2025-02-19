@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Asc\Parc;
 use App\Service\FiliereService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,12 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class EtatActuelProdController extends AbstractController
 {
     /**
-     * @Route("/{parcID}", name="app_etat_actuel_prod")
+     * @Route("/{parc}", name="app_etat_actuel_prod")
      */
-    public function index(int $parcID): Response
+    public function index(Parc $parc): Response
     {
         return $this->render('etat_actuel_prod/index.html.twig', [
-            'parcID' => $parcID
+            'parc' => $parc
         ]);
     }
 }

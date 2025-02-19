@@ -3,6 +3,7 @@
 namespace App\Controller\Conteneur;
 
 use App\Entity\Asc\Conteneur\Corde;
+use App\Entity\Asc\Parc;
 use App\Form\Asc\Conteneur\CordeType;
 use App\Repository\Asc\Conteneur\CordeRepository;
 use App\Service\Conteneur\CordeService;
@@ -20,23 +21,23 @@ class CordeController extends AbstractController
 
 
     /**
-     * @Route("/statistique/{parcId}/{conteneur}", name="app_conteneur_corde_statistique", methods={"GET"})
+     * @Route("/statistique/{conteneur}/{parc}", name="app_conteneur_corde_statistique", methods={"GET"})
      */
-    public function statistique(int $parcId = 0, string $conteneur, StatistiqueService $statistiqueService, CordeService $cordeService): Response
+    public function statistique(Parc $parc = null, string $conteneur, StatistiqueService $statistiqueService, CordeService $cordeService): Response
     {
         $statistiqueService->setConteneur($cordeService);
         $cardBoxes = [
-            ['text' => 'Total<br>' . $conteneur . 's', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Total ' . $conteneur . 's<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->aEau($parcId)],
-            ['text' => $conteneur . 's Huîtres<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => $conteneur . 's Moules<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => $conteneur . 's<br>vides', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => $conteneur . 's<br>Préparées', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => $conteneur . 's Huîtres<br>Préparées', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => $conteneur . 's Moules<br>Préparées', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => $conteneur . 's Assemblées<br>Préparées', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => $conteneur . 's Assemblées<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Chaussettes<br>' . $conteneur . 's à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parcId)]
+            ['text' => 'Total<br>' . $conteneur . 's', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Total ' . $conteneur . 's<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->aEau($parc)],
+            ['text' => $conteneur . 's Huîtres<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)],
+            ['text' => $conteneur . 's Moules<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)],
+            ['text' => $conteneur . 's<br>vides', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)],
+            ['text' => $conteneur . 's<br>Préparées', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)],
+            ['text' => $conteneur . 's Huîtres<br>Préparées', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)],
+            ['text' => $conteneur . 's Moules<br>Préparées', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)],
+            ['text' => $conteneur . 's Assemblées<br>Préparées', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)],
+            ['text' => $conteneur . 's Assemblées<br>à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Chaussettes<br>' . $conteneur . 's à l\'eau', 'icon' => 'fe-more-vertical', 'total' => $statistiqueService->total($parc)]
         ];
         return $this->render('conteneur/corde/statistique.html.twig', [
             'cardBoxes' => $cardBoxes,

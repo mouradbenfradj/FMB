@@ -3,6 +3,7 @@
 namespace App\Controller\Conteneur;
 
 use App\Entity\Asc\Conteneur\Lanterne;
+use App\Entity\Asc\Parc;
 use App\Form\Asc\Conteneur\LanterneType;
 use App\Repository\Asc\Conteneur\LanterneRepository;
 use App\Service\Conteneur\LanterneService;
@@ -19,17 +20,17 @@ class LanterneController extends AbstractController
 {
 
     /**
-     * @Route("/statistique/{parcId}/{conteneur}", name="app_conteneur_lanterne_statistique", methods={"GET"})
+     * @Route("/statistique/{conteneur}/{parc}", name="app_conteneur_lanterne_statistique", methods={"GET"})
      */
-    public function statistique(int $parcId = 0,string $conteneur, StatistiqueService $statistiqueService, LanterneService $lanterneService): Response
+    public function statistique(Parc $parc = null, string $conteneur, StatistiqueService $statistiqueService, LanterneService $lanterneService): Response
     {
         $statistiqueService->setConteneur($lanterneService);
         $cardBoxes = [
-            ['text' => 'Total<br>Lanternes', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Lanternes<br>à l\'eau', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Lanternes<br>vides', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Lanternes<br>Préparées', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parcId)],
-            ['text' => 'Chaussettes Lanternes<br>à l\'eau', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parcId)]
+            ['text' => 'Total<br>Lanternes', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Lanternes<br>à l\'eau', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Lanternes<br>vides', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Lanternes<br>Préparées', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parc)],
+            ['text' => 'Chaussettes Lanternes<br>à l\'eau', 'icon' => 'fe-layers', 'total' => $statistiqueService->total($parc)]
         ];
         return $this->render('conteneur/lanterne/statistique.html.twig', [
             'cardBoxes' => $cardBoxes,
@@ -51,7 +52,7 @@ class LanterneController extends AbstractController
     public function new(Request $request, LanterneRepository $lanterneRepository): Response
     {
         $lanterne = new Lanterne();
-        $form = $this->createForm(LanterneType::class, $lanterne);
+        $form = $this->createForm(App\Controller\Conteneur\LanterneType::class, $lanterne);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

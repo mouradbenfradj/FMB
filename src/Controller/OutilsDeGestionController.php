@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Asc\Parc;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,12 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class OutilsDeGestionController extends AbstractController
 {
     /**
-     * @Route("/prevision/{parcID}", name="app_prevision")
+     * @Route("/prevision/{parc}", name="app_prevision")
      */
-    public function prevision(int $parcID): Response
+    public function prevision(Parc $parc = null): Response
     {
         return $this->render('outils_de_gestion/prevision.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'OutilsDeGestionController',
         ]);
     }

@@ -42,7 +42,7 @@ class Emplacement
     private $segment;
 
     /**
-     * @ORM\OneToMany(targetEntity=StockCorde::class, mappedBy="emplacement")
+     * @ORM\OneToMany(targetEntity=StockCorde::class, mappedBy="emplacement",fetch="EAGER")
      */
     private $stockCordes;
 

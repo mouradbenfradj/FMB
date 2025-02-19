@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\Asc\Parc;
 use App\Service\Cache\ParcCacheService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -25,11 +26,10 @@ class ParcExtension extends AbstractExtension
     {
         return $this->_parcCacheService->findAllFromParcCache();
     }
-    public function choixParc(int $id)
+    public function choixParc(Parc $parc = null)
     {
-        $desiredParc = null;
-        if ($id < 0) {
-            switch ($id) {
+        if (!$parc) {
+            switch ($parc) {
                 case -1:
                     return 'Historique des opérations';
                     break;
@@ -39,9 +39,8 @@ class ParcExtension extends AbstractExtension
                     break;
             }
         }
-        $desiredParc = $this->_parcCacheService->getOneParcCache($id);
-        if ($desiredParc) {
-            return $desiredParc->getAbrevParc();
+        if ($parc) {
+            return $parc->getAbrevParc();
         }
         return "Tous.les.parcs";
     }

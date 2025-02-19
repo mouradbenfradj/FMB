@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-	{% include "partials/_pageTitle.html.twig" with {parcID: parcID,menu:'Tableau de bord'|trabs} only %}
+	{# TODO: A supprimer #}
+
+	{% include "partials/_pageTitle.html.twig" with {parc: parc,menu:'Tableau de bord'|trabs} only %}
 	<div class="row">
-		{{ render(path('app_parc_statistique', {parcId: parcID})) }}
-		{{ render(path('app_filiere_statistique', {parcId: parcID})) }}
+		{{ render(path('app_parc_statistique', {parc: parc})) }}
+		{{ render(path('app_filiere_statistique', {parc: parc})) }}
 	</div>
 	{% for conteneur in conteneurs %}
-		{{ render(path('app_conteneur_'~conteneur|lower~'_statistique', {parcID: parcID,conteneur: conteneur})) }}
+		{{ render(path('app_conteneur_'~conteneur|lower~'_statistique', {parc: parc,conteneur: conteneur})) }}
 	{% endfor %}
 {% endblock %}
 {% block javascripts %}

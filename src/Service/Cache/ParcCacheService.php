@@ -52,10 +52,10 @@ class ParcCacheService implements StatistiqueInterface
         $this->_cache->delete('all_parc');
     }
 
-    public function total(?int $parcId): int
+    public function total(Parc $parc = null): int
     {
         $somme = 0;
-        if ($parcId == 0)
+        if (!$parc)
             $somme = count($this->findAllFromParcCache());
         else
             $somme += 1;
@@ -63,7 +63,7 @@ class ParcCacheService implements StatistiqueInterface
     }
 
 
-    public function aEau(?int $parcId = 0, ?int $article): int
+    public function aEau(Parc $parc = null, ?int $article): int
     {
         return 0;
     }

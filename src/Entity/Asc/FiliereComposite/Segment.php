@@ -100,7 +100,7 @@ class Segment
     {
         $somme = 0;
 
-        foreach ($this->getEmplacements() as $emplacement) {
+        foreach ($this->emplacements as $emplacement) {
             if (count($emplacement->getStockCordes()))
                 $somme += 1;
         }

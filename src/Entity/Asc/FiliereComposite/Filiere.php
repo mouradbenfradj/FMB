@@ -88,7 +88,7 @@ class Filiere
     private $aireDeTravaille;
 
     /**
-     * @ORM\OneToMany(targetEntity=Segment::class, mappedBy="filiere",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Segment::class, mappedBy="filiere",fetch="EAGER",cascade={"persist"})
      */
     private $segments;
 
@@ -198,20 +198,16 @@ class Filiere
     public function getTotaleCordes(): int
     {
         $somme = 0;
-
-        foreach ($this->segments as $segment) {
-
+        foreach ($this->getSegments() as $segment) {
             $somme += $segment->getTotaleCordes();
         }
-
         return $somme;
     }
     public function getPoidCordes(): int
     {
         $somme = 0;
-        foreach ($this->segments as $segment) {
+        foreach ($this->segments as $segment)
             $somme += $segment->getPoidCordes();
-        }
         return $somme;
     }
 
@@ -220,9 +216,9 @@ class Filiere
     public function getNombreEmplacements(): int
     {
         $somme = 0;
-        foreach ($this->segments as $segment) {
+        foreach ($this->segments as $segment)
             $somme += $segment->getNombreEmplacements();
-        }
+
         return $somme;
     }
     public function getNombreEmplacementsVide(): int

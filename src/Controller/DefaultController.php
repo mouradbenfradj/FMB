@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Asc\Parc;
 use App\Service\ConteneurService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,19 +17,28 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", methods={"GET","HEAD"})
      */
-    public function indexNoLocale(Request $request, int $parcID = 0): Response
+    public function indexNoLocale(Request $request, Parc $parc = null): Response
     {
-        return $this->redirectToRoute('app_statistique', ['_locale' => $request->getLocale(), 'parcID' => $parcID]);
+
+        if ($parc) {
+            dd(' parc');
+        }
+        return $this->redirectToRoute('app_statistique', ['_locale' => $request->getLocale(), 'parc' => $parc]);
     }
 
     /**
-     * @Route("/statd/{_locale}/{parcID<\d+>}", name="app_default", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/statd/{_locale}/{parc}", name="app_default", methods={"GET","HEAD"})
      */
-    public function index(int $parcID = 0, ConteneurService $conteneurService): Response
+    public function index(Parc $parc = null, ConteneurService $conteneurService): Response
     {
 
+        if ($parc) {
+            dd(' parc');
+        } else {
+            dd('pas de parc');
+        }
         return $this->render('default/index.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'conteneurs' => $conteneurService->getContainerList()
         ]);
     }

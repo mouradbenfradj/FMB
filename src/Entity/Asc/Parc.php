@@ -42,7 +42,7 @@ class Parc
     private $abrevParc;
 
     /**
-     * @ORM\OneToMany(targetEntity=Filiere::class, mappedBy="parc")
+     * @ORM\OneToMany(targetEntity=Filiere::class, mappedBy="parc",fetch="EAGER")
      */
     private $filieres;
     /**
@@ -72,6 +72,22 @@ class Parc
     {
         return $this->libParc;
     }
+    public function getTotaleFilieres()
+    {
+        $somme = 0;
+        $somme = count($this->getFilieres());
+        return $somme;
+    }
+
+    public function getTotaleCordes(): int
+    {
+        $somme = 0;
+        $somme += array_sum(array_map(fn($corde): int => $corde->getQuantiter(), $this->cordes->toArray()));
+        $somme = count($this->getFilieres());
+
+        return $somme;
+    }
+
     public function initParc(string $abrevParc, string $libParc)
     {
         $this->abrevParc = $abrevParc;

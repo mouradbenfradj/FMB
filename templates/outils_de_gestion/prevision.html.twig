@@ -2,7 +2,7 @@
 
 
 {% block body %}
-	{% include "partials/_pageTitle.html.twig" with {parcID: parcID,menu:'Outils.de.gestion'|trans} only %}
+	{% include "partials/_pageTitle.html.twig" with {parc: parc,menu:'Outils.de.gestion'|trans} only %}
 	<div class="row">
 		<div
 			class="col-xl-6">
@@ -37,9 +37,9 @@
 		<div class="col-lg-12">
 			<div class="card-box">
 				{# 				<h4 class="header-title">Pie Chart</h4>
-																 #}
+																				 #}
 				{# 				<div id="pie-chart" class="flot-chart mt-5" data-colors="#4a81d4,#f672a7,#f7b84b,#3283f6,#1abc9c" style="height: 350px;"></div>
-																 #}<div id="chart"> </div>
+																				 #}<div id="chart"> </div>
 				<div id="chart2"></div>
 				<div id="chart3"></div>
 				<div id="chart4"></div>

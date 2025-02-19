@@ -3,6 +3,7 @@
 namespace App\Repository\Asc\FiliereComposite;
 
 use App\Entity\Asc\FiliereComposite\Filiere;
+use App\Entity\Asc\Parc;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -57,15 +58,15 @@ class FiliereRepository extends ServiceEntityRepository
     /**
      * Compte le nombre de filières associées à un parc donné.
      *
-     * @param int $parcId L'ID du parc
+     * @param Parc $parc Le parc
      * @return int Nombre de filières
      */
-    public function countByParc(int $parcId): int
+    public function countByParc(Parc $parc): int
     {
         return $this->createQueryBuilder('f')
             ->select('COUNT(f.id)')
             ->andWhere('f.parc = :parcId')
-            ->setParameter('parcId', $parcId)
+            ->setParameter('parcId', $parc)
             ->getQuery()
             ->getSingleScalarResult();
     }

@@ -35,6 +35,7 @@
         "Vue.volar",
         "Blackboxapp.blackbox",
         "github.vscode-github-actions"
+        //,"Gruntfuggly.todo-tree"
     ],
     "settings": {
         "docker.host": "tcp://localhost:2375",

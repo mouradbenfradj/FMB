@@ -2,10 +2,12 @@
 
 namespace App\Interfaces;
 
+use App\Entity\Asc\Parc;
+
 interface StatistiqueInterface
 {
-	public function total(?int $parcId): int;
-	public function aEau(?int $parcId = 0, ?int $article): int;
+	public function total(Parc $parc = null): int;
+	public function aEau(Parc $parc = null, ?int $article): int;
 	public function vides(): int;
 	public function preparees($article): array;
 	public function assembleesPreparees($article): array;

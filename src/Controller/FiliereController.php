@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Asc\FiliereComposite\Filiere;
+use App\Entity\Asc\Parc;
 use App\Repository\Asc\FiliereComposite\FiliereRepository;
 use App\Service\FiliereService;
 use App\Service\StatistiqueService;
@@ -18,13 +20,13 @@ class FiliereController extends AbstractController
 
 
     /**
-     * @Route("/statistique/{parcId}", name="app_filiere_statistique", methods={"GET"})
+     * @Route("/statistique/{parc}", name="app_filiere_statistique", methods={"GET"})
      */
-    public function statistique(int $parcId = 0, StatistiqueService $statistiqueService, FiliereService $filiereService): Response
+    public function statistique(Parc $parc = null, StatistiqueService $statistiqueService, FiliereService $filiereService): Response
     {
         $statistiqueService->setConteneur($filiereService);
         $cardBoxes = [
-            ['text' => 'Total Filières', 'icon' => 'fe-sliders', 'total' => $statistiqueService->total($parcId)]
+            ['text' => 'Total Filières', 'icon' => 'fe-sliders', 'total' => $statistiqueService->total($parc)]
         ];
         return $this->render('filiere/statistique.html.twig', [
             'cardBoxes' => $cardBoxes,
@@ -32,22 +34,30 @@ class FiliereController extends AbstractController
     }
 
     /**
-     * @Route("/{parcID<\d+>}", name="app_filiere", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/{parc}", name="app_filiere", methods={"GET","HEAD"})
      */
-    public function etatActuelProd(int $parcID = 0, FiliereRepository $filiereRepository): Response
+    public function etatActuelProd(Parc $parc = null): Response
     {
+        $filieres = $parc->getFilieres()->toArray();
+        usort($filieres, function (Filiere $a, Filiere $b) {
+            if ($a->isAireDeTravaille() === $b->isAireDeTravaille()) {
+                return strcmp($a->getNomFiliere(), $b->getNomFiliere());
+            }
+            return $a->isAireDeTravaille() ? -1 : 1;
+        });
+
         return $this->render('filiere/etatActuelProd.html.twig', [
-            'parcID' => $parcID,
-            'filieres' => $filiereRepository->findByParcId($parcID),
+            'parc' => $parc,
+            'filieres' => $filieres,
         ]);
     }
 
     /**
-     * @Route("/ajax/{id<\d+>}", name="app_filiere_ajax", methods={"GET","HEAD"}, requirements={"id"="\d+"})
+     * @Route("/ajax/{parc}", name="app_filiere_ajax", methods={"GET","HEAD"})
      */
-    public function etatActuelProdAjax(int $id = 0, FiliereRepository $filiereRepository): Response
+    public function etatActuelProdAjax(Parc $parc = null, FiliereRepository $filiereRepository): Response
     {
-        $filieres = $filiereRepository->findByParcId($id);
+        $filieres = $parc->getFilieres()->toArray();
         $b = array_map(function ($f) {
             return [
                 "Réf Filière" =>  $f->getNomFiliere(),

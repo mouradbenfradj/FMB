@@ -1,17 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<div id="parc-id" data-id="{{ parcID }}"></div>
-	{% include "partials/_pageTitle.html.twig" with {parcID: parcID,menu:'Etat.actuel.produc'|trans} only %}
-	{{ render(path('app_filiere', {parcID: parcID})) }}
-	{# <div class="row">
-						<div class="col-sm-12">
-							<div class="card-box">
-								<h4 class="header-title">Triggers</h4>
-								<div id="jsGrid"></div>
-							</div>
-						</div>
-					</div> #}
+	<div id="parc-id" data-id="{{ parc }}"></div>
+	{% include "partials/_pageTitle.html.twig" with {parc: parc,menu:'Etat.actuel.produc'|trans} only %}
+	{{ render(path('app_filiere', {parc: parc.id})) }}
 {% endblock %}
 
 {% block javascripts %}

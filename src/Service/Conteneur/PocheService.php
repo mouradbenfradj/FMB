@@ -2,6 +2,7 @@
 
 namespace App\Service\Conteneur;
 
+use App\Entity\Asc\Parc;
 use App\Interfaces\StatistiqueInterface;
 
 /**
@@ -10,11 +11,12 @@ use App\Interfaces\StatistiqueInterface;
 class PocheService implements StatistiqueInterface
 {
 
-    public function total(?int $parcId): int
+    public function total(Parc $parc = null): int
     {
+
         return 0;
     }
-    public function aEau(?int $parcId = 0, ?int $article): int
+    public function aEau(Parc $parc = null, ?int $article): int
     {
         return 0;
     }

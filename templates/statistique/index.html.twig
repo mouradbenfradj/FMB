@@ -1,72 +1,72 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-	{% include "partials/_pageTitle.html.twig" with {parcID: parcID,menu:'Tableau de bord'|trans} only %}
+	{% include "partials/_pageTitle.html.twig" with {parc: parc,menu:'Tableau de bord'|trans} only %}
 	<div class="row">
-		{{ render(path('app_parc_statistique', {parcId: parcID})) }}
-		{{ render(path('app_filiere_statistique', {parcId: parcID})) }}
+		{{ render(path('app_parc_statistique', {parc: parc is not null ? parc.id : null})) }}
+		{{ render(path('app_filiere_statistique', {parc: parc is not null ? parc.id : null})) }}
 	</div>
 	{% for conteneur in conteneurs %}
-		{{ render(path('app_conteneur_'~conteneur|lower~'_statistique', {parcID: parcID,conteneur: conteneur})) }}
+		{{ render(path('app_conteneur_'~conteneur|lower~'_statistique', {parc: parc is not null ? parc.id : null,conteneur: conteneur})) }}
 	{% endfor %}
 	{# <div class="row">
-									{% set cardBoxes = [
-							            {text: 'Total<br>Cordes', icon: 'fe-more-vertical',total:total(id,'corde')},
-							            {text: 'Total Cordes<br>à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde',null,true)},
-							            {text: 'Cordes Huîtres<br>à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde')},
-							            {text: 'Cordes Moules<br>à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde')},
-							            {text: 'Cordes<br>vides', icon: 'fe-more-vertical',total:total(id, 'corde')},
-							            {text: 'Cordes<br>Préparées', icon: 'fe-more-vertical',total:total(id, 'corde')},
-							            {text: 'Cordes Huîtres<br>Préparées', icon: 'fe-more-vertical',total:total(id, 'corde')},
-							            {text: 'Cordes Moules<br>Préparées', icon: 'fe-more-vertical',total:total(id, 'corde')},
-							            {text: 'Cordes Assemblées<br>Préparées', icon: 'fe-more-vertical',total:total(id, 'corde')},
-							            {text: 'Cordes Assemblées<br>à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde')},
-							            {text: 'Chaussettes<br>Cordes à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde')}
-							        ] %}
-							
-									{% for box in cardBoxes %}
-										{% if loop.index == 1 %}
-											{% include "default/partials/_card-box-warning.html.twig" with box only %}
-										{% else %}
-											{% include "default/partials/_card-box-info.html.twig" with box only %}
-										{% endif %}
-									{% endfor %}
-								</div>
-								<div class="row">
-									{% set cardBoxes = [
-							            {text: 'Total<br>Lanternes', icon: 'fe-layers',total:total(id, 'corde')},
-							            {text: 'Lanternes<br>à l\'eau', icon: 'fe-layers',total:total(id, 'corde')},
-							            {text: 'Lanternes<br>vides', icon: 'fe-layers',total:total(id, 'corde')},
-							            {text: 'Lanternes<br>Préparées', icon: 'fe-layers',total:total(id, 'corde')},
-							            {text: 'Chaussettes Lanternes<br>à l\'eau', icon: 'fe-layers',total:total(id, 'corde')}
-							        ] %}
-									{% for box in cardBoxes %}
-										{% if loop.index == 1 %}
-											{% include "default/partials/_card-box-warning.html.twig" with box only %}
-										{% else %}
-											{% include "default/partials/_card-box-info.html.twig" with box only %}
-										{% endif %}
-									{% endfor %}
-								</div>
-								<div class="row">
-									{% set cardBoxes = [
-							            {text: 'Total<br>Poches', icon: 'fe-shopping-bag',total:total(id, 'corde')},
-							            {text: 'Poches<br>à l\'eau', icon: 'fe-shopping-bag',total:total(id, 'corde')},
-							            {text: 'Poches<br>vides', icon: 'fe-shopping-bag',total:total(id, 'corde')},
-							            {text: 'Poches<br>Préparées', icon: 'fe-shopping-bag',total:total(id, 'corde')},
-							            {text: 'Poches<br>Assemblées', icon: 'fe-shopping-bag',total:total(id, 'corde')},
-							            {text: 'Poches Assemblées<br>à l\'eau', icon: 'fe-shopping-bag',total:total(id, 'corde')},
-							            {text: 'Chaussettes Poches<br>à l\'eau', icon: 'fe-shopping-bag',total:total(id, 'corde')}
-							        ] %}
-									{% for box in cardBoxes %}
-										{% if loop.index == 1 or loop.index == 3 %}
-											{% include "default/partials/_card-box-warning.html.twig" with box only %}
-										{% elseif loop.index == 2 or loop.index == 5 %}
-											{% include "default/partials/_card-box-primary.html.twig" with box only %}
-										{% else %}
-											{% include "default/partials/_card-box-info.html.twig" with box only %}
-										{% endif %}
-									{% endfor %}
-								</div> #}
+																						{% set cardBoxes = [
+																				            {text: 'Total<br>Cordes', icon: 'fe-more-vertical',total:total(id,'corde')},
+																				            {text: 'Total Cordes<br>à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde',null,true)},
+																				            {text: 'Cordes Huîtres<br>à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde')},
+																				            {text: 'Cordes Moules<br>à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde')},
+																				            {text: 'Cordes<br>vides', icon: 'fe-more-vertical',total:total(id, 'corde')},
+																				            {text: 'Cordes<br>Préparées', icon: 'fe-more-vertical',total:total(id, 'corde')},
+																				            {text: 'Cordes Huîtres<br>Préparées', icon: 'fe-more-vertical',total:total(id, 'corde')},
+																				            {text: 'Cordes Moules<br>Préparées', icon: 'fe-more-vertical',total:total(id, 'corde')},
+																				            {text: 'Cordes Assemblées<br>Préparées', icon: 'fe-more-vertical',total:total(id, 'corde')},
+																				            {text: 'Cordes Assemblées<br>à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde')},
+																				            {text: 'Chaussettes<br>Cordes à l\'eau', icon: 'fe-more-vertical',total:total(id, 'corde')}
+																				        ] %}
+																				
+																						{% for box in cardBoxes %}
+																							{% if loop.index == 1 %}
+																								{% include "default/partials/_card-box-warning.html.twig" with box only %}
+																							{% else %}
+																								{% include "default/partials/_card-box-info.html.twig" with box only %}
+																							{% endif %}
+																						{% endfor %}
+																					</div>
+																					<div class="row">
+																						{% set cardBoxes = [
+																				            {text: 'Total<br>Lanternes', icon: 'fe-layers',total:total(id, 'corde')},
+																				            {text: 'Lanternes<br>à l\'eau', icon: 'fe-layers',total:total(id, 'corde')},
+																				            {text: 'Lanternes<br>vides', icon: 'fe-layers',total:total(id, 'corde')},
+																				            {text: 'Lanternes<br>Préparées', icon: 'fe-layers',total:total(id, 'corde')},
+																				            {text: 'Chaussettes Lanternes<br>à l\'eau', icon: 'fe-layers',total:total(id, 'corde')}
+																				        ] %}
+																						{% for box in cardBoxes %}
+																							{% if loop.index == 1 %}
+																								{% include "default/partials/_card-box-warning.html.twig" with box only %}
+																							{% else %}
+																								{% include "default/partials/_card-box-info.html.twig" with box only %}
+																							{% endif %}
+																						{% endfor %}
+																					</div>
+																					<div class="row">
+																						{% set cardBoxes = [
+																				            {text: 'Total<br>Poches', icon: 'fe-shopping-bag',total:total(id, 'corde')},
+																				            {text: 'Poches<br>à l\'eau', icon: 'fe-shopping-bag',total:total(id, 'corde')},
+																				            {text: 'Poches<br>vides', icon: 'fe-shopping-bag',total:total(id, 'corde')},
+																				            {text: 'Poches<br>Préparées', icon: 'fe-shopping-bag',total:total(id, 'corde')},
+																				            {text: 'Poches<br>Assemblées', icon: 'fe-shopping-bag',total:total(id, 'corde')},
+																				            {text: 'Poches Assemblées<br>à l\'eau', icon: 'fe-shopping-bag',total:total(id, 'corde')},
+																				            {text: 'Chaussettes Poches<br>à l\'eau', icon: 'fe-shopping-bag',total:total(id, 'corde')}
+																				        ] %}
+																						{% for box in cardBoxes %}
+																							{% if loop.index == 1 or loop.index == 3 %}
+																								{% include "default/partials/_card-box-warning.html.twig" with box only %}
+																							{% elseif loop.index == 2 or loop.index == 5 %}
+																								{% include "default/partials/_card-box-primary.html.twig" with box only %}
+																							{% else %}
+																								{% include "default/partials/_card-box-info.html.twig" with box only %}
+																							{% endif %}
+																						{% endfor %}
+																					</div> #}
 	<!-- end row-->
 {% endblock %}
 {% block javascripts %}

@@ -26,7 +26,7 @@
 											Remplissage Segment (%)
 											<span class="footable-sort-indicator"></span>
 										</th>
-										<td>{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage: loop.index} only %}</td>
+										<td>{% include "etat_actuel_prod/partials/_progress.html.twig" with {remplissage: ((segment.totaleCordes * 100 ) / (segment.nombreEmplacements == 0 ?1 : segment.nombreEmplacements))|round } only %}</td>
 									</tr>
 									<tr>
 										<th>Flottabilité Segment (%)<span class="footable-sort-indicator"></span>

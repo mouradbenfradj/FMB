@@ -25,26 +25,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProdAFaireController extends AbstractController
 {
     /**
-     * @Route("/preparation/{parcID<\d+>}", name="app_preparation", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/preparation/{parc}", name="app_preparation", methods={"GET","HEAD"})
      */
-    public function preparationtion(int $parcID = 0): Response
+    public function preparationtion(Parc $parc = null): Response
     {
         return $this->render('prod_a_faire/preparation.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'ProdAFaireController',
         ]);
     }
 
     /**
-     * @Route("/preparation/corde/{parcID<\d+>}", name="app_preparation_corde", methods={"GET","POST"}, requirements={"parcID"="\d+"})
+     * @Route("/preparation/corde/{parc}", name="app_preparation_corde", methods={"GET","POST"})
      */
-    public function preparationtionCorde(Request $request, Parc $parcID, FruitDeMerRepository $fruitDeMerRepository): Response
+    public function preparationtionCorde(Request $request, Parc $parc, FruitDeMerRepository $fruitDeMerRepository): Response
     {
         $fruitDeMers =  $fruitDeMerRepository->findAll();
 
-        $id = $parcID->getId();
-        $corde = $parcID->getCordes()->first();
-        $stock = $parcID->getStocks()->first();
+        $id = $parc->getId();
+        $corde = $parc->getCordes()->first();
+        $stock = $parc->getStocks()->first();
         $article =  $stock->getStockArticles()->first();
         $lot = $article->getStockArticleSns()->first();
 
@@ -58,15 +58,15 @@ class ProdAFaireController extends AbstractController
             "quantiteEnStock" => $corde->getQuantiter(),
             "totalqte" => $lot->getSnQte(),
         ];
-        $form = $this->createForm(PreparationCordeType::class,  $preparationCorde, ['parc' => $parcID, 'fruitDeMer' => $fruitDeMers]);
+        $form = $this->createForm(PreparationCordeType::class,  $preparationCorde, ['parc' => $parc, 'fruitDeMer' => $fruitDeMers]);
         $form->handleRequest($request);
         /* if ($request->isMethod('POST')  && $request->isXmlHttpRequest()) {
             $preparationCorde = $request->request->get('preparation_corde');
             dump($preparationCorde);
             $preparationCorde["datedecreation"]  = new DateTime($preparationCorde["datedecreation"]);
-            $form = $this->createForm(PreparationCordeType::class, $preparationCorde, ['parc' => $parcID]);
+            $form = $this->createForm(PreparationCordeType::class, $preparationCorde, ['parc' => $parc]);
             return $this->render('prod_a_faire/preparation_corde.html.twig', [
-                'parcID' => $id,
+                'parc' => $id,
                 'form' => $form->createView(),
             ]);
         } */
@@ -76,9 +76,9 @@ class ProdAFaireController extends AbstractController
         if ($request->isMethod('POST')) {
             if ($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
-                $form = $this->createForm(PreparationCordeType::class, $data, ['parc' => $parcID]);
+                $form = $this->createForm(PreparationCordeType::class, $data, ['parc' => $parc]);
                 return $this->render('prod_a_faire/preparation_corde.html.twig', [
-                    'parcID' => $id,
+                    'parc' => $id,
                     'form' => $form->createView(),
                 ]);
             }
@@ -86,88 +86,88 @@ class ProdAFaireController extends AbstractController
         if ($request->isMethod('POST')) {
             if ($form->isSubmitted()) {
                 $preparationCorde = $form->getData();
-                $form = $this->createForm(PreparationCordeType::class, $preparationCorde, ['parc' => $parcID]);
+                $form = $this->createForm(PreparationCordeType::class, $preparationCorde, ['parc' => $parc]);
                 return $this->render('prod_a_faire/preparation_corde.html.twig', [
-                    'parcID' => $id,
+                    'parc' => $id,
                     'form' => $form->createView(),
                 ]);
             }
         }
 
         return $this->render('prod_a_faire/preparation_corde.html.twig', [
-            'parcID' => $id,
+            'parc' => $id,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/preparation/lanterne/{parcID<\d+>}", name="app_preparation_lanterne", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/preparation/lanterne/{parc}", name="app_preparation_lanterne", methods={"GET","HEAD"})
      */
-    public function preparationtionLanterne(int $parcID = 0): Response
+    public function preparationtionLanterne(Parc $parc = null): Response
     {
         return $this->render('prod_a_faire/preparation_lanterne.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'ProdAFaireController',
         ]);
     }
 
     /**
-     * @Route("/preparation/poche/{parcID<\d+>}", name="app_preparation_poche", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/preparation/poche/{parc}", name="app_preparation_poche", methods={"GET","HEAD"})
      */
-    public function preparationtionPoche(int $parcID = 0): Response
+    public function preparationtionPoche(Parc $parc = null): Response
     {
         return $this->render('prod_a_faire/preparation_poche.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'ProdAFaireController',
         ]);
     }
     /**
-     * @Route("/assemblage/{parcID<\d+>}", name="app_assemblage", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/assemblage/{parc}", name="app_assemblage", methods={"GET","HEAD"})
      */
-    public function assemblage(int $parcID = 0): Response
+    public function assemblage(Parc $parc = null): Response
     {
         return $this->render('prod_a_faire/assemblage.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'ProdAFaireController',
         ]);
     }
     /**
-     * @Route("/mise_a_eau/{parcID<\d+>}", name="app_mise_a_eau", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/mise_a_eau/{parc}", name="app_mise_a_eau", methods={"GET","HEAD"})
      */
-    public function miseAEau(int $parcID = 0): Response
+    public function miseAEau(Parc $parc = null): Response
     {
         return $this->render('prod_a_faire/index.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'ProdAFaireController',
         ]);
     }
     /**
-     * @Route("/retrait/{parcID<\d+>}", name="app_retrait", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/retrait/{parc}", name="app_retrait", methods={"GET","HEAD"})
      */
-    public function retrait(int $parcID = 0): Response
+    public function retrait(Parc $parc = null): Response
     {
         return $this->render('prod_a_faire/index.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'ProdAFaireController',
         ]);
     }
     /**
-     * @Route("/chaussement/{parcID<\d+>}", name="app_chaussement", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/chaussement/{parc}", name="app_chaussement", methods={"GET","HEAD"})
      */
-    public function chaussement(int $parcID = 0): Response
+    public function chaussement(Parc $parc = null): Response
     {
         return $this->render('prod_a_faire/index.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'ProdAFaireController',
         ]);
     }
     /**
-     * @Route("/commerciale/{parcID<\d+>}", name="app_commerciale", methods={"GET","HEAD"}, requirements={"parcID"="\d+"})
+     * @Route("/commerciale/{parc}", name="app_commerciale", methods={"GET","HEAD"})
      */
-    public function commerciale(int $parcID = 0): Response
+    public function commerciale(Parc $parc = null): Response
     {
         return $this->render('prod_a_faire/index.html.twig', [
-            'parcID' => $parcID,
+            'parc' => $parc,
             'controller_name' => 'ProdAFaireController',
         ]);
     }

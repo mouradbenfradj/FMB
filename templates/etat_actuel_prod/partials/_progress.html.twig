@@ -1,7 +1,12 @@
+{% set rouge = remplissage %}
+
 <div class="progress mb-0">
-	<div class="progress-bar bg-danger" role="danger" style="width: {{  remplissage}}%" aria-valuenow="{{ remplissage}}" aria-valuemin="0" aria-valuemax="100">{{ remplissage}}
-		% R</div>
-	<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ 100 - remplissage}}%" aria-valuenow=" {{ 100 - remplissage}}%" aria-valuemin="0" aria-valuemax="100">
-		{{ 100 - remplissage}}
-		% V</div>
+	<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
+		{{rouge}}
+		% R
+	</div>
+	<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ 100 - rouge}}%" aria-valuenow=" {{ 100 - rouge}}%" aria-valuemin="0" aria-valuemax="100">
+		{{ 100 - rouge}}
+		% V
+	</div>
 </div>

@@ -45,12 +45,9 @@ jobs:
         run: ls -la
       - name: Install Node.js dependencies with Yarn
         run: yarn install
-      - name: Download vendor and node_modules artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: dependencies
-          path: ./artifacts
-      
+
+      - name: Build assets with Yarn
+        run: yarn build
     outputs:
       success: true
 

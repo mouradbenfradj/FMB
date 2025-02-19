@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Asc\FiliereComposite\Filiere;
+use App\Entity\Asc\Parc;
 use App\Interfaces\StatistiqueInterface;
 use App\Repository\Asc\FiliereComposite\FiliereRepository;
 use App\Service\Cache\ParcCacheService;
@@ -33,17 +34,18 @@ class FiliereService implements StatistiqueInterface
     }
 
 
-    public function total(?int $parcId): int
+    public function total(Parc $parc = null): int
     {
+
         $somme = 0;
-        if ($parcId == 0)
+        if (!$parc)
             foreach ($this->_parcCacheService->findAllFromParcCache() as  $parc)
-                $somme += count($this->getFilieres($parc->getId()));
+                $somme += $parc->getTotaleFilieres();
         else
-            $somme += count($this->getFilieres($parcId));
+            $somme += $parc->getTotaleFilieres();
         return  $somme;
     }
-    public function aEau(?int $parcId = 0, ?int $article): int
+    public function aEau(Parc $parc = null, ?int $article): int
     {
         return 0;
     }

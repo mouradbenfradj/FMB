@@ -2,6 +2,7 @@
 
 namespace App\Service\Conteneur;
 
+use App\Entity\Asc\Parc;
 use App\Interfaces\StatistiqueInterface;
 use App\Repository\Asc\Conteneur\CordeRepository;
 use App\Repository\Asc\Stock\StockCordeRepository;
@@ -25,22 +26,22 @@ class CordeService implements StatistiqueInterface
         $this->_parcCacheService = $parcCacheService;
     }
 
-    public function total(?int $parcId): int
+    public function total(Parc $parc = null): int
     {
 
         $somme = 0;
-        if ($parcId == 0)
+        if (!$parc)
             foreach ($this->_parcCacheService->findAllFromParcCache() as  $parc) {
                 $cordes = $this->_cordeRepository->findByParc($parc->getId());
-                $somme += array_sum(array_map(fn ($corde): int => $corde->getQuantiter(), $cordes));
+                $somme += array_sum(array_map(fn($corde): int => $corde->getQuantiter(), $cordes));
             }
         else {
-            $cordes = $this->_cordeRepository->findByParc($parcId);
-            $somme += array_sum(array_map(fn ($corde): int => $corde->getQuantiter(), $cordes));
+            $cordes = $parc->getCordes()->toArray();
+            $somme += array_sum(array_map(fn($corde): int => $corde->getQuantiter(), $cordes));
         }
         return $somme;
     }
-    public function aEau(?int $parcId = 0, ?int $article): int
+    public function aEau(Parc $parc = null, ?int $article): int
     {
         return 0;
     }
