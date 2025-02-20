@@ -83,7 +83,7 @@ class Parc
     {
         $somme = 0;
         $somme += array_sum(array_map(fn($corde): int => $corde->getQuantiter(), $this->cordes->toArray()));
-        $somme = count($this->getFilieres());
+        //$somme = count($this->getFilieres());
 
         return $somme;
     }

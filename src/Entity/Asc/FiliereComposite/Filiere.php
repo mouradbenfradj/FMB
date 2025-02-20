@@ -218,17 +218,13 @@ class Filiere
         $somme = 0;
         foreach ($this->segments as $segment)
             $somme += $segment->getNombreEmplacements();
-
         return $somme;
     }
     public function getNombreEmplacementsVide(): int
     {
         $somme = 0;
         foreach ($this->segments as $segment) {
-            foreach ($segment->getEmplacements() as $emplacement) {
-                if (!empty($emplacement->getStockCordes()))
-                    $somme += 1;
-            }
+            $somme += $segment->getNombreEmplacementsVide();
         }
         return $somme;
     }

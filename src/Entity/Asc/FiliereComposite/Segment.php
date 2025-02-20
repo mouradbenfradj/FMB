@@ -96,13 +96,23 @@ class Segment
     {
         return count($this->getEmplacements());
     }
+    public function getNombreEmplacementsVide(): int
+    {
+        $somme = 0;
+        foreach ($this->emplacements as $emplacement) {
+            if (!count($emplacement->getStockCordes()))
+                $somme +=  1;
+        }
+
+        return $somme;
+    }
     public function getTotaleCordes(): int
     {
         $somme = 0;
 
         foreach ($this->emplacements as $emplacement) {
             if (count($emplacement->getStockCordes()))
-                $somme += 1;
+                $somme += count($emplacement->getStockCordes());
         }
 
         return $somme;
@@ -201,7 +211,6 @@ class Segment
                 $emplacement->setSegment(null);
             }
         }
-
         return $this;
     }
 
