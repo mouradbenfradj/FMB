@@ -1,58 +1,34 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/php-mariadb
 {
-    "name": "Symfony Development",
-    "dockerComposeFile": [
-        "docker-compose.yml"
-    ],
-    "service": "www",
-    "context": "..",
-    "workspaceFolder": "/var/www/asc",
-    "remoteEnv": {
-        "APP_ENV": "dev",
-        "APP_DEBUG": "1",
-        "DATABASE_URL": "mysql://root:mourad@database:3306/asc",
-        "XDEBUG_MODE": "debug,develop",
-        "XDEBUG_CONFIG": "client_host=host.docker.internal"
-    },
-    "extensions": [
-        "felixfbecker.php-debug",
-        "felixfbecker.php-intellisense",
-        "mehedidracula.php-namespace-resolver",
-        "junstyle.php-cs-fixer",
-        "bmewburn.vscode-intelephense-client",
-        "fabpot.vscode-symfony",
-        "sianglim.slim",
-        "neilbrayfield.php-docblocker",
-        "mikestead.dotenv",
-        "ms-azuretools.vscode-docker",
-        "xdebug.php-debug",
-        "TheNouillet.symfony-vscode",
-        "ms-vscode.makefile-tools",
-        "mblode.twig-language-2",
-        "junstyle.twig-language",
-        "zepich.twig-braces-helper",
-        "redhat.vscode-yaml",
-        "ritwickdey.LiveServer",
-        "Vue.volar",
-        "Blackboxapp.blackbox",
-        "github.vscode-github-actions"
-        //,"Gruntfuggly.todo-tree"
-    ],
-    "settings": {
-        "docker.host": "tcp://localhost:2375",
-        "docker.remotePlatform": {
-            "os": "linux"
-        },
-        "php.validate.executablePath": "/usr/local/bin/php",
-        "php.debug.executablePath": "/usr/local/bin/php",
-        "php.debug.idekey": "VSCODE"
-    },
-    "build": {
-        "args": {
-            "VARIANT": "bullseye"
-        }
-    },
-    "mounts": [
-        "source=${localWorkspaceFolder}/.vscode,target=/root/.vscode,type=bind",
-        "source=${localWorkspaceFolder}/data,target=/var/www/asc/data,type=bind"
-    ]
+	"name": "PHP & MariaDB",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
+	"forwardPorts": [
+		8080,
+		3306
+	],
+	"features": {
+		"ghcr.io/devcontainers/features/node:1": {},
+		"ghcr.io/shyim/devcontainers-features/symfony-cli:0": {},
+		"ghcr.io/nikobockerman/devcontainer-features/yarn-persistent-cache:1": {},
+		"ghcr.io/devcontainers-extra/features/composer:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-azuretools.vscode-docker"
+			]
+		}
+	}
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+	// Configure tool-specific properties.
+	// "customizations": {},
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
 }

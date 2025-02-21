@@ -1,69 +1,34 @@
-version: "3.8"
-services:
-  database:
-    image: mysql:5.7
-    container_name: db_asc
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: "mourad"
-      MYSQL_DATABASE: asc
-    ports:
-      - "3309:3306"
-    networks:
-      - dev
-  oysterpro:
-    image: mysql:5.5
-    container_name: db_oysterpro
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: "mourad"
-      MYSQL_DATABASE: oysterpro
-    ports:
-      - "3307:3306"
-    networks:
-      - dev
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin_asc
-    restart: always
-    depends_on:
-      - database
-      - oysterpro
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOSTS: database,oysterpro
-      PMA_PORT: 3309
-    networks:
-      - dev
-  maildev:
-    image: maildev/maildev
-    container_name: maildev_asc
-    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
-    ports:
-      - "8081:80"
-    restart: always
-    networks:
-      - dev
-  www:
-    build: php
-    container_name: www_asc
-    ports:
-      - "2512:80"
-    volumes:
-      - ../:/var/www/asc
-      - ./php/vhosts:/etc/apache2/sites-enabled
-    restart: always
-    networks:
-      - dev
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 2G
-networks:
-  dev:
+version: '3.8'
 
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - ../..:/workspaces:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    network_mode: service:db
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+  db:
+    image: mysql
+    restart: unless-stopped
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mourad
+      MYSQL_DATABASE: asc
+      MYSQL_USER: mourad
+      MYSQL_PASSWORD: mourad
+    # Add "forwardPorts": ["3306"] to **devcontainer.json** to forward MariaDB locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
 
 volumes:
-  db-data:
+  mysql-data:
