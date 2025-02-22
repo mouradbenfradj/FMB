@@ -22,3 +22,30 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+# config/services.yaml
+
+
+    admin.parc:
+        class: App\Admin\ParcAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Parc, manager_type: orm, label: Parc }
+    admin.filiere:
+        class: App\Admin\FiliereAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Filiere, manager_type: orm, label: Filiere }
+    admin.segment:
+        class: App\Admin\SegmentAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Segment, manager_type: orm, label: Segment }
+    admin.flotteur:
+        class: App\Admin\FlotteurAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Flotteur, manager_type: orm, label: Flotteur }
+    admin.flotteur.segment:
+        class: App\Admin\FlotteurSegmentAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\FlotteurSegment, manager_type: orm, label: FlotteurSegment }
+    admin.emplacement:
+        class: App\Admin\EmplacementAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Emplacement, manager_type: orm, label: Emplacement }
