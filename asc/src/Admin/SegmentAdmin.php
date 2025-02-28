@@ -7,13 +7,18 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class SegmentAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('nomSegment', TextType::class)->add('longeur')->add('pasEmplacement');
+        $form->with('Segment')->add('nomSegment', TextType::class)->add('longeur')->add('pasEmplacement')->end()->with('Flotteur')->add('flotteurSegments', CollectionType::class, [], [
+            'edit' => 'inline',
+            'inline' => 'table',
+            'sortable' => 'position',
+        ]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void

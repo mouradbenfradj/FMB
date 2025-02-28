@@ -1,0 +1,27 @@
+<!-- Footer Start -->
+<footer class="footer">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6">
+				2016 -
+				<script>
+					document.write( new Date().getFullYear() );
+				</script>
+				&copy; All rights reserved. / POWERED BY
+				<a href="">FMB & SIDRATSOFT</a>
+			</div>
+
+			<div class="col-md-6">
+				<div class="text-md-right footer-links d-none d-sm-block">
+					{% set links = ['About Us','Help','Contact Us'] %}
+					{% for link in links %}
+						<a href="javascript:void(0);">{{link}}</a>
+
+					{% endfor %}
+				</div>
+			</div>
+
+		</div>
+	</div>
+</footer>
+<!-- end Footer -->

@@ -13,21 +13,21 @@ final class FlotteurAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('nomFlotteur', TextType::class)->add('volume')->add('kfg')->add('taux');
+        $form->add('nomFlotteur', TextType::class)->add('volume')->add('taux');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('nomFlotteur')->add('volume')->add('kfg')->add('taux');
+        $datagrid->add('nomFlotteur')->add('volume')->add('kgf')->add('taux');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('nomFlotteur')->add('volume')->add('kfg')->add('taux');
+        $list->addIdentifier('nomFlotteur')->add('volume')->add('kgf')->add('taux');
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        $show->add('nomFlotteur')->add('volume')->add('kfg')->add('taux');
+        $show->add('nomFlotteur')->add('volume')->add('kgf')->add('taux');
     }
 }

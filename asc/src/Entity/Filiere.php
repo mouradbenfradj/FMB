@@ -32,7 +32,7 @@ class Filiere
     /**
      * @var Collection<int, Segment>
      */
-    #[ORM\OneToMany(targetEntity: Segment::class, mappedBy: 'filiere', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Segment::class, mappedBy: 'filiere', orphanRemoval: true, cascade: ['persist'])]
     private Collection $segments;
 
     public function __construct()

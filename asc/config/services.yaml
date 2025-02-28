@@ -45,7 +45,43 @@ services:
         class: App\Admin\FlotteurSegmentAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\FlotteurSegment, manager_type: orm, label: FlotteurSegment }
+   
+    admin.articles:
+        class: App\Admin\ArticlesAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Articles, controller: ~, manager_type: orm, group: admin, label: Articles }
+
+    admin.corde:
+        class: App\Admin\CordeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Corde, controller: ~, manager_type: orm, group: admin, label: Corde }
+
+    admin.fruit_de_mer:
+        class: App\Admin\FruitDeMerAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\FruitDeMer, controller: ~, manager_type: orm, group: admin, label: Espece }
+
+    admin.stock:
+        class: App\Admin\StockAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Stock, controller: ~, manager_type: orm, group: admin, label: Stock }
+
+    admin.stock_article:
+        class: App\Admin\StockArticleAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\StockArticle, controller: ~, manager_type: orm, group: admin, label: StockArticle }
+
+    admin.stock_article_sn:
+        class: App\Admin\StockArticleSnAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\StockArticleSn, controller: ~, manager_type: orm, group: admin, label: StockArticleSn }
+
+    admin.stock_corde:
+        class: App\Admin\StockCordeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\StockCorde, controller: ~, manager_type: orm, group: admin, label: StockCorde }
+
     admin.emplacement:
         class: App\Admin\EmplacementAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Emplacement, manager_type: orm, label: Emplacement }
+            - { name: sonata.admin, model_class: App\Entity\Emplacement, controller: ~, manager_type: orm, group: admin, label: Emplacement }

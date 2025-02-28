@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FlotteurRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Flotteur
 {
     #[ORM\Id]
@@ -22,7 +23,7 @@ class Flotteur
     private ?float $volume = null;
 
     #[ORM\Column]
-    private ?float $kfg = null;
+    private ?float $kgf = null;
 
     #[ORM\Column]
     private ?float $taux = null;
@@ -36,6 +37,13 @@ class Flotteur
     public function __construct()
     {
         $this->flotteurSegments = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function calculerKgf()
+    {
+        $this->kgf = $this->volume * $this->taux;
     }
 
     public function getId(): ?int
@@ -67,14 +75,14 @@ class Flotteur
         return $this;
     }
 
-    public function getKfg(): ?float
+    public function getKgf(): ?float
     {
-        return $this->kfg;
+        return $this->kgf;
     }
 
-    public function setKfg(float $kfg): static
+    public function setKgf(float $kgf): static
     {
-        $this->kfg = $kfg;
+        $this->kgf = $kgf;
 
         return $this;
     }

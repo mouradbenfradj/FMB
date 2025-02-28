@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Parc;
+use App\Repository\ParcRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,10 +12,13 @@ final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home_default')]
     #[Route('/home', name: 'app_home')]
-    public function index(): Response
+    #[Route('/home/{parc}', name: 'app_home_parc')]
+    public function index(?Parc $parc, ParcRepository $parcRepository): Response
     {
+        $parcs = $parcRepository->findAll();
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'parcs' => $parcs,
+            'parc' => $parc,
         ]);
     }
 }

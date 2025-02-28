@@ -8,3 +8,40 @@ import './bootstrap.js';
 import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+/*
+Template Name: Ubold - Responsive Bootstrap 4 Admin Dashboard
+Author: CoderThemes
+Website: https://coderthemes.com/
+Contact: support@coderthemes.com
+File: Layout
+*/
+import $ from 'jquery';
+window.jQuery = $;
+
+import 'bootstrap';
+/* import 'footable';
+ *//* import 'jsgrid'; */
+import 'https://cdn.jsdelivr.net/npm/waypoints@4.0.1/lib/jquery.waypoints.min.js';
+
+import 'jquery.counterup';
+
+import 'nestable2';
+
+
+import './js/app.js';
+
+var delay = $(this).attr('data-delay') ? $(this).attr('data-delay') : 100;
+var time = $(this).attr('data-time') ? $(this).attr('data-time') : 1200;
+$('[data-plugin="counterup"]').each(function (idx, obj) {
+    $(this).counterUp({
+        delay: delay,
+        time: time
+    });
+});
+import Waves from 'node-waves';
+// Waves Effect
+Waves.init();
+import feather from 'feather-icons';
+// Feather Icons
+feather.replace()

@@ -27,9 +27,23 @@ class Parc
     #[ORM\OneToMany(targetEntity: Filiere::class, mappedBy: 'parc', orphanRemoval: true)]
     private Collection $filieres;
 
+    /**
+     * @var Collection<int, Corde>
+     */
+    #[ORM\OneToMany(targetEntity: Corde::class, mappedBy: 'parc', orphanRemoval: true)]
+    private Collection $cordes;
+
+    /**
+     * @var Collection<int, Stock>
+     */
+    #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'parc', orphanRemoval: true)]
+    private Collection $stocks;
+
     public function __construct()
     {
         $this->filieres = new ArrayCollection();
+        $this->cordes = new ArrayCollection();
+        $this->stocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,6 +99,66 @@ class Parc
             // set the owning side to null (unless already changed)
             if ($filiere->getParc() === $this) {
                 $filiere->setParc(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Corde>
+     */
+    public function getCordes(): Collection
+    {
+        return $this->cordes;
+    }
+
+    public function addCorde(Corde $corde): static
+    {
+        if (!$this->cordes->contains($corde)) {
+            $this->cordes->add($corde);
+            $corde->setParc($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorde(Corde $corde): static
+    {
+        if ($this->cordes->removeElement($corde)) {
+            // set the owning side to null (unless already changed)
+            if ($corde->getParc() === $this) {
+                $corde->setParc(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stock>
+     */
+    public function getStocks(): Collection
+    {
+        return $this->stocks;
+    }
+
+    public function addStock(Stock $stock): static
+    {
+        if (!$this->stocks->contains($stock)) {
+            $this->stocks->add($stock);
+            $stock->setParc($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStock(Stock $stock): static
+    {
+        if ($this->stocks->removeElement($stock)) {
+            // set the owning side to null (unless already changed)
+            if ($stock->getParc() === $this) {
+                $stock->setParc(null);
             }
         }
 

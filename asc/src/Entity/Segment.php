@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SegmentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Segment
 {
     #[ORM\Id]
@@ -31,19 +32,33 @@ class Segment
     /**
      * @var Collection<int, FlotteurSegment>
      */
-    #[ORM\OneToMany(targetEntity: FlotteurSegment::class, mappedBy: 'segment')]
+    #[ORM\OneToMany(targetEntity: FlotteurSegment::class, mappedBy: 'segment', cascade: ['persist'])]
     private Collection $flotteurSegments;
 
     /**
      * @var Collection<int, Emplacement>
      */
-    #[ORM\OneToMany(targetEntity: Emplacement::class, mappedBy: 'segment')]
+    #[ORM\OneToMany(targetEntity: Emplacement::class, mappedBy: 'segment', cascade: ['persist'])]
     private Collection $emplacements;
 
     public function __construct()
     {
         $this->flotteurSegments = new ArrayCollection();
         $this->emplacements = new ArrayCollection();
+    }
+    #[ORM\PrePersist]
+    public function generateEmplacement()
+    {
+        $place = 1;
+        for ($i = 0; $i < ($this->longeur / $this->pasEmplacement); $i++) {
+            $emplacement = new Emplacement();
+            $emplacement->setPlace($place);
+            $this->addEmplacement($emplacement);
+            $place++;
+            if ($place > 10) {
+                $place = 1;
+            }
+        }
     }
 
     public function getId(): ?int

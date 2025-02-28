@@ -25,4 +25,59 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'bootstrap' => [
+        'version' => '4.6.2',
+    ],
+    'jquery' => [
+        'version' => '3.7.1',
+    ],
+    'popper.js' => [
+        'version' => '1.16.1',
+    ],
+    'bootstrap/dist/css/bootstrap.min.css' => [
+        'version' => '4.6.2',
+        'type' => 'css',
+    ],
+    'node-waves' => [
+        'version' => '0.7.6',
+    ],
+    'feather-icons' => [
+        'version' => '4.29.2',
+    ],
+    '@swup/fade-theme' => [
+        'version' => '1.0.5',
+    ],
+    '@swup/slide-theme' => [
+        'version' => '1.0.5',
+    ],
+    '@swup/forms-plugin' => [
+        'version' => '2.0.1',
+    ],
+    '@swup/plugin' => [
+        'version' => '2.0.3',
+    ],
+    'swup' => [
+        'version' => '3.1.1',
+    ],
+    'delegate-it' => [
+        'version' => '6.0.1',
+    ],
+    '@swup/debug-plugin' => [
+        'version' => '3.0.0',
+    ],
+    'jquery.counterup' => [
+        'version' => '2.1.0',
+    ],
+    '@symfony/ux-live-component' => [
+        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
+    ],
+    'footable' => [
+        'version' => '2.0.6',
+    ],
+    'jsgrid' => [
+        'version' => '1.5.3',
+    ],
+    'nestable2' => [
+        'version' => '1.6.0',
+    ],
 ];

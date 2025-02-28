@@ -1,0 +1,78 @@
+<div class="topnav shadow-lg">
+	<div class="container-fluid">
+		<nav class="navbar navbar-light navbar-expand-lg topnav-menu" id="nav">
+
+			<div class=" collapse navbar-collapse" id=" topnav-menu-content">
+				<ul class="navbar-nav">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle arrow-none" href="{{ path('app_home') }}" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fe-map mr-1"></i>Tableau de bord
+						</a>
+					</li>
+
+					{% if parc %}
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle arrow-none" href="{{path('app_etat_actuel_prod',{'parc' : parc.id}) }}" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fe-grid mr-1"></i>Etat Actuel Prod
+							</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fe-briefcase mr-1"></i>
+								Prod à faire
+								<div class="arrow-down"></div>
+							</a>
+
+							<div class="dropdown-menu" aria-labelledby="topnav-layout">
+								<a href="{{ path('app_preparation_corde',{'parc' : parc.id}) }}" class="dropdown-item">Préparation Corde</a>
+								<a href="ui-cards.html" class="dropdown-item">Préparation Lanterne</a>
+								<a href="ui-avatars.html" class="dropdown-item">Préparation Poche</a>
+								<a href="ui-portlets.html" class="dropdown-item">Assemblage</a>
+								<a href="ui-tabs-accordions.html" class="dropdown-item">MAE Lanternes</a>
+								<a href="ui-modals.html" class="dropdown-item">MAE Cordes</a>
+								<a href="ui-progress.html" class="dropdown-item">MAE Assemblages</a>
+								<a href="ui-progress.html" class="dropdown-item">MAE Poches</a>
+								<a href="ui-progress.html" class="dropdown-item">Passage Chaussettes</a>
+								<a href="ui-progress.html" class="dropdown-item">Retrait Transfert</a>
+								<a href="ui-progress.html" class="dropdown-item">Retrait AW Lanternes</a>
+								<a href="ui-progress.html" class="dropdown-item">Retrait AW Cordes</a>
+								<a href="ui-progress.html" class="dropdown-item">Traitement Comercial</a>
+							</div>
+						</li>
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fe-layers mr-1"></i>
+								Alertes de travail
+							</a>
+						</li>
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fe-package mr-1"></i>
+								Prod par cycle
+							</a>
+						</li>
+
+					{% endif %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fe-sidebar mr-1"></i>
+							Outils de gestion
+							<div class="arrow-down"></div>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="topnav-layout">
+							<a href="layouts-vertical.html" class="dropdown-item">Historique des opérations</a>
+							<a href="layouts-detached.html" class="dropdown-item">Détail tâches effectuées</a>
+							<a href="layouts-two-column.html" class="dropdown-item">Prévisions des sorties</a>
+						</div>
+					</li>
+				</ul>
+				<!-- end navbar-->
+			</div>
+			<!-- end .collapsed-->
+		</nav>
+	</div>
+	<!-- end container-fluid -->
+</div>
+<!-- end topnav-->
