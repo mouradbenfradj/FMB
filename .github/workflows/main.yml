@@ -43,7 +43,9 @@ jobs:
         run: npm install -g yarn
 
       - name: Install Node.js dependencies with Yarn
-        run: yarn install
+        run: |
+          cd asc
+          yarn install
 
       - name: Create necessary directories and SQLite databases
         run: |
@@ -53,10 +55,14 @@ jobs:
           chmod -R 777 var
 
       - name: Run assets:install with SQLite
-        run: php assets_install.php
+        run:  |
+          cd asc
+          php assets_install.php
 
       - name: Build assets with Yarn
-        run: yarn dev
+        run:  |
+          cd asc
+          yarn dev
 
       - name: Install FTP client
         run: sudo apt-get install -y ftp
@@ -68,7 +74,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: "./"
+          local-dir: "./asc/"
           server-dir: "/www/asc/"
           exclude:  |
             **/.devcontainer/**
