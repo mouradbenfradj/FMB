@@ -34,18 +34,18 @@ jobs:
           cd asc
           composer install --optimize-autoloader --no-scripts
 
-      - name: Set up Node.js 20
-        uses: actions/setup-node@v2
-        with:
-          node-version: "20"
+      #- name: Set up Node.js 20
+      #  uses: actions/setup-node@v2
+      #  with:
+      #    node-version: "20"
 
-      - name: Install Yarn
-        run: npm install -g yarn
+      #- name: Install Yarn
+      #  run: npm install -g yarn
 
-      - name: Install Node.js dependencies with Yarn
-        run: |
-          cd asc
-          yarn install
+      #- name: Install Node.js dependencies with Yarn
+      #  run: |
+      #    cd asc
+      #    yarn install
 
       - name: Create necessary directories and SQLite databases
         run: |
@@ -57,8 +57,8 @@ jobs:
       - name: Build assets with Yarn
         run:  |
           cd asc
+          ls -l
           php bin/console importmap:install
-
       - name: Install FTP client
         run: sudo apt-get install -y ftp
 
@@ -70,7 +70,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: "./asc/"
-          server-dir: "/www/asc/"
+          server-dir: "/www/"
           exclude:  |
             **/.devcontainer/**
             **/.github/**
@@ -83,14 +83,4 @@ jobs:
             **/var/cache/**
       - name: Trigger migrations
         run: |
-          curl --insecure "https://www.municipaliternumerique.com/migrate.php?password=MBF6mm09761130"
-
-      - name: Delete TmpFolder
-        uses: StephanThierry/ftp-delete-action@v2.1
-        with:
-          host: ${{ secrets.FTP_SERVER }}
-          user: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          remoteDirectories: "./var/cache/prod"
-          workingDir: "./www/asc/"
-          ignoreSSL: "1"
+          curl --insecure "https://www.municipaliternumerique.com/database_install.php?password=MBF6mm09761130"
