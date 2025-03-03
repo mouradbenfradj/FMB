@@ -54,11 +54,6 @@ jobs:
           touch var/oysterpro.db
           chmod -R 777 var
 
-      - name: Run assets:install with SQLite
-        run:  |
-          cd asc
-          php assets_install.php
-
       - name: Build assets with Yarn
         run:  |
           cd asc
