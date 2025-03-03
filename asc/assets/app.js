@@ -17,12 +17,12 @@ Contact: support@coderthemes.com
 File: Layout
 */
 import $ from 'jquery';
-window.jQuery = $;
+global.$ = global.jQuery = $;
 
 import 'bootstrap';
 /* import 'footable';
- *//* import 'jsgrid'; */
-import 'https://cdn.jsdelivr.net/npm/waypoints@4.0.1/lib/jquery.waypoints.min.js';
+ */
+//import jsgrid from 'jsgrid';
 
 import 'jquery.counterup';
 

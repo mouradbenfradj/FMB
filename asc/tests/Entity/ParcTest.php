@@ -2,8 +2,10 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\Corde;
 use App\Entity\Filiere;
 use App\Entity\Parc;
+use App\Entity\Stock;
 use PHPUnit\Framework\TestCase;
 
 class ParcTest extends TestCase
@@ -41,8 +43,7 @@ class ParcTest extends TestCase
         $parc->removeFiliere($filiere);
         $this->assertCount(0, $parc->getFilieres());
     }
-
-    /*  public function testAddAndRemoveStock()
+    public function testAddAndRemoveStock()
     {
         $parc = new Parc();
         $stock = new Stock();
@@ -68,6 +69,7 @@ class ParcTest extends TestCase
         $this->assertCount(0, $parc->getCordes());
     }
 
+    /* 
     public function testAddAndRemoveLanterne()
     {
         $parc = new Parc();
@@ -80,7 +82,7 @@ class ParcTest extends TestCase
         $parc->removeLanterne($lanterne);
         $this->assertCount(0, $parc->getLanternes());
     }
-
+*/
     public function testGetTotaleFilieres()
     {
         $parc = new Parc();
@@ -89,7 +91,7 @@ class ParcTest extends TestCase
         $parc->addFiliere($filiere1);
         $parc->addFiliere($filiere2);
 
-        $this->assertEquals(2, $parc->getTotaleFilieres());
+        $this->assertEquals(2, count($parc->getFilieres()));
     }
 
     public function testGetTotaleCordes()
@@ -102,6 +104,6 @@ class ParcTest extends TestCase
         $parc->addCorde($corde1);
         $parc->addCorde($corde2);
 
-        $this->assertEquals(15, $parc->getTotaleCordes());
-    } */
+        $this->assertEquals(15, array_sum(array_map(fn($corde): int => $corde->getQuantiter(), $parc->getCordes()->toArray())));
+    }
 }

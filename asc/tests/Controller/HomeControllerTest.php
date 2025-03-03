@@ -26,7 +26,7 @@ class HomeControllerTest extends WebTestCase
     public function testIndexHomeRoute(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $crawler = $client->request('GET', '/');
 
         $this->assertResponseIsSuccessful();
 
@@ -65,7 +65,7 @@ class HomeControllerTest extends WebTestCase
         $client->getContainer()->set(ParcRepository::class, $parcRepository);
 
         // Effectuez la requête
-        $crawler = $client->request('GET', '/home/1');
+        $crawler = $client->request('GET', '/1');
 
         // Vérifiez que la réponse est réussie
         $this->assertResponseIsSuccessful();
@@ -101,7 +101,7 @@ class HomeControllerTest extends WebTestCase
         $client->getContainer()->set(ParcRepository::class, $parcRepository);
 
         // Effectuez la requête pour un parc invalide
-        $crawler = $client->request('GET', '/home/999');
+        $crawler = $client->request('GET', '/999');
 
         // Vérifiez que la réponse est réussie
         $this->assertResponseIsSuccessful();
