@@ -54,6 +54,10 @@ jobs:
           touch var/oysterpro.db
           chmod -R 777 var
 
+      - name: Build assets with Yarn
+        run:  |
+          cd asc
+          php bin/console importmap:install
 
       - name: Install FTP client
         run: sudo apt-get install -y ftp
