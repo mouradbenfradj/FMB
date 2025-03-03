@@ -30,7 +30,7 @@ jobs:
           echo "CORS_ALLOW_ORIGIN='^https?://(localhost|127\\.0\\.0\\.1)(:[0-9]+)?$'" >> .env.local
 
       - name: Install PHP dependencies
-        run: composer install --optimize-autoloader --no-scripts
+        run: composer install 
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v2
