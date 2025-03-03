@@ -55,7 +55,9 @@ jobs:
           chmod -R 777 var
 
       - name: Build assets with Yarn
-        run:  yarn dev
+        run:  |
+          cd asc
+          yarn dev
 
       - name: Install FTP client
         run: sudo apt-get install -y ftp
