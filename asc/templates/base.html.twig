@@ -17,8 +17,7 @@
 		rel="shortcut icon" href="{{ asset('images/favicon.ico') }}"/>
 		<!-- App css -->
 		{% block stylesheets %}
-			{# 	<link
-						rel="stylesheet" href="{{ asset('styles/app.css') }}"> #}
+			<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 
 			<link href="{{ asset('css/bootstrap-creative.min.css') }}" rel="stylesheet" type="text/css" id="bs-default-stylesheet"/>
 			<link href="{{ asset('css/app-creative.min.css') }}" rel="stylesheet" type="text/css" id="app-default-stylesheet"/>
@@ -425,7 +424,7 @@
 								<button class="btn btn-primary btn-block mt-4" id="resetBtn">Reset to Default</button>
 
 								{# <a href="https://1.envato.market/uboldadmin"
-																																																																																																																																																																																																																																																																																																								                                class="btn btn-danger btn-block mt-3" target="_blank"><i class="mdi mdi-basket mr-1"></i> Purchase Now</a> #}
+																																																																																																																																																																																																																																																																																																																                                class="btn btn-danger btn-block mt-3" target="_blank"><i class="mdi mdi-basket mr-1"></i> Purchase Now</a> #}
 
 							</div>
 
@@ -440,11 +439,11 @@
 			<!-- Right bar overlay-->
 			<div class="rightbar-overlay"></div>
 			{# 
-															
-																		{% block javascripts %}
-																			{% block importmap %}
-																				{{ importmap('app') }}
-																			{% endblock %}
-																		{% endblock %} #}
+																		
+																					{% block javascripts %}
+																						{% block importmap %}
+																							{{ importmap('app') }}
+																						{% endblock %}
+																					{% endblock %} #}
 		</body>
 	</html>
