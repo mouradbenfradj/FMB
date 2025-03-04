@@ -24,7 +24,7 @@ import 'bootstrap';
  */
 //import jsgrid from 'jsgrid';
 
-import './libs/jquery.counterup/jquery.counterup.min.js';
+//import './libs/jquery.counterup/jquery.counterup';
 
 import 'nestable2';
 
