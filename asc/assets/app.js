@@ -25,10 +25,10 @@ import 'bootstrap';
 //import jsgrid from 'jsgrid';
 
 //import './libs/jquery.counterup/jquery.counterup';
-
+/* 
 import 'nestable2';
 
-
+ */
 import './js/app.js';
 
 var delay = $(this).attr('data-delay') ? $(this).attr('data-delay') : 100;
