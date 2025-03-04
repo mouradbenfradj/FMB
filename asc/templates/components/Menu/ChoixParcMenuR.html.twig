@@ -1,5 +1,5 @@
 <!-- item -->
-<a href="{{ path( app.request.get('_route'), { parc: parc.id }) }}" class="dropdown-item notify-item active">
+<a href="{{ path(app.current_route, { parc: parc.id }) }}" class="dropdown-item notify-item active">
 	<div class="notify-icon">
 		<img src="{{ asset('images/users/user-1.jpg') }}" class="img-fluid rounded-circle" alt=""/>
 	</div>
