@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class HomeController extends AbstractController
 {
-    #[Route('/{parc}', name: 'home_index', requirements: ['parc' => '\d+'], defaults: ['parc' => null])]
+    #[Route('/{parc}', name: 'app_home', requirements: ['parc' => '\d+'], defaults: ['parc' => null])]
     public function index(?Parc $parc, ParcRepository $parcRepository): Response
     {
         $parcs = $parcRepository->findAll();
