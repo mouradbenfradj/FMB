@@ -17,7 +17,7 @@ Contact: support@coderthemes.com
 File: Layout
 */
 import $ from 'jquery';
-global.$ = global.jQuery = $;
+window.$ = window.jQuery = $;
 
 import 'bootstrap';
 /* import 'footable';
