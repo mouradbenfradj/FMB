@@ -1,12 +1,11 @@
  @tailwind base; 
- @tailwind components; 
- @tailwind utilities; 
-
-@import '../css/bootstrap-creative.min.css';
-@import '../css/app-creative.min.css';
+@tailwind components; 
+@tailwind utilities;  
+/* @import url('../css/bootstrap-creative.min.css');
+@import url('../css/app-creative.min.css');
 /* 
-@import '../css/bootstrap-creative-dark.min.css';
-@import '../css/app-creative-dark.min.css'; 
-*/
-@import '../css/icons.min.css';
+@import url('../css/bootstrap-creative-dark.min.css');
+@import url('../css/app-creative-dark.min.css'); 
 
+@import url('../css/icons.min.css');
+ */
