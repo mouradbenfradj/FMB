@@ -13,7 +13,8 @@
                 "walkme.HTML5-extension-pack",
                 "mblode.twig-language",
                 "mblode.twig-language-2",
-                "DEVSENSE.composer-php-vscode"
+                "DEVSENSE.composer-php-vscode",
+                "bradlc.vscode-tailwindcss"
             ]
         }
     },

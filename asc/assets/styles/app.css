@@ -1,11 +1,3 @@
- @tailwind base; 
-@tailwind components; 
-@tailwind utilities;  
-/* @import url('../css/bootstrap-creative.min.css');
-@import url('../css/app-creative.min.css');
-/* 
-@import url('../css/bootstrap-creative-dark.min.css');
-@import url('../css/app-creative-dark.min.css'); 
-
-@import url('../css/icons.min.css');
- */
+body {
+    background-color: skyblue;
+}
