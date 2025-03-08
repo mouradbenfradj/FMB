@@ -4818,6 +4818,7 @@ div.hopscotch-bubble {
   display: none; }
 
 .footable-row-detail-inner {
+  width:100%;
   display: table; }
 
 .footable-row-detail-row {

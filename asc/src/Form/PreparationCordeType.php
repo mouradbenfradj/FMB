@@ -54,7 +54,7 @@ class PreparationCordeType extends AbstractType
                 'placeholder' => 'choisie ton type de corde',
             ])
             ->add('longeur', NumberType::class)
-            ->add('datedecreation', DateType::class)
+            ->add('datedecreation', DateType::class, ['html5' => true, 'widget' => 'single_text', 'attr' => ['data-provide' => "datepicker"]])
             ->addDependent('quantiteEnStock', 'corde', function (DependentField $field, ?Corde $corde) use ($parc) {
                 if ($corde) {
                     $quantiter = $corde->getQuantiter();

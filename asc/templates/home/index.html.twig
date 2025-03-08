@@ -1,43 +1,43 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Tableau de bord
+	Tableau de bord
 {% endblock %}
 
 {% block body %}
- <div class="row">
-  {{ component('RoundedCircleCounterUp', {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-anchor ',niveau: 'primary'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Total Filières',value: 800,icon: 'fe-sliders  ',niveau: 'primary'}) }}
+<div class="row">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-anchor ',niveau: 'primary' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Filières',value: 800,icon: 'fe-sliders  ',niveau: 'primary' }%}
+</div>
+<div class="row">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Cordes',value: 800,icon: 'fe-more-vertical',niveau: 'warning' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Cordes à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes vides',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Préparées',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres Préparées',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules Préparées',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées Préparées',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Cordes à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info' }%}
 </div>
  <div class="row">
-  {{ component('RoundedCircleCounterUp', {titre: 'Total Cordes',value: 800,icon: 'fe-more-vertical',niveau: 'warning'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Total Cordes à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Cordes Huîtres à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Cordes Moules à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Cordes vides',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Cordes Préparées',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Cordes Huîtres Préparées',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Cordes Moules Préparées',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Cordes Assemblées Préparées',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Cordes Assemblées à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Chaussettes Cordes à l\'eau',value: 800,icon: 'fe-more-vertical',niveau: 'info'}) }}
-</div>
- <div class="row">
-  {{ component('RoundedCircleCounterUp', {titre: 'Total Lanternes',value: 800,icon: 'fe-layers',niveau: 'warning'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Lanternes à l\'eau',value: 800,icon: 'fe-layers',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Lanternes vides',value: 800,icon: 'fe-layers',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Lanternes Préparées',value: 800,icon: 'fe-layers',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Chaussettes Lanternes',value: 800,icon: 'fe-layers',niveau: 'info'}) }}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Lanternes',value: 800,icon: 'fe-layers',niveau: 'warning' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes à l\'eau',value: 800,icon: 'fe-layers',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes vides',value: 800,icon: 'fe-layers',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes Préparées',value: 800,icon: 'fe-layers',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Lanternes',value: 800,icon: 'fe-layers',niveau: 'info' }%}
 
 </div>
- <div class="row">
-  {{ component('RoundedCircleCounterUp', {titre: 'Total Poches',value: 800,icon: 'fe-shopping-bag ',niveau: 'warning'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Poches à l\'eau',value: 800,icon: 'fe-shopping-bag ',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Poches vides',value: 800,icon: 'fe-shopping-bag ',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Poches Préparées',value: 800,icon: 'fe-shopping-bag ',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Poches Assemblées',value: 800,icon: 'fe-shopping-bag ',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Poches Assemblées à l\'eau',value: 800,icon: 'fe-shopping-bag ',niveau: 'info'}) }}
-  {{ component('RoundedCircleCounterUp', {titre: 'Chaussettes Poches à l\'eau',value: 800,icon: 'fe-shopping-bag ',niveau: 'info'}) }}
+<div class="row">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Poches',value: 800,icon: 'fe-shopping-bag ',niveau: 'warning' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches à l\'eau',value: 800,icon: 'fe-shopping-bag ',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches vides',value: 800,icon: 'fe-shopping-bag ',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Préparées',value: 800,icon: 'fe-shopping-bag ',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées',value: 800,icon: 'fe-shopping-bag ',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées à l\'eau',value: 800,icon: 'fe-shopping-bag ',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Poches à l\'eau',value: 800,icon: 'fe-shopping-bag ',niveau: 'info' }%}
 
 </div>
 {% endblock %}

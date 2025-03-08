@@ -1,0 +1,186 @@
+<div{{attributes}}>
+	{% for label, messages in app.flashes(['success', 'warning']) %}
+		{% for message in messages %}
+			<div class="flash-{{ label }}">
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+	{{ form_start(form, { 'method': 'POST'}) }}
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					<label for="stock">STOCK DU PARC</label>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.stocks, { 'attr': { 'class': 'form-control' } }) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					<label for="corde">ESPECE</label>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.fruitDeMer, { 'attr': { 'class': 'form-control' } }) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					<label for="datePreparation">DATE PREPARATION CORDES</label>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.datedecreation, { 'attr': { 'class': 'form-control', 'readonly': true } }) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% if form.article is defined %}
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="grid-container">
+						<label for="article">ARTICLES</label>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="grid-container">
+						{{ form_widget(form.article, { 'attr': { 'class': 'form-control' } }) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	{% if form.lot is defined %}
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="grid-container">
+						<label for="lot">LOT ARTICLES</label>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="grid-container">
+						{{ form_widget(form.lot, { 'attr': { 'class': 'form-control' } }) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if form.totalqte is defined %}
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="grid-container">
+						<label for="densite">STOCK LOT</label>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="grid-container">
+						{{ form_widget(form.totalqte, { 'attr': { 'class': 'form-control', 'readonly': true} }) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					<label for="densite">UNITES/CORDE</label>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.densite, { 'attr': { 'class': 'form-control'} }) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					<label for="corde">TYPE CORDE</label>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.corde, { 'attr': { 'class': 'form-control' } }) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% if form.quantiteEnStock is defined %}
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="grid-container">
+						<label for="quantiteEnStock">STOCK CORDES</label>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="grid-container">
+						{{ form_widget(form.quantiteEnStock, { 'attr': { 'class': 'form-control', 'readonly': true } }) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					<label for="quantite">LONGEUR CORDES (m)</label>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.longeur, { 'attr': { 'class': 'form-control' } }) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					<label for="nombre">NBR CORDES A FABRIQUER
+					</label>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.nombre, { 'attr': { 'class': 'form-control' } }) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	{% if form.submit is defined %}
+		{{ form_widget(form.submit) }}
+	{% endif %}
+	{{ form_end(form) }}
+</div>
