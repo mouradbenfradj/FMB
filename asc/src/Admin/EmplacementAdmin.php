@@ -43,7 +43,16 @@ final class EmplacementAdmin extends AbstractAdmin
     {
         $form
             ->add('place')
-            ->add('stockCordes', CollectionType::class);
+            ->add('stockCordes', CollectionType::class, [
+                // each entry in the array will be an "email" field
+                'entry_type' => EntityType::class,
+                // these options are passed to each "email" type
+                'entry_options' => [
+                    'class' => StockCorde::class,
+                    'choice_label' => 'corde.nom',
+                ],
+                'allow_add' => true,
+            ]);
     }
 
     protected function configureShowFields(ShowMapper $show): void

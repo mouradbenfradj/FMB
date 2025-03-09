@@ -35,41 +35,57 @@ class PreparationCordeType extends AbstractType
         $builder = new DynamicFormBuilder($builder);
 
         // Champ "stocks"
-        $builder->add('stocks', EntityType::class, [
-            'class' => Stock::class,
-            'choice_label' => 'abrevStock',
-            'multiple' => false,
-            'expanded' => false,
-            'choices' => $parc->getStocks(),
-            'choice_value' => 'id',
-            'placeholder' => 'choisie un stock',
-        ])
+        $builder
+            ->add('stocks', EntityType::class, [
+                'class' => Stock::class,
+                'label' => 'STOCK DU PARC',
+                'choice_label' => 'abrevStock',
+                'multiple' => false,
+                'expanded' => false,
+                'choices' => $parc->getStocks(),
+                'choice_value' => 'id',
+                'placeholder' => 'choisie un stock',
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('corde', EntityType::class, [
                 'class' => Corde::class,
+                'label' => 'TYPE CORDE',
                 'choice_label' => 'nom',
                 'multiple' => false,
                 'expanded' => false,
                 'choices' => $parc->getCordes(),
                 'choice_value' => 'id',
                 'placeholder' => 'choisie ton type de corde',
+                'attr' => ['class' => 'form-control']
             ])
-            ->add('longeur', NumberType::class)
-            ->add('datedecreation', DateType::class, ['html5' => true, 'widget' => 'single_text', 'attr' => ['data-provide' => "datepicker"]])
+            ->add('longeur', NumberType::class, [
+                'label' => 'LONGEUR CORDES (m)',
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('datedecreation', DateType::class, [
+                'label' => 'DATE PREPARATION CORDES',
+                'html5' => true,
+                'widget' => 'single_text',
+                'attr' => ['data-provide' => "datepicker", 'class' => 'form-control']
+            ])
             ->addDependent('quantiteEnStock', 'corde', function (DependentField $field, ?Corde $corde) use ($parc) {
                 if ($corde) {
                     $quantiter = $corde->getQuantiter();
                     $field->add(IntegerType::class, [
-                        'attr' => ['value' => $quantiter],
+                        'label' => 'STOCK CORDES',
+                        'attr' => ['value' => $quantiter, 'class' => 'form-control', 'readonly' => true],
                         'data' => $quantiter,
                     ]);
                 }
             })->add('fruitDeMer', EntityType::class, [
                 'class' => FruitDeMer::class,
+                'label' => 'ESPECE',
                 'choice_label' => 'nom',
                 'multiple' => false,
                 'expanded' => false,
                 'choice_value' => 'id',
                 'placeholder' => 'choisie l\'espece a préparer',
+                'attr' => ['class' => 'form-control']
             ])->addDependent('article', ['stocks', 'fruitDeMer'], function (DependentField $field, ?stock $stock, ?FruitDeMer $fruitDeMer) use ($parc) {
                 if ($fruitDeMer && $stock) {
 
@@ -79,10 +95,12 @@ class PreparationCordeType extends AbstractType
                     });
                     $field->add(EntityType::class, [
                         'class' => StockArticle::class,
+                        'label' => 'ARTICLES',
                         'choices' => $article,
                         'choice_label' => 'articles',
                         'choice_value' => 'id',
                         'placeholder' => 'choisie l\'article a préparer',
+                        'attr' => ['class' => 'form-control']
                     ]);
                 }
             })->addDependent('lot',  ['stocks', 'fruitDeMer', 'article'], function (DependentField $field, ?stock $stock, ?FruitDeMer $fruitDeMer, ?StockArticle $articles) use ($parc) {
@@ -93,10 +111,12 @@ class PreparationCordeType extends AbstractType
                     $stockArticleSn = $articles->getStockArticleSns()->toArray();
                     $field->add(EntityType::class, [
                         'class' => StockArticleSn::class,
+                        'label' => 'LOT ARTICLES',
                         'choices' => $stockArticleSn,
                         'choice_label' => 'numeroSerie',
                         'choice_value' => 'id',
                         'placeholder' => 'choisie le lot d\'article',
+                        'attr' => ['class' => 'form-control']
                     ]);
                 }
             })->addDependent('totalqte',  ['stocks', 'fruitDeMer', 'article', 'lot'], function (DependentField $field, ?stock $stock, ?FruitDeMer $fruitDeMer, ?StockArticle $articles, ?StockArticleSn $stockArticleSn) use ($parc) {
@@ -107,28 +127,19 @@ class PreparationCordeType extends AbstractType
                 if ($stockArticleSn) {
                     $snQte = $stockArticleSn->getSnQte();
                     $field->add(IntegerType::class, [
-                        'attr' => ['value' =>  $snQte],
+                        'label' => 'STOCK LOT',
+                        'attr' => ['value' =>  $snQte, 'class' => 'form-control', 'readonly' => true],
                         'data' =>  $snQte,
                     ]);
                 }
-            })->add('densite', IntegerType::class)
-
-
-            /*
-            =->add('totalqte', NumberType::class, [
-                'attr' => ['readonly' => true],
-
-                'data' => 0,
-            ])->add('datedecreation', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => ['readonly' => true],
-            ])->add('quantiter', TextType::class, [
-                'required' => true,
-            ]) */
-
+            })->add('densite', IntegerType::class, [
+                'label' => 'UNITES/CORDE',
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('nombre', IntegerType::class, [
+                'label' => 'NBR CORDES A FABRIQUER',
                 'required' => true,
-
+                'attr' => ['class' => 'form-control']
             ])
             ->addDependent('submit',  ['corde', 'lot'], function (DependentField $field, ?Corde $corde, ?StockArticleSn $stockArticleSn) use ($parc) {
                 if ($stockArticleSn && $corde) {

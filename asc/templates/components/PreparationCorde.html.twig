@@ -11,12 +11,12 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="grid-container">
-					<label for="stock">STOCK DU PARC</label>
+					{{ form_label(form.stocks) }}
 				</div>
 			</div>
 			<div class="col-lg-9">
 				<div class="grid-container">
-					{{ form_widget(form.stocks, { 'attr': { 'class': 'form-control' } }) }}
+					{{ form_widget(form.stocks) }}
 				</div>
 			</div>
 		</div>
@@ -25,12 +25,12 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="grid-container">
-					<label for="corde">ESPECE</label>
+					{{ form_label(form.fruitDeMer) }}
 				</div>
 			</div>
 			<div class="col-lg-9">
 				<div class="grid-container">
-					{{ form_widget(form.fruitDeMer, { 'attr': { 'class': 'form-control' } }) }}
+					{{ form_widget(form.fruitDeMer) }}
 				</div>
 			</div>
 		</div>
@@ -39,12 +39,12 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="grid-container">
-					<label for="datePreparation">DATE PREPARATION CORDES</label>
+					{{ form_label(form.datedecreation) }}
 				</div>
 			</div>
 			<div class="col-lg-9">
 				<div class="grid-container">
-					{{ form_widget(form.datedecreation, { 'attr': { 'class': 'form-control', 'readonly': true } }) }}
+					{{ form_widget(form.datedecreation) }}
 				</div>
 			</div>
 		</div>
@@ -55,12 +55,12 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="grid-container">
-						<label for="article">ARTICLES</label>
+						{{ form_label(form.article) }}
 					</div>
 				</div>
 				<div class="col-lg-9">
 					<div class="grid-container">
-						{{ form_widget(form.article, { 'attr': { 'class': 'form-control' } }) }}
+						{{ form_widget(form.article) }}
 					</div>
 				</div>
 			</div>
@@ -73,12 +73,12 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="grid-container">
-						<label for="lot">LOT ARTICLES</label>
+						{{ form_label(form.lot) }}
 					</div>
 				</div>
 				<div class="col-lg-9">
 					<div class="grid-container">
-						{{ form_widget(form.lot, { 'attr': { 'class': 'form-control' } }) }}
+						{{ form_widget(form.lot) }}
 					</div>
 				</div>
 			</div>
@@ -90,12 +90,12 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="grid-container">
-						<label for="densite">STOCK LOT</label>
+						{{ form_label(form.totalqte) }}
 					</div>
 				</div>
 				<div class="col-lg-9">
 					<div class="grid-container">
-						{{ form_widget(form.totalqte, { 'attr': { 'class': 'form-control', 'readonly': true} }) }}
+						{{ form_widget(form.totalqte) }}
 					</div>
 				</div>
 			</div>
@@ -106,12 +106,12 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="grid-container">
-					<label for="densite">UNITES/CORDE</label>
+					{{ form_label(form.densite) }}
 				</div>
 			</div>
 			<div class="col-lg-9">
 				<div class="grid-container">
-					{{ form_widget(form.densite, { 'attr': { 'class': 'form-control'} }) }}
+					{{ form_widget(form.densite) }}
 				</div>
 			</div>
 		</div>
@@ -121,12 +121,12 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="grid-container">
-					<label for="corde">TYPE CORDE</label>
+					{{ form_label(form.corde) }}
 				</div>
 			</div>
 			<div class="col-lg-9">
 				<div class="grid-container">
-					{{ form_widget(form.corde, { 'attr': { 'class': 'form-control' } }) }}
+					{{ form_widget(form.corde) }}
 				</div>
 			</div>
 		</div>
@@ -137,12 +137,12 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="grid-container">
-						<label for="quantiteEnStock">STOCK CORDES</label>
+						{{ form_label(form.quantiteEnStock) }}
 					</div>
 				</div>
 				<div class="col-lg-9">
 					<div class="grid-container">
-						{{ form_widget(form.quantiteEnStock, { 'attr': { 'class': 'form-control', 'readonly': true } }) }}
+						{{ form_widget(form.quantiteEnStock) }}
 					</div>
 				</div>
 			</div>
@@ -153,12 +153,12 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="grid-container">
-					<label for="quantite">LONGEUR CORDES (m)</label>
+					{{ form_label(form.longeur) }}
 				</div>
 			</div>
 			<div class="col-lg-9">
 				<div class="grid-container">
-					{{ form_widget(form.longeur, { 'attr': { 'class': 'form-control' } }) }}
+					{{ form_widget(form.longeur) }}
 				</div>
 			</div>
 		</div>
@@ -168,13 +168,12 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="grid-container">
-					<label for="nombre">NBR CORDES A FABRIQUER
-					</label>
+					{{ form_label(form.nombre) }}
 				</div>
 			</div>
 			<div class="col-lg-9">
 				<div class="grid-container">
-					{{ form_widget(form.nombre, { 'attr': { 'class': 'form-control' } }) }}
+					{{ form_widget(form.nombre) }}
 				</div>
 			</div>
 		</div>

@@ -35,6 +35,73 @@ class Filiere
     #[ORM\OneToMany(targetEntity: Segment::class, mappedBy: 'filiere', orphanRemoval: true, cascade: ['persist'])]
     private Collection $segments;
 
+
+
+    public function getNombreEmplacements(): ?int
+    {
+        $nbr = 0;
+        foreach ($this->segments as $segment) {
+            $nbr += $segment->getNombreEmplacements();
+        }
+        return $nbr;
+    }
+
+    public function getTotaleCordes(): ?int
+    {
+        $nbr = 0;
+        foreach ($this->segments as $segment) {
+            $nbr += $segment->getTotaleCordes();
+        }
+        return $nbr;
+    }
+
+
+    public function getFlottabiliter(): float
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            $somme += $segment->getFlottabiliter();
+        }
+        if (!$somme) {
+            return 1;
+        }
+        return $somme;
+    }
+
+    public function getPoidCordes(): int
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment)
+            $somme += $segment->getPoidCordes();
+        return $somme;
+    }
+    public function getVolumesTotale(): float
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            $somme += $segment->getVolumesTotale();
+        }
+        if (!$somme) {
+            return 1;
+        }
+        return $somme;
+    }
+    public function getNombreEmplacementsVide(): int
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            $somme += $segment->getNombreEmplacementsVide();
+        }
+        return $somme;
+    }
+    public function getNombreEmplacementsRemplit(): int
+    {
+        $somme = 0;
+        foreach ($this->segments as $segment) {
+            $somme += $segment->getTotaleCordes();
+        }
+        return $somme;
+    }
     public function __construct()
     {
         $this->segments = new ArrayCollection();
