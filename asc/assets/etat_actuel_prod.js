@@ -9,4 +9,6 @@
 import './styles/app.css';
 
 import './js/vendor.min.js';
+import './libs/nestable2/jquery.nestable.min.js';
+import './js/pages/nestable.init.js';
 import './js/app.min.js';

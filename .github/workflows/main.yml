@@ -34,18 +34,18 @@ jobs:
           cd asc
           composer install --optimize-autoloader --no-scripts
 
-      #- name: Set up Node.js 20
-      #  uses: actions/setup-node@v2
-      #  with:
-      #    node-version: "20"
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
 
-      #- name: Install Yarn
-      #  run: npm install -g yarn
+      - name: Install Yarn
+        run: npm install -g yarn
 
-      #- name: Install Node.js dependencies with Yarn
-      #  run: |
-      #    cd asc
-      #    yarn install
+      - name: Install Node.js dependencies with Yarn
+        run: |
+          cd asc
+          yarn install
 
       - name: Create necessary directories and SQLite databases
         run: |
@@ -58,7 +58,7 @@ jobs:
         run:  |
           cd asc
           ls -l
-          php bin/console importmap:install
+          yarn dev
       - name: Install FTP client
         run: sudo apt-get install -y ftp
 

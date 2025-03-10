@@ -42,15 +42,6 @@ $application->run($inputMigrate, $outputMigrate);
 echo nl2br($outputMigrate->fetch());
 // Exécute la commande doctrine:migrations:migrate
 $inputMigrate = new ArrayInput([
-    'command' => 'importmap:install'
-]);
-$outputMigrate = new BufferedOutput();
-
-$application->run($inputMigrate, $outputMigrate);
-
-echo nl2br($outputMigrate->fetch());
-// Exécute la commande doctrine:migrations:migrate
-$inputMigrate = new ArrayInput([
     'command' => 'tailwind:build'
 ]);
 $outputMigrate = new BufferedOutput();
