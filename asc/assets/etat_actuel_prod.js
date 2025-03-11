@@ -8,7 +8,14 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
-import './js/vendor.min.js';
-import './libs/nestable2/jquery.nestable.min.js';
+
+import 'jquery';
+import 'bootstrap';
+import 'simplebar';
+import 'node-waves';
+import 'waypoints/lib/jquery.waypoints.js';
+import 'jquery.counterup';
+import 'feather-icons';
+import 'nestable2';
 import './js/pages/nestable.init.js';
 import './js/app.min.js';
