@@ -45,7 +45,7 @@ class PreparationCordeType extends AbstractType
                 'choices' => $parc->getStocks(),
                 'choice_value' => 'id',
                 'placeholder' => 'choisie un stock',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('corde', EntityType::class, [
                 'class' => Corde::class,
@@ -56,17 +56,17 @@ class PreparationCordeType extends AbstractType
                 'choices' => $parc->getCordes(),
                 'choice_value' => 'id',
                 'placeholder' => 'choisie ton type de corde',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('longeur', NumberType::class, [
                 'label' => 'LONGEUR CORDES (m)',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('datedecreation', DateType::class, [
                 'label' => 'DATE PREPARATION CORDES',
                 'html5' => true,
                 'widget' => 'single_text',
-                'attr' => ['data-provide' => "datepicker", 'class' => 'form-control']
+                'attr' => ['data-provide' => "datepicker", 'class' => 'form-control'],
             ])
             ->addDependent('quantiteEnStock', 'corde', function (DependentField $field, ?Corde $corde) use ($parc) {
                 if ($corde) {
@@ -85,7 +85,7 @@ class PreparationCordeType extends AbstractType
                 'expanded' => false,
                 'choice_value' => 'id',
                 'placeholder' => 'choisie l\'espece a préparer',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])->addDependent('article', ['stocks', 'fruitDeMer'], function (DependentField $field, ?stock $stock, ?FruitDeMer $fruitDeMer) use ($parc) {
                 if ($fruitDeMer && $stock) {
 
@@ -100,7 +100,7 @@ class PreparationCordeType extends AbstractType
                         'choice_label' => 'articles',
                         'choice_value' => 'id',
                         'placeholder' => 'choisie l\'article a préparer',
-                        'attr' => ['class' => 'form-control']
+                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })->addDependent('lot',  ['stocks', 'fruitDeMer', 'article'], function (DependentField $field, ?stock $stock, ?FruitDeMer $fruitDeMer, ?StockArticle $articles) use ($parc) {
@@ -116,7 +116,7 @@ class PreparationCordeType extends AbstractType
                         'choice_label' => 'numeroSerie',
                         'choice_value' => 'id',
                         'placeholder' => 'choisie le lot d\'article',
-                        'attr' => ['class' => 'form-control']
+                        'attr' => ['class' => 'form-control'],
                     ]);
                 }
             })->addDependent('totalqte',  ['stocks', 'fruitDeMer', 'article', 'lot'], function (DependentField $field, ?stock $stock, ?FruitDeMer $fruitDeMer, ?StockArticle $articles, ?StockArticleSn $stockArticleSn) use ($parc) {
@@ -134,12 +134,12 @@ class PreparationCordeType extends AbstractType
                 }
             })->add('densite', IntegerType::class, [
                 'label' => 'UNITES/CORDE',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('nombre', IntegerType::class, [
                 'label' => 'NBR CORDES A FABRIQUER',
                 'required' => true,
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
             ])
             ->addDependent('submit',  ['corde', 'lot'], function (DependentField $field, ?Corde $corde, ?StockArticleSn $stockArticleSn) use ($parc) {
                 if ($stockArticleSn && $corde) {

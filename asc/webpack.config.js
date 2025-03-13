@@ -23,6 +23,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('etat_actuel_prod', './assets/etat_actuel_prod.js')
 
+    .enableStimulusBridge('./assets/controllers.json')
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[ext]',
@@ -72,7 +73,8 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
-    ;
-
+    .autoProvidejQuery()
+    .configureWatchOptions(watchOptions => {
+        watchOptions.poll = 250; // check for changes every 250 milliseconds
+    });
 module.exports = Encore.getWebpackConfig();

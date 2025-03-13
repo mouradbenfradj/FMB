@@ -61,6 +61,12 @@ class StockCorde
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $datechaussement = null;
 
+    public function __toString()
+    {
+        return $this->corde->getNom();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

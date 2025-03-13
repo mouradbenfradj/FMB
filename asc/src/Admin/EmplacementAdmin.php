@@ -49,9 +49,10 @@ final class EmplacementAdmin extends AbstractAdmin
                 // these options are passed to each "email" type
                 'entry_options' => [
                     'class' => StockCorde::class,
-                    'choice_label' => 'corde.nom',
                 ],
                 'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ]);
     }
 
