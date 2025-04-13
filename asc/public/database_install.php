@@ -34,7 +34,6 @@ $application->setAutoExit(false);
 // Exécute la commande doctrine:schema:update
 $inputSchemaUpdate = new ArrayInput([
     'command' => 'doctrine:schema:update',
-    '--complete' => true,
     '--force' => true,
     '--dump-sql' => true,
     '--no-interaction' => true,
