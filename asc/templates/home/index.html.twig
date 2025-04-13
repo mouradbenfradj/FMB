@@ -9,7 +9,7 @@
 	class="row">
 
 	{# 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: ux_icon('lucide:anchor', {class: ' font-22 avatar-title'}) ,niveau: 'primary' }%}
-																																																 #}
+																																																	 #}
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-home ',niveau: 'primary',hide: false }%}
 	{% set sum = 0 %}
 	{% for p in parcs %}
@@ -18,15 +18,6 @@
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Filières',value: parc ? parc.filieres|length : sum,icon: 'fe-sliders  ',niveau: 'primary',hide: false }%}
 </div>
 <div class="row">
-	<div data-controller="dropdown" class="relative">
-		<button type="button" data-action="dropdown#toggle click@window->dropdown#hide">Options</button>
-
-		<div data-dropdown-target="menu" class="hidden transition transform origin-top-right absolute right-0" data-transition-enter-from="opacity-0 scale-95" data-transition-enter-to="opacity-100 scale-100" data-transition-leave-from="opacity-100 scale-100" data-transition-leave-to="opacity-0 scale-95">
-			<a href="#" data-action="dropdown#toggle">Account settings</a>
-			<a href="#" data-action="dropdown#toggle">Support</a>
-			<a href="#" data-action="dropdown#toggle">License</a>
-		</div>
-	</div>
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes</br>Préparées â sec',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes vides',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
