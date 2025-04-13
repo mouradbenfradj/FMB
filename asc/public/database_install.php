@@ -55,6 +55,7 @@ echo nl2br($outputMigrate->fetch());
 $inputSchemaUpdate = new ArrayInput([
     'command' => 'doctrine:schema:update',
     '--force',
+    '--dump-sql',
     '--no-interaction'
 ]);
 $outputSchemaUpdate = new BufferedOutput();
@@ -62,25 +63,6 @@ $outputSchemaUpdate = new BufferedOutput();
 $application->run($inputSchemaUpdate, $outputSchemaUpdate);
 
 echo nl2br($outputSchemaUpdate->fetch());
-// Exécute la commande doctrine:schema:update
-$inputSchemaUpdate = new ArrayInput([
-    'command' => 'tailwind:build --minify'
-]);
-$outputSchemaUpdate = new BufferedOutput();
-
-$application->run($inputSchemaUpdate, $outputSchemaUpdate);
-
-echo nl2br($outputSchemaUpdate->fetch());
-
-$inputSchemaUpdate = new ArrayInput([
-    'command' => 'asset-map:compile'
-]);
-$outputSchemaUpdate = new BufferedOutput();
-
-$application->run($inputSchemaUpdate, $outputSchemaUpdate);
-
-echo nl2br($outputSchemaUpdate->fetch());
-
 $inputSchemaUpdate = new ArrayInput([
     'command' => 'cache:clear'
 ]);
