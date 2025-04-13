@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Parc en chiffre
+	Parc en chiffres
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 	class="row">
 
 	{# 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: ux_icon('lucide:anchor', {class: ' font-22 avatar-title'}) ,niveau: 'primary' }%}
-																																																			 #}
+																																																				 #}
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-home ',niveau: 'primary',hide: false }%}
 	{% set sum = 0 %}
 	{% for p in parcs %}

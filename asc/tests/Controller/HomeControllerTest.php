@@ -16,8 +16,8 @@ class HomeControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffre');
-        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffre');
+        $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffres');
+        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffres');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > h4', 'Tous les parcs');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li.breadcrumb-item.active.chosenParc', 'Tous les parcs');
         $this->assertSelectorTextContains('#wrapper > div.navbar-custom > div > ul.list-unstyled.topnav-menu.topnav-menu-left.m-0 > li.dropdown.d-none.d-xl-block > a', 'Tous les parcs');
@@ -31,8 +31,8 @@ class HomeControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
 
-        $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffre');
-        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffre');
+        $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffres');
+        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffres');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > h4', 'Tous les parcs');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li.breadcrumb-item.active.chosenParc', 'Tous les parcs');
         $this->assertSelectorTextContains('#wrapper > div.navbar-custom > div > ul.list-unstyled.topnav-menu.topnav-menu-left.m-0 > li.dropdown.d-none.d-xl-block > a', 'Tous les parcs');
@@ -71,8 +71,8 @@ class HomeControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         // Vérifiez que le contenu du template est correct
-        $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffre');
-        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffre');
+        $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffres');
+        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffres');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > h4', 'teste');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li.breadcrumb-item.active.chosenParc', 'teste');
         $this->assertSelectorTextContains('#wrapper > div.navbar-custom > div > ul.list-unstyled.topnav-menu.topnav-menu-left.m-0 > li.dropdown.d-none.d-xl-block > a', 'teste');
@@ -107,8 +107,8 @@ class HomeControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         // Vérifiez que le contenu du template est correct pour un parc invalide
-        $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffre');
-        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffre');
+        $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffres');
+        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffres');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > h4', 'Tous les parcs');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li.breadcrumb-item.active.chosenParc', 'Tous les parcs');
         $this->assertSelectorTextContains('#wrapper > div.navbar-custom > div > ul.list-unstyled.topnav-menu.topnav-menu-left.m-0 > li.dropdown.d-none.d-xl-block > a', 'Tous les parcs');
