@@ -19,7 +19,7 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
-	<body {{ stimulus_controller('symfony/ux-swup/swup', { containers: ['#swup', '#nav', '#parc'], animateHistoryBrowsing: true, animationSelector: '[class*="transition-"]', cache: true, linkSelector: 'a[href]', theme: 'slide', debug: true, } ) }} data-layout-mode="horizontal" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
+	<body {{ stimulus_controller('symfony/ux-swup/swup', { containers: ['#swup', '#nav', '#parc', '#parc2'], animateHistoryBrowsing: true, animationSelector: '[class*="transition-"]', cache: true, linkSelector: 'a[href]', theme: 'slide', debug: true, } ) }} data-layout-mode="horizontal" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
 		<div id="wrapper">
 			{% include '_header.html.twig' with { 'parcs': parcs ?? [],'parc': parc } only %}
 			{% include '_nav.html.twig'  with {'parc': parc } only %}

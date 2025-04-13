@@ -157,18 +157,18 @@
 						<h5 class="m-0">
 							<span
 								class="float-right">{# <a href="" class="text-dark">
-																																																																																																																																																																						                                                <small>Clear All</small>
-																																																																																																																																																																						                                            </a> #}
+																																																																																																																																																																																																										                                                <small>Clear All</small>
+																																																																																																																																																																																																										                                            </a> #}
 							</span>Liste des parcs
 						</h5>
 					</div>
 
-					<div class="noti-scroll" data-simplebar>
+					<div class="noti-scroll" id="parc2" data-simplebar>
 						<a href="{{ path('app_home') }}" class="dropdown-item notify-item active">
 							<div class="notify-icon">
 								<img src="{{ asset('build/images/users/user-no-profile.jpg') }}" class="img-fluid rounded-circle" alt="">
 							</div>
-							<p class="notify-details">Tous les parcs 11</p>
+							<p class="notify-details">Tous les parcs</p>
 							<p class="text-muted mb-0 user-msg">
 								<small>Tous les parcs</small>
 							</p>
@@ -188,65 +188,65 @@
 
 
 						{# <!-- item-->
-																																																																																																																                                    <a href="javascript:void(0);" class="dropdown-item notify-item active">
-																																																																																																																                                        <div class="notify-icon">
-																																																																																																																                                            <img src="{{ asset('build/images/users/user-1.jpg') }}" class="img-fluid rounded-circle" alt="" /> </div>
-																																																																																																																                                        <p class="notify-details">Cristina Pride</p>
-																																																																																																																                                        <p class="text-muted mb-0 user-msg">
-																																																																																																																                                            <small>Hi, How are you? What about our next meeting</small>
-																																																																																																																                                        </p>
-																																																																																																																                                    </a>
-																																																																																																																    
-																																																																																																																                                    <!-- item-->
-																																																																																																																                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-																																																																																																																                                        <div class="notify-icon bg-primary">
-																																																																																																																                                            <i class="mdi mdi-comment-account-outline"></i>
-																																																																																																																                                        </div>
-																																																																																																																                                        <p class="notify-details">Caleb Flakelar commented on Admin
-																																																																																																																                                            <small class="text-muted">1 min ago</small>
-																																																																																																																                                        </p>
-																																																																																																																                                    </a>
-																																																																																																																    
-																																																																																																																                                    <!-- item-->
-																																																																																																																                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-																																																																																																																                                        <div class="notify-icon">
-																																																																																																																                                            <img src="{{ asset('build/images/users/user-4.jpg') }}" class="img-fluid rounded-circle" alt="" /> </div>
-																																																																																																																                                        <p class="notify-details">Karen Robinson</p>
-																																																																																																																                                        <p class="text-muted mb-0 user-msg">
-																																																																																																																                                            <small>Wow ! this admin looks good and awesome design</small>
-																																																																																																																                                        </p>
-																																																																																																																                                    </a>
-																																																																																																																    
-																																																																																																																                                    <!-- item-->
-																																																																																																																                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-																																																																																																																                                        <div class="notify-icon bg-warning">
-																																																																																																																                                            <i class="mdi mdi-account-plus"></i>
-																																																																																																																                                        </div>
-																																																																																																																                                        <p class="notify-details">New user registered.
-																																																																																																																                                            <small class="text-muted">5 hours ago</small>
-																																																																																																																                                        </p>
-																																																																																																																                                    </a>
-																																																																																																																    
-																																																																																																																                                    <!-- item-->
-																																																																																																																                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-																																																																																																																                                        <div class="notify-icon bg-info">
-																																																																																																																                                            <i class="mdi mdi-comment-account-outline"></i>
-																																																																																																																                                        </div>
-																																																																																																																                                        <p class="notify-details">Caleb Flakelar commented on Admin
-																																																																																																																                                            <small class="text-muted">4 days ago</small>
-																																																																																																																                                        </p>
-																																																																																																																                                    </a>
-																																																																																																																    
-																																																																																																																                                    <!-- item-->
-																																																																																																																                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-																																																																																																																                                        <div class="notify-icon bg-secondary">
-																																																																																																																                                            <i class="mdi mdi-heart"></i>
-																																																																																																																                                        </div>
-																																																																																																																                                        <p class="notify-details">Carlos Crouch liked
-																																																																																																																                                            <b>Admin</b>
-																																																																																																																                                            <small class="text-muted">13 days ago</small>
-																																																																																																																                                        </p>
-																																																																																																																                                    </a> #}
+																																																																																																																																								                                    <a href="javascript:void(0);" class="dropdown-item notify-item active">
+																																																																																																																																								                                        <div class="notify-icon">
+																																																																																																																																								                                            <img src="{{ asset('build/images/users/user-1.jpg') }}" class="img-fluid rounded-circle" alt="" /> </div>
+																																																																																																																																								                                        <p class="notify-details">Cristina Pride</p>
+																																																																																																																																								                                        <p class="text-muted mb-0 user-msg">
+																																																																																																																																								                                            <small>Hi, How are you? What about our next meeting</small>
+																																																																																																																																								                                        </p>
+																																																																																																																																								                                    </a>
+																																																																																																																																								    
+																																																																																																																																								                                    <!-- item-->
+																																																																																																																																								                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+																																																																																																																																								                                        <div class="notify-icon bg-primary">
+																																																																																																																																								                                            <i class="mdi mdi-comment-account-outline"></i>
+																																																																																																																																								                                        </div>
+																																																																																																																																								                                        <p class="notify-details">Caleb Flakelar commented on Admin
+																																																																																																																																								                                            <small class="text-muted">1 min ago</small>
+																																																																																																																																								                                        </p>
+																																																																																																																																								                                    </a>
+																																																																																																																																								    
+																																																																																																																																								                                    <!-- item-->
+																																																																																																																																								                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+																																																																																																																																								                                        <div class="notify-icon">
+																																																																																																																																								                                            <img src="{{ asset('build/images/users/user-4.jpg') }}" class="img-fluid rounded-circle" alt="" /> </div>
+																																																																																																																																								                                        <p class="notify-details">Karen Robinson</p>
+																																																																																																																																								                                        <p class="text-muted mb-0 user-msg">
+																																																																																																																																								                                            <small>Wow ! this admin looks good and awesome design</small>
+																																																																																																																																								                                        </p>
+																																																																																																																																								                                    </a>
+																																																																																																																																								    
+																																																																																																																																								                                    <!-- item-->
+																																																																																																																																								                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+																																																																																																																																								                                        <div class="notify-icon bg-warning">
+																																																																																																																																								                                            <i class="mdi mdi-account-plus"></i>
+																																																																																																																																								                                        </div>
+																																																																																																																																								                                        <p class="notify-details">New user registered.
+																																																																																																																																								                                            <small class="text-muted">5 hours ago</small>
+																																																																																																																																								                                        </p>
+																																																																																																																																								                                    </a>
+																																																																																																																																								    
+																																																																																																																																								                                    <!-- item-->
+																																																																																																																																								                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+																																																																																																																																								                                        <div class="notify-icon bg-info">
+																																																																																																																																								                                            <i class="mdi mdi-comment-account-outline"></i>
+																																																																																																																																								                                        </div>
+																																																																																																																																								                                        <p class="notify-details">Caleb Flakelar commented on Admin
+																																																																																																																																								                                            <small class="text-muted">4 days ago</small>
+																																																																																																																																								                                        </p>
+																																																																																																																																								                                    </a>
+																																																																																																																																								    
+																																																																																																																																								                                    <!-- item-->
+																																																																																																																																								                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+																																																																																																																																								                                        <div class="notify-icon bg-secondary">
+																																																																																																																																								                                            <i class="mdi mdi-heart"></i>
+																																																																																																																																								                                        </div>
+																																																																																																																																								                                        <p class="notify-details">Carlos Crouch liked
+																																																																																																																																								                                            <b>Admin</b>
+																																																																																																																																								                                            <small class="text-muted">13 days ago</small>
+																																																																																																																																								                                        </p>
+																																																																																																																																								                                    </a> #}
 					</div>
 
 					<!-- All-->
@@ -303,7 +303,7 @@
 					</div>
 
 					<!-- item-->
-					<a href="javascript:void(0);" class="dropdown-item notify-item">
+					<a href="{{ path('sonata_admin_dashboard')}}" class="dropdown-item notify-item">
 						<i class="fe-user"></i>
 						<span>Administration</span>
 					</a>
@@ -398,7 +398,7 @@
 					<!-- item-->
 					<a href="{{ path('app_home') }}" class="dropdown-item">
 						<i class="fe-briefcase mr-1"></i>
-						<span>Tous les parcs 12</span>
+						<span>Tous les parcs</span>
 					</a>
 					{% for parc in parcs %}
 						<!-- item -->
