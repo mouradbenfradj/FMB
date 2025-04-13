@@ -33,10 +33,7 @@ $application->setAutoExit(false);
 
 // Exécute la commande doctrine:schema:update
 $inputSchemaUpdate = new ArrayInput([
-    'command' => 'd:s:u',
-    '-f',
-    '--dump-sql',
-    '--no-interaction'
+    'command' => 'd:s:u -f --no-interaction --dump-sql'
 ]);
 $outputSchemaUpdate = new BufferedOutput();
 
