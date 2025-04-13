@@ -31,26 +31,6 @@ $kernel->boot();
 $application = new Application($kernel);
 $application->setAutoExit(false);
 
-// Exécute la commande doctrine:migrations:migrate
-$inputMigrate = new ArrayInput([
-    'command' => 'asset-map:compile'
-]);
-$outputMigrate = new BufferedOutput();
-
-$application->run($inputMigrate, $outputMigrate);
-
-echo nl2br($outputMigrate->fetch());
-// Exécute la commande doctrine:migrations:migrate
-$inputMigrate = new ArrayInput([
-    'command' => 'tailwind:build'
-]);
-$outputMigrate = new BufferedOutput();
-
-$application->run($inputMigrate, $outputMigrate);
-
-echo nl2br($outputMigrate->fetch());
-
-
 // Exécute la commande doctrine:schema:update
 $inputSchemaUpdate = new ArrayInput([
     'command' => 'doctrine:schema:update',
