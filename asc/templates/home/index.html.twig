@@ -9,8 +9,8 @@
 	class="row">
 
 	{# 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: ux_icon('lucide:anchor', {class: ' font-22 avatar-title'}) ,niveau: 'primary' }%}
-																						 #}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-anchor ',niveau: 'primary' }%}
+																							 #}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-home ',niveau: 'primary' }%}
 	{% set sum = 0 %}
 	{% for p in parcs %}
 		{% set sum = sum + p.filieres|length %}
