@@ -1042,6 +1042,13 @@
   resolved "https://registry.yarnpkg.com/@stimulus-components/animated-number/-/animated-number-5.0.0.tgz#1ee3c5c919c451b4e538ca80fb489e4594ba0451"
   integrity sha512-waOl3a/i5TJF8MYRiLSQqCTLYA0C20B2W7/UKbQOUKwnOGMrR0wHzNiJgfCveOE2Xl1WkeOlUjT0ntVgFXTyDA==
 
+"@stimulus-components/dropdown@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@stimulus-components/dropdown/-/dropdown-3.0.0.tgz#b85efa8ef06a94eac1a40e52ac920f5089789c8e"
+  integrity sha512-GY9Ez8T5Vbcad702seF4iuKZwv4f+VACtfO527l8vrFDFbGWWFyRljyK9FFXSPEkUC3/4PilVsYfPO2CMikkEg==
+  dependencies:
+    stimulus-use "^0.52.2"
+
 "@stimulus-components/reveal@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@stimulus-components/reveal/-/reveal-5.0.0.tgz#87a17b91f8a556e3f3975740ebb3e760aea6fafc"
@@ -4711,6 +4718,11 @@ stackframe@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-1.3.4.tgz#b881a004c8c149a5e8efef37d51b16e412943310"
   integrity sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw==
+
+stimulus-use@^0.52.2:
+  version "0.52.3"
+  resolved "https://registry.yarnpkg.com/stimulus-use/-/stimulus-use-0.52.3.tgz#d6f35fa93277274957a2ed98a7b04b4d702cb1d6"
+  integrity sha512-stZ5dID6FUrGCR/ChWUa0FT5Z8iqkzT6lputOAb50eF+Ayg7RzJj4U/HoRlp2NV333QfvoRidru9HLbom4hZVw==
 
 string-hash@^1.1.1:
   version "1.1.3"
