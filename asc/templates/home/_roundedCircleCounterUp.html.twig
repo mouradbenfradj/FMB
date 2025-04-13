@@ -11,7 +11,7 @@
 					<h3 class="mt-1">
 						<span {{ stimulus_controller('animated-number', { 'start': 0, 'end': value, 'duration': 3000 } ) }}>0</span>
 					</h3>
-					<p class="text-muted mb-1 text-truncate">{{titre}}</p>
+					<p class="text-muted mb-1 text-truncate">{{titre|raw}}</p>
 				</div>
 			</div>
 		</div>

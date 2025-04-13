@@ -9,7 +9,7 @@
 	class="row">
 
 	{# 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: ux_icon('lucide:anchor', {class: ' font-22 avatar-title'}) ,niveau: 'primary' }%}
-												 #}
+																						 #}
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-anchor ',niveau: 'primary' }%}
 	{% set sum = 0 %}
 	{% for p in parcs %}
@@ -19,20 +19,20 @@
 </div>
 <div class="row">
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Cordes',value: 0,icon: 'fe-more-vertical',niveau: 'warning' }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Cordes à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
-  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Cordes</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
   {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes vides',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
-  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
-  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
-  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
-  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
-  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Cordes à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes</br>Cordes à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info' }%}
 </div>
  <div class="row">
   {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Lanternes',value: 0,icon: 'fe-layers',niveau: 'warning' }%}
-  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes à l\'eau',value: 0,icon: 'fe-layers',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes</br>à l\'eau',value: 0,icon: 'fe-layers',niveau: 'info' }%}
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes vides',value: 0,icon: 'fe-layers',niveau: 'info' }%}
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes Préparées',value: 0,icon: 'fe-layers',niveau: 'info' }%}
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Lanternes',value: 0,icon: 'fe-layers',niveau: 'info' }%}
@@ -44,8 +44,8 @@
   {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches vides',value: 0,icon: 'fe-shopping-bag ',niveau: 'info' }%}
   {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Préparées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info' }%}
   {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info' }%}
-  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info' }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Poches à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info' }%}
+  {% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées</br>à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info' }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Poches</br>à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info' }%}
 
 </div>
 {% endblock %}
