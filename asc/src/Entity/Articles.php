@@ -40,7 +40,7 @@ class Articles
 
     public function __toString() //TODO : voir une autre solution
     {
-        return $this->libArticle;
+        return $this->libArticle . ' ' . $this->fruitDeMer->getNom();
     }
     public function __construct()
     {
