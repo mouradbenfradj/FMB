@@ -9,12 +9,13 @@
 import './styles/app.css';
 
 import './bootstrap';
+
 import $ from 'jquery';
+global.$ = global.jQuery = $;
+window.$ = window.jQuery = $;
 import 'bootstrap';
 import 'simplebar';
 import 'node-waves';
-import 'waypoints/lib/jquery.waypoints.js';
-import 'jquery.counterup';
 import feather from 'feather-icons';
 import './js/app.js';
-feather.replace()
+feather.replace();

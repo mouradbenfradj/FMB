@@ -1,0 +1,444 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EtatActuelProdController!
+{% endblock %}
+{% block stylesheets %}
+	{{ encore_entry_link_tags('etat_actuel_prod') }}
+{% endblock %}
+{% block javascripts %}
+	{{ encore_entry_script_tags('etat_actuel_prod') }}
+{% endblock %}
+{% block body %}
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card-box">
+				<h4 class="header-title">Etat Actuel Prod</h4>
+				<p class="sub-header">
+					<div class="mb-2">
+						<div class="row">
+							<div class="col-12 text-sm-center form-inline">
+								<div class="form-group mr-2">
+									<select id="demo-foo-filter-status" class="custom-select custom-select-sm">
+										<option value="">Tri par Réf. Filière</option>
+										<option value="active">Tri par Capacité Filière</option>
+										<option value="active">Tri par Remplissage Filière</option>
+										<option value="active">Tri par Flottabilité Filière</option>
+									</select>
+								</div>
+								<div class="form-group mr-2">
+									<select id="demo-foo-filter-status" class="custom-select custom-select-sm">
+										<option value="">Croissant</option>
+										<option value="active">Decroissant</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-2">
+						<div class="row">
+							<div class="col-12 text-sm-center form-inline">
+								<button type="button" data-page-size="10">10</button>
+								<button type="button" data-page-size="20">20</button>
+								<button type="button" data-page-size="50">50</button>
+								<button type="button" data-page-size="100">100</button>
+								<button type="button" data-page-size="200">200</button>
+							</div>
+						</div>
+					</div>
+				</p>
+				<table id="demo-foo-row-toggler" class="table table-bordered toggle-circle mb-0">
+					<thead>
+						<tr>
+
+
+							<th data-toggle="true">Réf. Filière</th>
+							<th>Remplissage Filière (%)</th>
+							<th>Flottabilité Filière (%)</th>
+							<th data-hide="all">Taille Filière (m)</th>
+							<th data-hide="all">Total Emplacements (u)</th>
+							<th data-hide="all">Emplacements Vides (u)</th>
+							<th data-hide="all">Emplacements Remplis (u)</th>
+							<th data-hide="all">Total Cordes (u)</th>
+							<th data-hide="all">Total Cordes Huitre (u)</th>
+							<th data-hide="all">Total Cordes Moule (u)</th>
+							<th data-hide="all">Total Lanternes (u)</th>
+							<th data-hide="all">Total Poches (u)</th>
+							<th data-hide="all">Dérniere Date De MAE</th>
+							<th data-hide="all">Total Passages chaussettes (u)</th>
+							<th data-hide="all">Segments</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% set pos = 0 %}
+						{% for filiere in parc.filieres %}
+							<tr>
+								<td>{{filiere.nomFiliere}}</td>
+								<td>
+									{% if filiere.nombreEmplacements == 0 %}
+										{{ dump(filiere.totaleCordes) }}
+										{{ dump(filiere.nombreEmplacements) }}
+									{% endif %}
+									{% set rouge = ((filiere.totaleCordes * 100 ) / (filiere.nombreEmplacements == 0 ?1 : filiere.nombreEmplacements))|round %}
+									<div class="progress mb-0">
+										<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
+											{{rouge}}
+											% R
+										</div>
+										<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ 100 - rouge}}%" aria-valuenow=" {{ 100 - rouge}}%" aria-valuemin="0" aria-valuemax="100">
+											{{ 100 - rouge}}
+											% V
+										</div>
+									</div>
+
+
+									<div class="row">
+										<div class="col-lg-4">
+											<div class="grid-container">
+												Places totales
+												{{filiere.nombreEmplacements}}
+
+											</div>
+										</div>
+										<div class="col-lg-4">
+											<div class="grid-container">
+												Places Remplies
+												{{filiere.totaleCordes}}
+
+											</div>
+										</div>
+										<div class="col-lg-4">
+											<div class="grid-container">
+												Places Vides
+												{{filiere.nombreEmplacements - filiere.totaleCordes}}
+
+											</div>
+										</div>
+
+									</div>
+								</td>
+								<td>
+									{% set vert = ((filiere.flottabiliter - filiere.poidCordes)/filiere.flottabiliter *100) %}
+									{% if vert < 0 %}
+										{% set classRouge = "bg-warning" %}
+										{% set classVert = " bg-info" %}
+									{% else %}
+										{% set classRouge = "bg-danger" %}
+										{% set classVert = " bg-success" %}
+									{% endif %}
+									<div class="progress mb-0">
+										<div class="progress-bar  progress-bar-striped {{classRouge}}" role="danger" style="width: {{ (100 - vert)|round }}%" aria-valuenow="{{ (100 - vert)|round }}" aria-valuemin="0" aria-valuemax="100">
+											{{ (100 - vert)|round }}
+											% R</div>
+										<div class="progress-bar progress-bar-striped {{classVert}}" role="progressbar" style="width: {{  vert|round }}%" aria-valuenow="{{ vert|round }}" aria-valuemin="0" aria-valuemax="100">
+											{{ vert|round }}
+											% V</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-3">
+											<div class="grid-container">
+												F
+												{{filiere.volumesTotale}}
+												(L)
+											</div>
+										</div>
+										<div class="col-lg-3">
+											<div class="grid-container">
+												F
+												{{filiere.flottabiliter}}
+												(kgf)
+											</div>
+										</div>
+										<div class="col-lg-6">
+											<div class="grid-container">
+												Production
+												{{filiere.poidCordes}}
+												(kgf)
+											</div>
+										</div>
+									</div>
+
+
+								</td>
+								<td>{{ filiere.segments|map(segment => "#{segment.longeur}")|reduce((l, v) => l + v)  }}
+									m</td>
+								<td>{{ filiere.nombreEmplacements  }}</td>
+								<td>{{ filiere.nombreEmplacementsVide  }}</td>
+								<td>{{ filiere.nombreEmplacementsRemplit  }}</td>
+								<td>{{filiere.totaleCordes}}</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>
+									<div class="custom-dd-empty dd nestable_list_3">
+										<ol class="dd-list">
+											{% for segment in filiere.segments %}
+
+												<li class="dd-item dd3-item" data-id="15">
+													<div class="dd-handle dd3-handle"></div>
+													<div class="dd3-content">
+														Segment
+														{{ segment.nomSegment }}
+													</div>
+													<ol class="dd-list">
+														<li class="dd-item dd3-item" data-id="16">
+															<div class="dd3-content">
+																<table width="100%">
+																	<tbody>
+																		<tr>
+																			<th>
+																				Nom Segment
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>
+																				Segment
+																				{{ segment.nomSegment }}
+																			</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Remplissage Segment (%)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>
+																				{% set rouge = ((segment.totaleCordes/segment.nombreEmplacements )*100)|round %}
+
+																				<div class="progress mb-0">
+																					<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
+																						{{rouge}}
+																						% R
+																					</div>
+																					<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ 100 - rouge}}%" aria-valuenow=" {{ 100 - rouge}}%" aria-valuemin="0" aria-valuemax="100">
+																						{{ 100 - rouge}}
+																						% V
+																					</div>
+																				</div>
+
+																				<div class="row">
+																					<div class="col-lg-4">
+																						<div class="grid-container">
+																							Places totales
+																							{{segment.nombreEmplacements}}
+
+																						</div>
+																					</div>
+																					<div class="col-lg-4">
+																						<div class="grid-container">
+																							Places Remplies
+																							{{segment.totaleCordes}}
+
+																						</div>
+																					</div>
+																					<div class="col-lg-4">
+																						<div class="grid-container">
+																							Places Vides
+																							{{segment.nombreEmplacements - segment.totaleCordes}}
+
+																						</div>
+																					</div>
+
+																				</div>
+
+
+																			</td>
+																		</tr>
+																		<tr>
+																			<th>Flottabilité Segment (%)<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>
+																				{% set vert = ((segment.flottabiliter - segment.poidCordes)/segment.flottabiliter *100) %}
+																				{% if vert < 0 %}
+																					{% set classRouge = "bg-warning" %}
+																					{% set classVert = " bg-info" %}
+																				{% else %}
+																					{% set classRouge = "bg-danger" %}
+																					{% set classVert = " bg-success" %}
+																				{% endif %}
+																				<div class="progress mb-0">
+																					<div class="progress-bar  progress-bar-striped {{classRouge}}" role="danger" style="width: {{ (100 - vert)|round }}%" aria-valuenow="{{ (100 - vert)|round }}" aria-valuemin="0" aria-valuemax="100">
+																						{{ (100 - vert)|round }}
+																						% R</div>
+																					<div class="progress-bar progress-bar-striped {{classVert}}" role="progressbar" style="width: {{  vert|round }}%" aria-valuenow="{{ vert|round }}" aria-valuemin="0" aria-valuemax="100">
+																						{{ vert|round }}
+																						% V</div>
+																				</div>
+
+
+																				<div class="row">
+																					<div class="col-lg-3">
+																						<div class="grid-container">
+																							F
+																							{{segment.volumesTotale}}
+																							(L)
+																						</div>
+																					</div>
+																					<div class="col-lg-3">
+																						<div class="grid-container">
+																							F
+																							{{segment.flottabiliter}}
+																							(kgf)
+																						</div>
+																					</div>
+																					<div class="col-lg-6">
+																						<div class="grid-container">
+																							Production
+																							{{segment.poidCordes}}
+																							(kgf)
+																						</div>
+																					</div>
+																				</div>
+																			</td>
+																		</tr>
+
+																		<tr>
+																			<th>
+																				Taille Segment (m)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>{{ segment.longeur  }}</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Total Emplacements (u)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>{{segment.nombreEmplacements }}</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Emplacements Vides (u)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>0</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Emplacements Remplis (u)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>0</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Total Cordes (u)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>{{segment.totaleCordes }}</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Total Cordes Huitre (u)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>0</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Total Cordes Moule (u)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>0</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Total Lanternes (u)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>0</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Total Poches (u)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>0</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Total Passages chaussettes (u)
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>0</td>
+																		</tr>
+																		<tr>
+																			<th>
+																				Dérniere Date De MAE
+																				<span class="footable-sort-indicator"></span>
+																			</th>
+																			<td>0</td>
+																		</tr>
+
+																	</tbody>
+																</table>
+															</div>
+														</li>
+														<li class="dd-item dd3-item" data-id="17">
+															<div class="dd3-content">
+																<table class="table table-striped mb-0">
+																	<tbody>
+																		{% set distanceSurSegment = 0 %}
+																		{% set distance10Emplacement = 0 %}
+																		{% for emplacement in segment.emplacements %}
+																			{% if loop.index0 % 10 == 0 %}
+																				{% set distance10Emplacement = distanceSurSegment + (segment.pasEmplacement * 10) %}
+																				<tr>
+																					<td>
+																						{% for flotteur in segment.flotteurSegments %}
+																							{% set distanceDeDepart = flotteur.distanceDeDepart %}
+																							{% for i in range(1, flotteur.nombre) %}
+																								{% if distanceDeDepart >= distanceSurSegment and distanceDeDepart < distance10Emplacement %}
+																									<span>
+																										<b>{{ flotteur.flotteur.nomFlotteur }}</b>
+																										distance:
+																										{{ distanceDeDepart }}
+																										volume:
+																										{{ flotteur.flotteur.volume }}
+																										kgf:
+																										{{ flotteur.flotteur.kgf }}
+																										<br/>
+																									</span>
+																								{% endif %}
+																								{% set distanceDeDepart = flotteur.distanceDeDepart + (i * flotteur.pasFlotteur) %}
+																							{% endfor %}
+																						{% endfor %}
+																					</td>
+																				{% endif %}
+																				<td>{{ emplacement.place }}
+																					{% for stockCorde in emplacement.stockCordes %}
+																						<br>{{ stockCorde.id }}
+																					{% endfor %}
+																				</td>
+																				{% if loop.index0 % 10 == 9 or loop.last %}
+																					{% set distanceSurSegment = distanceSurSegment + (segment.pasEmplacement * 10) %}
+																				</tr>
+																			{% endif %}
+																		{% endfor %}
+																	</tbody>
+																</table>
+															</div>
+														</li>
+
+													</ol>
+												</li>
+
+											{% endfor %}
+										</ol>
+									</div>
+
+								</td>
+							</tr>
+						{% endfor %}
+
+					</tbody>
+				</table>
+			</div>
+			<!-- end card-box -->
+		</div>
+		<!-- end col -->
+	</div>
+	<!-- end row -->
+{% endblock %}

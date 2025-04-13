@@ -1,3 +1,5 @@
 import './commune.js';
-import 'nestable2';
-import './js/pages/nestable.init.js';
+
+import './libs/footable/footable.all.min.js';
+//import 'footable/dist/footable.all.min.js';
+import './js/pages/foo-tables.init.js';

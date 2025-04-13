@@ -682,18 +682,6 @@ File: Main Js File
             });
         },
 
-        // Counterup
-        Components.prototype.initCounterUp = function () {
-            var delay = $(this).attr('data-delay') ? $(this).attr('data-delay') : 100; //default is 100
-            var time = $(this).attr('data-time') ? $(this).attr('data-time') : 1200; //default is 1200
-            $('[data-plugin="counterup"]').each(function (idx, obj) {
-                $(this).counterUp({
-                    delay: delay,
-                    time: time
-                });
-            });
-        },
-
         //peity charts
         Components.prototype.initPeityCharts = function () {
             $('[data-plugin="peity-pie"]').each(function (idx, obj) {
@@ -783,7 +771,6 @@ File: Main Js File
                 this.initPopoverPlugin(),
                 this.initToastPlugin(),
                 this.initFormValidation(),
-                this.initCounterUp(),
                 this.initPeityCharts(),
                 this.initKnob();
             this.initTippyTooltips();
