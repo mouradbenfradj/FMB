@@ -9,54 +9,342 @@
 	class="row">
 
 	{# 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: ux_icon('lucide:anchor', {class: ' font-22 avatar-title'}) ,niveau: 'primary' }%}
-																																																				 #}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-home ',niveau: 'primary',hide: false }%}
+																																																																																												 #}
+
+	<div class="col-md-6 col-xl-3">
+		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-home ',niveau: 'primary',hide: false }%}
+	</div>
 	{% set sum = 0 %}
 	{% for p in parcs %}
 		{% set sum = sum + p.filieres|length %}
 	{% endfor %}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Filières',value: parc ? parc.filieres|length : sum,icon: 'fe-sliders  ',niveau: 'primary',hide: false }%}
+	<div class="col-md-6 col-xl-3">
+		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Filières',value: parc ? parc.filieres|length : sum,icon: 'fe-sliders  ',niveau: 'primary',hide: false }%}
+	</div>
 </div>
+
 <div class="row">
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes</br>Préparées â sec',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes vides',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Cordes',value: 0,icon: 'fe-more-vertical',niveau: 'warning',hide: false  }%}
-	
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Préparées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div
+					class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+																																																																																	<i class="mdi mdi-refresh"></i>
+																																																																																</a> #}
+					<a data-toggle="collapse" class="collapsed" href="#cardCollpase1" role="button" aria-expanded="false" aria-controls="cardCollpase1">
+						<i class="mdi mdi-minus"></i>
+					</a>
+					{# 
+																																																																																					<a href="#" data-toggle="remove">
+																																																																																						<i class="mdi mdi-close"></i>
+																																																																																					</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes</br>Préparées â sec',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				</h5>
 
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes vides',value: 0,icon: 'fe-layers',niveau: 'info' ,hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				<div id="cardCollpase1" class="collapse pt-3">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Préparées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div
+					class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+																																																																																	<i class="mdi mdi-refresh"></i>
+																																																																																</a> #}
+					<a data-toggle="collapse" class="collapsed" href="#cardCollpase12" role="button" aria-expanded="false" aria-controls="cardCollpase12">
+						<i class="mdi mdi-minus"></i>
+					</a>
+					{# 
+																																																																																					<a href="#" data-toggle="remove">
+																																																																																						<i class="mdi mdi-close"></i>
+																																																																																					</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				</h5>
 
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
-		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				<div id="cardCollpase12" class="collapse pt-3">	
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes vides',value: 0,icon: 'fe-layers',niveau: 'info' ,hide: false  }%}
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div
+					class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+																																																																																	<i class="mdi mdi-refresh"></i>
+																																																																																</a> #}
+					<a data-toggle="collapse" class="collapsed" href="#cardCollpase13" role="button" aria-expanded="false" aria-controls="cardCollpase13">
+						<i class="mdi mdi-minus"></i>
+					</a>
+					{# 
+																																																																																					<a href="#" data-toggle="remove">
+																																																																																						<i class="mdi mdi-close"></i>
+																																																																																					</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes vides',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				</h5>
 
+				<div id="cardCollpase13" class="collapse pt-3">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes</br>Cordes à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+						<i class="mdi mdi-refresh"></i>
+					</a> #}
+					<a data-toggle="collapse"  class="collapsed" href="#cardCollpase14" role="button" aria-expanded="false" aria-controls="cardCollpase14">
+						<i class="mdi mdi-minus"></i>
+					</a>{# 
+					<a href="#" data-toggle="remove">
+						<i class="mdi mdi-close"></i>
+					</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Cordes',value: 0,icon: 'fe-more-vertical',niveau: 'warning',hide: false  }%}
+				</h5>
 
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: '',value: null ,icon: '',niveau: '',hide: false }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: '',value: null ,icon: '',niveau: '',hide: false }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes</br>Cordes à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				<div id="cardCollpase14" class="collapse pt-3">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
+
 
 
 	</div>
 	<div class="row">
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+						<i class="mdi mdi-refresh"></i>
+					</a> #}
+					<a data-toggle="collapse"  class="collapsed" href="#cardCollpase15" role="button" aria-expanded="false" aria-controls="cardCollpase15">
+						<i class="mdi mdi-minus"></i>
+					</a>{# 
+					<a href="#" data-toggle="remove">
+						<i class="mdi mdi-close"></i>
+					</a> #}
+				</div>
+				<h5 class="card-title mb-0">
 		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Lanternes',value: 0,icon: 'fe-layers',niveau: 'warning',hide: false  }%}
-		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes</br>à l\'eau',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes vides',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes Préparées',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
+				</h5>
+
+				<div id="cardCollpase15" class="collapse pt-3">
 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Lanternes',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end card--><div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+						<i class="mdi mdi-refresh"></i>
+					</a> #}
+					<a data-toggle="collapse"  class="collapsed" href="#cardCollpase16" role="button" aria-expanded="false" aria-controls="cardCollpase16">
+						<i class="mdi mdi-minus"></i>
+					</a>{# 
+					<a href="#" data-toggle="remove">
+						<i class="mdi mdi-close"></i>
+					</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes</br>à l\'eau',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
+				</h5>
+
+				<div id="cardCollpase16" class="collapse pt-3"></div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div
+					class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+																																																																							<i class="mdi mdi-refresh"></i>
+																																																																						</a> #}
+					<a data-toggle="collapse" class="collapsed" href="#cardCollpase17" role="button" aria-expanded="false" aria-controls="cardCollpase17">
+						<i class="mdi mdi-minus"></i>
+					</a>
+					{# 
+																																																																						<a href="#" data-toggle="remove">
+																																																																							<i class="mdi mdi-close"></i>
+																																																																						</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes vides',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
+				</h5>
+
+				<div id="cardCollpase17" class="collapse pt-3"></div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div
+					class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+																																																																							<i class="mdi mdi-refresh"></i>
+																																																																						</a> #}
+					<a data-toggle="collapse" class="collapsed" href="#cardCollpase18" role="button" aria-expanded="false" aria-controls="cardCollpase18">
+						<i class="mdi mdi-minus"></i>
+					</a>
+					{# 
+																																																																						<a href="#" data-toggle="remove">
+																																																																							<i class="mdi mdi-close"></i>
+																																																																						</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes Préparées',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
+				</h5>
+
+				<div id="cardCollpase18" class="collapse pt-3"></div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
 
 </div>
 <div class="row">
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Poches',value: 0,icon: 'fe-shopping-bag ',niveau: 'warning',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
-		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches vides',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
-		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Préparées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
-		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
-		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées</br>à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
-	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Poches</br>à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div
+					class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+																																																																							<i class="mdi mdi-refresh"></i>
+																																																																						</a> #}
+					<a data-toggle="collapse" class="collapsed" href="#cardCollpase19" role="button" aria-expanded="false" aria-controls="cardCollpase19">
+						<i class="mdi mdi-minus"></i>
+					</a>
+					{# 
+																																																																						<a href="#" data-toggle="remove">
+																																																																							<i class="mdi mdi-close"></i>
+																																																																						</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Poches',value: 0,icon: 'fe-shopping-bag ',niveau: 'warning',hide: false  }%}
+				</h5>
+
+				<div id="cardCollpase19" class="collapse pt-3">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div
+					class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+																																																																							<i class="mdi mdi-refresh"></i>
+																																																																						</a> #}
+					<a data-toggle="collapse" class="collapsed" href="#cardCollpase110" role="button" aria-expanded="false" aria-controls="cardCollpase110">
+						<i class="mdi mdi-minus"></i>
+					</a>
+					{# 
+																																																																						<a href="#" data-toggle="remove">
+																																																																							<i class="mdi mdi-close"></i>
+																																																																						</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+</h5>
+
+				<div id="cardCollpase110" class="collapse pt-3">		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées</br>à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div
+					class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+																																																																		<i class="mdi mdi-refresh"></i>
+																																																																	</a> #}
+					<a data-toggle="collapse" class="collapsed" href="#cardCollpase111" role="button" aria-expanded="false" aria-controls="cardCollpase111">
+						<i class="mdi mdi-minus"></i>
+					</a>
+					{# 
+																																																																	<a href="#" data-toggle="remove">
+																																																																		<i class="mdi mdi-close"></i>
+																																																																	</a> #}
+				</div>
+				<h5 class="card-title mb-0">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches vides',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+				</h5>
+
+				<div id="cardCollpase111" class="collapse pt-3">
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Poches</br>à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
+	<div class="col-md-6 col-xl-3">
+		<div class="card">
+			<div class="card-body">
+				<div
+					class="card-widgets">
+					{# <a href="javascript:;" data-toggle="reload">
+																										<i class="mdi mdi-refresh"></i>
+																									</a> #}
+					<a data-toggle="collapse"  class="collapsed" href="#cardCollpase112" role="button" aria-expanded="false" aria-controls="cardCollpase112">
+						<i class="mdi mdi-minus"></i>
+					</a>
+					{# 
+																									<a href="#" data-toggle="remove">
+																										<i class="mdi mdi-close"></i>
+																									</a> #}
+				</div>
+				<h5 class="card-title mb-0">		
+					{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Préparées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+				</h5>
+
+				<div id="cardCollpase112" class="collapse pt-3"></div>
+			</div>
+		</div>
+	</div>
+	<!-- end card-->
 
 	</div>
 {% endblock %}

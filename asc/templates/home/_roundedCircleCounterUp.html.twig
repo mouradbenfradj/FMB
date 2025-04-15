@@ -1,22 +1,19 @@
-<div class="col-md-6 col-xl-3">
-	<div class="widget-rounded-circle card-box" {% if hide %} style="visibility: hidden; opacity: 0; height: 0; overflow: hidden;" {% endif %}>
-		<div class="row">
-			<div class="col-6">
-				<div class="avatar-lg rounded-circle bg-soft-{{niveau}} border-{{niveau}} border">
-					<i class="{{icon}} font-22 avatar-title text-{{niveau}}"></i>
-				</div>
-			</div>
-			<div class="col-6">
-				<div class="text-right">
-					<h3 class="mt-1">
-						<span {{ stimulus_controller('animated-number', { 'start': 0, 'end': value, 'duration': 3000 } ) }}>0</span>
-					</h3>
-					<p class="text-muted mb-1 text-truncate">{{titre|raw}}</p>
-				</div>
+<div class="widget-rounded-circle card-box" {% if hide %} style="visibility: hidden; opacity: 0; height: 0; overflow: hidden;" {% endif %}>
+	<div class="row">
+		<div class="col-6">
+			<div class="avatar-lg rounded-circle bg-soft-{{niveau}} border-{{niveau}} border">
+				<i class="{{icon}} font-22 avatar-title text-{{niveau}}"></i>
 			</div>
 		</div>
-		<!-- end row-->
+		<div class="col-6">
+			<div class="text-right">
+				<h3 class="mt-1">
+					<span {{ stimulus_controller('animated-number', { 'start': 0, 'end': value, 'duration': 3000 } ) }}>0</span>
+				</h3>
+				<p class="text-muted mb-1 text-truncate">{{titre|raw}}</p>
+			</div>
+		</div>
 	</div>
-	<!-- end widget-rounded-circle-->
+	<!-- end row-->
 </div>
-<!-- end col-->
+<!-- end widget-rounded-circle-->

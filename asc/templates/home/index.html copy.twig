@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Parc en chiffres
+{% endblock %}
+
+{% block body %}
+<div
+	class="row">
+
+	{# 	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: ux_icon('lucide:anchor', {class: ' font-22 avatar-title'}) ,niveau: 'primary' }%}
+																																																																						 #}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Parcs',value: parc ? 1 : parcs|length,icon: 'fe-home ',niveau: 'primary',hide: false }%}
+	{% set sum = 0 %}
+	{% for p in parcs %}
+		{% set sum = sum + p.filieres|length %}
+	{% endfor %}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Filières',value: parc ? parc.filieres|length : sum,icon: 'fe-sliders  ',niveau: 'primary',hide: false }%}
+</div>
+
+<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes</br>Préparées â sec',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+</button>
+<div class="dropdown-menu">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+	<a class="dropdown-item" href="#">Something else here</a>
+	<div class="dropdown-divider"></div>
+	<a class="dropdown-item" href="#">Separated link</a>
+</div>
+<!-- /btn-group -->
+<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+</button>
+<div class="dropdown-menu">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Préparées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes vides',value: 0,icon: 'fe-layers',niveau: 'info' ,hide: false  }%}
+
+</div>
+<!-- /btn-group -->
+<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes vides',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+</button>
+<div class="dropdown-menu">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+	<a class="dropdown-item" href="#">Something else here</a>
+	<div class="dropdown-divider"></div>
+	<a class="dropdown-item" href="#">Separated link</a>
+</div>
+<!-- /btn-group -->
+<button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Cordes',value: 0,icon: 'fe-more-vertical',niveau: 'warning',hide: false  }%}
+</button>
+<div class="dropdown-menu">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+	<a class="dropdown-item" href="#">Something else here</a>
+	<div class="dropdown-divider"></div>
+	<a class="dropdown-item" href="#">Separated link</a>
+</div>
+<!-- /btn-group -->
+
+
+{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes vides',value: 0,icon: 'fe-layers',niveau: 'info' ,hide: false  }%}
+{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Assemblées</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Moules</br>à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Cordes Huîtres</br>Préparées',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+
+
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: '',value: null ,icon: '',niveau: '',hide: false }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: '',value: null ,icon: '',niveau: '',hide: false }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes</br>Cordes à l\'eau',value: 0,icon: 'fe-more-vertical',niveau: 'info',hide: false  }%}
+
+
+	</div>
+	<div class="row">
+		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Lanternes',value: 0,icon: 'fe-layers',niveau: 'warning',hide: false  }%}
+		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes</br>à l\'eau',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes vides',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Lanternes Préparées',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Lanternes',value: 0,icon: 'fe-layers',niveau: 'info',hide: false  }%}</div>
+<div class="row">
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Total Poches',value: 0,icon: 'fe-shopping-bag ',niveau: 'warning',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches vides',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Préparées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+		{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Poches Assemblées</br>à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+	{% include'home/_roundedCircleCounterUp.html.twig' with {titre: 'Chaussettes Poches</br>à l\'eau',value: 0,icon: 'fe-shopping-bag ',niveau: 'info',hide: false  }%}
+
+	</div>
+{% endblock %}
