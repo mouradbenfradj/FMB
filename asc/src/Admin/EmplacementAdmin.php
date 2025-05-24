@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\Segment;
 use App\Entity\StockCorde;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -19,8 +20,12 @@ final class EmplacementAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('place')
-        ;
+            ->add('place')->add('segment.filiere.nomFiliere')
+            /* ->add('segment', EntityType::class, [
+                'class' => Segment::class,
+                'choice_label' => 'nomSegment',
+            ]) */
+            ->add('stockCordes');
     }
 
     protected function configureListFields(ListMapper $list): void

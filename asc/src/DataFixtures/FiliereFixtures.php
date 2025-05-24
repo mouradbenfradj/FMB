@@ -13,7 +13,6 @@ class FiliereFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        // Données des filières
         $filieresData = [
             ['id' => 1, 'parc_id' => 1, 'nomFiliere' => 'F01', 'aireDeTravaille' => false, 'observation' => ['2017-05-01 17:50:58' => 'F14 & F1 : CH cimentage spécial']],
             ['id' => 2, 'parc_id' => 1, 'nomFiliere' => 'F02', 'aireDeTravaille' => false, 'observation' => []],
@@ -88,20 +87,14 @@ class FiliereFixtures extends Fixture implements DependentFixtureInterface
             ['id' => 75, 'parc_id' => 1, 'nomFiliere' => 'F12', 'aireDeTravaille' => false, 'observation' => []],
         ];
 
-        // Créer et persister les objets Filiere
         foreach ($filieresData as $data) {
             $filiere = new Filiere();
             $filiere->setNomFiliere($data['nomFiliere']);
             $filiere->setAireDeTravaille($data['aireDeTravaille']);
             $filiere->setObservation($data['observation']);
-
-            // Associer la filière au parc correspondant
             $parc = $this->getReference('parc_' . $data['parc_id'], Parc::class);
             $filiere->setParc($parc);
-
             $manager->persist($filiere);
-
-            // Ajouter une référence pour pouvoir récupérer cette filière dans d'autres fixtures
             $this->addReference('filiere_' . $data['id'], $filiere);
         }
 
@@ -111,7 +104,7 @@ class FiliereFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            ParcFixtures::class, // Dépend de ParcFixtures pour s'assurer que les parcs existent
+            ParcFixtures::class,
         ];
     }
 }

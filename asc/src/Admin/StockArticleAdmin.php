@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\Form\Type\CollectionType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -38,6 +39,7 @@ final class StockArticleAdmin extends AbstractAdmin
                 'choice_label' => 'libArticle',
             ])
             ->add('quantiter')
+            //->add('stockArticleSns')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -58,7 +60,12 @@ final class StockArticleAdmin extends AbstractAdmin
                 'class' => Articles::class,
                 'choice_label' => 'libArticle',
             ])
-            ->add('quantiter')
+            /*             ->add('quantiter')
+ */->add('stockArticleSns', CollectionType::class, [], [
+                'edit' => 'inline',
+                'inline' => 'table',
+                'sortable' => 'position',
+            ])
         ;
     }
 

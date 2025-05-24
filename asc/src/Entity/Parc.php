@@ -39,6 +39,11 @@ class Parc
     #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'parc', orphanRemoval: true)]
     private Collection $stocks;
 
+    public function __toString(): string
+    {
+        return $this->libParc;
+    }
+
     public function __construct()
     {
         $this->filieres = new ArrayCollection();

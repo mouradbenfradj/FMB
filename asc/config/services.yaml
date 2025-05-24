@@ -31,56 +31,56 @@ services:
     admin.filiere:
         class: App\Admin\FiliereAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Filiere, manager_type: orm, label: Filiere }
+            - { name: sonata.admin, model_class: App\Entity\Filiere, manager_type: orm, label: Filiere , group: Filiere}
     admin.segment:
         class: App\Admin\SegmentAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Segment, manager_type: orm, label: Segment }
+            - { name: sonata.admin, model_class: App\Entity\Segment, manager_type: orm, label: Segment, group: Filiere }
     admin.flotteur:
         class: App\Admin\FlotteurAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Flotteur, manager_type: orm, label: Flotteur }
+            - { name: sonata.admin, model_class: App\Entity\Flotteur, manager_type: orm, label: Flotteur, group: Filiere }
     admin.flotteur.segment:
         class: App\Admin\FlotteurSegmentAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\FlotteurSegment, manager_type: orm, label: FlotteurSegment }
+            - { name: sonata.admin, model_class: App\Entity\FlotteurSegment, manager_type: orm, label: FlotteurSegment, group: Filiere }
    
     admin.articles:
         class: App\Admin\ArticlesAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Articles, controller: ~, manager_type: orm, group: admin, label: Articles }
+            - { name: sonata.admin, model_class: App\Entity\Articles, controller: ~, manager_type: orm, group: Article, label: Articles }
 
     admin.corde:
         class: App\Admin\CordeAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Corde, controller: ~, manager_type: orm, group: admin, label: Corde }
+            - { name: sonata.admin, model_class: App\Entity\Corde, controller: ~, manager_type: orm, group: Corde, label: Corde }
 
     admin.fruit_de_mer:
         class: App\Admin\FruitDeMerAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\FruitDeMer, controller: ~, manager_type: orm, group: admin, label: Espece }
+            - { name: sonata.admin, model_class: App\Entity\FruitDeMer, controller: ~, manager_type: orm, group: Article, label: Espece }
 
     admin.stock:
         class: App\Admin\StockAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Stock, controller: ~, manager_type: orm, group: admin, label: Stock }
+            - { name: sonata.admin, model_class: App\Entity\Stock, controller: ~, manager_type: orm, group: Stock, label: Stock }
 
     admin.stock_article:
         class: App\Admin\StockArticleAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\StockArticle, controller: ~, manager_type: orm, group: admin, label: StockArticle }
+            - { name: sonata.admin, model_class: App\Entity\StockArticle, controller: ~, manager_type: orm, group: Article, label: StockArticle }
 
     admin.stock_article_sn:
         class: App\Admin\StockArticleSnAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\StockArticleSn, controller: ~, manager_type: orm, group: admin, label: StockArticleSn }
+            - { name: sonata.admin, model_class: App\Entity\StockArticleSn, controller: ~, manager_type: orm, group: Article, label: StockArticleSn }
 
     admin.stock_corde:
         class: App\Admin\StockCordeAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\StockCorde, controller: ~, manager_type: orm, group: admin, label: StockCorde }
+            - { name: sonata.admin, model_class: App\Entity\StockCorde, controller: ~, manager_type: orm, group: Corde, label: StockCorde }
 
     admin.emplacement:
         class: App\Admin\EmplacementAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Emplacement, controller: ~, manager_type: orm, group: admin, label: Emplacement }
+            - { name: sonata.admin, model_class: App\Entity\Emplacement, controller: ~, manager_type: orm, group: Filiere, label: Emplacement }

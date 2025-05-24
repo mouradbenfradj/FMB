@@ -28,7 +28,7 @@ final class FiliereAdmin extends AbstractAdmin
                 'edit' => 'inline',
                 'inline' => 'table',
                 'sortable' => 'position',
-            ])->end();;
+            ])->end();
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void

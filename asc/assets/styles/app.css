@@ -8,3 +8,7 @@ href="{{ asset('css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/
 @import "~../css/bootstrap-creative.min.css";
 @import "~../css/app-creative.min.css";
 @import "~../css/icons.min.css";
+
+.progress {
+    height: 1.75rem;
+ }

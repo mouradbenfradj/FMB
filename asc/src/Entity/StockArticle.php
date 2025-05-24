@@ -16,7 +16,7 @@ class StockArticle
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $quantiter = null;
+    private ?int $quantiter = 0;
 
     #[ORM\ManyToOne(inversedBy: 'stockArticles')]
     #[ORM\JoinColumn(nullable: false)]
@@ -25,12 +25,16 @@ class StockArticle
     /**
      * @var Collection<int, StockArticleSn>
      */
-    #[ORM\OneToMany(targetEntity: StockArticleSn::class, mappedBy: 'stockArticle', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: StockArticleSn::class, mappedBy: 'stockArticle', orphanRemoval: true, cascade: ['persist'])]
     private Collection $stockArticleSns;
 
     #[ORM\ManyToOne(inversedBy: 'stockArticles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Articles $articles = null;
+    /* public function __toString()
+    {
+        return $this->articles->getLibArticle();
+    } */
 
     public function __construct()
     {
