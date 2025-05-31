@@ -10,15 +10,16 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-final class StockCordeAdmin extends AbstractAdmin
+final class LanterneAdmin extends AbstractAdmin
 {
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('id')
-            ->add('quantiter')
-            ->add('poid')
-            ->add('longeur')
+            ->add('parc')
+            ->add('nomLanterne')
+            ->add('nbrPoche')
+            ->add('nbrEnStock')
         ;
     }
 
@@ -26,21 +27,10 @@ final class StockCordeAdmin extends AbstractAdmin
     {
         $list
             ->add('id')
-            ->add('quantiter')
-            ->add('poid')
-            ->add('longeur')
-            ->add('emplacement')
-            ->add('corde')
-            ->add('stockArticleSn')
-            ->add('pret')
-            ->add('datedecreation')
-            ->add('datederetirement')
-            ->add('datederetraittransfert')
-            ->add('datedemaetransfert')
-            ->add('dateDeMiseAEau')
-            ->add('chaussement')
-            ->add('dateassemblage')
-            ->add('datechaussement')
+            ->add('parc')
+            ->add('nomLanterne')
+            ->add('nbrPoche')
+            ->add('nbrEnStock')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -53,9 +43,11 @@ final class StockCordeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('quantiter')
-            ->add('poid')
-            ->add('longeur')
+            ->add('id')
+            ->add('parc')
+            ->add('nomLanterne')
+            ->add('nbrPoche')
+            ->add('nbrEnStock')
         ;
     }
 
@@ -63,9 +55,10 @@ final class StockCordeAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('quantiter')
-            ->add('poid')
-            ->add('longeur')
+            ->add('parc')
+            ->add('nomLanterne')
+            ->add('nbrPoche')
+            ->add('nbrEnStock')
         ;
     }
 }

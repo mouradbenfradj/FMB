@@ -84,3 +84,8 @@ services:
         class: App\Admin\EmplacementAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Emplacement, controller: ~, manager_type: orm, group: Filiere, label: Emplacement }
+
+    admin.lanterne:
+        class: App\Admin\LanterneAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Lanterne, controller: App\Controller\LanterneAdminController, manager_type: orm, group: admin, label: Lanterne }

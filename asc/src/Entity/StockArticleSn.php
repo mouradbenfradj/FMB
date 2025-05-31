@@ -31,9 +31,20 @@ class StockArticleSn
     #[ORM\OneToMany(targetEntity: StockCorde::class, mappedBy: 'stockArticleSn')]
     private Collection $stockCordes;
 
+    /**
+     * @var Collection<int, StockLanterne>
+     */
+    #[ORM\OneToMany(targetEntity: StockLanterne::class, mappedBy: 'stockArticleSn')]
+    private Collection $stockLanternes;
+
+    public function __toString(): string
+    {
+        return  $this->stockArticle->getArticles()->getLibArticle() . ' ' . $this->numeroSerie ?? 'StockArticleSn';
+    }
     public function __construct()
     {
         $this->stockCordes = new ArrayCollection();
+        $this->stockLanternes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,6 +112,36 @@ class StockArticleSn
             // set the owning side to null (unless already changed)
             if ($stockCorde->getStockArticleSn() === $this) {
                 $stockCorde->setStockArticleSn(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockLanterne>
+     */
+    public function getStockLanternes(): Collection
+    {
+        return $this->stockLanternes;
+    }
+
+    public function addStockLanterne(StockLanterne $stockLanterne): static
+    {
+        if (!$this->stockLanternes->contains($stockLanterne)) {
+            $this->stockLanternes->add($stockLanterne);
+            $stockLanterne->setStockArticleSn($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockLanterne(StockLanterne $stockLanterne): static
+    {
+        if ($this->stockLanternes->removeElement($stockLanterne)) {
+            // set the owning side to null (unless already changed)
+            if ($stockLanterne->getStockArticleSn() === $this) {
+                $stockLanterne->setStockArticleSn(null);
             }
         }
 

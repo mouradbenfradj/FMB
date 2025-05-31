@@ -5,8 +5,11 @@ namespace App\Controller;
 use App\Entity\FruitDeMer;
 use App\Entity\Parc;
 use App\Entity\StockCorde;
+use App\Entity\StockLanterne;
 use App\Form\PreparationCordeType;
+use App\Form\PreparationLanterneType;
 use App\Model\PreparationCordeModel;
+use App\Model\PreparationLanterneModel;
 use App\Repository\FruitDeMerRepository;
 use App\Repository\ParcRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,6 +55,45 @@ final class PreparationController extends AbstractController
 
 
         return $this->render('preparation/preparationCorde.html.twig', [
+            'parcs' => $parcs,
+            'parc' => $parc,
+        ]);
+    }
+
+    #[Route('/preparationLanterne/{parc}', name: 'app_preparation_lanterne')]
+    public function preparationLanterne(Request $request, Parc $parc, ParcRepository $parcRepository, EntityManagerInterface $entityManager): Response
+    {
+        $parcs = $parcRepository->findAll();
+        $model = new PreparationLanterneModel();
+
+        $form = $this->createForm(PreparationLanterneType::class, $model, [
+            'parc' => $parc,
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            for ($i = 0; $i < $model->getNombre(); $i++) {
+                $stockLanterne = new StockLanterne();
+                $stockLanterne->setLanterne($model->getLanterne());
+                $stockLanterne->setStockArticleSn($model->getLot());
+                $stockLanterne->setDatedecreation($model->getDatedecreation());
+                //$stockLanterne->setQuantiter($model->getDensite());
+                $entityManager->persist($stockLanterne);
+                //$model->getLanterne()->setQuantiter($model->getLanterne()->getQuantiter() - $model->getNombre());
+                $model->getLanterne()->setNbrEnStock($model->getLanterne()->getNbrEnStock() - $model->getNombre());
+                $entityManager->persist($model->getLanterne());
+            }
+            $this->addFlash(
+                'success',
+                'Your changes were saved!'
+            );
+            $entityManager->flush();
+        }
+
+
+        return $this->render('preparation/preparationLanterne.html.twig', [
             'parcs' => $parcs,
             'parc' => $parc,
         ]);

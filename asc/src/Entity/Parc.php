@@ -39,6 +39,12 @@ class Parc
     #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'parc', orphanRemoval: true)]
     private Collection $stocks;
 
+    /**
+     * @var Collection<int, Lanterne>
+     */
+    #[ORM\OneToMany(targetEntity: Lanterne::class, mappedBy: 'parc', orphanRemoval: true)]
+    private Collection $lanternes;
+
     public function __toString(): string
     {
         return $this->libParc;
@@ -49,6 +55,7 @@ class Parc
         $this->filieres = new ArrayCollection();
         $this->cordes = new ArrayCollection();
         $this->stocks = new ArrayCollection();
+        $this->lanternes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +171,36 @@ class Parc
             // set the owning side to null (unless already changed)
             if ($stock->getParc() === $this) {
                 $stock->setParc(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lanterne>
+     */
+    public function getLanternes(): Collection
+    {
+        return $this->lanternes;
+    }
+
+    public function addLanterne(Lanterne $lanterne): static
+    {
+        if (!$this->lanternes->contains($lanterne)) {
+            $this->lanternes->add($lanterne);
+            $lanterne->setParc($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLanterne(Lanterne $lanterne): static
+    {
+        if ($this->lanternes->removeElement($lanterne)) {
+            // set the owning side to null (unless already changed)
+            if ($lanterne->getParc() === $this) {
+                $lanterne->setParc(null);
             }
         }
 

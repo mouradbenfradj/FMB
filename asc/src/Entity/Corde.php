@@ -34,6 +34,11 @@ class Corde
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    public function __toString(): string
+    {
+        return $this->nom ?? 'Corde';
+    }
+
     public function __construct()
     {
         $this->stockCordes = new ArrayCollection();
