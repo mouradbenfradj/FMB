@@ -10,7 +10,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfonycasts\DynamicForms\DependentField;
@@ -46,45 +45,27 @@ class MAECordeType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text',
                 'attr' => ['data-provide' => "datepicker", 'class' => 'form-control'],
-            ])
-            ->addDependent('disponibilite', 'corde', function (DependentField $field, ?Corde $corde) {
+            ])->addDependent('disponibiliter', 'corde', function (DependentField $field, ?Corde $corde) use ($parc) {
                 if ($corde) {
-                    // Calcul de la quantité disponible (comme avant)
-                    $stockCordes = $corde->getStockCordes()->filter(
+                    $stockCordes = $corde->getStockCordes()->toArray();
+
+                    // 1. Filtrer pour garder uniquement ceux avec datedecreation !== null et pret === false
+                    $filteredStockCordes = array_filter(
+                        $stockCordes,
                         fn(StockCorde $sc) => $sc->getDatedecreation() !== null && $sc->isPret() === false
                     );
-                    $totalQuantiter = array_sum($stockCordes->map(fn(StockCorde $sc) => $sc->getQuantiter())->toArray());
 
-                    // Champ 1 : Quantité disponible
+                    // 2. Extraire les quantités et faire la somme
+                    $totalQuantiter = array_sum(
+                        array_map(
+                            fn(StockCorde $sc) => $sc->getQuantiter(),
+                            $filteredStockCordes
+                        )
+                    );
                     $field->add(IntegerType::class, [
-                        'label' => 'Quantité disponible',
-                        'attr' => ['class' => 'form-control', 'readonly' => true],
+                        'label' => 'Disponible',
+                        'attr' => ['value' => $totalQuantiter, 'class' => 'form-control', 'readonly' => true],
                         'data' => $totalQuantiter,
-                    ]);
-
-                    // Champ 2 : Liste des articles (StockCorde) disponibles
-                    $field->add(EntityType::class, [
-                        'label' => 'Articles disponibles',
-                        'class' => StockCorde::class,
-                        'choices' => $stockCordes,
-                        'choice_label' => fn(StockCorde $sc) => sprintf(
-                            'Lot: %s - Quantité: %d',
-                            $sc->getStockArticleSn() ? $sc->getStockArticleSn()->getNumeroSerie() : 'N/A',
-                            $sc->getQuantiter()
-                        ),
-                        'placeholder' => 'Sélectionnez un article',
-                        'attr' => ['class' => 'form-control'],
-                    ]);
-                }
-            })
-
-            // Champ dépendant pour afficher le lot de l'article sélectionné
-            ->addDependent('lot_article', 'disponibilite', function (DependentField $field, ?StockCorde $stockCorde) {
-                if ($stockCorde && $stockCorde->getStockArticleSn()) {
-                    $field->add(TextType::class, [
-                        'label' => 'Lot sélectionné',
-                        'attr' => ['class' => 'form-control', 'readonly' => true],
-                        'data' => $stockCorde->getStockArticleSn()->getNumeroSerie(),
                     ]);
                 }
             })
