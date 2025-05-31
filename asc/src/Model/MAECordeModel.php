@@ -9,7 +9,16 @@ class MAECordeModel
 {
     private ?Corde $corde = null;
     private ?DateTime $datedeMAE = null;
-
+    private ?string $disponibiliter = null;
+    public function getDisponibiliter(): ?string
+    {
+        return $this->disponibiliter;
+    }
+    public function setDisponibiliter(?string $disponibiliter): self
+    {
+        $this->disponibiliter = $disponibiliter;
+        return $this;
+    }
     public function getCorde(): ?Corde
     {
         return $this->corde;

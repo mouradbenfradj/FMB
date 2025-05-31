@@ -2,15 +2,14 @@
 
 namespace App\Twig\Components;
 
-use App\Entity\Corde;
 use App\Entity\FruitDeMer;
 use App\Entity\Lanterne;
 use App\Entity\Parc;
 use App\Entity\Stock;
 use App\Entity\StockArticle;
 use App\Entity\StockArticleSn;
-use App\Form\PreparationCordeType;
-use App\Model\PreparationCordeModel;
+use App\Form\PreparationLanterneType;
+use App\Model\PreparationLanterneModel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -39,7 +38,7 @@ final class PreparationLanterne extends AbstractController
 
     #[LiveProp(writable: true)]
     public ?int $totalqte = null;
-
+*/
     #[LiveProp(writable: true)]
     public ?StockArticleSn $lot = null;
 
@@ -48,11 +47,11 @@ final class PreparationLanterne extends AbstractController
 
     #[LiveProp(writable: true)]
     public ?StockArticle $article = null;
- */
+
     protected function instantiateForm(): FormInterface
     {
-        $model = new PreparationCordeModel();
-        return $this->createForm(PreparationCordeType::class, $model, [
+        $model = new PreparationLanterneModel();
+        return $this->createForm(PreparationLanterneType::class, $model, [
             'parc' => $this->parc
         ]);
     }

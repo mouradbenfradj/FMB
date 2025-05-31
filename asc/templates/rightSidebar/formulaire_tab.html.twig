@@ -1,20 +1,10 @@
+{% if app.request.attributes.get('_route') == 'app_m_a_e_corde' %}
+	{{ component('MAECorde', { parc: parc }) }}
+{% endif %}
+
 <div class="tab-pane active" id="messages-2" style="display: block;">
 	<div class="row">
-		<div class="col-lg-12">quantiter disponible</div>
-		<div class="col-lg-12">
-			<img src="/bundles/ssfmb/images/stock.gif" height="50" width="50" id="loadquantit" style="display: none;">
-			<input type="number" id="quantit" readonly="true" value="0"></div>
-		<div class="col-lg-12">date de MAE des cordes</div>
-		<div class="col-lg-12">
-			<input type="date" name="dateMAECorde" required="required" value="">
-		</div>
-		<div class="col-lg-12">choisir type cordes</div>
-		<div class="col-lg-12">
-			<select name="cordechoix" id="cordechoix">
-				<option value="1">CORDE M 3M</option>
-				<option value="2">CORDE H 4M</option>
-			</select>
-		</div>
+
 		<div class="col-lg-12">
 			choisir l'article a mettre</div>
 		<div class="col-lg-12">

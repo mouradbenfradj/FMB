@@ -1,0 +1,61 @@
+<div{{attributes}}>
+	{% for label, messages in app.flashes(['success', 'warning']) %}
+		{% for message in messages %}
+			<div class="flash-{{ label }}">
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+	{{ form_start(form, { 'method': 'POST'}) }}
+	{% if form.disponibiliter is defined %}
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="grid-container">
+						{{ form_label(form.disponibiliter) }}
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="grid-container">
+						{{ form_widget(form.disponibiliter) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="grid-container">
+					{{ form_label(form.datedeMAE) }}
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="grid-container">
+					{{ form_widget(form.datedeMAE) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="grid-container">
+					{{ form_label(form.corde) }}
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="grid-container">
+					{{ form_widget(form.corde) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% if form.submit is defined %}
+		{{ form_widget(form.submit) }}
+	{% endif %}
+	{{ form_end(form) }}
+</div>

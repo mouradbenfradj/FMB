@@ -44,7 +44,7 @@ class PreparationLanterneType extends AbstractType
                 'choice_value' => 'id',
                 'placeholder' => 'choisie un stock',
                 'attr' => ['class' => 'form-control'],
-            ])
+            ])/* 
             ->add('lanterne', EntityType::class, [
                 'class' => Lanterne::class,
                 'label' => 'TYPE LANTERNE',
@@ -141,7 +141,7 @@ class PreparationLanterneType extends AbstractType
                         'attr' => ['class' => 'btn btn-primary waves-effect waves-light', 'value' => 'Validation'],
                     ]);
                 }
-            });
+            }) */;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

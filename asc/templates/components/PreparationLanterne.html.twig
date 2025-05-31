@@ -1,0 +1,185 @@
+<div{{attributes}}>
+	{% for label, messages in app.flashes(['success', 'warning']) %}
+		{% for message in messages %}
+			<div class="flash-{{ label }}">
+				{{ message }}
+			</div>
+		{% endfor %}
+	{% endfor %}
+	{{ form_start(form, { 'method': 'POST'}) }}
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					{{ form_label(form.stocks) }}
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.stocks) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					{{ form_label(form.fruitDeMer) }}
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.fruitDeMer) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					{{ form_label(form.datedecreation) }}
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.datedecreation) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% if form.article is defined %}
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="grid-container">
+						{{ form_label(form.article) }}
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="grid-container">
+						{{ form_widget(form.article) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	{% if form.lot is defined %}
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="grid-container">
+						{{ form_label(form.lot) }}
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="grid-container">
+						{{ form_widget(form.lot) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if form.totalqte is defined %}
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="grid-container">
+						{{ form_label(form.totalqte) }}
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="grid-container">
+						{{ form_widget(form.totalqte) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					{{ form_label(form.densite) }}
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.densite) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					{{ form_label(form.corde) }}
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.corde) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% if form.quantiteEnStock is defined %}
+		<div class="form-group">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="grid-container">
+						{{ form_label(form.quantiteEnStock) }}
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="grid-container">
+						{{ form_widget(form.quantiteEnStock) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					{{ form_label(form.longeur) }}
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.longeur) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="grid-container">
+					{{ form_label(form.nombre) }}
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<div class="grid-container">
+					{{ form_widget(form.nombre) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	{% if form.submit is defined %}
+		{{ form_widget(form.submit) }}
+	{% endif %}
+	{{ form_end(form) }}
+</div>
