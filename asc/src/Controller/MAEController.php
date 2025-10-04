@@ -36,12 +36,13 @@ final class MAEController extends AbstractController
             // Emplacements cochés
             $formData = $request->request->all('mae_corde');
 
-            $cordes = $stockCordeRepository->findBy(['corde' => $formData['corde'], 'pret' => false, 'stockArticleSn' => $formData['lot']]);
+            $cordes = $stockCordeRepository->findBy(['corde' => $formData['corde'], 'dateDeMiseAEau' => null, 'emplacement' => null, 'pret' => false, 'stockArticleSn' => $formData['lot']]);
 
             $emplacements = $request->request->all('emplacement');
             $emplacements = $emplacementRepository->findBy(['id' => $emplacements]);
             // Debug
             $data = $form->getData();
+            $dateDeMAE = $data->getDatedeMAE();
 
             dump($cordes);
             dump($data);
@@ -50,7 +51,7 @@ final class MAEController extends AbstractController
                 if (isset($cordes[$index])) {
                     $corde = $cordes[$index];
                     $corde->setEmplacement($emplacement);
-                    // $corde->setDateDeMiseAEau(new \DateTime());
+                    $corde->setDateDeMiseAEau($dateDeMAE);
                 }
             }
             $entityManager->flush();
