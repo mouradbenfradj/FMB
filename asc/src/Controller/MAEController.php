@@ -50,7 +50,7 @@ final class MAEController extends AbstractController
                 if (isset($cordes[$index])) {
                     $corde = $cordes[$index];
                     $corde->setEmplacement($emplacement);
-                    $corde->setDateDeMiseAEau(new \DateTime());
+                    // $corde->setDateDeMiseAEau(new \DateTime());
                 }
             }
             $entityManager->flush();

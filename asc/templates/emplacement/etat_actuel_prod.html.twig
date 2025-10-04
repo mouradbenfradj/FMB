@@ -39,6 +39,7 @@
 						<br>taille corde:{{ stockCorde.corde.longeur }}
 						{% set age = stockCorde.dateDeMiseAEau|age_en_mois  %}
 						{% set longeur = stockCorde.corde.longeur %}
+						{% set quantiter = stockCorde.quantiter %}
 
 						<table>
 							<tr>
@@ -51,13 +52,18 @@
 									g</td>
 							</tr>
 							<tr>
+								<td>Survie (u/m):</td>
+								<td>{{ moule_col_l(age, quantiter) }}
+									u</td>
+							</tr>
+							<tr>
 								<td>Poids net:</td>
-								<td>{{ moule_col_o(age, longeur) }}
+								<td>{{ moule_col_o(age, longeur, quantiter) }}
 									KG</td>
 							</tr>
 							<tr>
 								<td>Poids brut:</td>
-								<td>{{ moule_col_p(age, longeur) }}
+								<td>{{ moule_col_p(age, longeur, quantiter) }}
 									KG</td>
 							</tr>
 						</table>
