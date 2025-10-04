@@ -121,48 +121,48 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="grid-container">
-					{{ form_label(form.corde) }}
+					{{ form_label(form.lanterne) }}
 				</div>
 			</div>
 			<div class="col-lg-9">
 				<div class="grid-container">
-					{{ form_widget(form.corde) }}
+					{{ form_widget(form.lanterne) }}
 				</div>
 			</div>
 		</div>
 	</div>
 
-	{% if form.quantiteEnStock is defined %}
+	{% if form.nbrEnStock is defined %}
 		<div class="form-group">
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="grid-container">
-						{{ form_label(form.quantiteEnStock) }}
+						{{ form_label(form.nbrEnStock) }}
 					</div>
 				</div>
 				<div class="col-lg-9">
 					<div class="grid-container">
-						{{ form_widget(form.quantiteEnStock) }}
+						{{ form_widget(form.nbrEnStock) }}
 					</div>
 				</div>
 			</div>
 		</div>
 	{% endif %}
-
-	<div class="form-group">
-		<div class="row">
-			<div class="col-lg-3">
-				<div class="grid-container">
-					{{ form_label(form.longeur) }}
+	{# 
+			<div class="form-group">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="grid-container">
+							{{ form_label(form.longeur) }}
+						</div>
+					</div>
+					<div class="col-lg-9">
+						<div class="grid-container">
+							{{ form_widget(form.longeur) }}
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="col-lg-9">
-				<div class="grid-container">
-					{{ form_widget(form.longeur) }}
-				</div>
-			</div>
-		</div>
-	</div>
+			</div> #}
 
 	<div class="form-group">
 		<div class="row">

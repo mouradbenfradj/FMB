@@ -20,6 +20,11 @@ class Processus
     #[ORM\JoinColumn(nullable: false)]
     private ?Phase $phase = null;
 
+
+    public function __toString(): string
+    {
+        return $this->nomProcessus;
+    }
     public function getId(): ?int
     {
         return $this->id;

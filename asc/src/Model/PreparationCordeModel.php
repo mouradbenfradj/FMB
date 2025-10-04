@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use App\Entity\Articles;
 use App\Entity\Corde;
 use App\Entity\FruitDeMer;
 use App\Entity\Stock;
@@ -13,7 +12,6 @@ use DateTime;
 class PreparationCordeModel
 {
     private ?Stock $stocks = null;
-    private ?FruitDeMer $fruitDeMer = null;
     private ?Corde $corde = null;
     private ?int $quantiteEnStock = null;
     private ?float $longeur = null;
@@ -21,6 +19,7 @@ class PreparationCordeModel
     private ?int $densite = null;
     private ?string $submit = null;
     private ?DateTime $datedecreation = null;
+    private ?FruitDeMer $fruitDeMer = null;
     private ?StockArticle $article = null;
     private ?StockArticleSn $lot = null;
 

@@ -98,4 +98,15 @@ final class PreparationController extends AbstractController
             'parc' => $parc,
         ]);
     }
+
+    #[Route('/preparationPoche/{parc}', name: 'app_preparation_poche')]
+    public function preparationPoche(Request $request, Parc $parc, ParcRepository $parcRepository, EntityManagerInterface $entityManager): Response
+    {
+        $parcs = $parcRepository->findAll();
+
+        return $this->render('preparation/preparationPoche.html.twig', [
+            'parcs' => $parcs,
+            'parc' => $parc,
+        ]);
+    }
 }

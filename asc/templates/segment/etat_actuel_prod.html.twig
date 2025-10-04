@@ -1,0 +1,196 @@
+{% for segment in filiere.segments %}
+	<div data-controller="reveal" data-reveal-hidden-class="d-none">
+		<button data-action="reveal#toggle" type="button" class="btn">
+			Segment
+			{{ segment.nomSegment }}</button>
+
+		<table data-reveal-target="item" class="d-none mt-4" width="100%">
+			<tbody>
+				<tr>
+					<th>
+						Nom Segment
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>
+						Segment
+						{{ segment.nomSegment }}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Remplissage Segment (%)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>
+						{% set rouge = ((segment.totaleCordes/segment.nombreEmplacements )*100)|round %}
+
+						<div class="progress mb-0">
+							<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
+								{{rouge}}
+								% R
+							</div>
+							<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ 100 - rouge}}%" aria-valuenow=" {{ 100 - rouge}}%" aria-valuemin="0" aria-valuemax="100">
+								{{ 100 - rouge}}
+								% V
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-4">
+								<div class="grid-container">
+									Places totales
+									{{segment.nombreEmplacements}}
+
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="grid-container">
+									Places Remplies
+									{{segment.totaleCordes}}
+
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="grid-container">
+									Places Vides
+									{{segment.nombreEmplacements - segment.totaleCordes}}
+
+								</div>
+							</div>
+
+						</div>
+
+
+					</td>
+				</tr>
+				<tr>
+					<th>Flottabilité Segment (%)<span class="footable-sort-indicator"></span>
+					</th>
+					<td>
+						{% set vert = ((segment.flottabiliter - segment.poidCordes)/segment.flottabiliter *100) %}
+						{% if vert < 0 %}
+							{% set classRouge = "bg-warning" %}
+							{% set classVert = " bg-info" %}
+						{% else %}
+							{% set classRouge = "bg-danger" %}
+							{% set classVert = " bg-success" %}
+						{% endif %}
+						<div class="progress mb-0">
+							<div class="progress-bar  progress-bar-striped {{classRouge}}" role="danger" style="width: {{ (100 - vert)|round }}%" aria-valuenow="{{ (100 - vert)|round }}" aria-valuemin="0" aria-valuemax="100">
+								{{ (100 - vert)|round }}
+								% R</div>
+							<div class="progress-bar progress-bar-striped {{classVert}}" role="progressbar" style="width: {{  vert|round }}%" aria-valuenow="{{ vert|round }}" aria-valuemin="0" aria-valuemax="100">
+								{{ vert|round }}
+								% V</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-lg-3">
+								<div class="grid-container">
+									F
+									{{segment.volumesTotale}}
+									(L)
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="grid-container">
+									F
+									{{segment.flottabiliter}}
+									(kgf)
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="grid-container">
+									Production
+									{{segment.poidCordes}}
+									(kgf)
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<th>
+						Taille Segment (m)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>{{ segment.longeur  }}</td>
+				</tr>
+				<tr>
+					<th>
+						Total Emplacements (u)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>{{segment.nombreEmplacements }}</td>
+				</tr>
+				<tr>
+					<th>
+						Emplacements Vides (u)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>0</td>
+				</tr>
+				<tr>
+					<th>
+						Emplacements Remplis (u)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>0</td>
+				</tr>
+				<tr>
+					<th>
+						Total Cordes (u)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>{{segment.totaleCordes }}</td>
+				</tr>
+				<tr>
+					<th>
+						Total Cordes Huitre (u)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>0</td>
+				</tr>
+				<tr>
+					<th>
+						Total Cordes Moule (u)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>0</td>
+				</tr>
+				<tr>
+					<th>
+						Total Lanternes (u)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>0</td>
+				</tr>
+				<tr>
+					<th>
+						Total Poches (u)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>0</td>
+				</tr>
+				<tr>
+					<th>
+						Total Passages chaussettes (u)
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>0</td>
+				</tr>
+				<tr>
+					<th>
+						Dérniere Date De MAE
+						<span class="footable-sort-indicator"></span>
+					</th>
+					<td>0</td>
+				</tr>
+
+			</tbody>
+		</table>
+		{{ include('emplacement/etat_actuel_prod.html.twig', {segment: segment}) }}
+	</div>
+{% endfor %}

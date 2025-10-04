@@ -1,18 +1,88 @@
 {% if app.request.attributes.get('_route') == 'app_m_a_e_corde' %}
 	{{ component('MAECorde', { parc: parc }) }}
+	<script>
+		function initDisponibiliterManager()
+{
+
+const disponibiliterInput = document.getElementById( 'mae_corde_disponibiliter' );
+
+if ( ! disponibiliterInput )
+{
+
+console.log( '⏳ Champ non trouvé, réessai dans 100ms...' );
+setTimeout( initDisponibiliterManager, 100 );
+return;
+
+}
+
+const checkboxes = document.querySelectorAll( 'input[name="emplacement[]"]' );
+let currentValue = parseInt( disponibiliterInput.value ) || 100; // 100 par défaut
+
+function updateDisponibiliter( value )
+{
+
+currentValue = Math.max( 0, value ); // Empêcher les valeurs négatives
+disponibiliterInput.value = currentValue;
+
+}
+
+function updateCheckboxesState()
+{
+
+checkboxes.forEach( checkbox => {
+
+checkbox.disabled = !checkbox.checked && currentValue === 0;
+
+} );
+
+}
+
+checkboxes.forEach( checkbox => {
+
+checkbox.addEventListener( 'change', function ()
+{
+
+if ( this.checked )
+{ // Cocher : décrémenter
+if ( currentValue > 0 )
+{
+
+updateDisponibiliter( currentValue - 1 );
+
+}
+else
+{
+
+this.checked = false;
+alert( '❌ Plus de disponibilité disponible' );
+return;
+
+} }
+else
+{ // Décocher : incrémenter
+updateDisponibiliter( currentValue + 1 );
+
+} updateCheckboxesState();
+
+} );
+
+} );
+
+updateCheckboxesState();
+console.log( '✅ Gestionnaire de disponibilité initialisé' );
+
+}
+
+// Démarrer l'initialisation
+document.addEventListener( 'DOMContentLoaded', initDisponibiliterManager );
+	</script>
 {% endif %}
 
+{# 
 <div class="tab-pane active" id="messages-2" style="display: block;">
 	<div class="row">
 
-		<div class="col-lg-12">
-			choisir l'article a mettre</div>
-		<div class="col-lg-12">
-			<select name="articlechoix" id="articlechoix" style="display: inline-block;">
-				<option value="NAISSAIN MOULES">NAISSAIN MOULES</option>
-				<option value="CORDE MOULES">CORDE MOULES</option>
-			</select>
-		</div>
+
 		<div class="col-lg-12">
 			choisir le Cycle A suivre</div>
 		<div class="col-lg-12">
@@ -25,26 +95,7 @@
 				<option value="15">MOULES ROYALE</option>
 			</select>
 		</div>
-		<div class="col-lg-12">
-			choisir le lot de l'article</div>
-		<div class="col-lg-12">
-			<select name="articlelotchoix" id="articlelotchoix" style="display: inline-block;">
-				<option value="M2015">M2015</option>
-			</select>
-		</div>
 
-		<div id="choixqtearticle">
-			<div class="col-lg-12">
-				Densité (U/Corde)</div>
-			<div class="col-lg-12">
-				<select name="quantierchoix" id="quantierchoix" style="display: inline-block;">
-					<option value="1000">1000</option>
-					<option value="2000">2000</option>
-				</select>
-			</div>
-			<div class="col-lg-12"><input type="submit" value="confirmer la mise a l'eau" style="display: inline-block;">
-			</div>
 
-		</div>
 	</div>
-</div>
+</div> #}

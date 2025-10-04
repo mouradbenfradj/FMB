@@ -18,6 +18,10 @@ class Phase
     #[ORM\Column(length: 255)]
     private ?string $nomPhase = null;
 
+    public function __toString(): string
+    {
+        return $this->nomPhase;
+    }
     /**
      * @var Collection<int, Processus>
      */

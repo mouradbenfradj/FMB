@@ -20,8 +20,32 @@ class PreparationLanterneModel
     private ?StockArticle $article = null;
     private ?StockArticleSn $lot = null;
     private ?int $densite = null;
+    private ?int $nbrEnStock = null;
+    private ?int $totalqte = null;
 
     private ?string $submit = null;
+
+
+    public function getTotalqte(): ?int
+    {
+        return $this->totalqte;
+    }
+
+    public function setTotalqte(?int $totalqte): self
+    {
+        $this->totalqte = $totalqte;
+        return $this;
+    }
+    public function getNbrEnStock(): ?int
+    {
+        return $this->nbrEnStock;
+    }
+
+    public function setNbrEnStock(?int $nbrEnStock): self
+    {
+        $this->nbrEnStock = $nbrEnStock;
+        return $this;
+    }
     public function getSubmit(): ?string
     {
         return $this->submit;

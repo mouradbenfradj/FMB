@@ -1,0 +1,9 @@
+{% for segment in filiere.segments %}
+	<div data-controller="reveal" data-reveal-hidden-class="d-none">
+		<button data-action="reveal#toggle" type="button" class="btn">
+			Segment
+			{{ segment.nomSegment }}
+		</button>
+		{{ include('emplacement/mae.html.twig', {segment: segment}) }}
+	</div>
+{% endfor %}

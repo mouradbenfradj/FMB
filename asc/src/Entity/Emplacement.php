@@ -40,6 +40,10 @@ class Emplacement
         $this->stockLanternes = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->place;
+    }
     public function getId(): ?int
     {
         return $this->id;

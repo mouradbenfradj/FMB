@@ -88,4 +88,14 @@ services:
     admin.lanterne:
         class: App\Admin\LanterneAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Lanterne, controller: App\Controller\LanterneAdminController, manager_type: orm, group: admin, label: Lanterne }
+            - { name: sonata.admin, model_class: App\Entity\Lanterne, controller: ~, manager_type: orm, group: admin, label: Lanterne }
+
+    admin.phase:
+        class: App\Admin\PhaseAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Phase, controller: ~, manager_type: orm, group: admin, label: Phase }
+
+    admin.processus:
+        class: App\Admin\ProcessusAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Processus, controller: ~, manager_type: orm, group: admin, label: Processus }

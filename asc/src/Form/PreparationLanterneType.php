@@ -44,11 +44,11 @@ class PreparationLanterneType extends AbstractType
                 'choice_value' => 'id',
                 'placeholder' => 'choisie un stock',
                 'attr' => ['class' => 'form-control'],
-            ])/* 
+            ])
             ->add('lanterne', EntityType::class, [
                 'class' => Lanterne::class,
                 'label' => 'TYPE LANTERNE',
-                'choice_label' => 'nom',
+                'choice_label' => 'nomLanterne',
                 'multiple' => false,
                 'expanded' => false,
                 'choices' => $parc->getLanternes(),
@@ -62,7 +62,7 @@ class PreparationLanterneType extends AbstractType
                 'widget' => 'single_text',
                 'attr' => ['data-provide' => "datepicker", 'class' => 'form-control'],
             ])
-            ->addDependent('quantiteEnStock', 'lanterne', function (DependentField $field, ?Lanterne $lanterne) use ($parc) {
+            ->addDependent('nbrEnStock', 'lanterne', function (DependentField $field, ?Lanterne $lanterne) use ($parc) {
                 if ($lanterne) {
                     $quantiter = $lanterne->getNbrEnStock();
                     $field->add(IntegerType::class, [
@@ -141,7 +141,7 @@ class PreparationLanterneType extends AbstractType
                         'attr' => ['class' => 'btn btn-primary waves-effect waves-light', 'value' => 'Validation'],
                     ]);
                 }
-            }) */;
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

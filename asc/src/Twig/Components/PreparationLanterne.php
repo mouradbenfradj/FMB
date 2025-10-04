@@ -32,13 +32,13 @@ final class PreparationLanterne extends AbstractController
 
     #[LiveProp(writable: true)]
     public ?Lanterne $lanterne = null;
-    /* 
+
     #[LiveProp(writable: true)]
-    public ?int $quantiteEnStock = null;
+    public ?int $nbrEnStock = null;
 
     #[LiveProp(writable: true)]
     public ?int $totalqte = null;
-*/
+
     #[LiveProp(writable: true)]
     public ?StockArticleSn $lot = null;
 

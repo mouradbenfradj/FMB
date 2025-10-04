@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Entity\Parc;
+use App\Entity\Phase;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -12,16 +12,13 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-final class LanterneAdmin extends AbstractAdmin
+final class ProcessusAdmin extends AbstractAdmin
 {
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('id')
-            ->add('parc')
-            ->add('nomLanterne')
-            ->add('nbrPoche')
-            ->add('nbrEnStock')
+            ->add('nomProcessus')
         ;
     }
 
@@ -29,10 +26,7 @@ final class LanterneAdmin extends AbstractAdmin
     {
         $list
             ->add('id')
-            ->add('parc')
-            ->add('nomLanterne')
-            ->add('nbrPoche')
-            ->add('nbrEnStock')
+            ->add('nomProcessus')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -44,23 +38,20 @@ final class LanterneAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->add('parc', EntityType::class, [
-            'class' => Parc::class,
-            'choice_label' => 'libParc',
-        ])->add('nomLanterne')
-            ->add('nbrPoche')
-            ->add('nbrEnStock')
-        ;
+        $form
+            //->add('id')
+            ->add('nomProcessus')
+            ->add('phase', EntityType::class, [
+                'class' => Phase::class,
+                'choice_label' => 'nomPhase',
+            ]);
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
             ->add('id')
-            ->add('parc')
-            ->add('nomLanterne')
-            ->add('nbrPoche')
-            ->add('nbrEnStock')
+            ->add('nomProcessus')
         ;
     }
 }

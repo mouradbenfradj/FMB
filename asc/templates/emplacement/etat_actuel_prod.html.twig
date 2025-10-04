@@ -1,0 +1,72 @@
+<table data-reveal-target="item" class="d-none mt-4" class="table table-striped mb-0">
+	<tbody>
+		{% set distanceSurSegment = 0 %}
+		{% set distance10Emplacement = 0 %}
+		{% for emplacement in segment.emplacements %}
+			{% if loop.index0 % 10 == 0 %}
+				{% set distance10Emplacement = distanceSurSegment + (segment.pasEmplacement * 10) %}
+				<tr>
+					<td>
+						{% for flotteur in segment.flotteurSegments %}
+							{% set distanceDeDepart = flotteur.distanceDeDepart %}
+							{% for i in range(1, flotteur.nombre) %}
+								{% if distanceDeDepart >= distanceSurSegment and distanceDeDepart < distance10Emplacement %}
+									<span>
+										<b>{{ flotteur.flotteur.nomFlotteur }}</b>
+										distance:
+										{{ distanceDeDepart }}
+										volume:
+										{{ flotteur.flotteur.volume }}
+										kgf:
+										{{ flotteur.flotteur.kgf }}
+										<br/>
+									</span>
+								{% endif %}
+								{% set distanceDeDepart = flotteur.distanceDeDepart + (i * flotteur.pasFlotteur) %}
+							{% endfor %}
+						{% endfor %}
+					</td>
+				{% endif %}
+				<td>{{ emplacement.place }}
+					{% for stockCorde in emplacement.stockCordes %}
+						<br>corde id:
+						{{ stockCorde.id }}<br>quantiter:
+						{{ stockCorde.quantiter }}
+						<br>dateMAE:{{ stockCorde.dateDeMiseAEau|date('d/m/Y') }}
+						<br>age précis:
+						{{ stockCorde.dateDeMiseAEau|age_en_mois }}
+						mois
+						<br>taille corde:{{ stockCorde.corde.longeur }}
+						{% set age = stockCorde.dateDeMiseAEau|age_en_mois  %}
+						{% set longeur = stockCorde.corde.longeur %}
+
+						<table>
+							<tr>
+								<td>Unités par KG:</td>
+								<td>{{ moule_col_j(age) }}</td>
+							</tr>
+							<tr>
+								<td>Poids unitaire:</td>
+								<td>{{ moule_col_k(age) }}
+									g</td>
+							</tr>
+							<tr>
+								<td>Poids net:</td>
+								<td>{{ moule_col_o(age, longeur) }}
+									KG</td>
+							</tr>
+							<tr>
+								<td>Poids brut:</td>
+								<td>{{ moule_col_p(age, longeur) }}
+									KG</td>
+							</tr>
+						</table>
+					{% endfor %}
+				</td>
+				{% if loop.index0 % 10 == 9 or loop.last %}
+					{% set distanceSurSegment = distanceSurSegment + (segment.pasEmplacement * 10) %}
+				</tr>
+			{% endif %}
+		{% endfor %}
+	</tbody>
+</table>
