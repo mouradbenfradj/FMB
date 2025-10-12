@@ -26,8 +26,9 @@ final class HomeController extends AbstractController
             $parcs = $parcRepository->findAll();
             $request->getSession()->set('parcs', $parcs);
         }
-        $request->getSession()->set('parc', $parc);
-
+        if ($parc != $request->getSession()->get('parc')) {
+            $request->getSession()->set('parc', $parc);
+        }
         return $this->render('home/index.html.twig', [
             'parcs' => $parcs,
             'parc' => $parc,
