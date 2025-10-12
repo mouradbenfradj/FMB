@@ -12,6 +12,7 @@ use App\Model\PreparationCordeModel;
 use App\Model\PreparationLanterneModel;
 use App\Repository\FruitDeMerRepository;
 use App\Repository\ParcRepository;
+use App\Service\MouleCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PreparationController extends AbstractController
 {
     #[Route('/preparationCorde/{parc}', name: 'app_preparation_corde')]
-    public function preparationCorde(Request $request, Parc $parc, ParcRepository $parcRepository, EntityManagerInterface $entityManager): Response
+    public function preparationCorde(Request $request, Parc $parc, ParcRepository $parcRepository, EntityManagerInterface $entityManager, MouleCalculator $mouleCalculator): Response
     {
         $parcs = $request->getSession()->get('parcs');
 

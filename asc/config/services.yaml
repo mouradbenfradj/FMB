@@ -24,6 +24,10 @@ services:
     # please note that last definitions always *replace* previous ones
 
 
+    App\EventSubscriber\StockCordeSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
+
     admin.parc:
         class: App\Admin\ParcAdmin
         tags:

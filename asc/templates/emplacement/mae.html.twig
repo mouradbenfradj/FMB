@@ -28,10 +28,13 @@
 					</td>
 				{% endif %}
 				<td>{{ emplacement.place }}
-					<input type="checkbox" name="emplacement[]" value="{{ emplacement.id }}" form="mae_corde"/>
-					{% for stockCorde in emplacement.stockCordes %}
-						<br>{{ stockCorde.id }}
-					{% endfor %}
+					{% if emplacement.stockCordes is null or emplacement.stockCordes is empty %}
+						<input type="checkbox" name="emplacement[]" value="{{ emplacement.id }}" form="mae_corde"/>
+					{% else %}
+						{% for stockCorde in emplacement.stockCordes %}
+							<br>{{ stockCorde.id }}
+						{% endfor %}
+					{% endif %}
 				</td>
 				{% if loop.index0 % 10 == 9 or loop.last %}
 					{% set distanceSurSegment = distanceSurSegment + (segment.pasEmplacement * 10) %}

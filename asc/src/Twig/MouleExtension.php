@@ -26,12 +26,12 @@ class MouleExtension extends AbstractExtension
     {
         return [
             new TwigFunction('moule_col_j', [$this, 'calculateColJ']),
-            new TwigFunction('moule_col_k', [$this, 'calculateColK']),
-            new TwigFunction('moule_col_l', [$this, 'calculateColL']),
-            new TwigFunction('moule_col_m', [$this, 'calculateColM']),
+            new TwigFunction('moule_col_k', [$this, 'calculatePoidsParPiece']),
+            new TwigFunction('moule_col_l', [$this, 'calculateUiniterMetre']),
+            new TwigFunction('moule_col_m', [$this, 'calculateTauxDeSurvie']),
             new TwigFunction('moule_col_n', [$this, 'calculateColN']),
-            new TwigFunction('moule_col_o', [$this, 'calculateColO']),
-            new TwigFunction('moule_col_p', [$this, 'calculateColP']),
+            new TwigFunction('moule_col_o', [$this, 'calculatePoidsNet']),
+            new TwigFunction('moule_col_p', [$this, 'calculatePoidBrute']),
             new TwigFunction('moule_col_q', [$this, 'calculateColQ']),
             new TwigFunction('moule_col_r', [$this, 'calculateColR']),
             new TwigFunction('moule_col_s', [$this, 'calculateColS']),
@@ -63,25 +63,25 @@ class MouleExtension extends AbstractExtension
     /**
      * Colonne K: Poids par pièce (g)
      */
-    public function calculateColK(int $age): float
+    public function calculatePoidsParPiece(int $age): float
     {
-        return $this->calculator->calculateColK($age);
+        return $this->calculator->calculatePoidsParPiece($age);
     }
 
     /**
      * Colonne L: Unités par mètre (U/M)
      */
-    public function calculateColL(int $age, int $quantiter): float
+    public function calculateUiniterMetre(int $age, int $quantiter): float
     {
-        return $this->calculator->calculateColL($age, $quantiter);
+        return $this->calculator->calculateUiniterMetre($age, $quantiter);
     }
 
     /**
      * Colonne M: Taux de survie (%)
      */
-    public function calculateColM(int $age): float
+    public function calculateTauxDeSurvie(int $age): float
     {
-        return $this->calculator->calculateColM($age);
+        return $this->calculator->calculateTauxDeSurvie($age);
     }
 
     /**
@@ -95,17 +95,17 @@ class MouleExtension extends AbstractExtension
     /**
      * Colonne O: Poids net (KG/M)
      */
-    public function calculateColO(int $age, int $longeur, int $quantiter): float
+    public function calculatePoidsNet(int $age, int $longeur, int $quantiter): float
     {
-        return $this->calculator->calculateColO($age, $longeur, $quantiter);
+        return $this->calculator->calculatePoidsNet($age, $longeur, $quantiter);
     }
 
     /**
      * Colonne P: Poids brut (KG/M)
      */
-    public function calculateColP(int $age, int $longeur, int $quantiter): float
+    public function calculatePoidBrute(int $age, int $longeur, int $quantiter): float
     {
-        return $this->calculator->calculateColP($age, $longeur, $quantiter);
+        return $this->calculator->calculatePoidBrute($age, $longeur, $quantiter);
     }
 
     /**

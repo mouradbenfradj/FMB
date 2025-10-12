@@ -23,12 +23,12 @@ class MouleCalculator
     {
         return [
             'col_j_u/kg' => $this->calculateColJ($age),
-            'col_k_PM (g/u)' => $this->calculateColK($age),
-            'col_l_Survie (u/m)' => $this->calculateColL($age, $quantiter),
-            'col_m' => $this->calculateColM($age),
+            'col_k_PM (g/u)' => $this->calculatePoidsParPiece($age),
+            'col_l_Survie (u/m)' => $this->calculateUiniterMetre($age, $quantiter),
+            'col_m' => $this->calculateTauxDeSurvie($age),
             'col_n_Survie/t0' => $this->calculateColN($age, $quantiter),
-            'col_o_Net (KG)' => $this->calculateColO($age, $longeur, $quantiter),
-            'col_p_Brut (KG)' => $this->calculateColP($age, $longeur, $quantiter),
+            'col_o_Net (KG)' => $this->calculatePoidsNet($age, $longeur, $quantiter),
+            'col_p_Brut (KG)' => $this->calculatePoidBrute($age, $longeur, $quantiter),
         ];
     }
 
@@ -37,14 +37,14 @@ class MouleCalculator
      */
     public function calculateColJ(int $age): float
     {
-        $poidsUnitaire = $this->calculateColK($age);
+        $poidsUnitaire = $this->calculatePoidsParPiece($age);
         return round($poidsUnitaire > 0 ? 1000 / $poidsUnitaire : 0);
     }
 
     /**
      * Colonne K: Poids par pièce (g)
      */
-    public function calculateColK(int $age): float
+    public function calculatePoidsParPiece(int $age): float
     {
         // Valeurs prédéfinies pour les âges spécifiques
         $poidsParAge = [
@@ -71,15 +71,15 @@ class MouleCalculator
     /**
      * Colonne L: Unités par mètre (U/M)
      */
-    public function calculateColL(int $age, int $quantiter): float
+    public function calculateUiniterMetre(int $age, int $quantiter): float
     {
         if ($age === 0) {
             return $quantiter;
         }
 
         $prevAge = $age - 1;
-        $prevU = $this->calculateColL($prevAge, $quantiter);
-        $prevSurvie = $this->calculateColM($prevAge);
+        $prevU = $this->calculateUiniterMetre($prevAge, $quantiter);
+        $prevSurvie = $this->calculateTauxDeSurvie($prevAge);
 
         return $prevU * $prevSurvie;
     }
@@ -87,7 +87,7 @@ class MouleCalculator
     /**
      * Colonne M: Taux de survie (%)
      */
-    public function calculateColM(int $age): float
+    public function calculateTauxDeSurvie(int $age): float
     {
         if ($age === 0) {
             return 0.9; // Taux de survie initial
@@ -103,8 +103,8 @@ class MouleCalculator
      */
     public function calculateColN(int $age, $quantiter): float
     {
-        $uActuel = $this->calculateColL($age, $quantiter);
-        $uInitial = $this->calculateColL(0, $quantiter);
+        $uActuel = $this->calculateUiniterMetre($age, $quantiter);
+        $uInitial = $this->calculateUiniterMetre(0, $quantiter);
 
         return round(($uActuel / $uInitial) * 100);
     }
@@ -112,10 +112,10 @@ class MouleCalculator
     /**
      * Colonne O: Poids net (KG/M)
      */
-    public function calculateColO(int $age, int $longeur, int $quantiter): float
+    public function calculatePoidsNet(int $age, int $longeur, int $quantiter): float
     {
-        $uParM = $this->calculateColL($age, $quantiter);
-        $poidsUnitaire = $this->calculateColK($age);
+        $uParM = $this->calculateUiniterMetre($age, $quantiter);
+        $poidsUnitaire = $this->calculatePoidsParPiece($age);
 
         return $longeur * round(($uParM * $poidsUnitaire) / 1000, 1);
     }
@@ -123,9 +123,9 @@ class MouleCalculator
     /**
      * Colonne P: Poids brut (KG/M)
      */
-    public function calculateColP(int $age, int $longeur, int $quantiter): float
+    public function calculatePoidBrute(int $age, int $longeur, int $quantiter): float
     {
-        $poidsNet = $this->calculateColO($age, $longeur, $quantiter);
+        $poidsNet = $this->calculatePoidsNet($age, $longeur, $quantiter);
         return round($poidsNet * $this->p14, 1);
     }
 
@@ -135,7 +135,7 @@ class MouleCalculator
     public function calculateColQ(int $age, int $longeur, int $quantiter): float
     {
         $poidsBrut2m = $this->calculateColS($age, $longeur, $quantiter);
-        $poidsNet = $this->calculateColO($age, $longeur, $quantiter);
+        $poidsNet = $this->calculatePoidsNet($age, $longeur, $quantiter);
 
         return $poidsBrut2m - (2 * $poidsNet);
     }
@@ -145,7 +145,7 @@ class MouleCalculator
      */
     public function calculateColR(int $age, int $longeur, int $quantiter): float
     {
-        $poidsNet = $this->calculateColO($age, $longeur, $quantiter);
+        $poidsNet = $this->calculatePoidsNet($age, $longeur, $quantiter);
         return round($poidsNet * $longeur, 1);
     }
 
@@ -164,7 +164,7 @@ class MouleCalculator
     public function calculateColT(int $age, int $longeur, int $quantiter): float
     {
         $poidsBrut2m = $this->calculateColS($age, $longeur, $quantiter);
-        $poidsBrut = $this->calculateColP($age, $longeur, $quantiter);
+        $poidsBrut = $this->calculatePoidBrute($age, $longeur, $quantiter);
 
         return $poidsBrut2m - (2 * $poidsBrut);
     }

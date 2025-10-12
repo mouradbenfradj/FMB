@@ -77,7 +77,7 @@ class Segment
 
         foreach ($this->getEmplacements() as $emplacement) {
             foreach ($emplacement->getStockCordes() as $stockCordes) {
-                $somme += $stockCordes->getPoid();
+                $somme += $stockCordes->getPoid(0);
             }
         }
 
