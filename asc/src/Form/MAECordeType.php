@@ -112,16 +112,19 @@ class MAECordeType extends AbstractType
                     // 1. Filtrer pour garder uniquement ceux avec datedecreation !== null et pret === false
                     $filteredStockCordes = array_filter(
                         $stockCordes,
-                        fn(StockCorde $sc) => $sc->getDatedecreation() !== null && $sc->isPret() === false
+                        fn(StockCorde $sc) => $sc->getDatedecreation() !== null && $sc->isPret() === false && $sc->getDateDeMiseAEau() === null
                     );
 
+                    // 2. Extraire les quantités et faire la somme
+                    $totalQuantiter = count($filteredStockCordes);
+                    /* 
                     // 2. Extraire les quantités et faire la somme
                     $totalQuantiter = array_sum(
                         array_map(
                             fn(StockCorde $sc) => $sc->getQuantiter(),
                             $filteredStockCordes
                         )
-                    );
+                    ); */
                     $field->add(IntegerType::class, [
                         'label' => 'Disponible',
                         'attr' => ['value' => $totalQuantiter, 'class' => 'form-control', 'readonly' => true],
@@ -137,14 +140,8 @@ class MAECordeType extends AbstractType
                         $stockCordes,
                         fn(StockCorde $sc) => $sc->getDatedecreation() !== null && $sc->isPret() === false
                     );
+                    $totalQuantiter = !empty($filteredStockCordes) ? $filteredStockCordes[0]->getQuantiter() : 0;
 
-                    // 2. Extraire les quantités et faire la somme
-                    $totalQuantiter = array_sum(
-                        array_map(
-                            fn(StockCorde $sc) => $sc->getQuantiter(),
-                            $filteredStockCordes
-                        )
-                    );
                     $field->add(IntegerType::class, [
                         'label' => 'Densité (U/Corde)',
                         'attr' => ['value' => $totalQuantiter, 'class' => 'form-control', 'readonly' => true],

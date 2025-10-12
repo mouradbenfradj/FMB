@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation MAE
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="card text-center">
+					<div class="card-body">
+						<div class="mb-4">
+							<i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+						</div>
+						<h2 class="card-title text-success">Opération réussie !</h2>
+						<p class="card-text mt-3">
+							Les cordes ont été assignées aux emplacements avec succès.
+														La mise à l'eau a été enregistrée dans la base de données.
+						</p>
+						<div class="mt-4">
+							<a href="{{ path('app_m_a_e_corde', {'parc': app.request.session.get('parc').id}) }}" class="btn btn-primary">
+								<i class="fas fa-plus"></i>
+								Nouvelle mise à l'eau
+							</a>
+							<a href="{{ path('app_etat_actuel_prod', {'parc': app.request.session.get('parc').id}) }}" class="btn btn-outline-secondary">
+								<i class="fas fa-home"></i>
+								Retour a l'etat actuel du production
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
