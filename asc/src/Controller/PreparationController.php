@@ -23,7 +23,12 @@ final class PreparationController extends AbstractController
     #[Route('/preparationCorde/{parc}', name: 'app_preparation_corde')]
     public function preparationCorde(Request $request, Parc $parc, ParcRepository $parcRepository, EntityManagerInterface $entityManager): Response
     {
-        $parcs = $parcRepository->findAll();
+        $parcs = $request->getSession()->get('parcs');
+
+        if (!$parcs) {
+            $parcs = $parcRepository->findAll();
+            $request->getSession()->set('parcs', $parcs);
+        }
         $model = new PreparationCordeModel();
 
         $form = $this->createForm(PreparationCordeType::class, $model, [
@@ -63,7 +68,12 @@ final class PreparationController extends AbstractController
     #[Route('/preparationLanterne/{parc}', name: 'app_preparation_lanterne')]
     public function preparationLanterne(Request $request, Parc $parc, ParcRepository $parcRepository, EntityManagerInterface $entityManager): Response
     {
-        $parcs = $parcRepository->findAll();
+        $parcs = $request->getSession()->get('parcs');
+
+        if (!$parcs) {
+            $parcs = $parcRepository->findAll();
+            $request->getSession()->set('parcs', $parcs);
+        }
         $model = new PreparationLanterneModel();
 
         $form = $this->createForm(PreparationLanterneType::class, $model, [
@@ -102,8 +112,12 @@ final class PreparationController extends AbstractController
     #[Route('/preparationPoche/{parc}', name: 'app_preparation_poche')]
     public function preparationPoche(Request $request, Parc $parc, ParcRepository $parcRepository, EntityManagerInterface $entityManager): Response
     {
-        $parcs = $parcRepository->findAll();
+        $parcs = $request->getSession()->get('parcs');
 
+        if (!$parcs) {
+            $parcs = $parcRepository->findAll();
+            $request->getSession()->set('parcs', $parcs);
+        }
         return $this->render('preparation/preparationPoche.html.twig', [
             'parcs' => $parcs,
             'parc' => $parc,

@@ -15,9 +15,18 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/{parc}', name: 'app_home', requirements: ['parc' => '\d+'], defaults: ['parc' => null])]
-    public function index(?Parc $parc, ParcRepository $parcRepository): Response
-    {
-        $parcs = $parcRepository->findAll();
+    public function index(
+        ?Parc $parc,
+        ParcRepository $parcRepository,
+        Request $request,
+    ): Response {
+        $parcs = $request->getSession()->get('parcs');
+
+        if (!$parcs) {
+            $parcs = $parcRepository->findAll();
+            $request->getSession()->set('parcs', $parcs);
+        }
+        $request->getSession()->set('parc', $parc);
 
         return $this->render('home/index.html.twig', [
             'parcs' => $parcs,
