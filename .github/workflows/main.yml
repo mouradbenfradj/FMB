@@ -19,23 +19,24 @@ jobs:
           php-version: 8.2
           tools: composer:v2.8.4
 
-      - name: Create .env.local file for MySQL
+      - name: Prepare var dir and create .env.local for CI
         run: |
           cd asc
+          mkdir -p var
+          touch var/data.db
+          chmod -R 777 var
+
+          # Use SQLite for CI to avoid external DB DNS resolution errors
           {
             echo "APP_ENV=prod"
             echo "APP_DEBUG=0"
             echo "APP_SECRET=${GITHUB_SHA}"
             echo "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0"
-            echo "DATABASE_URL=mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}"
+            echo "DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db"
             echo "MAILER_DSN=${MAILER_DSN:-null://null}"
             echo "CORS_ALLOW_ORIGIN='^https?://(localhost|127\.0\.0\.1|aquafishtritarconsult\.com)(:[0-9]+)?$'"
           } > ./.env.local
         env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_NAME: ${{ secrets.DB_NAME }}
           MAILER_DSN: ${{ secrets.MAILER_DSN }}
 
       - name: List workspace contents
