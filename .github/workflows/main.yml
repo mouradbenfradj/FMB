@@ -38,6 +38,11 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           MAILER_DSN: ${{ secrets.MAILER_DSN }}
 
+      - name: List workspace contents
+        run: |
+          pwd
+          ls -la
+
       - name: Install PHP dependencies
         run: |
           cd asc
@@ -58,6 +63,7 @@ jobs:
 
       - name: Create necessary directories and SQLite databases
         run: |
+          cd asc
           mkdir -p var
           touch var/data.db
           touch var/oysterpro.db
