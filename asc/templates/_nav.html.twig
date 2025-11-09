@@ -10,9 +10,10 @@
 						</a>
 					</li>
 
-					{% if parc %}
+					{# Affiche le lien "État actuel Productions" uniquement si un parc spécifique est sélectionné (id > 0) #}
+					{% if parc.id is defined and parc.id|default(0) > 0 %}
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle arrow-none" href="{{ path('app_etat_actuel_prod', {'parc': parc.id|default(0) }) }}" id="topnav-apps" role="button">
+							<a class="nav-link dropdown-toggle arrow-none" href="{{ path('app_etat_actuel_prod', {'parc': parc.id }) }}" id="topnav-apps" role="button">
 								<i class="fe-grid mr-1"></i>Etat actuel Productions
 							</a>
 						</li>

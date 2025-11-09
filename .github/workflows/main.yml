@@ -55,13 +55,12 @@ jobs:
           chmod -R 777 var
 
       - name: Build assets with Yarn
-        run:  |
+        run: |
           cd asc
           ls -l
           yarn dev
       - name: Install FTP client
         run: sudo apt-get install -y ftp
-
 
       - name: Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
@@ -71,7 +70,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: "./asc/"
           server-dir: "www/"
-          exclude:  |
+          exclude: |
             **/.devcontainer/**
             **/.github/**
             **/.idea/**
@@ -83,4 +82,4 @@ jobs:
             **/var/cache/**
       - name: Trigger migrations
         run: |
-          curl --insecure "https://www.municipaliternumerique.com/database_install.php?password=MBF6mm09761130"
+          curl --insecure "https://www.aquafishtritarconsult.com/database_install.php?password=MBF6mm09761130"

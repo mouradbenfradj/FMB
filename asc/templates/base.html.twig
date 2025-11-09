@@ -22,7 +22,7 @@
 	<body {{ stimulus_controller('symfony/ux-swup/swup', { containers: ['#swup', '#nav', '#parc', '#parc2'], animateHistoryBrowsing: true, animationSelector: '[class*="transition-"]', cache: true, linkSelector: 'a[href]', theme: 'slide', debug: true, } ) }} data-layout-mode="horizontal" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
 		<div id="wrapper">
 			{% include '_header.html.twig' with { 'parcs': parcs ?? [],'parc': app.request.session.get('parc').id ?? 0  } only %}
-			{% include '_nav.html.twig'  with {'parc':  parc.id ?? 0  } only %}
+			{% include '_nav.html.twig'  with {'parc': parc ?? null } only %}
 			<div class="content-page">
 				<div class="content">
 					<div class="container-fluid" id="swup">

@@ -56,6 +56,18 @@ class ParcTwigGlobalSubscriber implements EventSubscriberInterface
         // Mettre à jour les variables globales
         $this->twig->addGlobal('parc', $parc);
         $this->twig->addGlobal('isAllParcs', $isAllParcs);
+
+        // Mettre à jour la session pour que les templates (header/aside) affichent
+        // correctement l'abréviation du parc sélectionné (ou TOUS)
+        try {
+            $session = $request->getSession();
+            if ($session) {
+                $abrev = method_exists($parc, 'getAbrevParc') ? $parc->getAbrevParc() : ($session->get('current_parc_abrev', 'TOUS'));
+                $session->set('current_parc_abrev', $abrev);
+            }
+        } catch (\Exception $e) {
+            // Ne pas empêcher la requête en cas d'erreur d'accès à la session
+        }
     }
 
     public static function getSubscribedEvents(): array
