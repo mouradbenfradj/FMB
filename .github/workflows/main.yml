@@ -21,13 +21,21 @@ jobs:
 
       - name: Create .env.local file for MySQL
         run: |
-          echo "APP_ENV=prod" > .env.local
-          echo "APP_DEBUG=0" >> .env.local
-          echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
-          echo "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0" >> .env.local
-          echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" >> .env.local
-          echo "MAILER_DSN=\"${{ secrets.MAILER_DSN }}\"" >> .env.local
-          echo "CORS_ALLOW_ORIGIN='^https?://(localhost|127\\.0\\.0\\.1|aquafishtritarconsult\\.com)(:[0-9]+)?$'" >> .env.local
+          {
+            echo "APP_ENV=prod"
+            echo "APP_DEBUG=0"
+            echo "APP_SECRET=${GITHUB_SHA}"
+            echo "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0"
+            echo "DATABASE_URL=mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}"
+            echo "MAILER_DSN=${MAILER_DSN:-null://null}"
+            echo "CORS_ALLOW_ORIGIN='^https?://(localhost|127\.0\.0\.1|aquafishtritarconsult\.com)(:[0-9]+)?$'"
+          } > .env.local
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          MAILER_DSN: ${{ secrets.MAILER_DSN }}
 
       - name: Install PHP dependencies
         run: |
@@ -89,7 +97,8 @@ jobs:
       - name: Trigger migrations and verify deployment
         run: |
           # Run migrations with secured password
-          curl --insecure "https://www.aquafishtritarconsult.com/database_install.php?password=${{ secrets.INSTALL_PASSWORD }}"
+          INSTALL_PASSWORD="${{ secrets.DB_PASSWORD }}"
+          curl --insecure "https://www.aquafishtritarconsult.com/database_install.php?password=${INSTALL_PASSWORD}"
 
           # Verify deployment
           echo "Verifying deployment..."
