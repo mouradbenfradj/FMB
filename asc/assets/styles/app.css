@@ -12,3 +12,6 @@ href="{{ asset('css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/
 .progress {
     height: 1.75rem;
  }
+ .dd {
+  max-width: 100% !important;
+}

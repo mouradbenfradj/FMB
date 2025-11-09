@@ -6,6 +6,7 @@ use App\Entity\Parc;
 use App\Repository\ParcRepository;
 use App\Service\LifeService;
 use App\Service\MouleCalculator;
+use App\Service\ParcCacheService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,27 +15,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class HomeController extends AbstractController
 {
-    #[Route('/{parc}', name: 'app_home', requirements: ['parc' => '\d+'], defaults: ['parc' => null])]
-    public function index(
-        ?Parc $parc,
-        ParcRepository $parcRepository,
-        Request $request,
-    ): Response {
-        $parcs = $request->getSession()->get('parcs');
-
-        if (!$parcs) {
-            $parcs = $parcRepository->findAll();
-            $request->getSession()->set('parcs', $parcs);
-        }
-        if ($parc != $request->getSession()->get('parc')) {
-            $request->getSession()->set('parc', $parc);
-        }
-        return $this->render('home/index.html.twig', [
-            'parcs' => $parcs,
-            'parc' => $parc,
-        ]);
+    #[Route('/', name: 'app_home', requirements: ['parc' => '[1-9]\d*'],  defaults: ['parc' => null])]
+    public function index(Request $request): Response
+    {
+        return $this->render('home/index.html.twig');
     }
 
+    /* 
     #[Route('/test/{age}/{longeur}')]
     public function calculateMoules(int $age, int $longeur, MouleCalculator $calculator): JsonResponse
     {
@@ -75,8 +62,8 @@ final class HomeController extends AbstractController
                 'error' => $e->getMessage()
             ], 500);
         }
-    }
-    #[Route('/test')]
+    } */
+    /*  #[Route('/test')]
     public function calculateMoulesRange(Request $request, MouleCalculator $calculator): JsonResponse
     {
         try {
@@ -120,5 +107,5 @@ final class HomeController extends AbstractController
         dump($calculerRatio1000SurPoidsUnite);
         $calculerValeurDecroissante = $testService->calculerValeurDecroissante($ageEnMois);
         dd($calculerValeurDecroissante);
-    }
+    } */
 }

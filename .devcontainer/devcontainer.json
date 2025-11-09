@@ -3,6 +3,7 @@
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
     "workspaceFolder": "/workspaces/asc/asc",
+    "shutdownAction": "stopCompose",
     "forwardPorts": [
         8000,
         3306
@@ -22,7 +23,6 @@
         "php.validate.executablePath": "/usr/local/bin/php"
     }, */
     "postCreateCommand": [
-        "cd asc",
         "composer install",
         "symfony server:start -d"
     ],

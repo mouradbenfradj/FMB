@@ -1,5 +1,13 @@
 framework:
     cache:
+        pools:
+            # Pool pour les données métier (Redis recommandé)
+            parcs.cache:
+                adapter: cache.adapter.redis
+                provider: 'redis://localhost'
+            # Solution alternative avec APCu (moins adapté pour de très gros volumes)
+            #parcs.cache_apcu:
+            #    adapter: cache.adapter.apcu
         # Unique name of your app: used to compute stable namespaces for cache keys.
         #prefix_seed: your_vendor_name/app_name
 

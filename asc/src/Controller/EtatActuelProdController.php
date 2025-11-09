@@ -4,29 +4,50 @@ namespace App\Controller;
 
 use App\Entity\Parc;
 use App\Repository\ParcRepository;
+use App\Service\ParcCacheService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Twig\Environment;
 
 final class EtatActuelProdController extends AbstractController
 {
-    #[Route('/etatActuelProd/{parc}', name: 'app_etat_actuel_prod')]
+    public function __construct(
+        private Environment $twig
+    ) {}
+
+    #[Route('/etatActuelProd/{parc}', name: 'app_etat_actuel_prod', requirements: ['parc' => '[1-9]\d*'])]
     public function etatActuelProd(
-        Parc $parc,
-        ParcRepository $parcRepository,
+        int $parc,
+        ParcCacheService $parcCache,
         Request $request,
     ): Response {
-        $parcs = $request->getSession()->get('parcs');
-
-        if (!$parcs) {
-            $parcs = $parcRepository->findAll();
-            $request->getSession()->set('parcs', $parcs);
+        // Rediriger vers la page d'accueil si parc est 0 ou invalide
+        if ($parc <= 0) {
+            return $this->redirectToRoute('app_home');
         }
-        return $this->render('etat_actuel_prod/etatActuelProd.html.twig', [
-            'controller_name' => 'EtatActuelProdController',
-            'parcs' => $parcs,
-            'parc' => $parc,
-        ]);
+
+        // Récupérer tous les parcs depuis le cache Redis
+        $parcs = $parcCache->getAllParcsWithRelations();
+
+        // Récupérer le parc spécifique depuis le cache Redis
+        $selectedParc = $parcCache->getParcFromCache($parc, $parcs);
+
+        if (!$selectedParc) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Stocker l'abréviation en session
+        $abrev = $selectedParc->getAbrevParc();
+        $request->getSession()->set('current_parc_abrev', $abrev);
+
+        // Mettre à jour les variables globales Twig avec l'entité complète
+        $this->twig->addGlobal('parcs', $parcs); // Mettre à jour la liste des parcs
+        $this->twig->addGlobal('parc', $selectedParc); // Mettre à jour le parc sélectionné
+        $this->twig->addGlobal('isAllParcs', $parc === 0);
+
+        // Rendre la vue sans passer les variables car elles sont maintenant globales
+        return $this->render('etat_actuel_prod/etatActuelProd.html.twig');
     }
 }

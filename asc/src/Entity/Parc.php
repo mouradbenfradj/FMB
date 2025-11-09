@@ -206,4 +206,23 @@ class Parc
 
         return $this;
     }
+    public function getFilieresCount(): int
+    {
+        return $this->filieres->count();
+    }
+
+    public function getCordesCount(): int
+    {
+        return $this->cordes->count();
+    }
+
+    public function getStocksCount(): int
+    {
+        return $this->stocks->count();
+    }
+
+    public function getLanternesCount(): int
+    {
+        return $this->lanternes->count();
+    }
 }
