@@ -21,13 +21,13 @@ jobs:
 
       - name: Create .env.local file for MySQL
         run: |
-          echo "APP_ENV=dev" > .env.local
+          echo "APP_ENV=prod" > .env.local
+          echo "APP_DEBUG=0" >> .env.local
           echo "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" >> .env.local
           echo "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0" >> .env.local
           echo "DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\"" >> .env.local
-          echo "MAILER_DSN=\"\"" >> .env.local
-          echo "OYSTERPRO_DATABASE_URL=\"\"" >> .env.local
-          echo "CORS_ALLOW_ORIGIN='^https?://(localhost|127\\.0\\.0\\.1)(:[0-9]+)?$'" >> .env.local
+          echo "MAILER_DSN=\"${{ secrets.MAILER_DSN }}\"" >> .env.local
+          echo "CORS_ALLOW_ORIGIN='^https?://(localhost|127\\.0\\.0\\.1|aquafishtritarconsult\\.com)(:[0-9]+)?$'" >> .env.local
 
       - name: Install PHP dependencies
         run: |
@@ -57,8 +57,14 @@ jobs:
       - name: Build assets with Yarn
         run: |
           cd asc
-          ls -l
-          yarn dev
+          yarn build
+
+      - name: Clear and Warmup Symfony Cache
+        run: |
+          cd asc
+          php bin/console cache:clear --env=prod --no-debug
+          php bin/console cache:warmup --env=prod --no-debug
+
       - name: Install FTP client
         run: sudo apt-get install -y ftp
 
@@ -80,6 +86,16 @@ jobs:
             **/node_modules/**
             **/.bfg-report*/**
             **/var/cache/**
-      - name: Trigger migrations
+      - name: Trigger migrations and verify deployment
         run: |
-          curl --insecure "https://www.aquafishtritarconsult.com/database_install.php?password=MBF6mm09761130"
+          # Run migrations with secured password
+          curl --insecure "https://www.aquafishtritarconsult.com/database_install.php?password=${{ secrets.INSTALL_PASSWORD }}"
+
+          # Verify deployment
+          echo "Verifying deployment..."
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://www.aquafishtritarconsult.com)
+          if [ $HTTP_CODE -ne 200 ]; then
+            echo "Deployment verification failed! Site returned HTTP code $HTTP_CODE"
+            exit 1
+          fi
+          echo "Deployment verified successfully!"
