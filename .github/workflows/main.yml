@@ -21,6 +21,7 @@ jobs:
 
       - name: Create .env.local file for MySQL
         run: |
+          cd www
           {
             echo "APP_ENV=prod"
             echo "APP_DEBUG=0"
@@ -29,7 +30,7 @@ jobs:
             echo "DATABASE_URL=mysql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}"
             echo "MAILER_DSN=${MAILER_DSN:-null://null}"
             echo "CORS_ALLOW_ORIGIN='^https?://(localhost|127\.0\.0\.1|aquafishtritarconsult\.com)(:[0-9]+)?$'"
-          } > .env.local
+          } > ./.env.local
         env:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
@@ -83,7 +84,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: "./asc/"
-          server-dir: "www/"
+          server-dir: "./"
           exclude: |
             **/.devcontainer/**
             **/.github/**
@@ -97,7 +98,7 @@ jobs:
       - name: Trigger migrations and verify deployment
         run: |
           # Run migrations with secured password
-          INSTALL_PASSWORD="${{ secrets.DB_PASSWORD }}"
+          INSTALL_PASSWORD="${{ secrets.INSTALL_PASSWORD }}"
           curl --insecure "https://www.aquafishtritarconsult.com/database_install.php?password=${INSTALL_PASSWORD}"
 
           # Verify deployment
