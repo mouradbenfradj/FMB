@@ -74,12 +74,6 @@ jobs:
           cd asc
           yarn build
 
-      - name: Clear and Warmup Symfony Cache
-        run: |
-          cd asc
-          php bin/console cache:clear --env=prod --no-debug
-          php bin/console cache:warmup --env=prod --no-debug
-
       - name: Install Symfony assets
         run: |
           cd asc
