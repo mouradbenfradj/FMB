@@ -51,3 +51,44 @@ $outputSchemaUpdate = new BufferedOutput();
 $application->run($inputSchemaUpdate, $outputSchemaUpdate);
 
 echo nl2br($outputSchemaUpdate->fetch());
+
+
+
+// 🎯 CRÉATION DE L'ADMIN SONATA (pattern identique à votre fixture)
+$entityManager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+$userRepository = $entityManager->getRepository(\App\Entity\User::class);
+
+// Vérifie si un admin existe déjà (par username ou rôle)
+$existingAdmin = $userRepository->createQueryBuilder('u')
+    ->where('u.username = :username')
+    ->setParameter('username', 'admin')
+    ->getQuery()
+    ->getOneOrNullResult();
+
+if (!$existingAdmin) {
+    // **CRÉATION IDENTIQUE À VOTRE FIXTURE**
+    $admin = new \App\Entity\User();
+    $admin->setUsername('mourad');
+    $admin->setEmail('mourad.ben.fradj@gmail.com');
+    $admin->setEnabled(true);
+    $admin->setRoles(['ROLE_ADMIN', 'ROLE_SONATA_ADMIN']); // Sonata nécessite ROLE_SONATA_ADMIN
+    $admin->setSuperAdmin(true); // Comme dans votre fixture
+
+    // Hachage du mot de passe
+    $passwordHasher = $kernel->getContainer()->get('security.password_hasher');
+    $plainPassword = 'mourad'; // Mot de passe temporaire
+    $hashedPassword = $passwordHasher->hashPassword($admin, $plainPassword);
+    $admin->setPassword($hashedPassword);
+
+    // Persister et sauvegarder
+    $entityManager->persist($admin);
+    $entityManager->flush();
+
+    // Message de confirmation
+    echo "<br><strong style='color:green;'>✅ Admin Sonata créé avec succès !</strong><br>";
+    echo "<strong>Login:</strong> admin<br>";
+    echo "<strong>Mot de passe temporaire:</strong> " . $plainPassword . "<br>";
+    echo "<strong style='color:red;'>⚠️ CHANGEZ CE MOT DE PASSE IMMÉDIATEMENT APRÈS LA PREMIÈRE CONNEXION !</strong>";
+} else {
+    echo "<br><strong style='color:blue;'>ℹ️ Utilisateur admin déjà existant. Aucune action nécessaire.</strong>";
+}
