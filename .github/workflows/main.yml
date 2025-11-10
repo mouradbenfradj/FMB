@@ -38,7 +38,6 @@ jobs:
           } > ./.env.local
         env:
           MAILER_DSN: ${{ secrets.MAILER_DSN }}
-
       - name: List workspace contents
         run: |
           pwd
