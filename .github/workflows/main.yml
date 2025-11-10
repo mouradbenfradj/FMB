@@ -32,7 +32,7 @@ jobs:
             echo "APP_DEBUG=0"
             echo "APP_SECRET=${GITHUB_SHA}"
             echo "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0"
-            echo ""DATABASE_URL=mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\""
+            echo ""DATABASE_URL=\"mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}\""
             echo "MAILER_DSN=${MAILER_DSN:-null://null}"
             echo "CORS_ALLOW_ORIGIN='^https?://(localhost|127\.0\.0\.1|aquafishtritarconsult\.com)(:[0-9]+)?$'"
           } > ./.env.local
