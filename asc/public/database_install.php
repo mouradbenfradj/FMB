@@ -51,44 +51,57 @@ $outputSchemaUpdate = new BufferedOutput();
 $application->run($inputSchemaUpdate, $outputSchemaUpdate);
 
 echo nl2br($outputSchemaUpdate->fetch());
-
-
-
 // 🎯 CRÉATION DE L'ADMIN SONATA (pattern identique à votre fixture)
-$entityManager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
-$userRepository = $entityManager->getRepository(\App\Entity\User::class);
+try {
+    echo "<br><strong style='color:orange;'>🔍 Début de la création de l'admin...</strong><br>";
 
-// Vérifie si un admin existe déjà (par username ou rôle)
-$existingAdmin = $userRepository->createQueryBuilder('u')
-    ->where('u.username = :username')
-    ->setParameter('username', 'admin')
-    ->getQuery()
-    ->getOneOrNullResult();
+    $container = $kernel->getContainer();
+    if (!$container->has('doctrine.orm.entity_manager')) {
+        throw new \Exception("Le service doctrine.orm.entity_manager n'est pas disponible");
+    }
 
-if (!$existingAdmin) {
-    // **CRÉATION IDENTIQUE À VOTRE FIXTURE**
-    $admin = new \App\Entity\User();
-    $admin->setUsername('mourad');
-    $admin->setEmail('mourad.ben.fradj@gmail.com');
-    $admin->setEnabled(true);
-    $admin->setRoles(['ROLE_ADMIN', 'ROLE_SONATA_ADMIN']); // Sonata nécessite ROLE_SONATA_ADMIN
-    $admin->setSuperAdmin(true); // Comme dans votre fixture
+    $entityManager = $container->get('doctrine.orm.entity_manager');
+    $userRepository = $entityManager->getRepository(\App\Entity\User::class);
 
-    // Hachage du mot de passe
-    $passwordHasher = $kernel->getContainer()->get('security.password_hasher');
-    $plainPassword = 'mourad'; // Mot de passe temporaire
-    $hashedPassword = $passwordHasher->hashPassword($admin, $plainPassword);
-    $admin->setPassword($hashedPassword);
+    echo "<strong>✓ EntityManager chargé</strong><br>";
 
-    // Persister et sauvegarder
-    $entityManager->persist($admin);
-    $entityManager->flush();
+    // Vérifie si un admin existe déjà (par username)
+    $existingAdmin = $userRepository->createQueryBuilder('u')
+        ->where('u.username = :username')
+        ->setParameter('username', 'admin')
+        ->getQuery()
+        ->getOneOrNullResult();
 
-    // Message de confirmation
-    echo "<br><strong style='color:green;'>✅ Admin Sonata créé avec succès !</strong><br>";
-    echo "<strong>Login:</strong> admin<br>";
-    echo "<strong>Mot de passe temporaire:</strong> " . $plainPassword . "<br>";
-    echo "<strong style='color:red;'>⚠️ CHANGEZ CE MOT DE PASSE IMMÉDIATEMENT APRÈS LA PREMIÈRE CONNEXION !</strong>";
-} else {
-    echo "<br><strong style='color:blue;'>ℹ️ Utilisateur admin déjà existant. Aucune action nécessaire.</strong>";
+    if ($existingAdmin) {
+        echo "<strong style='color:blue;'>ℹ️ Utilisateur 'admin' existe déjà (ID: " . $existingAdmin->getId() . "). Aucune action nécessaire.</strong>";
+    } else {
+        echo "<strong>✓ Aucun admin existant, création en cours...</strong><br>";
+
+        // **CRÉATION IDENTIQUE À VOTRE FIXTURE**
+        $admin = new \App\Entity\User();
+        $admin->setUsername('mourad');
+        $admin->setEmail('mourad.ben.fradj@gmail.com.com');
+        $admin->setEnabled(true);
+        $admin->setRoles(['ROLE_ADMIN', 'ROLE_SONATA_ADMIN']); // Sonata nécessite ROLE_SONATA_ADMIN
+        $admin->setSuperAdmin(true); // Comme dans votre fixture
+
+        // Hachage du mot de passe
+        $passwordHasher = $container->get('security.password_hasher');
+        $plainPassword = 'mourad!'; // Mot de passe temporaire
+        $hashedPassword = $passwordHasher->hashPassword($admin, $plainPassword);
+        $admin->setPassword($hashedPassword);
+
+        // Persister et sauvegarder
+        $entityManager->persist($admin);
+        $entityManager->flush();
+
+        echo "<br><strong style='color:green;'>✅ Admin Sonata créé avec succès !</strong><br>";
+        echo "<strong>Login:</strong> admin<br>";
+        echo "<strong>Mot de passe temporaire:</strong> " . htmlspecialchars($plainPassword) . "<br>";
+        echo "<strong style='color:red;'>⚠️ CHANGEZ CE MOT DE PASSE IMMÉDIATEMENT APRÈS LA PREMIÈRE CONNEXION !</strong>";
+    }
+} catch (\Exception $e) {
+    echo "<br><strong style='color:red;'>❌ ERREUR CRITIQUE:</strong> " . htmlspecialchars($e->getMessage()) . "<br>";
+    echo "<strong>Fichier:</strong> " . $e->getFile() . ":" . $e->getLine() . "<br>";
+    echo "<pre>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
 }
