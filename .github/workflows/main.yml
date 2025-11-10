@@ -19,69 +19,56 @@ jobs:
           php-version: 8.2
           tools: composer:v2.8.4
 
-      - name: Prepare var dir and create .env.local for CI
+      - name: Install PHP dependencies
+        run: |
+          cd asc
+          composer install --optimize-autoloader --no-scripts --no-interaction
+
+      # 🎯 ÉTAPE CLÉ : BUILD AVEC SQLITE (sans créer .env.local)
+      - name: Build assets (environnement temporaire)
         run: |
           cd asc
           mkdir -p var
           touch var/data.db
           chmod -R 777 var
 
-          # Use SQLite for CI to avoid external DB DNS resolution errors
+          # Utiliser DATABASE_URL temporaire UNIQUEMENT pour cette commande
+          DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" php bin/console assets:install --no-debug --relative
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install Yarn and build assets
+        run: |
+          cd asc
+          npm install -g yarn
+          yarn install
+          yarn build
+
+      # 🎯 CRÉER .env.local PROD À LA TOUTE FIN (dans un répertoire séparé)
+      - name: Prepare production .env.local
+        run: |
+          mkdir -p deploy-config
           {
             echo "APP_ENV=prod"
             echo "APP_DEBUG=0"
             echo "APP_SECRET=${GITHUB_SHA}"
             echo "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0"
             echo "DATABASE_URL='mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}'"
-            echo "MAILER_DSN=${MAILER_DSN:-null://null}"
+            echo "MAILER_DSN=${{ secrets.MAILER_DSN }}"
             echo "CORS_ALLOW_ORIGIN='^https?://(localhost|127\.0\.0\.1|aquafishtritarconsult\.com)(:[0-9]+)?$'"
-          } > ./.env.local
-        env:
-          MAILER_DSN: ${{ secrets.MAILER_DSN }}
-      - name: List workspace contents
+          } > deploy-config/.env.local
+
+      # 🎯 DÉPLACER LE FICHIER PROD DANS LE RÉPERTOIRE DE DÉPLOIEMENT
+      - name: Finalize deployment files
         run: |
-          pwd
-          ls -la
+          mv deploy-config/.env.local asc/
+          # Nettoyer la base SQLite qui ne doit pas être déployée
+          rm -f asc/var/data.db
 
-      - name: Install PHP dependencies
-        run: |
-          cd asc
-          composer install --optimize-autoloader --no-scripts
-
-      - name: Set up Node.js 20
-        uses: actions/setup-node@v2
-        with:
-          node-version: "20"
-
-      - name: Install Yarn
-        run: npm install -g yarn
-
-      - name: Install Node.js dependencies with Yarn
-        run: |
-          cd asc
-          yarn install
-
-      - name: Create necessary directories and SQLite databases
-        run: |
-          cd asc
-          mkdir -p var
-          touch var/data.db
-          touch var/oysterpro.db
-          chmod -R 777 var
-
-      - name: Build assets with Yarn
-        run: |
-          cd asc
-          yarn build
-
-      - name: Install Symfony assets
-        run: |
-          cd asc
-          php bin/console assets:install --no-debug --relative
-
-      - name: Install FTP client
-        run: sudo apt-get install -y ftp
-
+      # 🎯 DÉPLOYER TOUT, Y COMPRIS LE .env.local PROD
       - name: Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
@@ -100,6 +87,8 @@ jobs:
             **/node_modules/**
             **/.bfg-report*/**
             **/var/cache/**
+
+      # ... reste du workflow ...
       - name: Trigger migrations and verify deployment
         run: |
           # Run migrations with secured password
