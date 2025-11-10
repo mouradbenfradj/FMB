@@ -34,6 +34,7 @@
         "@stimulus-components/dropdown": "^3.0.0",
         "@stimulus-components/reveal": "^5.0.0",
         "bootstrap": "^4.4.1",
+        "canvas": "^3.2.0",
         "feather-icons": "^4.25.0",
         "footable": "^2.0.6",
         "jquery": "3.4.1",
