@@ -74,6 +74,11 @@ jobs:
           cd asc
           yarn build
 
+      - name: Install Symfony assets
+        run: |
+          cd asc
+          php bin/console assets:install --env=prod --no-debug --relative
+
       - name: Install FTP client
         run: sudo apt-get install -y ftp
 
