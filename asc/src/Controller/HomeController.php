@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Parc;
 use App\Repository\ParcRepository;
+use App\Repository\StockCordeRepository;
 use App\Service\LifeService;
 use App\Service\MouleCalculator;
 use App\Service\ParcCacheService;
@@ -16,9 +17,27 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home', requirements: ['parc' => '[1-9]\d*'],  defaults: ['parc' => null])]
-    public function index(Request $request): Response
+    public function index(Request $request, StockCordeRepository $stockCordeRepo): Response
     {
-        return $this->render('home/index.html.twig');
+        // Récupérer le parc ID depuis la requête (session, paramètre, etc.)
+        $parcId = $request->query->get('parc') ?? $request->getSession()->get('selected_parc_id');
+
+        // Calculer les statistiques pour les cordes
+        $stats = [
+            'cordes_preparees_a_sec' => $stockCordeRepo->countCordesPreparteesASec($parcId),
+            'cordes_a_leau' => $stockCordeRepo->countCordesALeau($parcId),
+            'cordes_vides' => $stockCordeRepo->countCordesVides($parcId),
+            'total_cordes' => $stockCordeRepo->countTotalCordes($parcId),
+            'cordes_huitres_a_leau' => $stockCordeRepo->countCordesHuitresALeau($parcId),
+            'cordes_moules_a_leau' => $stockCordeRepo->countCordesMoulesALeau($parcId),
+            'chaussettes_cordes_a_leau' => $stockCordeRepo->countChaussettesCordesALeau($parcId),
+            'cordes_moules_preparees' => $stockCordeRepo->countCordesMoulesPreparees($parcId),
+            'cordes_huitres_preparees' => $stockCordeRepo->countCordesHuitresPreparees($parcId),
+        ];
+
+        return $this->render('home/index.html.twig', [
+            'stats' => $stats,
+        ]);
     }
 
     /* 

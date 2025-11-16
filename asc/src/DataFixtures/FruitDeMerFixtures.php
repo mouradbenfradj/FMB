@@ -11,12 +11,11 @@ class FruitDeMerFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $fruitsDeMerData = [
-            ['nom' => 'Huîtres Creuses'],
-            ['nom' => 'Moules de Bouchot'],
-            ['nom' => 'Coquilles Saint-Jacques'],
-            ['nom' => 'Bulots'],
-            ['nom' => 'Crevettes Grises'],
-            // Ajoutez d'autres si nécessaire
+            ['nom' => 'Huître', 'ref' => 'huitre'],
+            ['nom' => 'Moule', 'ref' => 'moule'],
+            ['nom' => 'Coquille Saint-Jacques', 'ref' => 'coquille'],
+            ['nom' => 'Bulot', 'ref' => 'bulot'],
+            ['nom' => 'Crevette Grise', 'ref' => 'crevette'],
         ];
 
         foreach ($fruitsDeMerData as $i => $data) {
@@ -24,9 +23,15 @@ class FruitDeMerFixtures extends Fixture
             $fruitDeMer->setNom($data['nom']);
 
             $manager->persist($fruitDeMer);
+            $manager->flush(); // Flush immédiatement pour avoir un ID
+            
+            // Référence avec numéro pour compatibilité
             $this->addReference('fruitdemer_' . ($i + 1), $fruitDeMer);
+            
+            // Référence avec nom pour facilité d'utilisation
+            if (isset($data['ref'])) {
+                $this->addReference('fruitdemer_' . $data['ref'], $fruitDeMer);
+            }
         }
-
-        $manager->flush();
     }
 }

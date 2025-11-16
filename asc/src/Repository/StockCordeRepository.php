@@ -16,28 +16,226 @@ class StockCordeRepository extends ServiceEntityRepository
         parent::__construct($registry, StockCorde::class);
     }
 
-//    /**
-//     * @return StockCorde[] Returns an array of StockCorde objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Compte les cordes préparées à sec (pret=false, emplacement=null, dateDeMiseAEau=null)
+     * pour un parc donné
+     */
+    public function countCordesPreparteesASec(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->where('sc.pret = :pret')
+            ->andWhere('sc.emplacement IS NULL')
+            ->andWhere('sc.dateDeMiseAEau IS NULL')
+            ->setParameter('pret', false);
 
-//    public function findOneBySomeField($value): ?StockCorde
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($parcId !== null) {
+            $qb->leftJoin('sc.emplacement', 'e')
+                ->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les cordes à l'eau (pret=false, emplacement!=null, dateDeMiseAEau!=null)
+     * pour un parc donné
+     */
+    public function countCordesALeau(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->leftJoin('sc.emplacement', 'e')
+            ->where('sc.pret = :pret')
+            ->andWhere('sc.emplacement IS NOT NULL')
+            ->andWhere('sc.dateDeMiseAEau IS NOT NULL')
+            ->setParameter('pret', false);
+
+        if ($parcId !== null) {
+            $qb->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les cordes vides (stockArticleSn=null)
+     * pour un parc donné
+     */
+    public function countCordesVides(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->where('sc.stockArticleSn IS NULL');
+
+        if ($parcId !== null) {
+            $qb->leftJoin('sc.emplacement', 'e')
+                ->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte le total des cordes (pret=false)
+     * pour un parc donné
+     */
+    public function countTotalCordes(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->where('sc.pret = :pret')
+            ->setParameter('pret', false);
+
+        if ($parcId !== null) {
+            $qb->leftJoin('sc.emplacement', 'e')
+                ->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les cordes huîtres à l'eau (pret=false, emplacement!=null, dateDeMiseAEau!=null, corde.fruitDeMer='Huître')
+     * pour un parc donné
+     */
+    public function countCordesHuitresALeau(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->leftJoin('sc.emplacement', 'e')
+            ->leftJoin('sc.corde', 'c')
+            ->leftJoin('c.fruitDeMer', 'fdm')
+            ->where('sc.pret = :pret')
+            ->andWhere('sc.emplacement IS NOT NULL')
+            ->andWhere('sc.dateDeMiseAEau IS NOT NULL')
+            ->andWhere('fdm.nom = :fruitNom')
+            ->setParameter('pret', false)
+            ->setParameter('fruitNom', 'Huître');
+
+        if ($parcId !== null) {
+            $qb->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les cordes moules à l'eau (pret=false, emplacement!=null, dateDeMiseAEau!=null, corde.fruitDeMer='Moule')
+     * pour un parc donné
+     */
+    public function countCordesMoulesALeau(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->leftJoin('sc.emplacement', 'e')
+            ->leftJoin('sc.corde', 'c')
+            ->leftJoin('c.fruitDeMer', 'fdm')
+            ->where('sc.pret = :pret')
+            ->andWhere('sc.emplacement IS NOT NULL')
+            ->andWhere('sc.dateDeMiseAEau IS NOT NULL')
+            ->andWhere('fdm.nom = :fruitNom')
+            ->setParameter('pret', false)
+            ->setParameter('fruitNom', 'Moule');
+
+        if ($parcId !== null) {
+            $qb->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les chaussettes/cordes à l'eau (chaussement=true)
+     * pour un parc donné
+     */
+    public function countChaussettesCordesALeau(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->leftJoin('sc.emplacement', 'e')
+            ->where('sc.chaussement = :chaussement')
+            ->setParameter('chaussement', true);
+
+        if ($parcId !== null) {
+            $qb->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les cordes moules préparées (pret=false, emplacement=null, corde.fruitDeMer='Moule')
+     * pour un parc donné
+     */
+    public function countCordesMoulesPreparees(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->leftJoin('sc.corde', 'c')
+            ->leftJoin('c.fruitDeMer', 'fdm')
+            ->where('sc.pret = :pret')
+            ->andWhere('sc.emplacement IS NULL')
+            ->andWhere('fdm.nom = :fruitNom')
+            ->setParameter('pret', false)
+            ->setParameter('fruitNom', 'Moule');
+
+        if ($parcId !== null) {
+            $qb->leftJoin('sc.emplacement', 'e')
+                ->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les cordes huîtres préparées (pret=false, emplacement=null, corde.fruitDeMer='Huître')
+     * pour un parc donné
+     */
+    public function countCordesHuitresPreparees(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->leftJoin('sc.corde', 'c')
+            ->leftJoin('c.fruitDeMer', 'fdm')
+            ->where('sc.pret = :pret')
+            ->andWhere('sc.emplacement IS NULL')
+            ->andWhere('fdm.nom = :fruitNom')
+            ->setParameter('pret', false)
+            ->setParameter('fruitNom', 'Huître');
+
+        if ($parcId !== null) {
+            $qb->leftJoin('sc.emplacement', 'e')
+                ->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 }

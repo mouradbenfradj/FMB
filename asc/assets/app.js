@@ -1,5 +1,5 @@
 import './commune.js';
 
-import './libs/footable/footable.all.min.js';
-//import 'footable/dist/footable.all.min.js';
+// Footable est chargé dans commune.js (après jQuery)
+// L'initialisation est gérée dans foo-tables.init.js
 import './js/pages/foo-tables.init.js';

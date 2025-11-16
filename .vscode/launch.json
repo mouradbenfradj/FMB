@@ -9,14 +9,14 @@
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:8000",
-            "webRoot": "${workspaceFolder}/asc"
+            "webRoot": "${workspaceFolder}/asc/public"
         },
         {
             "type": "chrome",
             "request": "launch",
             "name": "Lancer Chrome en utilisant localhost",
             "url": "http://localhost:8000",
-            "webRoot": "${workspaceFolder}/asc"
+            "webRoot": "${workspaceFolder}/asc/public"
         }
     ]
 }

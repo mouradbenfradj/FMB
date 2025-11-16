@@ -5,6 +5,9 @@ href="{{ asset('css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/
  */
  @import '~nestable2/dist/jquery.nestable.min.css';
 
+/* Styles Footable pour les tables responsives */
+@import '~footable/css/footable.core.min.css';
+
 @import "~../css/bootstrap-creative.min.css";
 @import "~../css/app-creative.min.css";
 @import "~../css/icons.min.css";

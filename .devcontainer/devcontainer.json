@@ -2,7 +2,7 @@
     "name": "Symfony 6.4 Dev Container",
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
-    "workspaceFolder": "/workspaces/asc/asc",
+    "workspaceFolder": "/workspaces/asc",
     "shutdownAction": "stopCompose",
     "forwardPorts": [
         8000,
@@ -22,13 +22,11 @@
     /*  "settings": {
         "php.validate.executablePath": "/usr/local/bin/php"
     }, */
-    "postCreateCommand": [
-        "composer install",
-        "symfony server:start -d"
-    ],
+    "postCreateCommand": "cd /workspaces/asc && composer install",
+    "postStartCommand": "cd /workspaces/asc/asc && symfony server:start --no-tls --port=8000 --allow-all-ip -d",
     "features": {
         "ghcr.io/devcontainers/features/git:1": {},
         "ghcr.io/shyim/devcontainers-features/symfony-cli:0": {},
-        "ghcr.io/devcontainers/features/node:1": {},
+        "ghcr.io/devcontainers/features/node:1": {}
     }
 }

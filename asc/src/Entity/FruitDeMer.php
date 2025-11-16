@@ -24,9 +24,16 @@ class FruitDeMer
     #[ORM\OneToMany(targetEntity: Articles::class, mappedBy: 'fruitDeMer', orphanRemoval: true)]
     private Collection $articles;
 
+    /**
+     * @var Collection<int, Corde>
+     */
+    #[ORM\OneToMany(targetEntity: Corde::class, mappedBy: 'fruitDeMer')]
+    private Collection $cordes;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->cordes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +77,36 @@ class FruitDeMer
             // set the owning side to null (unless already changed)
             if ($article->getFruitDeMer() === $this) {
                 $article->setFruitDeMer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Corde>
+     */
+    public function getCordes(): Collection
+    {
+        return $this->cordes;
+    }
+
+    public function addCorde(Corde $corde): static
+    {
+        if (!$this->cordes->contains($corde)) {
+            $this->cordes->add($corde);
+            $corde->setFruitDeMer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorde(Corde $corde): static
+    {
+        if ($this->cordes->removeElement($corde)) {
+            // set the owning side to null (unless already changed)
+            if ($corde->getFruitDeMer() === $this) {
+                $corde->setFruitDeMer(null);
             }
         }
 

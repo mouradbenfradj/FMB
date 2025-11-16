@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Emplacement;
 use App\Entity\Lanterne;
+use App\Entity\Segment;
 use App\Entity\StockArticleSn;
 use App\Entity\StockLanterne;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -14,6 +15,14 @@ class StockLanterneFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
+        // Récupérer quelques segments pour accéder à leurs emplacements
+        $segments = [];
+        for ($i = 0; $i < 20; $i++) {
+            if ($this->hasReference("segment_$i", Segment::class)) {
+                $segments[] = $this->getReference("segment_$i", Segment::class);
+            }
+        }
+
         $stockLanternesData = [
             [
                 'lanterne_ref' => 'lanterne_1',
@@ -24,6 +33,7 @@ class StockLanterneFixtures extends Fixture implements DependentFixtureInterface
                 'datederetraittransfert' => null,
                 'datedemaetransfert' => null,
                 'dateDeMiseAEau' => new \DateTime('2023-01-15'),
+                'with_emplacement' => true,
             ],
             [
                 'lanterne_ref' => 'lanterne_2',
@@ -34,6 +44,7 @@ class StockLanterneFixtures extends Fixture implements DependentFixtureInterface
                 'datederetraittransfert' => new \DateTime('2023-05-30'),
                 'datedemaetransfert' => new \DateTime('2023-05-25'),
                 'dateDeMiseAEau' => new \DateTime('2023-02-10'),
+                'with_emplacement' => true,
             ],
             [
                 'lanterne_ref' => 'lanterne_3',
@@ -44,6 +55,29 @@ class StockLanterneFixtures extends Fixture implements DependentFixtureInterface
                 'datederetraittransfert' => null,
                 'datedemaetransfert' => null,
                 'dateDeMiseAEau' => new \DateTime('2023-03-15'),
+                'with_emplacement' => true,
+            ],
+            [
+                'lanterne_ref' => 'lanterne_1',
+                'stockArticleSn_ref' => 'stockarticlesn_4',
+                'pret' => true,
+                'datedecreation' => new \DateTime('2023-04-01'),
+                'datederetirement' => null,
+                'datederetraittransfert' => null,
+                'datedemaetransfert' => null,
+                'dateDeMiseAEau' => new \DateTime('2023-04-10'),
+                'with_emplacement' => true,
+            ],
+            [
+                'lanterne_ref' => 'lanterne_2',
+                'stockArticleSn_ref' => 'stockarticlesn_5',
+                'pret' => true,
+                'datedecreation' => new \DateTime('2023-05-01'),
+                'datederetirement' => null,
+                'datederetraittransfert' => null,
+                'datedemaetransfert' => null,
+                'dateDeMiseAEau' => new \DateTime('2023-05-12'),
+                'with_emplacement' => false, // Sans emplacement pour tester
             ],
         ];
 
@@ -58,8 +92,22 @@ class StockLanterneFixtures extends Fixture implements DependentFixtureInterface
             $stockArticleSn = $this->getReference($data['stockArticleSn_ref'], StockArticleSn::class);
             $stockLanterne->setStockArticleSn($stockArticleSn);
 
-            // Emplacement is nullable, set to null for now
-            $stockLanterne->setEmplacement(null);
+            // Assigner un emplacement si demandé et disponible
+            if ($data['with_emplacement'] && count($segments) > 0) {
+                // Sélectionner un segment aléatoire
+                $segment = $segments[array_rand($segments)];
+                $emplacements = $segment->getEmplacements();
+                
+                if ($emplacements->count() > 0) {
+                    // Prendre un emplacement aléatoire du segment
+                    $emplacementIndex = rand(0, $emplacements->count() - 1);
+                    $emplacement = $emplacements->get($emplacementIndex);
+                    $stockLanterne->setEmplacement($emplacement);
+                }
+            } else {
+                // Emplacement null (stock en attente ou hors filière)
+                $stockLanterne->setEmplacement(null);
+            }
 
             $stockLanterne->setPret($data['pret']);
             $stockLanterne->setDatedecreation($data['datedecreation']);

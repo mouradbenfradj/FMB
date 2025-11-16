@@ -1,37 +1,22 @@
-# TODO: Create Proper Tests for All Entities
+# TODO: Migrer vers Yarn packages
 
-## Overview
-Replace all existing stub test files with proper PHPUnit tests for entities. Create missing test files for Lanterne, Phase, Processus, StockLanterne, User. Tests should cover:
-- Instantiation
-- Getters and setters
-- Relationships (add/remove for collections)
-- __toString method if present
-- Any other custom methods
+## Étape 1: Ajouter les dépendances manquantes
+- [x] Ajouter apexcharts
+- [x] Ajouter chart.js
+- [x] Ajouter datatables.net et extensions
+- [x] Ajouter moment
+- [x] Ajouter d'autres bibliothèques nécessaires
 
-## Existing Test Files to Update (13)
-- [x] ArticlesTest.php
-- [x] CordeTest.php
-- [x] EmplacementTest.php
-- [x] FiliereTest.php
-- [ ] FlotteurTest.php
-- [ ] FlotteurSegmentTest.php
-- [ ] FruitDeMerTest.php
-- [ ] ParcTest.php
-- [ ] SegmentTest.php
-- [ ] StockTest.php
-- [ ] StockArticleTest.php
-- [ ] StockArticleSnTest.php
-- [ ] StockCordeTest.php
+## Étape 2: Modifier les imports dans les fichiers JS
+- [x] assets/app.js : remplacer './libs/footable/...' par 'footable'
+- [x] assets/etat_actuel_prod.js : remplacer './libs/footable/...' par 'footable'
+- [ ] assets/commune.js : ajouter les imports manquants si nécessaire
 
-## Missing Test Files to Create (5)
-- [x] LanterneTest.php
-- [x] PhaseTest.php
-- [x] ProcessusTest.php
-- [x] StockLanterneTest.php
-- [x] UserTest.php
+## Étape 3: Supprimer les fichiers locaux inutiles
+- [x] Supprimer assets/libs/footable/ après vérification
+- [ ] Supprimer autres dossiers libs/ si remplacés
 
-## Steps
-1. Read each entity file to understand properties, methods, and relationships.
-2. Update or create the corresponding test file with proper assertions.
-3. Run tests to ensure they pass.
-4. Mark as completed in this TODO.
+## Étape 4: Tester la compilation et le rendu
+- [x] Compiler avec yarn build
+- [ ] Vérifier que le rendu visuel est identique
+- [ ] Vérifier que les interactions fonctionnent

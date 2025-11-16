@@ -34,6 +34,10 @@ class Corde
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[ORM\ManyToOne(inversedBy: 'cordes')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?FruitDeMer $fruitDeMer = null;
+
     public function __toString(): string
     {
         return $this->nom ?? 'Corde';
@@ -123,6 +127,18 @@ class Corde
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getFruitDeMer(): ?FruitDeMer
+    {
+        return $this->fruitDeMer;
+    }
+
+    public function setFruitDeMer(?FruitDeMer $fruitDeMer): static
+    {
+        $this->fruitDeMer = $fruitDeMer;
 
         return $this;
     }

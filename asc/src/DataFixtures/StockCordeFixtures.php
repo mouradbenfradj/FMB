@@ -52,6 +52,44 @@ class StockCordeFixtures extends Fixture implements DependentFixtureInterface
                 'datedecreation' => new \DateTime('2024-01-20'),
                 'chaussement' => false
             ],
+            [
+                'corde_ref' => 'corde_1',
+                'stockArticleSn_ref' => 'stockarticlesn_4',
+                'quantite' => 6,
+                'longueur' => 22.00,
+                'pret' => true,
+                'datedecreation' => new \DateTime('2024-03-01'),
+                'chaussement' => true,
+                'datechaussement' => new \DateTime('2024-03-10')
+            ],
+            [
+                'corde_ref' => 'corde_2',
+                'stockArticleSn_ref' => 'stockarticlesn_5',
+                'quantite' => 4,
+                'longueur' => 20.00,
+                'pret' => true,
+                'datedecreation' => new \DateTime('2024-03-15'),
+                'chaussement' => false
+            ],
+            [
+                'corde_ref' => 'corde_3',
+                'stockArticleSn_ref' => 'stockarticlesn_1',
+                'quantite' => 7,
+                'longueur' => 26.50,
+                'pret' => true,
+                'datedecreation' => new \DateTime('2024-04-01'),
+                'chaussement' => true,
+                'datechaussement' => new \DateTime('2024-04-12')
+            ],
+            [
+                'corde_ref' => 'corde_1',
+                'stockArticleSn_ref' => 'stockarticlesn_2',
+                'quantite' => 10,
+                'longueur' => 30.00,
+                'pret' => true,
+                'datedecreation' => new \DateTime('2024-04-20'),
+                'chaussement' => false
+            ],
         ];
 
         $stockCordeIndex = 1;

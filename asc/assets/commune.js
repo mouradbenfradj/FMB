@@ -13,6 +13,10 @@ import './bootstrap';
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 window.$ = window.jQuery = $;
+
+// Charger Footable depuis le fichier local du thème UBold (fonctionne avec jQuery)
+import './js/vendor/footable.all.min.js';
+
 import 'bootstrap';
 import 'simplebar';
 import 'node-waves';

@@ -1,6 +1,7 @@
 {% for filiere in parc.filieres %}
 	<tr>
-		<td>{{filiere.nomFiliere}}</td>
+		<td>{{filiere.nomFiliere}}
+		</td>
 		<td>
 			{% if filiere.nombreEmplacements == 0 %}
 				{{ dump(filiere.totaleCordes) }}
@@ -104,7 +105,6 @@
 			<div class="custom-dd-empty dd nestable_list_3">
 				{{ include('segment/etat_actuel_prod.html.twig', {filiere: filiere}) }}
 			</div>
-
 		</td>
 	</tr>
 {% endfor %}

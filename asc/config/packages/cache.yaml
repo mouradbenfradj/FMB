@@ -8,6 +8,12 @@ framework:
             # Solution alternative avec APCu (moins adapté pour de très gros volumes)
             #parcs.cache_apcu:
             #    adapter: cache.adapter.apcu
+            
+            # Pools pour Doctrine (utilisés en dev et prod)
+            doctrine.system_cache_pool:
+                adapter: cache.app
+            doctrine.result_cache_pool:
+                adapter: cache.app
         # Unique name of your app: used to compute stable namespaces for cache keys.
         #prefix_seed: your_vendor_name/app_name
 
