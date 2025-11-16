@@ -4,6 +4,7 @@ namespace App\Admin;
 
 use App\Entity\Parc;
 use App\Entity\Segment;
+use App\Service\ParcCacheService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -17,18 +18,23 @@ final class FiliereAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->with('Filiere')->add('parc', EntityType::class, [
-            'class' => Parc::class,
-            'choice_label' => 'libParc',
-        ])
+        $form
+            ->with('Filiere')
+            ->add('parc', EntityType::class, [
+                'class' => Parc::class,
+                'choice_label' => 'libParc',
+            ])
             ->add('nomFiliere', TextType::class)
-            //->add('observation')
-            ->add('aireDeTravaille')->end()
-            ->with('Segments')->add('segments', CollectionType::class, [], [
+            // ->add('observation')
+            ->add('aireDeTravaille')
+            ->end()
+            ->with('Segments')
+            ->add('segments', CollectionType::class, [], [
                 'edit' => 'inline',
                 'inline' => 'table',
                 'sortable' => 'position',
-            ])->end();
+            ])
+            ->end();
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
@@ -47,5 +53,31 @@ final class FiliereAdmin extends AbstractAdmin
             'class' => Parc::class,
             'choice_label' => 'libParc',
         ])->add('nomFiliere')->add('observation')->add('aireDeTravaille');
+    }
+
+    private function refreshParcsCache(): void
+    {
+        $container = $this->getConfigurationPool()->getContainer();
+
+        if ($container->has(ParcCacheService::class)) {
+            /** @var ParcCacheService $parcCache */
+            $parcCache = $container->get(ParcCacheService::class);
+            $parcCache->refreshCache();
+        }
+    }
+
+    public function postPersist(object $object): void
+    {
+        $this->refreshParcsCache();
+    }
+
+    public function postUpdate(object $object): void
+    {
+        $this->refreshParcsCache();
+    }
+
+    public function postRemove(object $object): void
+    {
+        $this->refreshParcsCache();
     }
 }

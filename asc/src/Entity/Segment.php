@@ -41,16 +41,15 @@ class Segment
     #[ORM\OneToMany(targetEntity: Emplacement::class, mappedBy: 'segment', cascade: ['persist'])]
     private Collection $emplacements;
 
-
-
     public function getNombreEmplacements(): ?int
     {
         return count($this->emplacements);
     }
+
     public function getTotaleCordes(): ?int
     {
         $nbr = 0;
-        foreach ($this->emplacements as  $emplacement) {
+        foreach ($this->emplacements as $emplacement) {
             $nbr += count($emplacement->getStockCordes());
         }
         return $nbr;
@@ -71,6 +70,7 @@ class Segment
         }
         return $somme;
     }
+
     public function getPoidCordes(): int
     {
         $somme = 0;
@@ -83,6 +83,7 @@ class Segment
 
         return $somme;
     }
+
     public function getVolumesTotale(): float
     {
         $somme = 0;
@@ -93,26 +94,26 @@ class Segment
                 $somme += $flotteurSegment->getFlotteur()->getVolume();
             }
         }
-        if (!$somme) {
-            return 1;
-        }
         return $somme;
     }
+
     public function getNombreEmplacementsVide(): int
     {
         $somme = 0;
         foreach ($this->emplacements as $emplacement) {
             if (!count($emplacement->getStockCordes()))
-                $somme +=  1;
+                $somme += 1;
         }
 
         return $somme;
     }
+
     public function __construct()
     {
         $this->flotteurSegments = new ArrayCollection();
         $this->emplacements = new ArrayCollection();
     }
+
     #[ORM\PrePersist]
     public function generateEmplacement()
     {

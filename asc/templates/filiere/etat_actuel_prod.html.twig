@@ -3,10 +3,6 @@
 		<td>{{filiere.nomFiliere}}
 		</td>
 		<td>
-			{% if filiere.nombreEmplacements == 0 %}
-				{{ dump(filiere.totaleCordes) }}
-				{{ dump(filiere.nombreEmplacements) }}
-			{% endif %}
 			{% set rouge = ((filiere.totaleCordes * 100 ) / (filiere.nombreEmplacements == 0 ?1 : filiere.nombreEmplacements))|round %}
 			<div class="progress mb-0">
 				<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
