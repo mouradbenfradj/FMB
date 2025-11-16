@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class FiliereAdmin extends AbstractAdmin
 {
+    private ?ParcCacheService $parcCache = null;
+
     protected function configureFormFields(FormMapper $form): void
     {
         $form
@@ -55,14 +57,15 @@ final class FiliereAdmin extends AbstractAdmin
         ])->add('nomFiliere')->add('observation')->add('aireDeTravaille');
     }
 
+    public function setParcCacheService(ParcCacheService $parcCache): void
+    {
+        $this->parcCache = $parcCache;
+    }
+
     private function refreshParcsCache(): void
     {
-        $container = $this->getConfigurationPool()->getContainer();
-
-        if ($container->has(ParcCacheService::class)) {
-            /** @var ParcCacheService $parcCache */
-            $parcCache = $container->get(ParcCacheService::class);
-            $parcCache->refreshCache();
+        if ($this->parcCache instanceof ParcCacheService) {
+            $this->parcCache->refreshCache();
         }
     }
 

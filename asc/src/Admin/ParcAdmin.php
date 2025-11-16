@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class ParcAdmin extends AbstractAdmin
 {
+    private ?ParcCacheService $parcCache = null;
+
     protected function configureFormFields(FormMapper $form): void
     {
         $form->add('libParc', TextType::class)->add('abrevParc');
@@ -35,14 +37,15 @@ final class ParcAdmin extends AbstractAdmin
         $show->add('libParc')->add('abrevParc');
     }
 
+    public function setParcCacheService(ParcCacheService $parcCache): void
+    {
+        $this->parcCache = $parcCache;
+    }
+
     private function refreshParcsCache(): void
     {
-        $container = $this->getConfigurationPool()->getContainer();
-
-        if ($container->has(ParcCacheService::class)) {
-            /** @var ParcCacheService $parcCache */
-            $parcCache = $container->get(ParcCacheService::class);
-            $parcCache->refreshCache();
+        if ($this->parcCache instanceof ParcCacheService) {
+            $this->parcCache->refreshCache();
         }
     }
 
