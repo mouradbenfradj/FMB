@@ -34,7 +34,7 @@ class Corde
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cordes')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
     private ?FruitDeMer $fruitDeMer = null;
 
