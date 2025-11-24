@@ -49,7 +49,7 @@ jobs:
         run: |
           mkdir -p deploy-config
           {
-            echo "APP_ENV=prod"
+            echo "APP_ENV=dev"
             echo "APP_DEBUG=0"
             echo "APP_SECRET=${GITHUB_SHA}"
             echo "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0"
