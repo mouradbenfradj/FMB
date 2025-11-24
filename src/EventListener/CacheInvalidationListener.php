@@ -4,6 +4,7 @@ namespace App\EventListener;
 
 use App\Service\CacheRedisService;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
