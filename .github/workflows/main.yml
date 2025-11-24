@@ -49,8 +49,8 @@ jobs:
         run: |
           mkdir -p deploy-config
           {
-            echo "APP_ENV=dev"
-            echo "APP_DEBUG=0"
+            echo "APP_ENV=prod"
+            echo "APP_DEBUG=true"
             echo "APP_SECRET=${GITHUB_SHA}"
             echo "MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0"
             echo "DATABASE_URL='mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}'"
