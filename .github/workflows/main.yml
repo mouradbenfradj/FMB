@@ -21,13 +21,11 @@ jobs:
 
       - name: Install PHP dependencies
         run: |
-          cd asc
           composer install --optimize-autoloader --no-scripts --no-interaction
 
       # 🎯 ÉTAPE CLÉ : BUILD AVEC SQLITE (sans créer .env.local)
       - name: Build assets (environnement temporaire)
         run: |
-          cd asc
           mkdir -p var
           touch var/data.db
           chmod -R 777 var
@@ -42,7 +40,6 @@ jobs:
 
       - name: Install Yarn and build assets
         run: |
-          cd asc
           npm install -g yarn
           yarn install
           yarn build
