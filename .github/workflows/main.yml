@@ -61,9 +61,9 @@ jobs:
       # 🎯 DÉPLACER LE FICHIER PROD DANS LE RÉPERTOIRE DE DÉPLOIEMENT
       - name: Finalize deployment files
         run: |
-          mv deploy-config/.env.local asc/
+          mv deploy-config/.env.local ./
           # Nettoyer la base SQLite qui ne doit pas être déployée
-          rm -f asc/var/data.db
+          rm -f var/data.db
 
       # 🎯 DÉPLOYER TOUT, Y COMPRIS LE .env.local PROD
       - name: Sync files via FTP

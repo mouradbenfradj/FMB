@@ -4,6 +4,9 @@ namespace App\EventListener;
 
 use App\Service\CacheRedisService;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Events;
 
 /**
@@ -17,18 +20,21 @@ final class CacheInvalidationListener
 {
     public function __construct(private CacheRedisService $cacheService) {}
 
-    public function postPersist(object $entity): void
+    public function postPersist(PostPersistEventArgs $args): void
     {
+        $entity = $args->getObject();
         $this->invalidateCache($entity);
     }
 
-    public function postUpdate(object $entity): void
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
+        $entity = $args->getObject();
         $this->invalidateCache($entity);
     }
 
-    public function postRemove(object $entity): void
+    public function postRemove(PostRemoveEventArgs $args): void
     {
+        $entity = $args->getObject();
         $this->invalidateCache($entity);
     }
 
