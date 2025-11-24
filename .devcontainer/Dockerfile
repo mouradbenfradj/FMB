@@ -11,6 +11,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && docker-php-ext-install intl xsl pdo_pgsql pdo_mysql mysqli \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+# Increase PHP memory limit
+RUN echo "memory_limit = 1G" >> /usr/local/etc/php/php.ini
+
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
