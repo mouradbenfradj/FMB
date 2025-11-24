@@ -36,6 +36,10 @@ class Filiere
     private Collection $segments;
 
 
+    public function __toString(): string
+    {
+        return $this->parc . '->' . $this->nomFiliere;
+    }
 
     public function getNombreEmplacements(): ?int
     {

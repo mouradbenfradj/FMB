@@ -29,7 +29,7 @@ final class SegmentAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('nomSegment')->add('longeur', null, ['label' => 'Longeur (m)'])->add('pasEmplacement');
+        $list->add('filiere')->addIdentifier('nomSegment')->add('longeur', null, ['label' => 'Longeur (m)'])->add('pasEmplacement');
     }
 
     protected function configureShowFields(ShowMapper $show): void

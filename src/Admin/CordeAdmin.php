@@ -19,6 +19,7 @@ final class CordeAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('nom')
+            ->add('fruitDeMer')
             ->add('quantiter')
             ->add('longeur')
         ;
@@ -30,6 +31,7 @@ final class CordeAdmin extends AbstractAdmin
             ->add('id')
             ->add('longeur')
             ->add('nom')
+            ->add('fruitDeMer')
             ->add('quantiter')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
@@ -47,6 +49,7 @@ final class CordeAdmin extends AbstractAdmin
             'choice_label' => 'libParc',
         ])
             ->add('nom')
+            ->add('fruitDeMer')
             ->add('quantiter')
             ->add('longeur');
     }
@@ -56,6 +59,7 @@ final class CordeAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('longeur')
+            ->add('fruitDeMer')
             ->add('nom')
             ->add('quantiter')
         ;
