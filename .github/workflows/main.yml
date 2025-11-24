@@ -76,6 +76,7 @@ jobs:
           server-dir: "./www/"
           exclude: |
             **/.devcontainer/**
+            **/UBold_v4.0.1/**
             **/.github/**
             **/.idea/**
             **/.vscode/**

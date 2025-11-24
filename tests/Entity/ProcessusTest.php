@@ -2,37 +2,35 @@
 
 namespace App\Tests\Entity;
 
-use App\Entity\Phase;
 use App\Entity\Processus;
+use App\Entity\Phase;
 use PHPUnit\Framework\TestCase;
 
 class ProcessusTest extends TestCase
 {
-    public function testInstantiation(): void
+    public function testGetId()
     {
         $processus = new Processus();
-        $this->assertInstanceOf(Processus::class, $processus);
         $this->assertNull($processus->getId());
-        $this->assertNull($processus->getNomProcessus());
-        $this->assertNull($processus->getPhase());
     }
 
-    public function testSettersAndGetters(): void
+    public function testSetAndGetNomProcessus()
     {
         $processus = new Processus();
+        $processus->setNomProcessus('Processus Test');
+        $this->assertEquals('Processus Test', $processus->getNomProcessus());
+    }
 
-        $processus->setNomProcessus('Test Processus');
-        $this->assertEquals('Test Processus', $processus->getNomProcessus());
-
+    public function testAddAndRemovePhase()
+    {
+        $processus = new Processus();
         $phase = new Phase();
-        $processus->setPhase($phase);
-        $this->assertSame($phase, $processus->getPhase());
-    }
+        $processus->addPhase($phase);
 
-    public function testToString(): void
-    {
-        $processus = new Processus();
-        $processus->setNomProcessus('Test Processus');
-        $this->assertEquals('Test Processus', (string) $processus);
+        $this->assertCount(1, $processus->getPhases());
+        $this->assertTrue($processus->getPhases()->contains($phase));
+
+        $processus->removePhase($phase);
+        $this->assertCount(0, $processus->getPhases());
     }
 }
