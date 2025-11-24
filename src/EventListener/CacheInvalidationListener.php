@@ -18,7 +18,10 @@ use Doctrine\ORM\Events;
 #[AsEntityListener(event: Events::postRemove)]
 final class CacheInvalidationListener
 {
-    public function __construct(private CacheRedisService $cacheService) {}
+    public function __construct(
+        private CacheRedisService $cacheService,
+        private EntityManagerInterface $entityManager
+    ) {}
 
     public function postPersist(PostPersistEventArgs $args): void
     {
@@ -43,5 +46,8 @@ final class CacheInvalidationListener
         // Pour une invalidation complète à chaque changement, on vide tout le cache
         // Cela garantit que les données sont toujours à jour après une modification
         $this->cacheService->clear();
+
+        // Vider aussi le cache de résultats Doctrine si configuré
+        $this->entityManager->getConfiguration()->getResultCache()?->clear();
     }
 }
