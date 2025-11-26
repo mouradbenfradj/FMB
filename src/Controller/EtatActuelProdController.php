@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Parc;
-use App\Repository\ParcRepository;
+use Twig\Environment;
 use App\Service\ParcCacheService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ParcRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Twig\Environment;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class EtatActuelProdController extends AbstractController
 {
@@ -39,7 +39,9 @@ final class EtatActuelProdController extends AbstractController
         }
 
         // Stocker l'abréviation en session
+        $id = $selectedParc->getId();
         $abrev = $selectedParc->getAbrevParc();
+        $request->getSession()->set('selected_parc_id', $id);
         $request->getSession()->set('current_parc_abrev', $abrev);
 
         // Mettre à jour les variables globales Twig avec l'entité complète

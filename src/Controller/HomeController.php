@@ -3,25 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\Parc;
-use App\Repository\ParcRepository;
-use App\Repository\StockCordeRepository;
 use App\Service\LifeService;
 use App\Service\MouleCalculator;
 use App\Service\ParcCacheService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Repository\ParcRepository;
+use App\Repository\StockCordeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home', requirements: ['parc' => '[1-9]\d*'],  defaults: ['parc' => null])]
-    public function index(Request $request, StockCordeRepository $stockCordeRepo): Response
+    #[Route('/{parc}', name: 'app_home', defaults: ['parc' => null])]
+    public function index(Request $request, StockCordeRepository $stockCordeRepo, ?int $parc = null): Response
     {
         // Récupérer le parc ID depuis la requête (session, paramètre, etc.)
-        $parcId = $request->query->get('parc') ?? $request->getSession()->get('selected_parc_id');
-
+        $parcId = $request->getSession()->get('selected_parc_id');
         // Calculer les statistiques pour les cordes
         $stats = [
             'cordes_preparees_a_sec' => $stockCordeRepo->countCordesPreparteesASec($parcId),

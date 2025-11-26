@@ -17,7 +17,13 @@
                 "DEVSENSE.composer-php-vscode",
                 "bradlc.vscode-tailwindcss",
                 "Blackboxapp.blackbox",
-                "Blackboxapp.blackboxagent"
+                "Blackboxapp.blackboxagent",
+                "kkcode.symfony-essential-extension-pack",
+                "duboiss.sf-pack",
+                "NDNCI.vscode-symfony-tools",
+                "ctf0.php-namespace-resolver",
+                "StoilDobreff.php-resolver",
+                "vdhoangson.php-namespace-helper"
             ]
         }
     },

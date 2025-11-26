@@ -2,11 +2,11 @@
 
 namespace App\EventSubscriber;
 
-use App\Service\ParcCacheService;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Twig\Environment;
+use App\Service\ParcCacheService;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ParcTwigGlobalSubscriber implements EventSubscriberInterface
 {
@@ -26,13 +26,11 @@ class ParcTwigGlobalSubscriber implements EventSubscriberInterface
         }
 
         $parcs = $this->parcCache->getAllParcsWithRelations();
-
         // Définir les variables globales Twig
         $this->twig->addGlobal('parcs', $parcs);
 
         // Vérifier d'abord dans les attributs de route
         $request = $event->getRequest();
-        $route = $event->getRequest()->attributes->get('_route');
         $routeParams = $event->getRequest()->attributes->get('_route_params', []);
 
         // Si nous sommes sur une route avec un paramètre parc
@@ -62,7 +60,9 @@ class ParcTwigGlobalSubscriber implements EventSubscriberInterface
         try {
             $session = $request->getSession();
             if ($session) {
+                $id = method_exists($parc, 'getId') ? $parc->getId() : ($session->get('selected_parc_id', '0'));
                 $abrev = method_exists($parc, 'getAbrevParc') ? $parc->getAbrevParc() : ($session->get('current_parc_abrev', 'TOUS'));
+                $request->getSession()->set('selected_parc_id', $id);
                 $session->set('current_parc_abrev', $abrev);
             }
         } catch (\Exception $e) {

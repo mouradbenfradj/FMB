@@ -25,12 +25,12 @@
 							</a>
 
 							<div class="dropdown-menu" aria-labelledby="topnav-layout">
-								<a href="{{ path('app_preparation_corde',{'parc' : parc ?? 0 }) }}" class="dropdown-item">Préparation Corde</a>
-								<a href="{{ path('app_preparation_lanterne',{'parc' : parc ?? 0 }) }}" class="dropdown-item">Préparation Lanterne</a>
-								<a href="{{ path('app_preparation_poche',{'parc' : parc ?? 0 }) }}" class="dropdown-item">Préparation Poche</a>
+								<a href="{{ path('app_preparation_corde',{'parc' : app.request.session.get('selected_parc_id', 0) }) }}" class="dropdown-item">Préparation Corde</a>
+								<a href="{{ path('app_preparation_lanterne',{'parc' :app.request.session.get('selected_parc_id', 0) }) }}" class="dropdown-item">Préparation Lanterne</a>
+								<a href="{{ path('app_preparation_poche',{'parc' : app.request.session.get('selected_parc_id', 0) }) }}" class="dropdown-item">Préparation Poche</a>
 								<a href="ui-portlets.html" class="dropdown-item">Assemblage</a>
 								<a href="ui-tabs-accordions.html" class="dropdown-item">MAE Lanternes</a>
-								<a href="{{ path('app_m_a_e_corde',{'parc' : parc ?? 0 }) }}" class="dropdown-item">MAE Cordes</a>
+								<a href="{{ path('app_m_a_e_corde',{'parc' :app.request.session.get('selected_parc_id', 0) }) }}" class="dropdown-item">MAE Cordes</a>
 								<a href="ui-progress.html" class="dropdown-item">MAE Assemblages</a>
 								<a href="ui-progress.html" class="dropdown-item">MAE Poches</a>
 								<a href="ui-progress.html" class="dropdown-item">Passage Chaussettes</a>

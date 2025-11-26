@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\CordeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CordeRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: CordeRepository::class)]
 class Corde
@@ -34,7 +34,7 @@ class Corde
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'cordes')]
     #[ORM\JoinColumn(nullable: true)]
     private ?FruitDeMer $fruitDeMer = null;
 
