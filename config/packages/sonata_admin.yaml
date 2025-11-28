@@ -1,9 +1,15 @@
 sonata_admin:
-    title: 'Sonata Admin'
+    title: "Logiciel Assistance Shellfish Culture (ATC)"
+    title_logo: build/images/asc.jpg
     dashboard:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
-
+            - position: right
+              type: sonata.block.service.rss
+              #oles: [POST_READER]
+              settings:
+                  title: Logiciel Assistance Shellfish Culture (ATC)
+                  #rl: https://sonata-project.org/blog/archive.rss
     security:
         handler: sonata.admin.security.handler.role
 
