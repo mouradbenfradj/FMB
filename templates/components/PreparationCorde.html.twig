@@ -179,7 +179,7 @@
 		</div>
 	</div>
 	{% if form.submit is defined %}
-		{{ form_widget(form.submit) }}
+		<button type="submit" data-action="live#action" data-live-action-param="save" class="btn btn-primary waves-effect waves-light">Validation</button>
 	{% endif %}
 	{{ form_end(form) }}
 </div>

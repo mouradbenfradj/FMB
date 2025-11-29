@@ -3,9 +3,10 @@
 
 namespace App\Service;
 
+use App\Service\MouleCalculator;
 use App\Repository\ParcRepository;
-use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class ParcCacheService
 {
@@ -15,15 +16,16 @@ class ParcCacheService
 
     public function __construct(
         private ParcRepository $parcRepository,
-        private CacheInterface $cache
+        private CacheInterface $cache,
+        private MouleCalculator $mouleCalculator
     ) {}
 
     public function getAllParcsWithRelations(): array
     {
-        return $this->cache->get(self::CACHE_KEY_ALL_PARCS, function (ItemInterface $item) {
+        $result = $this->cache->get(self::CACHE_KEY_ALL_PARCS, function (ItemInterface $item) {
             $item->expiresAfter(self::CACHE_DURATION);
 
-            return $this->parcRepository->createQueryBuilder('p')
+            $result = $this->parcRepository->createQueryBuilder('p')
                 ->select('p', 'f', 'seg', 'fs', 'e', 'sc', 'sl', 'c', 's', 'l')
                 // Parc → Filières
                 ->leftJoin('p.filieres', 'f')
@@ -42,7 +44,14 @@ class ParcCacheService
                 ->leftJoin('p.lanternes', 'l')
                 ->getQuery()
                 ->getResult();
+
+            $this->injectMouleCalculator($result);
+            return $result;
         });
+
+        // Always inject after retrieving from cache, since serialization loses the injected service
+        $this->injectMouleCalculator($result);
+        return $result;
     }
 
     public function getParcFromCache(int $id, array $allParcs): ?object
@@ -58,5 +67,30 @@ class ParcCacheService
     public function refreshCache(): void
     {
         $this->cache->delete(self::CACHE_KEY_ALL_PARCS);
+    }
+
+    private function injectMouleCalculator(array $parcs): void
+    {
+        foreach ($parcs as $parc) {
+            foreach ($parc->getFilieres() as $filiere) {
+                foreach ($filiere->getSegments() as $segment) {
+                    foreach ($segment->getEmplacements() as $emplacement) {
+                        foreach ($emplacement->getStockCordes() as $stockCorde) {
+                            $this->injectIntoStockCorde($stockCorde);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private function injectIntoStockCorde($stockCorde): void
+    {
+        $reflection = new \ReflectionClass($stockCorde);
+        if ($reflection->hasProperty('mouleCalculator')) {
+            $property = $reflection->getProperty('mouleCalculator');
+            $property->setAccessible(true);
+            $property->setValue($stockCorde, $this->mouleCalculator);
+        }
     }
 }

@@ -144,7 +144,12 @@ class PreparationCordeType extends AbstractType
             ->addDependent('submit',  ['corde', 'lot'], function (DependentField $field, ?Corde $corde, ?StockArticleSn $stockArticleSn) use ($parc) {
                 if ($stockArticleSn && $corde) {
                     $field->add(SubmitType::class, [
-                        'attr' => ['class' => 'btn btn-primary waves-effect waves-light', 'value' => 'Validation'],
+                        'attr' => [
+                            'class' => 'btn btn-primary waves-effect waves-light',
+                            'value' => 'Validation',
+                            'data-action' => 'live#action',
+                            'data-live-action-param' => 'save'
+                        ],
                     ]);
                 }
             });
