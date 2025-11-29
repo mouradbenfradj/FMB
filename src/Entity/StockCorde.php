@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use App\Entity\Corde;
+use App\Entity\Emplacement;
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\StockArticleSn;
+use Doctrine\DBAL\Types\Types;
+use App\Service\MouleCalculator;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\StockCordeRepository;
-use App\Service\MouleCalculator;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StockCordeRepository::class)]
 //#[ApiResource]
@@ -85,11 +88,10 @@ class StockCorde
         return $this;
     }
 
-    public function getPoid(int $age): ?float
+    public function getPoid(int $age = 12): ?float
     {
-
         if (!$this->mouleCalculator) {
-            throw new \RuntimeException('MouleCalculator not injected. Make sure StockCordeSubscriber is working.');
+            return null; // Return null if MouleCalculator is not injected
         }
         return $this->mouleCalculator->calculatePoidBrute($age, $this->longeur, $this->quantiter);
     }
