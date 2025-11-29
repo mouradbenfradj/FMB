@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class PreparationController extends AbstractController
 {
     #[Route('/preparationCorde/{parc}', name: 'app_preparation_corde')]
-    public function preparationCorde(Request $request, int $parc, ParcCacheService $parcCacheService, EntityManagerInterface $entityManager, MouleCalculator $mouleCalculator): Response
+    public function preparationCorde(Request $request, int $parc, ParcCacheService $parcCacheService, EntityManagerInterface $entityManager): Response
     {
         $parcId = $request->getSession()->get('selected_parc_id');
 

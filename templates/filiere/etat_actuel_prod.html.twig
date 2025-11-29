@@ -42,48 +42,7 @@
 			</div>
 		</td>
 		<td>
-			{% set vert = ((filiere.flottabiliter - filiere.poidCordes)/filiere.flottabiliter *100) %}
-			{% if vert < 0 %}
-				{% set classRouge = "bg-warning" %}
-				{% set classVert = " bg-info" %}
-			{% else %}
-				{% set classRouge = "bg-danger" %}
-				{% set classVert = " bg-success" %}
-			{% endif %}
-			<div class="progress mb-0">
-				<div class="progress-bar  progress-bar-striped {{classRouge}}" role="danger" style="width: {{ (100 - vert)|round }}%" aria-valuenow="{{ (100 - vert)|round }}" aria-valuemin="0" aria-valuemax="100">
-					{{ (100 - vert)|round }}
-					% R</div>
-				<div class="progress-bar progress-bar-striped {{classVert}}" role="progressbar" style="width: {{  vert|round }}%" aria-valuenow="{{ vert|round }}" aria-valuemin="0" aria-valuemax="100">
-					{{ vert|round }}
-					% V</div>
-			</div>
-
-			<div class="row">
-				<div class="col-lg-3">
-					<div class="grid-container">
-						F
-						{{filiere.volumesTotale}}
-						(L)
-					</div>
-				</div>
-				<div class="col-lg-3">
-					<div class="grid-container">
-						F
-						{{filiere.flottabiliter}}
-						(kgf)
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="grid-container">
-						Production
-						{{filiere.poidCordes}}
-						(kgf)
-					</div>
-				</div>
-			</div>
-
-
+			{# {{ include('templates/filiere/includes/stats.html.twig', {filiere: filiere}) }} #}
 		</td>
 		<td>{{ filiere.segments|map(segment => "#{segment.longeur}")|reduce((l, v) => l + v)  }}
 			m</td>

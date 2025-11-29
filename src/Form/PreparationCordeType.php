@@ -2,24 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Articles;
-use App\Entity\Corde;
-use App\Entity\FruitDeMer;
 use App\Entity\Parc;
+use App\Entity\Corde;
 use App\Entity\Stock;
+use App\Entity\Articles;
+use App\Entity\FruitDeMer;
 use App\Entity\StockArticle;
 use App\Entity\StockArticleSn;
 use App\Model\PreparationCordeModel;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfonycasts\DynamicForms\DependentField;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfonycasts\DynamicForms\DynamicFormBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfonycasts\DynamicForms\DependentField;
-use Symfonycasts\DynamicForms\DynamicFormBuilder;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class PreparationCordeType extends AbstractType
 {

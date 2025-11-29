@@ -33,22 +33,21 @@ final class EtatActuelProdController extends AbstractController
 
         // Récupérer le parc spécifique depuis le cache Redis
         $selectedParc = $parcCache->getParcFromCache($parc, $parcs);
-
         if (!$selectedParc) {
             return $this->redirectToRoute('app_home');
         }
 
         // Stocker l'abréviation en session
-        $id = $selectedParc->getId();
+        /* $id = $selectedParc->getId();
         $abrev = $selectedParc->getAbrevParc();
         $request->getSession()->set('selected_parc_id', $id);
         $request->getSession()->set('current_parc_abrev', $abrev);
-
+ */
         // Mettre à jour les variables globales Twig avec l'entité complète
-        $this->twig->addGlobal('parcs', $parcs); // Mettre à jour la liste des parcs
+        /*         $this->twig->addGlobal('parcs', $parcs); // Mettre à jour la liste des parcs
         $this->twig->addGlobal('parc', $selectedParc); // Mettre à jour le parc sélectionné
         $this->twig->addGlobal('isAllParcs', $parc === 0);
-
+ */
         // Rendre la vue sans passer les variables car elles sont maintenant globales
         return $this->render('etat_actuel_prod/etatActuelProd.html.twig');
     }
