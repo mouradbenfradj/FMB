@@ -80,10 +80,10 @@ final class PreparationLanterne extends AbstractController
                 $model->getLanterne()->setNbrEnStock($model->getLanterne()->getNbrEnStock() - $model->getNombre());
                 $this->entityManager->persist($model->getLanterne());
             }
-            $this->addFlash('success', 'Your changes were saved!');
+            $this->addFlash('success', 'Création validée !');
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_preparation_lanterne', ['parc' => $this->parc->getId()]);
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->redirectToRoute('app_preparation_lanterne', ['parc' => $this->parc->getId()]);

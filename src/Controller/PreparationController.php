@@ -75,9 +75,10 @@ final class PreparationController extends AbstractController
             }
             $this->addFlash(
                 'success',
-                'Your changes were saved!'
+                'Création validée !'
             );
             $entityManager->flush();
+            return $this->redirectToRoute('app_home');
         }
 
 

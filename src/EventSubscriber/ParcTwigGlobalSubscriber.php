@@ -34,7 +34,7 @@ class ParcTwigGlobalSubscriber implements EventSubscriberInterface
         $routeParams = $event->getRequest()->attributes->get('_route_params', []);
 
         // Si nous sommes sur une route avec un paramètre parc
-        if (isset($routeParams['parc']) && is_numeric($routeParams['parc'])) {
+        if (isset($routeParams['parc']) && is_numeric($routeParams['parc']) && $routeParams['parc'] != 0) {
             $parc = $this->parcCache->getParcFromCache((int)$routeParams['parc'], $parcs);
             $isAllParcs = false;
         }
