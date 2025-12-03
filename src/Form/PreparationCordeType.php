@@ -35,6 +35,7 @@ class PreparationCordeType extends AbstractType
         $builder = new DynamicFormBuilder($builder);
 
         // Champ "stocks"
+        $stocks = $parc->getStocks();
         $builder
             ->add('stocks', EntityType::class, [
                 'class' => Stock::class,
@@ -42,21 +43,11 @@ class PreparationCordeType extends AbstractType
                 'choice_label' => 'abrevStock',
                 'multiple' => false,
                 'expanded' => false,
-                'choices' => $parc->getStocks(),
+                'choices' => $stocks,
                 'choice_value' => 'id',
                 'placeholder' => 'choisie un stock',
                 'attr' => ['class' => 'form-control'],
-            ])
-            ->add('corde', EntityType::class, [
-                'class' => Corde::class,
-                'label' => 'TYPE CORDE',
-                'choice_label' => 'nom',
-                'multiple' => false,
-                'expanded' => false,
-                'choices' => $parc->getCordes(),
-                'choice_value' => 'id',
-                'placeholder' => 'choisie ton type de corde',
-                'attr' => ['class' => 'form-control'],
+                'data' => count($stocks) === 1 ? $stocks->first() : null,
             ])
             ->add('longeur', NumberType::class, [
                 'label' => 'LONGEUR CORDES (m)',
@@ -86,7 +77,23 @@ class PreparationCordeType extends AbstractType
                 'choice_value' => 'id',
                 'placeholder' => 'choisie l\'espece a préparer',
                 'attr' => ['class' => 'form-control'],
-            ])->addDependent('article', ['stocks', 'fruitDeMer'], function (DependentField $field, ?stock $stock, ?FruitDeMer $fruitDeMer) use ($parc) {
+            ])->addDependent('corde', 'fruitDeMer', function (DependentField $field, ?FruitDeMer $fruitDeMer) use ($parc) {
+                if ($fruitDeMer) {
+                    $field->add(EntityType::class, [
+                        'class' => Corde::class,
+                        'label' => 'TYPE CORDE',
+                        'choice_label' => 'nom',
+                        'multiple' => false,
+                        'expanded' => false,
+                        'choices' => $parc->getCordes()->filter(function (Corde $corde) use ($fruitDeMer) {
+                            return $corde->getFruitDeMer() === $fruitDeMer;
+                        }),
+                        'choice_value' => 'id',
+                        'placeholder' => 'choisie ton type de corde',
+                        'attr' => ['class' => 'form-control'],
+                    ]);
+                }
+            })->addDependent('article', ['stocks', 'fruitDeMer'], function (DependentField $field, ?stock $stock, ?FruitDeMer $fruitDeMer) use ($parc) {
                 if ($fruitDeMer && $stock) {
 
                     $stockArticles = $stock->getStockArticles()->toArray();
