@@ -21,7 +21,7 @@ jobs:
 
       - name: Install PHP dependencies
         run: |
-          composer install --optimize-autoloader --no-scripts --no-interaction
+          composer update --optimize-autoloader --no-scripts --no-interaction
 
       # 🎯 ÉTAPE CLÉ : BUILD AVEC SQLITE (sans créer .env.local)
       - name: Build assets (environnement temporaire)
