@@ -29,7 +29,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->andWhere('sc.dateDeMiseAEau IS NULL')
             ->setParameter('pret', false);
 
-        if ($parcId !== null) {
+        if ($parcId !== 0) {
             $qb->leftJoin('sc.emplacement', 'e')
                 ->leftJoin('e.segment', 's')
                 ->leftJoin('s.filiere', 'f')
@@ -54,7 +54,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->andWhere('sc.dateDeMiseAEau IS NOT NULL')
             ->setParameter('pret', false);
 
-        if ($parcId !== null) {
+        if ($parcId !== 0) {
             $qb->leftJoin('e.segment', 's')
                 ->leftJoin('s.filiere', 'f')
                 ->andWhere('f.parc = :parcId')
@@ -74,7 +74,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->select('COUNT(sc.id)')
             ->where('sc.stockArticleSn IS NULL');
 
-        if ($parcId !== null) {
+        if ($parcId !== 0) {
             $qb->leftJoin('sc.emplacement', 'e')
                 ->leftJoin('e.segment', 's')
                 ->leftJoin('s.filiere', 'f')
@@ -96,7 +96,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->where('sc.pret = :pret')
             ->setParameter('pret', false);
 
-        if ($parcId !== null) {
+        if ($parcId !== 0) {
             $qb->leftJoin('sc.emplacement', 'e')
                 ->leftJoin('e.segment', 's')
                 ->leftJoin('s.filiere', 'f')
@@ -125,7 +125,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->setParameter('pret', false)
             ->setParameter('fruitNom', 'Huître');
 
-        if ($parcId !== null) {
+        if ($parcId !== 0) {
             $qb->leftJoin('e.segment', 's')
                 ->leftJoin('s.filiere', 'f')
                 ->andWhere('f.parc = :parcId')
@@ -153,7 +153,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->setParameter('pret', false)
             ->setParameter('fruitNom', 'Moule');
 
-        if ($parcId !== null) {
+        if ($parcId !== 0) {
             $qb->leftJoin('e.segment', 's')
                 ->leftJoin('s.filiere', 'f')
                 ->andWhere('f.parc = :parcId')
@@ -175,7 +175,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->where('sc.chaussement = :chaussement')
             ->setParameter('chaussement', true);
 
-        if ($parcId !== null) {
+        if ($parcId !== 0) {
             $qb->leftJoin('e.segment', 's')
                 ->leftJoin('s.filiere', 'f')
                 ->andWhere('f.parc = :parcId')
@@ -201,7 +201,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->setParameter('pret', false)
             ->setParameter('fruitNom', 'Moule');
 
-        if ($parcId !== null) {
+        if ($parcId !== 0) {
             $qb->leftJoin('sc.emplacement', 'e')
                 ->leftJoin('e.segment', 's')
                 ->leftJoin('s.filiere', 'f')
@@ -228,7 +228,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->setParameter('pret', false)
             ->setParameter('fruitNom', 'Huître');
 
-        if ($parcId !== null) {
+        if ($parcId !== 0) {
             $qb->leftJoin('sc.emplacement', 'e')
                 ->leftJoin('e.segment', 's')
                 ->leftJoin('s.filiere', 'f')
