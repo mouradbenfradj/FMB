@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Parc;
+use App\Entity\StockCorde;
 use App\Entity\StockLanterne;
 use App\Service\ParcCacheService;
+use App\Form\PreparationCordeType;
+use App\Repository\CordeRepository;
+use App\Model\PreparationCordeModel;
 use App\Form\PreparationLanterneType;
 use App\Model\PreparationLanterneModel;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class PreparationController extends AbstractController
 {
     #[Route('/preparationCorde/{parc}', name: 'app_preparation_corde')]
-    public function preparationCorde(Request $request, int $parc, ParcCacheService $parcCacheService): Response
+    public function preparationCorde(Request $request, int $parc, ParcCacheService $parcCacheService, CordeRepository $cordeRepository, EntityManagerInterface $entityManager): Response
     {
         $parcId = $request->getSession()->get('selected_parc_id');
 
@@ -27,8 +31,35 @@ final class PreparationController extends AbstractController
         $allParcs = $parcCacheService->getAllParcsWithRelations();
         $parc = $parcCacheService->getParcFromCache($parcId, $allParcs);
 
-        if (!$parc) {
-            return $this->redirectToRoute('app_home');
+        $model = new PreparationCordeModel();
+
+        $form = $this->createForm(PreparationCordeType::class, $model, [
+            'parc' => $parc,
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            for ($i = 0; $i < $model->getNombre(); $i++) {
+                $stockCorde = new StockCorde();
+                $stockCorde->setCorde($model->getCorde());
+                $stockCorde->setStockArticleSn($model->getLot());
+                $model->getLot()->setSnQte($model->getLot()->getSnQte() - $model->getDensite());
+                $stockCorde->setLongeur($model->getLongeur());
+                $stockCorde->setDatedecreation($model->getDatedecreation());
+                $stockCorde->setLongeur($model->getLongeur());
+                $stockCorde->setQuantiter($model->getDensite());
+                $model->getCorde()->setQuantiter($model->getCorde()->getQuantiter() - $model->getNombre());
+                $entityManager->persist($stockCorde);
+                $model->getCorde()->setQuantiter($model->getCorde()->getQuantiter() - $model->getNombre());
+                $entityManager->persist($model->getCorde());
+            }
+            $this->addFlash(
+                'success',
+                'Your changes were saved!'
+            );
+            $entityManager->flush();
         }
 
         return $this->render('preparation/preparationCorde.html.twig', [

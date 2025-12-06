@@ -54,7 +54,7 @@ services:
                   model_class: App\Entity\Filiere,
                   manager_type: orm,
                   label: Filiere,
-                  group: Filiere,
+                  group: Structure d'élevage,
               }
     admin.segment:
         class: App\Admin\SegmentAdmin
@@ -64,7 +64,7 @@ services:
                   model_class: App\Entity\Segment,
                   manager_type: orm,
                   label: Segment,
-                  group: Filiere,
+                  group: Structure d'élevage,
               }
     admin.flotteur:
         class: App\Admin\FlotteurAdmin
@@ -74,7 +74,7 @@ services:
                   model_class: App\Entity\Flotteur,
                   manager_type: orm,
                   label: Flotteur,
-                  group: Filiere,
+                  group: Structure d'élevage,
               }
     admin.flotteur.segment:
         class: App\Admin\FlotteurSegmentAdmin
@@ -84,7 +84,7 @@ services:
                   model_class: App\Entity\FlotteurSegment,
                   manager_type: orm,
                   label: FlotteurSegment,
-                  group: Filiere,
+                  group: Structure d'élevage,
               }
 
     admin.articles:
@@ -95,7 +95,7 @@ services:
                   model_class: App\Entity\Articles,
                   controller: ~,
                   manager_type: orm,
-                  group: Article,
+                  group: Espece,
                   label: Articles,
               }
 
@@ -107,7 +107,7 @@ services:
                   model_class: App\Entity\Corde,
                   controller: ~,
                   manager_type: orm,
-                  group: Corde,
+                  group: Matériel d'élevage,
                   label: Corde,
               }
 
@@ -119,7 +119,7 @@ services:
                   model_class: App\Entity\StockCorde,
                   controller: ~,
                   manager_type: orm,
-                  group: Corde,
+                  group: Matériel d'élevage,
                   label: StockCorde,
               }
 
@@ -131,7 +131,7 @@ services:
                   model_class: App\Entity\FruitDeMer,
                   controller: ~,
                   manager_type: orm,
-                  group: Article,
+                  group: Espece,
                   label: Espece,
               }
 
@@ -143,7 +143,7 @@ services:
                   model_class: App\Entity\Stock,
                   controller: ~,
                   manager_type: orm,
-                  group: Stock,
+                  group: Stocks Tous parcs,
                   label: Stock,
               }
 
@@ -155,7 +155,7 @@ services:
                   model_class: App\Entity\StockArticle,
                   controller: ~,
                   manager_type: orm,
-                  group: Article,
+                  group: Espece,
                   label: StockArticle,
               }
 
@@ -167,7 +167,7 @@ services:
                   model_class: App\Entity\StockArticleSn,
                   controller: ~,
                   manager_type: orm,
-                  group: Article,
+                  group: Espece,
                   label: StockArticleSn,
               }
 
@@ -179,7 +179,7 @@ services:
                   model_class: App\Entity\Emplacement,
                   controller: ~,
                   manager_type: orm,
-                  group: Filiere,
+                  group: Structure d'élevage,
                   label: Emplacement,
               }
 
