@@ -51,10 +51,10 @@ final class PreparationController extends AbstractController
                 $stockCorde->setLongeur($model->getLongeur());
                 $stockCorde->setQuantiter($model->getDensite());
                 $entityManager->persist($stockCorde);
+                $entityManager->persist($model->getLot());
             }
             $model->getCorde()->setQuantiter($model->getCorde()->getQuantiter() - $model->getNombre());
             $entityManager->persist($model->getCorde());
-            $entityManager->persist($model->getLot());
 
             $this->addFlash(
                 'success',
