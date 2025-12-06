@@ -36,7 +36,7 @@ final class StockArticleAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('stock', EntityType::class, [
                 'class' => Stock::class,
                 'choice_label' => 'abrevStock',

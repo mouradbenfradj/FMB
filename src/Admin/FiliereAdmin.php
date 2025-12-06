@@ -41,12 +41,24 @@ final class FiliereAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('parc.libParc')->add('nomFiliere')->add('observation')->add('aireDeTravaille');
+        $datagrid
+        ->add('id')
+        ->add('parc.libParc')
+        ->add('nomFiliere')
+        ->add('observation')
+        ->add('aireDeTravaille')
+        ->add('segments');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('parc.libParc')->add('nomFiliere')->add('observation')->add('aireDeTravaille');
+        $list
+        ->addIdentifier('id')
+        ->add('parc.libParc')
+        ->add('nomFiliere')
+        ->add('observation')
+        ->add('segments')
+        ->add('aireDeTravaille');
     }
 
     protected function configureShowFields(ShowMapper $show): void

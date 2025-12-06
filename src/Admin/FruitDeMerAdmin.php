@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class FruitDeMerAdmin extends AbstractAdmin
 {
@@ -23,8 +25,10 @@ final class FruitDeMerAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('nom')
+            ->add('articles')
+            ->add('cordes')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -37,7 +41,7 @@ final class FruitDeMerAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('nom');
+            ->add('nom', TextType::class);
     }
 
     protected function configureShowFields(ShowMapper $show): void
@@ -45,6 +49,8 @@ final class FruitDeMerAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('nom')
+            ->add('articles')
+            ->add('cordes')
         ;
     }
 }

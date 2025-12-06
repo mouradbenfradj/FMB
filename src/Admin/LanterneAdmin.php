@@ -28,7 +28,7 @@ final class LanterneAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('parc')
             ->add('nomLanterne')
             ->add('nbrPoche')

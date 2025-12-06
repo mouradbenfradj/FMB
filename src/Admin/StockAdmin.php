@@ -27,7 +27,7 @@ final class StockAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('libStock')
             ->add('abrevStock')
             ->add('actif')

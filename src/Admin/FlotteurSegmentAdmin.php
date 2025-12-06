@@ -3,14 +3,14 @@
 namespace App\Admin;
 
 use App\Entity\Flotteur;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class FlotteurSegmentAdmin extends AbstractAdmin
 {
@@ -19,17 +19,32 @@ final class FlotteurSegmentAdmin extends AbstractAdmin
         $form->add('flotteur', EntityType::class, [
             'class' => Flotteur::class,
             'choice_label' => 'nomFlotteur',
-        ])->add('distanceDeDepart')->add('pasFlotteur')->add('nombre', IntegerType::class);
+        ])
+            ->add('distanceDeDepart', NumberType::class)
+            ->add('pasFlotteur', NumberType::class)
+            ->add('nombre');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('distanceDeDepart')->add('pasFlotteur')->add('nombre');
+        $datagrid
+            ->add('id')
+            ->add('segment')
+            ->add('flotteur')
+            ->add('distanceDeDepart', NumberType::class)
+            ->add('pasFlotteur', NumberType::class)
+            ->add('nombre');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')->add('distanceDeDepart')->add('pasFlotteur')->add('nombre');
+        $list
+            ->addIdentifier('id')
+            ->add('segment', null, ['associated_property' => 'nomSegment'])
+            ->add('flotteur', null, ['associated_property' => 'nomFlotteur'])
+            ->add('distanceDeDepart', NumberType::class)
+            ->add('pasFlotteur', NumberType::class)
+            ->add('nombre');
     }
 
     protected function configureShowFields(ShowMapper $show): void

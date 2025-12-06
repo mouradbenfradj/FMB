@@ -23,7 +23,7 @@ final class PhaseAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('nomPhase')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [

@@ -25,7 +25,7 @@ final class ProcessusAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('nomProcessus')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [

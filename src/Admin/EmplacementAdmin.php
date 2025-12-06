@@ -6,13 +6,14 @@ namespace App\Admin;
 
 use App\Entity\Segment;
 use App\Entity\StockCorde;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\CollectionType;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class EmplacementAdmin extends AbstractAdmin
 {
@@ -20,12 +21,10 @@ final class EmplacementAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('place')->add('segment.filiere.nomFiliere')
-            /* ->add('segment', EntityType::class, [
-                'class' => Segment::class,
-                'choice_label' => 'nomSegment',
-            ]) */
-            ->add('stockCordes');
+            ->add('place')
+            ->add('segment', null, ['associated_property' => 'nomSegment'])
+            ->add('stockCordes')
+            ->add('stockLanternes');
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -33,8 +32,9 @@ final class EmplacementAdmin extends AbstractAdmin
         $list
             ->addIdentifier('id')
             ->add('place')
-            ->add('segment.nomSegment')
+            ->add('segment', null, ['associated_property' => 'nomSegment'])
             ->add('stockCordes')
+            ->add('stockLanternes')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -48,6 +48,10 @@ final class EmplacementAdmin extends AbstractAdmin
     {
         $form
             ->add('place')
+            ->add('segment', EntityType::class, [
+                'class' => Segment::class,
+                'choice_label' => 'nomSegment',
+            ])
             ->add('stockCordes', CollectionType::class, [
                 // each entry in the array will be an "email" field
                 'entry_type' => EntityType::class,

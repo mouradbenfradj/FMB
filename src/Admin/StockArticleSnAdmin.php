@@ -26,7 +26,7 @@ final class StockArticleSnAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('snQte')
             ->add('numeroSerie')
             ->add(ListMapper::NAME_ACTIONS, null, [

@@ -36,7 +36,7 @@ final class StockLanterneAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('datedecreation')
             ->add('lanterne', EntityType::class, [
                 'class' => Lanterne::class,

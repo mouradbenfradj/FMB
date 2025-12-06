@@ -42,7 +42,7 @@
 			</div>
 		</td>
 		<td>
-			{# {{ include('templates/filiere/includes/stats.html.twig', {filiere: filiere}) }} #}
+			{{ include('templates/filiere/includes/stats.html.twig', {filiere: filiere}) }}
 		</td>
 		<td>{{ filiere.segments|map(segment => "#{segment.longeur}")|reduce((l, v) => l + v)  }}
 			m</td>

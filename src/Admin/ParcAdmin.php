@@ -4,12 +4,12 @@ namespace App\Admin;
 
 use App\Form\FiliereType;
 use App\Service\ParcCacheService;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\Form\Type\CollectionType;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\Form\Type\CollectionType;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class ParcAdmin extends AbstractAdmin
@@ -29,7 +29,7 @@ final class ParcAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('libParc')->add('abrevParc');
+        $list->addIdentifier('id')->add('libParc')->add('abrevParc');
     }
 
     protected function configureShowFields(ShowMapper $show): void

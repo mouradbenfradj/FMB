@@ -25,7 +25,7 @@ final class StockCordeAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('quantiter')
             ->add('poid')
             ->add('longeur')
