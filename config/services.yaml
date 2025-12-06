@@ -45,6 +45,7 @@ services:
                   model_class: App\Entity\Parc,
                   manager_type: orm,
                   label: Parc,
+                  group: Parc d'élevage,
               }
     admin.filiere:
         class: App\Admin\FiliereAdmin
