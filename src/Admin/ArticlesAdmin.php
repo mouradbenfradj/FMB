@@ -19,7 +19,7 @@ final class ArticlesAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('id', 'doctrine_orm_integer')
+            ->add('id')
             ->add('refArticle')
             ->add('libArticle')
             ->add('descCourte')
@@ -32,7 +32,7 @@ final class ArticlesAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('id')
+            ->addIdentifier('id')
             ->add('refArticle')
             ->add('libArticle')
             ->add('descCourte')
