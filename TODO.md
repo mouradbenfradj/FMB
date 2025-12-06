@@ -1,2 +1,0 @@
-- [ ] Add `use Doctrine\ORM\EntityManagerInterface;` to `src/Twig/Components/PreparationLanterne.php`
-- [ ] Add `use Doctrine\ORM\EntityManagerInterface;` to `src/Controller/PreparationController.php`

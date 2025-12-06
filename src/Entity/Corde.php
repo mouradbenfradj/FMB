@@ -40,7 +40,7 @@ class Corde
 
     public function __toString(): string
     {
-        return $this->nom ?? 'Corde';
+        return $this->nom;
     }
 
     public function __construct()

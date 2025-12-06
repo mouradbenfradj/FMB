@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\FlotteurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FlotteurRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: FlotteurRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -39,6 +39,10 @@ class Flotteur
         $this->flotteurSegments = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->nomFlotteur;
+    }
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function calculerKgf()

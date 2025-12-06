@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\StockLanterneRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use App\Repository\StockLanterneRepository;
 
 #[ORM\Entity(repositoryClass: StockLanterneRepository::class)]
 class StockLanterne
@@ -43,6 +43,10 @@ class StockLanterne
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $dateDeMiseAEau = null;
 
+    public function __toString(): string
+    {
+        return $this->lanterne->getNomLanterne();
+    }
     public function getId(): ?int
     {
         return $this->id;

@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\FlotteurSegmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FlotteurSegmentRepository;
 
 #[ORM\Entity(repositoryClass: FlotteurSegmentRepository::class)]
 class FlotteurSegment
@@ -29,6 +29,11 @@ class FlotteurSegment
 
     #[ORM\Column]
     private ?float $pasFlotteur = null;
+
+    public function __toString(): string
+    {
+        return $this->flotteur->getNomFlotteur();
+    }
 
     public function getId(): ?int
     {

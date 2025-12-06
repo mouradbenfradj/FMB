@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\StockArticleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StockArticleRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: StockArticleRepository::class)]
 class StockArticle
@@ -31,10 +31,10 @@ class StockArticle
     #[ORM\ManyToOne(inversedBy: 'stockArticles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Articles $articles = null;
-    /* public function __toString()
+    public function __toString()
     {
         return $this->articles->getLibArticle();
-    } */
+    }
 
     public function __construct()
     {

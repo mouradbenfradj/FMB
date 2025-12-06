@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\LanterneRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LanterneRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: LanterneRepository::class)]
 class Lanterne
@@ -37,6 +37,11 @@ class Lanterne
     public function __construct()
     {
         $this->stockLanternes = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->nomLanterne;
     }
 
     public function getId(): ?int

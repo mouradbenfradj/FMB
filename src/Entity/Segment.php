@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\SegmentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SegmentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: SegmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -40,6 +40,11 @@ class Segment
      */
     #[ORM\OneToMany(targetEntity: Emplacement::class, mappedBy: 'segment', cascade: ['persist'])]
     private Collection $emplacements;
+
+    public function __toString(): string
+    {
+        return $this->nomSegment;
+    }
 
     public function getNombreEmplacements(): ?int
     {

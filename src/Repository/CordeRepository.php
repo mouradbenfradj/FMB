@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Corde;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Corde>
@@ -16,6 +16,17 @@ class CordeRepository extends ServiceEntityRepository
         parent::__construct($registry, Corde::class);
     }
 
+    public function countCordesVides(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('SUM(c.quantiter)');
+        if ($parcId !== 0) {
+            $qb->where('c.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
     //    /**
     //     * @return Corde[] Returns an array of Corde objects
     //     */

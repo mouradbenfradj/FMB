@@ -70,10 +70,9 @@ class StockCordeRepository extends ServiceEntityRepository
      */
     public function countCordesVides(?int $parcId = null): int
     {
-        $qb = $this->createQueryBuilder('sc')
-            ->select('COUNT(sc.id)')
-            ->where('sc.stockArticleSn IS NULL');
-
+        $qb = $this->createQueryBuilder('c')
+            ->select('SUM(c.quantiter)');
+        dd($qb->getQuery()->getResult());
         if ($parcId !== 0) {
             $qb->leftJoin('sc.emplacement', 'e')
                 ->leftJoin('e.segment', 's')
@@ -121,9 +120,9 @@ class StockCordeRepository extends ServiceEntityRepository
             ->where('sc.pret = :pret')
             ->andWhere('sc.emplacement IS NOT NULL')
             ->andWhere('sc.dateDeMiseAEau IS NOT NULL')
-            ->andWhere('fdm.nom = :fruitNom')
+            ->andWhere('fdm.nom LIKE :fruitNom')
             ->setParameter('pret', false)
-            ->setParameter('fruitNom', 'Huître');
+            ->setParameter('fruitNom', '%Huître%');
 
         if ($parcId !== 0) {
             $qb->leftJoin('e.segment', 's')
@@ -149,9 +148,9 @@ class StockCordeRepository extends ServiceEntityRepository
             ->where('sc.pret = :pret')
             ->andWhere('sc.emplacement IS NOT NULL')
             ->andWhere('sc.dateDeMiseAEau IS NOT NULL')
-            ->andWhere('fdm.nom = :fruitNom')
+            ->andWhere('fdm.nom LIKE :fruitNom')
             ->setParameter('pret', false)
-            ->setParameter('fruitNom', 'Moule');
+            ->setParameter('fruitNom', '%Moule%');
 
         if ($parcId !== 0) {
             $qb->leftJoin('e.segment', 's')
