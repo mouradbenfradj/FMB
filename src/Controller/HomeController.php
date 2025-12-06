@@ -7,6 +7,7 @@ use App\Service\LifeService;
 use App\Service\MouleCalculator;
 use App\Service\ParcCacheService;
 use App\Repository\ParcRepository;
+use App\Repository\CordeRepository;
 use App\Repository\StockCordeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomeController extends AbstractController
 {
     #[Route('/{parc}', name: 'app_home', defaults: ['parc' => null])]
-    public function index(Request $request, StockCordeRepository $stockCordeRepo, ?int $parc = null): Response
+    public function index(Request $request, StockCordeRepository $stockCordeRepo, CordeRepository $cordeRepository, ?int $parc = null): Response
     {
         // Récupérer le parc ID depuis la requête (session, paramètre, etc.)
         $parcId = $request->getSession()->get('selected_parc_id');
@@ -25,7 +26,7 @@ final class HomeController extends AbstractController
         $stats = [
             'cordes_preparees_a_sec' => $stockCordeRepo->countCordesPreparteesASec($parcId),
             'cordes_a_leau' => $stockCordeRepo->countCordesALeau($parcId),
-            'cordes_vides' => $stockCordeRepo->countCordesVides($parcId),
+            'cordes_vides' => $cordeRepository->countCordesVides($parcId),
             'total_cordes' => $stockCordeRepo->countTotalCordes($parcId),
             'cordes_huitres_a_leau' => $stockCordeRepo->countCordesHuitresALeau($parcId),
             'cordes_moules_a_leau' => $stockCordeRepo->countCordesMoulesALeau($parcId),
