@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Entity\Articles;
 use App\Entity\Stock;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Form\FormMapper;
+use App\Entity\Articles;
 use Sonata\Form\Type\CollectionType;
+use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 final class StockArticleAdmin extends AbstractAdmin
@@ -22,6 +22,13 @@ final class StockArticleAdmin extends AbstractAdmin
             ->add('id')
             ->add('stock')
             ->add('articles')
+            ->add('stockArticleSns', null, [
+                'label' => 'Stocks Article Lot(s)',
+            ], [
+                'edit' => 'inline',
+                'inline' => 'table',
+                'sortable' => 'position',
+            ])
             ->add('quantiter')
         ;
     }
@@ -39,7 +46,6 @@ final class StockArticleAdmin extends AbstractAdmin
                 'choice_label' => 'libArticle',
             ])
             ->add('quantiter')
-            //->add('stockArticleSns')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -60,8 +66,9 @@ final class StockArticleAdmin extends AbstractAdmin
                 'class' => Articles::class,
                 'choice_label' => 'libArticle',
             ])
-            /*             ->add('quantiter')
- */->add('stockArticleSns', CollectionType::class, [], [
+            /*             ->add('quantiter') */
+            ->add('stockArticleSns', CollectionType::class, ['label' => 'Stocks Article Lot(s)',], [
+
                 'edit' => 'inline',
                 'inline' => 'table',
                 'sortable' => 'position',
@@ -80,6 +87,11 @@ final class StockArticleAdmin extends AbstractAdmin
             ->add('articles', EntityType::class, [
                 'class' => Articles::class,
                 'choice_label' => 'libArticle',
+            ])
+            ->add('stockArticleSns', CollectionType::class, ['label' => 'Stocks Article Lot(s)',], [
+                'edit' => 'inline',
+                'inline' => 'table',
+                'sortable' => 'position',
             ])
             ->add('quantiter')
         ;
