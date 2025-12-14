@@ -2,25 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Corde;
-use App\Entity\FruitDeMer;
 use App\Entity\Parc;
+use App\Entity\Corde;
 use App\Entity\Phase;
-use App\Entity\Processus;
 use App\Entity\Stock;
-use App\Entity\StockArticle;
-use App\Entity\StockArticleSn;
+use App\Entity\Processus;
+use App\Entity\FruitDeMer;
 use App\Entity\StockCorde;
+use App\Entity\StockArticle;
 use App\Model\MAECordeModel;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\StockArticleSn;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfonycasts\DynamicForms\DependentField;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfonycasts\DynamicForms\DynamicFormBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class MAECordeType extends AbstractType
 {
@@ -135,17 +136,35 @@ class MAECordeType extends AbstractType
                 if ($corde) {
                     $stockCordes = $corde->getStockCordes()->toArray();
 
-                    // 1. Filtrer pour garder uniquement ceux avec datedecreation !== null et pret === false
+                    // Filtrer et obtenir les quantités uniques
                     $filteredStockCordes = array_filter(
                         $stockCordes,
                         fn(StockCorde $sc) => $sc->getDatedecreation() !== null && $sc->isPret() === false
                     );
-                    $totalQuantiter = !empty($filteredStockCordes) ? $filteredStockCordes[0]->getQuantiter() : 0;
 
-                    $field->add(IntegerType::class, [
+                    // Extraire les quantités uniques
+                    $quantitesUniques = array_unique(
+                        array_map(
+                            fn(StockCorde $sc) => $sc->getQuantiter(),
+                            $filteredStockCordes
+                        )
+                    );
+
+                    // Supprimer les valeurs null
+                    $quantitesUniques = array_filter($quantitesUniques, fn($q) => $q !== null);
+
+                    // Trier
+                    sort($quantitesUniques);
+
+                    // Créer les options
+                    $options = array_combine($quantitesUniques, $quantitesUniques);
+
+                    $field->add(ChoiceType::class, [
                         'label' => 'Densité (U/Corde)',
-                        'attr' => ['value' => $totalQuantiter, 'class' => 'form-control', 'readonly' => true],
-                        'data' => $totalQuantiter,
+                        'choices' => $options,
+                        'attr' => ['class' => 'form-control'],
+                        'data' => !empty($quantitesUniques) ? reset($quantitesUniques) : null,
+                        'placeholder' => empty($options) ? 'Aucune densité disponible' : false,
                     ]);
                 }
             })->add('phase', EntityType::class, [

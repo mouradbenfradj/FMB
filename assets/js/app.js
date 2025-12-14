@@ -918,3 +918,24 @@ File: Main Js File
 
 // Waves Effect
 Waves.init();
+
+// assets/turbo-patch.js
+document.addEventListener('turbo:before-render', (event) => {
+    // Prévenir les problèmes de rendu
+    const progressBar = document.querySelector('.turbo-progress-bar');
+    if (progressBar) {
+        progressBar.remove();
+    }
+});
+
+// Redéfinir la méthode problématique
+const originalUninstallProgressElement = window.Turbo.ProgressBar.prototype.uninstallProgressElement;
+window.Turbo.ProgressBar.prototype.uninstallProgressElement = function () {
+    try {
+        if (this.progressElement && this.progressElement.parentNode) {
+            originalUninstallProgressElement.call(this);
+        }
+    } catch (error) {
+        console.debug('Turbo progress bar error caught:', error);
+    }
+};

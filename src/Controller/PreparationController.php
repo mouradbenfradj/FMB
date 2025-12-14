@@ -40,22 +40,22 @@ final class PreparationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $model->getCorde()->setQuantiter($model->getCorde()->getQuantiter() - $model->getNombre());
+            $entityManager->persist($model->getCorde());
             for ($i = 0; $i < $model->getNombre(); $i++) {
+                $model->getLot()->setSnQte($model->getLot()->getSnQte() - $model->getDensite());
+                $entityManager->persist($model->getLot());
                 $stockCorde = new StockCorde();
                 $stockCorde->setCorde($model->getCorde());
                 $stockCorde->setStockArticleSn($model->getLot());
-                $model->getLot()->setSnQte($model->getLot()->getSnQte() - $model->getDensite());
-                $stockCorde->setLongeur($model->getLongeur());
                 $stockCorde->setDatedecreation($model->getDatedecreation());
                 $stockCorde->setLongeur($model->getLongeur());
                 $stockCorde->setQuantiter($model->getDensite());
                 $entityManager->persist($stockCorde);
-                $entityManager->persist($model->getLot());
             }
-            $model->getCorde()->setQuantiter($model->getCorde()->getQuantiter() - $model->getNombre());
-            $entityManager->persist($model->getCorde());
-
+            dump($stockCorde);
+            dump($model->getCorde());
+            dd($model->getLot());
             $this->addFlash(
                 'success',
                 'Your changes were saved!'
