@@ -1,7 +1,7 @@
 <?php
 // src/Service/ParcCacheService.php
 
-namespace App\Service;
+namespace App\Service\Cache;
 
 use App\Service\MouleCalculator;
 use App\Repository\ParcRepository;

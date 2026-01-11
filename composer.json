@@ -48,8 +48,6 @@
         "symfony/twig-bundle": "6.4.*",
         "symfony/ux-icons": "*",
         "symfony/ux-live-component": "*",
-        "symfony/ux-swup": "*",
-        "symfony/ux-turbo": "^2.23",
         "symfony/validator": "6.4.*",
         "symfony/web-link": "6.4.*",
         "symfony/webpack-encore-bundle": "^2.2",

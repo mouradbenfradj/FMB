@@ -46,16 +46,60 @@ class Segment
         return $this->nomSegment;
     }
 
+
     public function getNombreEmplacements(): ?int
     {
-        return count($this->emplacements);
+        return $this->emplacements->count();
     }
 
     public function getTotaleCordes(): ?int
     {
         $nbr = 0;
         foreach ($this->emplacements as $emplacement) {
-            $nbr += count($emplacement->getStockCordes());
+            if ($emplacement->getStockCordes()->count())
+                $nbr += 1;
+        }
+        return $nbr;
+    }
+    public function getTotaleLanterne(): ?int
+    {
+        $nbr = 0;
+        foreach ($this->emplacements as $emplacement) {
+            $nbr += $emplacement->getStockLanternes()->count();
+        }
+        return $nbr;
+    }
+    public function getTotalePoche(): ?int
+    {
+        $nbr = 0;
+        foreach ($this->emplacements as $emplacement) {
+            $nbr += 0;
+            // $nbr += $emplacement->getStockPoches()->count();
+        }
+        return $nbr;
+    }
+    public function getTotaleCordesHuitre(): ?int
+    {
+        $nbr = 0;
+
+        foreach ($this->emplacements as $emplacement) {
+            foreach ($emplacement->getStockCordes() as $stockCordes) {
+                if (strtoupper($stockCordes->getStockArticleSn()->getStockArticle()->getArticles()->getLibArticle()) == 'HUITRE')
+                    $nbr += 1;
+            }
+        }
+        return $nbr;
+    }
+
+    public function getTotaleCordesMoule(): ?int
+    {
+        $nbr = 0;
+
+        foreach ($this->emplacements as $emplacement) {
+            foreach ($emplacement->getStockCordes() as $stockCordes) {
+                if (strtoupper($stockCordes->getStockArticleSn()->getStockArticle()->getArticles()->getLibArticle()) == 'Moule')
+                    $nbr += 1;
+            }
         }
         return $nbr;
     }
@@ -69,9 +113,6 @@ class Segment
             for ($i = 0; $i < $nombre; $i++) {
                 $somme += $flotteurSegment->getFlotteur()->getKgf();
             }
-        }
-        if (!$somme) {
-            return 1;
         }
         return $somme;
     }
@@ -106,7 +147,7 @@ class Segment
     {
         $somme = 0;
         foreach ($this->emplacements as $emplacement) {
-            if (!count($emplacement->getStockCordes()))
+            if (!$emplacement->getStockCordes()->count())
                 $somme += 1;
         }
 

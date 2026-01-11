@@ -2,21 +2,37 @@
 
 namespace App\Controller;
 
-use App\Entity\Parc;
-use App\Service\LifeService;
-use App\Service\MouleCalculator;
-use App\Service\ParcCacheService;
-use App\Repository\ParcRepository;
+use App\Entity\Filiere;
+use App\Service\FiliereService;
 use App\Repository\CordeRepository;
 use App\Repository\StockCordeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\DesignPatterns\DesignPatternsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class HomeController extends AbstractController
 {
+    #[Route('/test/{filiere}', name: 'app_test')]
+    public function test(Filiere $filiere): Response
+    {
+
+        $filiereService = new FiliereService($filiere);
+        print_r($filiereService->getColumn());
+        dd('endteste');
+        return $this->render('home/index.html.twig');
+    }
+
+    #[Route('/designepatterne', name: 'app_dp')]
+    public function dp(DesignPatternsService $designPatternsService): Response
+    {
+
+        $designPatternsService->usePatronsStructurelsService()->useProcurationService();
+        dd('endteste');
+        return $this->render('home/index.html.twig');
+    }
+
     #[Route('/{parc}', name: 'app_home', defaults: ['parc' => null])]
     public function index(Request $request, StockCordeRepository $stockCordeRepo, CordeRepository $cordeRepository, ?int $parc = null): Response
     {
@@ -39,6 +55,7 @@ final class HomeController extends AbstractController
             'stats' => $stats,
         ]);
     }
+
 
     /* 
     #[Route('/test/{age}/{longeur}')]

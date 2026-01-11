@@ -3,7 +3,7 @@
 namespace App\EventSubscriber;
 
 use Twig\Environment;
-use App\Service\ParcCacheService;
+use App\Service\Cache\ParcCacheService;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,6 +15,7 @@ class ParcTwigGlobalSubscriber implements EventSubscriberInterface
 
     public function __construct(Environment $twig, ParcCacheService $parcCache)
     {
+
         $this->twig = $twig;
         $this->parcCache = $parcCache;
     }

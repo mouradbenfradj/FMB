@@ -15,15 +15,17 @@
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link py-2" data-toggle="tab" href="#settings-tab" role="tab">
+				<a class="nav-link py-2 active" data-toggle="tab" href="#settings-tab" role="tab">
 					<i class="mdi mdi-cog-outline d-block font-22 my-1"></i>
 				</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link py-2 active" data-toggle="tab" href="#formulaire-tab" role="tab">
-					<i class="mdi mdi-cog-outline d-block font-22 my-1"></i>
-				</a>
-			</li>
+			{% if app.request.attributes.get('_route') == 'app_m_a_e_corde' %}
+				<li class="nav-item">
+					<a class="nav-link py-2" data-toggle="tab" href="#formulaire-tab" role="tab">
+						<i class="mdi mdi-cog-outline d-block font-22 my-1"></i>
+					</a>
+				</li>
+			{% endif %}
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content pt-0">

@@ -2,13 +2,13 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\StockCorde;
 use App\Entity\Corde;
-use App\Entity\StockArticleSn;
 use App\Entity\Segment;
+use App\Entity\StockCorde;
+use App\Entity\StockArticleSn;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
 
 class StockCordeFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -29,7 +29,7 @@ class StockCordeFixtures extends Fixture implements DependentFixtureInterface
                 'stockArticleSn_ref' => 'stockarticlesn_1',
                 'quantite' => 5,
                 'longueur' => 25.50,
-                'pret' => true,
+                'pret' => false,
                 'datedecreation' => new \DateTime('2024-01-15'),
                 'chaussement' => false
             ],
@@ -41,14 +41,14 @@ class StockCordeFixtures extends Fixture implements DependentFixtureInterface
                 'pret' => false,
                 'datedecreation' => new \DateTime('2024-02-10'),
                 'chaussement' => true,
-                'datechaussement' => new \DateTime('2024-02-20')
+                'datechaussement' => null
             ],
             [
                 'corde_ref' => 'corde_3',
                 'stockArticleSn_ref' => 'stockarticlesn_3',
                 'quantite' => 8,
                 'longueur' => 28.25,
-                'pret' => true,
+                'pret' => false,
                 'datedecreation' => new \DateTime('2024-01-20'),
                 'chaussement' => false
             ],
@@ -57,17 +57,17 @@ class StockCordeFixtures extends Fixture implements DependentFixtureInterface
                 'stockArticleSn_ref' => 'stockarticlesn_4',
                 'quantite' => 6,
                 'longueur' => 22.00,
-                'pret' => true,
+                'pret' => false,
                 'datedecreation' => new \DateTime('2024-03-01'),
                 'chaussement' => true,
-                'datechaussement' => new \DateTime('2024-03-10')
+                'datechaussement' => null
             ],
             [
                 'corde_ref' => 'corde_2',
                 'stockArticleSn_ref' => 'stockarticlesn_5',
                 'quantite' => 4,
                 'longueur' => 20.00,
-                'pret' => true,
+                'pret' => false,
                 'datedecreation' => new \DateTime('2024-03-15'),
                 'chaussement' => false
             ],
@@ -76,17 +76,17 @@ class StockCordeFixtures extends Fixture implements DependentFixtureInterface
                 'stockArticleSn_ref' => 'stockarticlesn_1',
                 'quantite' => 7,
                 'longueur' => 26.50,
-                'pret' => true,
+                'pret' => false,
                 'datedecreation' => new \DateTime('2024-04-01'),
                 'chaussement' => true,
-                'datechaussement' => new \DateTime('2024-04-12')
+                'datechaussement' => null
             ],
             [
                 'corde_ref' => 'corde_1',
                 'stockArticleSn_ref' => 'stockarticlesn_2',
                 'quantite' => 10,
                 'longueur' => 30.00,
-                'pret' => true,
+                'pret' => false,
                 'datedecreation' => new \DateTime('2024-04-20'),
                 'chaussement' => false
             ],
@@ -123,6 +123,7 @@ class StockCordeFixtures extends Fixture implements DependentFixtureInterface
                     $stockCorde->setStockArticleSn($stockArticleSn);
 
                     // Association avec l'emplacement du segment
+                    $stockCorde->setDateDeMiseAEau($data['datedecreation']);
                     $stockCorde->setEmplacement($emplacement);
 
                     // Dates optionnelles

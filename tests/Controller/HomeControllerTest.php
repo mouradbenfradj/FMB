@@ -4,8 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Entity\Parc;
 use App\Repository\ParcRepository;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class HomeControllerTest extends WebTestCase
 {
@@ -13,9 +13,7 @@ class HomeControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
-
         $this->assertResponseIsSuccessful();
-
         $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffres');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffres');
         $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > h4', 'Tous les parcs');

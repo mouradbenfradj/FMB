@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\FiliereRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use App\Repository\FiliereRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: FiliereRepository::class)]
 class Filiere
@@ -58,6 +58,40 @@ class Filiere
         }
         return $nbr;
     }
+    public function getTotaleLanterne(): ?int
+    {
+        $nbr = 0;
+        foreach ($this->segments as $segment) {
+            $nbr += $segment->getTotaleLanterne();
+        }
+        return $nbr;
+    }
+    public function getTotalePoche(): ?int
+    {
+        $nbr = 0;
+        foreach ($this->segments as $segment) {
+            $nbr += $segment->getTotalePoche();
+        }
+        return $nbr;
+    }
+
+    public function getTotaleCordesHuitre(): ?int
+    {
+        $nbr = 0;
+        foreach ($this->segments as $segment) {
+            $nbr += $segment->getTotaleCordesHuitre();
+        }
+        return $nbr;
+    }
+
+    public function getTotaleCordesMoule(): ?int
+    {
+        $nbr = 0;
+        foreach ($this->segments as $segment) {
+            $nbr += $segment->getTotaleCordesMoule();
+        }
+        return $nbr;
+    }
 
 
     public function getFlottabiliter(): float
@@ -65,9 +99,6 @@ class Filiere
         $somme = 0;
         foreach ($this->segments as $segment) {
             $somme += $segment->getFlottabiliter();
-        }
-        if (!$somme) {
-            return 1;
         }
         return $somme;
     }
@@ -95,14 +126,6 @@ class Filiere
         $somme = 0;
         foreach ($this->segments as $segment) {
             $somme += $segment->getNombreEmplacementsVide();
-        }
-        return $somme;
-    }
-    public function getNombreEmplacementsRemplit(): int
-    {
-        $somme = 0;
-        foreach ($this->segments as $segment) {
-            $somme += $segment->getTotaleCordes();
         }
         return $somme;
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Cache;
 
-use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 /**
  * Service de gestion du cache Redis avec invalidation centralisée.
@@ -16,6 +16,7 @@ class CacheRedisService
 
     public function __construct(CacheInterface $cache)
     {
+        dd('redus');
         $this->cache = $cache;
     }
 

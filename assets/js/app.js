@@ -928,14 +928,16 @@ document.addEventListener('turbo:before-render', (event) => {
     }
 });
 
-// Redéfinir la méthode problématique
-const originalUninstallProgressElement = window.Turbo.ProgressBar.prototype.uninstallProgressElement;
-window.Turbo.ProgressBar.prototype.uninstallProgressElement = function () {
-    try {
-        if (this.progressElement && this.progressElement.parentNode) {
-            originalUninstallProgressElement.call(this);
+if (window.Turbo && window.Turbo.ProgressBar) {
+    // Redéfinir la méthode problématique
+    const originalUninstallProgressElement = window.Turbo.ProgressBar.prototype.uninstallProgressElement;
+    window.Turbo.ProgressBar.prototype.uninstallProgressElement = function () {
+        try {
+            if (this.progressElement && this.progressElement.parentNode) {
+                originalUninstallProgressElement.call(this);
+            }
+        } catch (error) {
+            console.debug('Turbo progress bar error caught:', error);
         }
-    } catch (error) {
-        console.debug('Turbo progress bar error caught:', error);
-    }
-};
+    };
+}

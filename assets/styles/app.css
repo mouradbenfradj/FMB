@@ -3,18 +3,18 @@
 <link
 href="{{ asset('css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/css" id="app-dark-stylesheet" disabled/>
  */
- @import '~nestable2/dist/jquery.nestable.min.css';
+@import "~nestable2/dist/jquery.nestable.min.css";
 
 /* Styles Footable pour les tables responsives */
-@import '~footable/css/footable.core.min.css';
+@import "~footable/css/footable.core.min.css";
 
 @import "~../css/bootstrap-creative.min.css";
 @import "~../css/app-creative.min.css";
 @import "~../css/icons.min.css";
 
 .progress {
-    height: 1.75rem;
- }
- .dd {
+  height: 1.75rem;
+}
+.dd {
   max-width: 100% !important;
 }

@@ -4,7 +4,7 @@ namespace App\Admin;
 
 use App\Entity\Parc;
 use App\Entity\Segment;
-use App\Service\ParcCacheService;
+use App\Service\Cache\ParcCacheService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -42,23 +42,23 @@ final class FiliereAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
         $datagrid
-        ->add('id')
-        ->add('parc.libParc')
-        ->add('nomFiliere')
-        ->add('observation')
-        ->add('aireDeTravaille')
-        ->add('segments');
+            ->add('id')
+            ->add('parc.libParc')
+            ->add('nomFiliere')
+            ->add('observation')
+            ->add('aireDeTravaille')
+            ->add('segments');
     }
 
     protected function configureListFields(ListMapper $list): void
     {
         $list
-        ->addIdentifier('id')
-        ->add('parc.libParc')
-        ->add('nomFiliere')
-        ->add('observation')
-        ->add('segments')
-        ->add('aireDeTravaille');
+            ->addIdentifier('id')
+            ->add('parc.libParc')
+            ->add('nomFiliere')
+            ->add('observation')
+            ->add('segments')
+            ->add('aireDeTravaille');
     }
 
     protected function configureShowFields(ShowMapper $show): void

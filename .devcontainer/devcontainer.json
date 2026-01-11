@@ -23,7 +23,8 @@
                 "NDNCI.vscode-symfony-tools",
                 "ctf0.php-namespace-resolver",
                 "StoilDobreff.php-resolver",
-                "vdhoangson.php-namespace-helper"
+                "vdhoangson.php-namespace-helper",
+                "stanislav.vscode-twig"
             ]
         }
     },

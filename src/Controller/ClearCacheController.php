@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\ParcCacheService;
+use App\Service\Cache\ParcCacheService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

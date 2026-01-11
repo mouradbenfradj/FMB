@@ -5,79 +5,108 @@
 {
 
 const disponibiliterInput = document.getElementById( 'mae_corde_disponibiliter' );
-
 if ( ! disponibiliterInput )
 {
+
+
 
 console.log( '⏳ Champ non trouvé, réessai dans 100ms...' );
 setTimeout( initDisponibiliterManager, 100 );
 return;
 
+
+
 }
 
 const checkboxes = document.querySelectorAll( 'input[name="emplacement[]"]' );
 let currentValue = parseInt( disponibiliterInput.value ) || 100; // 100 par défaut
-
 function updateDisponibiliter( value )
 {
+
+
 
 currentValue = Math.max( 0, value ); // Empêcher les valeurs négatives
 disponibiliterInput.value = currentValue;
 
-}
 
+
+}
 function updateCheckboxesState()
 {
 
+
+
 checkboxes.forEach( checkbox => {
+
+
 
 checkbox.disabled = !checkbox.checked && currentValue === 0;
 
+
+
 } );
 
-}
 
+
+}
 checkboxes.forEach( checkbox => {
+
+
 
 checkbox.addEventListener( 'change', function ()
 {
+
+
 
 if ( this.checked )
 { // Cocher : décrémenter
 if ( currentValue > 0 )
 {
 
+
+
 updateDisponibiliter( currentValue - 1 );
+
+
 
 }
 else
 {
 
+
+
 this.checked = false;
 alert( '❌ Plus de disponibilité disponible' );
 return;
+
+
 
 } }
 else
 { // Décocher : incrémenter
 updateDisponibiliter( currentValue + 1 );
 
+
+
 } updateCheckboxesState();
 
-} );
+
 
 } );
 
+
+
+} );
 updateCheckboxesState();
 console.log( '✅ Gestionnaire de disponibilité initialisé' );
 
-}
 
+
+}
 // Démarrer l'initialisation
 document.addEventListener( 'DOMContentLoaded', initDisponibiliterManager );
 	</script>
 {% endif %}
-
 {# 
 <div class="tab-pane active" id="messages-2" style="display: block;">
 	<div class="row">

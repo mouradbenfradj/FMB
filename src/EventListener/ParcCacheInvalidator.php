@@ -8,7 +8,7 @@ use App\Entity\Filiere;
 use App\Entity\Corde;
 use App\Entity\Stock;
 use App\Entity\Lanterne;
-use App\Service\ParcCacheService;
+use App\Service\Cache\ParcCacheService;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 

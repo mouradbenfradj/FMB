@@ -5,13 +5,13 @@ namespace App\Controller;
 use App\Entity\Parc;
 use App\Form\MAECordeType;
 use App\Model\MAECordeModel;
-use App\Repository\EmplacementRepository;
 use App\Repository\StockCordeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\EmplacementRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/mae')]
 final class MAEController extends AbstractController
@@ -41,6 +41,7 @@ final class MAEController extends AbstractController
             $request->getSession()->set('form_data', $formData);
             $request->getSession()->set('emplacements', $emplacements);
             return $this->redirectToRoute('app_m_a_e_corde_validation');
+            return $this->redirectToRoute('app_m_a_e_confirmation');
         }
 
 
@@ -48,6 +49,7 @@ final class MAEController extends AbstractController
             'parc' => $parc,
         ]);
     }
+
     #[Route('/corde_validation', name: 'app_m_a_e_corde_validation')]
     public function validation(
         Request $request,
