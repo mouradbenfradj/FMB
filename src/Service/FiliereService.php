@@ -3,125 +3,181 @@
 namespace App\Service;
 
 use App\Entity\Filiere;
+use App\Service\SegmentService;
 use App\Service\Interface\EtatActualProdInterface;
 
 class FiliereService implements EtatActualProdInterface
 {
     private Filiere $filiere;
-    private int $nombreDePlace;
-    private int $nombreDePlaceRemplit;
+    private SegmentService $segmentService;
 
-    public function __construct(Filiere $filiere)
+    // Variables locales privées pour stocker les valeurs calculées
+    private string $ref;
+    private float $remplissage;
+    private float $flottabiliter;
+    private float $taille;
+    private int $totalEmplacement;
+    private int $emplacementVide;
+    private int $emplacementRemplit;
+    private int $totalCorde;
+    private int $totalCordeHuitre;
+    private int $totalCordeMoule;
+    private int $totalCordeLanterne;
+    private int $totalCordePoche;
+    private ?\DateTimeInterface $dateDeMAE;
+    private int $passageChaussette = 0;
+
+    public function __construct(SegmentService $segmentService)
+    {
+        $this->segmentService = $segmentService;
+    }
+
+    public function setFiliereToService(Filiere $filiere): void
     {
         $this->filiere = $filiere;
-        $this->nombreDePlace = $segment->getEmplacements()->count();
-        $this->nombreDePlaceRemplit = 0;
+        $this->calculateAllValues(); // Calcul direct lors du set
     }
 
-
-    public function getColumn(): array
+    /**
+     * Calcule toutes les valeurs
+     */
+    private function calculateAllValues(): void
     {
-        return  [
-            $this->ref(),
-            $this->remplissage(),
-            $this->flottabiliter(),
-            $this->taille(),
-            $this->totalEmplacement(),
-            $this->emplacementVide(),
-            $this->emplacementRemplit(),
-            $this->totalCorde(),
-            $this->totalCordeHuitre(),
-            $this->totalCordeMoule(),
-            $this->totalCordeLanterne(),
-            $this->totalCordePoche(),
-            $this->dateDeMAE(),
-            $this->passageChaussette(),
-            $this->segments()
-        ];
+        // Initialiser toutes les valeurs
+        $totalEmplacements = 0;
+        $emplacementsRemplis = 0;
+        $totalCordes = 0;
+        $totalCordesHuitre = 0;
+        $totalCordesMoule = 0;
+        $totalCordesLanterne = 0;
+        $totalCordesPoche = 0;
+        $flottabiliterTotale = 0;
+        $derniereDateMAE = null;
+        $tailleTotale = 0;
+
+        // Parcourir tous les segments
+        foreach ($this->filiere->getSegments() as $segment) {
+            $this->segmentService->setSegmentToService($segment);
+
+            // Accumuler les valeurs
+            $totalEmplacements += $this->segmentService->totalEmplacement();
+            $emplacementsRemplis += $this->segmentService->emplacementRemplit();
+            $totalCordes += $this->segmentService->totalCorde();
+            $totalCordesHuitre += $this->segmentService->totalCordeHuitre();
+            $totalCordesMoule += $this->segmentService->totalCordeMoule();
+            $totalCordesLanterne += $this->segmentService->totalCordeLanterne();
+            $totalCordesPoche += $this->segmentService->totalCordePoche();
+            $flottabiliterTotale += $this->segmentService->flottabiliter();
+            $tailleTotale += $this->segmentService->taille();
+
+            // Calculer la dernière date de MAE parmi tous les segments
+            $segmentDateMAE = $this->segmentService->dateDeMAE();
+            if ($segmentDateMAE && ($derniereDateMAE === null || $segmentDateMAE > $derniereDateMAE)) {
+                $derniereDateMAE = $segmentDateMAE;
+            }
+        }
+
+        // Calculer le pourcentage de remplissage
+        $remplissagePourcentage = ($totalEmplacements > 0)
+            ? ($emplacementsRemplis / $totalEmplacements) * 100
+            : 0.0;
+
+        // Stocker toutes les valeurs calculées dans les propriétés
+        $this->ref = $this->filiere->getNomFiliere();
+        $this->remplissage = $remplissagePourcentage;
+        $this->flottabiliter = $flottabiliterTotale;
+        $this->taille = $tailleTotale;
+        $this->totalEmplacement = $totalEmplacements;
+        $this->emplacementVide = $totalEmplacements - $emplacementsRemplis;
+        $this->emplacementRemplit = $emplacementsRemplis;
+        $this->totalCorde = $totalCordes;
+        $this->totalCordeHuitre = $totalCordesHuitre;
+        $this->totalCordeMoule = $totalCordesMoule;
+        $this->totalCordeLanterne = $totalCordesLanterne;
+        $this->totalCordePoche = $totalCordesPoche;
+        $this->dateDeMAE = $derniereDateMAE;
+        // $this->passageChaussette reste à 0 (valeur fixe)
     }
+
     public function ref(): string
     {
-        return  $this->filiere->getNomFiliere();
+        return $this->ref;
     }
+
     public function remplissage(): float
     {
-        $remplit = $this->filiere->getNombreEmplacementsRemplit();
-        $totale =  $this->filiere->getNombreEmplacements();
-
-        dump($totale, $remplit);
-        return ($totale - $remplit) / 100;
+        return $this->remplissage;
     }
+
     public function flottabiliter(): float
     {
-
-        $flottabiliter = 0;
-        dump($this->filiere->getFlottabiliter());
-        return $this->filiere->getFlottabiliter();
+        return $this->flottabiliter;
     }
+
     public function taille(): float
     {
-        $totale = 0;
-        foreach ($this->filiere->getSegments() as $segment) {
-            $totale += $segment->getLongeur();
-        }
-        dump($totale);
-        return $totale;
+        return $this->taille;
     }
+
     public function totalEmplacement(): int
     {
-        dump($this->filiere->getNombreEmplacements());
-
-        return $this->filiere->getNombreEmplacements();
+        return $this->totalEmplacement;
     }
+
     public function emplacementVide(): int
     {
-        dump($this->filiere->getNombreEmplacementsVide());
-
-        return $this->filiere->getNombreEmplacementsVide();
+        return $this->emplacementVide;
     }
+
     public function emplacementRemplit(): int
     {
-        dump($this->filiere->getNombreEmplacementsRemplit());
-
-        return $this->filiere->getNombreEmplacementsRemplit();
+        return $this->emplacementRemplit;
     }
+
     public function totalCorde(): int
     {
-
-        dump($this->filiere->getTotaleCordes());
-
-        return $this->filiere->getTotaleCordes();
+        return $this->totalCorde;
     }
+
     public function totalCordeHuitre(): int
     {
-        dump($this->filiere->getTotaleCordesHuitre());
-
-        return $this->filiere->getTotaleCordesHuitre();
+        return $this->totalCordeHuitre;
     }
+
     public function totalCordeMoule(): int
     {
-
-        dump($this->filiere->getTotaleCordesMoule());
-
-        return $this->filiere->getTotaleCordesMoule();
+        return $this->totalCordeMoule;
     }
+
     public function totalCordeLanterne(): int
     {
-        dump($this->filiere->getTotaleLanterne());
-
-        return $this->filiere->getTotaleLanterne();
+        return $this->totalCordeLanterne;
     }
+
     public function totalCordePoche(): int
     {
-
-        dump($this->filiere->getTotalePoche());
-
-        return $this->filiere->getTotalePoche();
+        return $this->totalCordePoche;
     }
-    public function dateDeMAE() {}
+
+    public function dateDeMAE(): ?\DateTimeInterface
+    {
+        return $this->dateDeMAE;
+    }
+
     public function passageChaussette(): int
     {
-        return 0;
+        return $this->passageChaussette;
     }
-    public function segments() {}
+
+    public function poidCordes(): float
+    {
+        // TODO: implement calculation
+        return 0.0;
+    }
+
+    public function volumesTotale(): float
+    {
+        // TODO: implement calculation
+        return 0.0;
+    }
 }

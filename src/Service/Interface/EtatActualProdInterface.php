@@ -18,5 +18,6 @@ interface EtatActualProdInterface
     public function totalCordePoche(): int;
     public function dateDeMAE();
     public function passageChaussette(): int;
-    public function segments();
+    public function poidCordes(): float;
+    public function volumesTotale(): float;
 }

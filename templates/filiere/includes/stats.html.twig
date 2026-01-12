@@ -1,4 +1,4 @@
-{% set vert = ((filiere.flottabiliter - filiere.poidCordes)/filiere.flottabiliter *100) %}
+{% set vert = etat.flottabiliter > 0 ? ((etat.flottabiliter - etat.poidCordes)/etat.flottabiliter *100) : 0 %}
 {% if vert < 0 %}
 	{% set classRouge = "bg-warning" %}
 	{% set classVert = " bg-info" %}
@@ -19,21 +19,21 @@
 	<div class="col-lg-3">
 		<div class="grid-container">
 			F
-			{{filiere.volumesTotale}}
+			{{etat.volumesTotale}}
 			(L)
 		</div>
 	</div>
 	<div class="col-lg-3">
 		<div class="grid-container">
 			F
-			{{filiere.flottabiliter}}
+			{{etat.flottabiliter}}
 			(kgf)
 		</div>
 	</div>
 	<div class="col-lg-6">
 		<div class="grid-container">
 			Production
-			{{filiere.poidCordes}}
+			{{etat.poidCordes}}
 			(kgf)
 		</div>
 	</div>

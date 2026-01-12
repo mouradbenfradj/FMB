@@ -4,142 +4,240 @@ namespace App\Service;
 
 use App\Entity\Segment;
 use App\Service\EmplacementService;
+use App\Service\FlotteurSegmentService;
 use App\Service\Interface\EtatActualProdInterface;
 
 class SegmentService implements EtatActualProdInterface
 {
     private Segment $segment;
     private EmplacementService $emplacementService;
-    private int $nombreDePlace = 0;
-    private int $nombreDePlaceRemplit = 0;
-    public function __construct(EmplacementService $emplacementService)
+    private FlotteurSegmentService $flotteurSegmentService;
+
+    // Variables locales privées pour stocker les valeurs calculées
+    private string $ref;
+    private float $remplissage;
+    private float $flottabiliter;
+    private float $taille;
+    private int $totalEmplacement;
+    private int $emplacementVide;
+    private int $emplacementRemplit;
+    private int $totalCorde;
+    private int $totalCordeHuitre;
+    private int $totalCordeMoule;
+    private int $totalCordeLanterne;
+    private int $totalCordePoche;
+    private ?\DateTimeInterface $dateDeMAE;
+    private int $passageChaussette = 0;
+
+    public function __construct(EmplacementService $emplacementService, FlotteurSegmentService $flotteurSegmentService)
     {
         $this->emplacementService = $emplacementService;
+        $this->flotteurSegmentService = $flotteurSegmentService;
     }
+
     public function setSegmentToService(Segment $segment): void
     {
         $this->segment = $segment;
+        $this->calculateAllValues(); // Calcul direct lors du set
     }
 
-
-    public function getColumn(): array
+    /**
+     * Calcule toutes les valeurs
+     */
+    private function calculateAllValues(): void
     {
-        return  [
-            $this->ref(),
-            $this->remplissage(),
-            $this->flottabiliter(),
-            $this->taille(),
-            $this->totalEmplacement(),
-            $this->emplacementVide(),
-            $this->emplacementRemplit(),
-            $this->totalCorde(),
-            $this->totalCordeHuitre(),
-            $this->totalCordeMoule(),
-            $this->totalCordeLanterne(),
-            $this->totalCordePoche(),
-            $this->dateDeMAE(),
-            $this->passageChaussette(),
-            $this->segments()
-        ];
-    }
-    public function ref(): string
-    {
-        return  $this->segment->getNomsegment();
-    }
+        // Initialiser toutes les valeurs
+        $totalEmplacements = $this->segment->getEmplacements()->count();
+        $emplacementsRemplis = 0;
+        $totalCordes = 0;
+        $totalCordesHuitre = 0;
+        $totalCordesMoule = 0;
+        $totalCordesLanterne = 0;
+        $totalCordesPoche = 0;
+        $flottabiliterTotale = 0;
+        $derniereDateMAE = null;
 
+        // Calculer la flottabilité
+        foreach ($this->segment->getFlotteurSegments() as $flotteurSegment) {
+            $this->flotteurSegmentService->setFlotteurSegmentToService($flotteurSegment);
+            $flottabiliterTotale += $this->flotteurSegmentService->getFlottabiliter();
+        }
 
-    public function getNombreEmplacementsRemplit(): int
-    {
+        // Parcourir tous les emplacements une seule fois
         foreach ($this->segment->getEmplacements() as $emplacement) {
-            if (!$this->emplacementService->isEmpty($emplacement)) {
-                $this->nombreDePlaceRemplit += 1;
+            $this->emplacementService->setEmplacementToService($emplacement);
+            $isEmpty = $this->emplacementService->isEmpty();
+
+            if (!$isEmpty) {
+                $emplacementsRemplis++;
+            }
+
+            // Vérifier les cordes
+            if ($this->emplacementService->haseCorde()) {
+                $totalCordes++;
+            }
+
+            if ($this->emplacementService->haseCordeHuitre()) {
+                $totalCordesHuitre++;
+            }
+
+            if ($this->emplacementService->haseCordeMoule()) {
+                $totalCordesMoule++;
+            }
+
+            if ($this->emplacementService->haseLanterne()) {
+                $totalCordesLanterne++;
+            }
+
+            if ($this->emplacementService->hasePoche()) {
+                $totalCordesPoche++;
+            }
+
+            // Calculer la dernière date de MAE
+            foreach ($emplacement->getStockCordes() as $stockCorde) {
+                $dateMiseAEau = $stockCorde->getDateDeMiseAEau();
+                if ($dateMiseAEau && ($derniereDateMAE === null || $dateMiseAEau > $derniereDateMAE)) {
+                    $derniereDateMAE = $dateMiseAEau;
+                }
+            }
+
+            foreach ($emplacement->getStockLanternes() as $stockLanterne) {
+                $dateMiseAEau = $stockLanterne->getDateDeMiseAEau();
+                if ($dateMiseAEau && ($derniereDateMAE === null || $dateMiseAEau > $derniereDateMAE)) {
+                    $derniereDateMAE = $dateMiseAEau;
+                }
             }
         }
 
+        // Calculer le pourcentage de remplissage
+        $remplissagePourcentage = ($totalEmplacements > 0)
+            ? ($emplacementsRemplis / $totalEmplacements) * 100
+            : 0.0;
 
-        $somme = 0;
-        foreach ($this->segments as $segment) {
-            $somme += $segment->getTotaleCordes();
-        }
-        return $somme;
+        // Stocker toutes les valeurs calculées dans les propriétés
+        $this->ref = $this->segment->getNomsegment();
+        $this->remplissage = $remplissagePourcentage;
+        $this->flottabiliter = $flottabiliterTotale;
+        $this->taille = $this->segment->getLongeur();
+        $this->totalEmplacement = $totalEmplacements;
+        $this->emplacementVide = $totalEmplacements - $emplacementsRemplis;
+        $this->emplacementRemplit = $emplacementsRemplis;
+        $this->totalCorde = $totalCordes;
+        $this->totalCordeHuitre = $totalCordesHuitre;
+        $this->totalCordeMoule = $totalCordesMoule;
+        $this->totalCordeLanterne = $totalCordesLanterne;
+        $this->totalCordePoche = $totalCordesPoche;
+        $this->dateDeMAE = $derniereDateMAE;
+        // $this->passageChaussette reste à 0 (valeur fixe)
     }
+
+    public function ref(): string
+    {
+        dump('ref');
+        dump($this->ref);
+        return $this->ref;
+    }
+
     public function remplissage(): float
     {
-        $remplit = $this->segment->get();
-        $totale =  $this->segment->getNombreEmplacements();
-
-        dump($totale, $remplit);
-        return ($totale - $remplit) / 100;
+        dump('remplissage');
+        dump($this->remplissage);
+        return $this->remplissage;
     }
+
     public function flottabiliter(): float
     {
-
-        $flottabiliter = 0;
-        dump($this->segment->getFlottabiliter());
-        return $this->segment->getFlottabiliter();
+        dump('flottabiliter');
+        dump($this->flottabiliter);
+        return $this->flottabiliter;
     }
+
     public function taille(): float
     {
-        $totale = 0;
-        foreach ($this->segment->getSegments() as $segment) {
-            $totale += $segment->getLongeur();
-        }
-        dump($totale);
-        return $totale;
+        dump('taille');
+        dump($this->taille);
+        return $this->taille;
     }
+
     public function totalEmplacement(): int
     {
-        return $this->nombreDePlace = $this->segment->getEmplacements()->count();
+        dump('totalEmplacement');
+        dump($this->totalEmplacement);
+        return $this->totalEmplacement;
     }
+
     public function emplacementVide(): int
     {
-        dump($this->segment->getNombreEmplacementsVide());
-
-        return $this->segment->getNombreEmplacementsVide();
+        dump('emplacementVide');
+        dump($this->emplacementVide);
+        return $this->emplacementVide;
     }
+
     public function emplacementRemplit(): int
     {
-        dump($this->segment->getNombreEmplacementsRemplit());
-
-        return $this->segment->getNombreEmplacementsRemplit();
+        dump('emplacementRemplit');
+        dump($this->emplacementRemplit);
+        return $this->emplacementRemplit;
     }
+
     public function totalCorde(): int
     {
-
-        dump($this->segment->getTotaleCordes());
-
-        return $this->segment->getTotaleCordes();
+        dump('totalCorde');
+        dump($this->totalCorde);
+        return $this->totalCorde;
     }
+
     public function totalCordeHuitre(): int
     {
-        dump($this->segment->getTotaleCordesHuitre());
-
-        return $this->segment->getTotaleCordesHuitre();
+        dump('totalCordeHuitre');
+        dump($this->totalCordeHuitre);
+        return $this->totalCordeHuitre;
     }
+
     public function totalCordeMoule(): int
     {
-
-        dump($this->segment->getTotaleCordesMoule());
-
-        return $this->segment->getTotaleCordesMoule();
+        dump('totalCordeMoule');
+        dump($this->totalCordeMoule);
+        return $this->totalCordeMoule;
     }
+
     public function totalCordeLanterne(): int
     {
-        dump($this->segment->getTotaleLanterne());
-
-        return $this->segment->getTotaleLanterne();
+        dump('totalCordeLanterne');
+        dump($this->totalCordeLanterne);
+        return $this->totalCordeLanterne;
     }
+
     public function totalCordePoche(): int
     {
-
-        dump($this->segment->getTotalePoche());
-
-        return $this->segment->getTotalePoche();
+        dump('totalCordePoche');
+        dump($this->totalCordePoche);
+        return $this->totalCordePoche;
     }
-    public function dateDeMAE() {}
+
+    public function dateDeMAE(): ?\DateTimeInterface
+    {
+        dump('dateDeMAE');
+        dump($this->dateDeMAE);
+        return $this->dateDeMAE;
+    }
+
     public function passageChaussette(): int
     {
-        return 0;
+        dump('passageChaussette');
+        dump($this->passageChaussette);
+        return $this->passageChaussette;
     }
-    public function segments() {}
+
+    public function poidCordes(): float
+    {
+        // TODO: implement calculation
+        return 0.0;
+    }
+
+    public function volumesTotale(): float
+    {
+        // TODO: implement calculation
+        return 0.0;
+    }
 }

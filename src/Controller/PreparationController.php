@@ -22,7 +22,6 @@ final class PreparationController extends AbstractController
     private TravailleAFaireService $travailleAFaireService;
     private EntityManagerInterface $entityManager;
     private CordeService $cordeService;
-    private LanterneService $lanterneService;
 
     public function __construct(
         ParcCacheService $parcCacheService,
