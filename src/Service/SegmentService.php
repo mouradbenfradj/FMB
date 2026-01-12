@@ -133,99 +133,71 @@ class SegmentService implements EtatActualProdInterface
 
     public function ref(): string
     {
-        dump('ref');
-        dump($this->ref);
         return $this->ref;
     }
 
     public function remplissage(): float
     {
-        dump('remplissage');
-        dump($this->remplissage);
         return $this->remplissage;
     }
 
     public function flottabiliter(): float
     {
-        dump('flottabiliter');
-        dump($this->flottabiliter);
         return $this->flottabiliter;
     }
 
     public function taille(): float
     {
-        dump('taille');
-        dump($this->taille);
         return $this->taille;
     }
 
     public function totalEmplacement(): int
     {
-        dump('totalEmplacement');
-        dump($this->totalEmplacement);
         return $this->totalEmplacement;
     }
 
     public function emplacementVide(): int
     {
-        dump('emplacementVide');
-        dump($this->emplacementVide);
         return $this->emplacementVide;
     }
 
     public function emplacementRemplit(): int
     {
-        dump('emplacementRemplit');
-        dump($this->emplacementRemplit);
         return $this->emplacementRemplit;
     }
 
     public function totalCorde(): int
     {
-        dump('totalCorde');
-        dump($this->totalCorde);
         return $this->totalCorde;
     }
 
     public function totalCordeHuitre(): int
     {
-        dump('totalCordeHuitre');
-        dump($this->totalCordeHuitre);
         return $this->totalCordeHuitre;
     }
 
     public function totalCordeMoule(): int
     {
-        dump('totalCordeMoule');
-        dump($this->totalCordeMoule);
         return $this->totalCordeMoule;
     }
 
     public function totalCordeLanterne(): int
     {
-        dump('totalCordeLanterne');
-        dump($this->totalCordeLanterne);
         return $this->totalCordeLanterne;
     }
 
     public function totalCordePoche(): int
     {
-        dump('totalCordePoche');
-        dump($this->totalCordePoche);
         return $this->totalCordePoche;
     }
 
     public function dateDeMAE(): ?\DateTimeInterface
     {
-        dump('dateDeMAE');
-        dump($this->dateDeMAE);
         return $this->dateDeMAE;
     }
 
     public function passageChaussette(): int
     {
-        dump('passageChaussette');
-        dump($this->passageChaussette);
         return $this->passageChaussette;
     }
 
