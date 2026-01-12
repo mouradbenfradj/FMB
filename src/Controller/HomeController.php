@@ -2,42 +2,51 @@
 
 namespace App\Controller;
 
-use App\Entity\Parc;
-use App\Service\LifeService;
-use App\Service\MouleCalculator;
-use App\Service\ParcCacheService;
-use App\Repository\ParcRepository;
+use App\Entity\Filiere;
+use App\Service\FiliereService;
 use App\Repository\CordeRepository;
 use App\Repository\StockCordeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\ParcEnchiffre\ParcEnchiffreService;
+use App\Service\DesignPatterns\DesignPatternsService;
+use App\Service\EtatActuelProd\EtatActuelProdService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class HomeController extends AbstractController
 {
+
     #[Route('/{parc}', name: 'app_home', defaults: ['parc' => null])]
-    public function index(Request $request, StockCordeRepository $stockCordeRepo, CordeRepository $cordeRepository, ?int $parc = null): Response
+    public function index(Request $request, ParcEnchiffreService $parcEnchiffreService, StockCordeRepository $stockCordeRepo, CordeRepository $cordeRepository, ?int $parc = null): Response
     {
         // Récupérer le parc ID depuis la requête (session, paramètre, etc.)
         $parcId = $request->getSession()->get('selected_parc_id');
+
         // Calculer les statistiques pour les cordes
-        $stats = [
-            'cordes_preparees_a_sec' => $stockCordeRepo->countCordesPreparteesASec($parcId),
-            'cordes_a_leau' => $stockCordeRepo->countCordesALeau($parcId),
-            'cordes_vides' => $cordeRepository->countCordesVides($parcId),
-            'total_cordes' => $stockCordeRepo->countTotalCordes($parcId),
-            'cordes_huitres_a_leau' => $stockCordeRepo->countCordesHuitresALeau($parcId),
-            'cordes_moules_a_leau' => $stockCordeRepo->countCordesMoulesALeau($parcId),
-            'chaussettes_cordes_a_leau' => $stockCordeRepo->countChaussettesCordesALeau($parcId),
-            'cordes_moules_preparees' => $stockCordeRepo->countCordesMoulesPreparees($parcId),
-            'cordes_huitres_preparees' => $stockCordeRepo->countCordesHuitresPreparees($parcId),
-        ];
+        $stats =  $parcEnchiffreService->getData($parcId);
+
 
         return $this->render('home/index.html.twig', [
             'stats' => $stats,
         ]);
+    }
+
+    #[Route('/test/{filiere}', name: 'app_test')]
+    public function test(Filiere $filiere, EtatActuelProdService $etatActuelProdService): Response
+    {
+        print_r($etatActuelProdService->getFiliereArrayStat($filiere));
+        dd('endteste');
+        return $this->render('home/index.html.twig');
+    }
+
+    #[Route('/designepatterne', name: 'app_dp')]
+    public function dp(DesignPatternsService $designPatternsService): Response
+    {
+
+        $designPatternsService->usePatronsStructurelsService()->useProcurationService();
+        dd('endteste');
+        return $this->render('home/index.html.twig');
     }
 
     /* 

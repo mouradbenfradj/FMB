@@ -1,4 +1,5 @@
 {% for segment in filiere.segments %}
+	{% set etat = etat_actuel_prod_segment(segment) %}
 	<div data-controller="reveal" data-reveal-hidden-class="d-none">
 		<button data-action="reveal#toggle" type="button" class="btn">
 			Segment
@@ -22,7 +23,7 @@
 						<span class="footable-sort-indicator"></span>
 					</th>
 					<td>
-						{% set rouge = ((segment.totaleCordes/segment.nombreEmplacements )*100)|round %}
+						{% set rouge = etat.totalEmplacement > 0 ? ((etat.totalCorde / etat.totalEmplacement) * 100)|round : 0 %}
 
 						<div class="progress mb-0">
 							<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
@@ -39,21 +40,21 @@
 							<div class="col-lg-4">
 								<div class="grid-container">
 									Places totales
-									{{segment.nombreEmplacements}}
+									{{etat.totalEmplacement}}
 
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="grid-container">
 									Places Remplies
-									{{segment.totaleCordes}}
+									{{etat.totalCorde}}
 
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="grid-container">
 									Places Vides
-									{{segment.nombreEmplacements - segment.totaleCordes}}
+									{{etat.totalEmplacement - etat.totalCorde}}
 
 								</div>
 							</div>
@@ -67,7 +68,7 @@
 					<th>Flottabilité Segment (%)<span class="footable-sort-indicator"></span>
 					</th>
 					<td>
-						{% set vert = ((segment.flottabiliter - segment.poidCordes)/segment.flottabiliter *100) %}
+						{% set vert = etat.flottabiliter > 0 ? ((etat.flottabiliter - etat.poidCordes)/etat.flottabiliter *100) : 0 %}
 						{% if vert < 0 %}
 							{% set classRouge = "bg-warning" %}
 							{% set classVert = " bg-info" %}
@@ -89,21 +90,21 @@
 							<div class="col-lg-3">
 								<div class="grid-container">
 									F
-									{{segment.volumesTotale}}
+									{{etat.volumesTotale}}
 									(L)
 								</div>
 							</div>
 							<div class="col-lg-3">
 								<div class="grid-container">
 									F
-									{{segment.flottabiliter}}
+									{{etat.flottabiliter}}
 									(kgf)
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="grid-container">
 									Production
-									{{segment.poidCordes}}
+									{{etat.poidCordes}}
 									(kgf)
 								</div>
 							</div>
@@ -116,77 +117,77 @@
 						Taille Segment (m)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>{{ segment.longeur  }}</td>
+					<td>{{ etat.taille }}</td>
 				</tr>
 				<tr>
 					<th>
 						Total Emplacements (u)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>{{segment.nombreEmplacements }}</td>
+					<td>{{etat.totalEmplacement }}</td>
 				</tr>
 				<tr>
 					<th>
 						Emplacements Vides (u)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>0</td>
+					<td>{{etat.emplacementVide}}</td>
 				</tr>
 				<tr>
 					<th>
 						Emplacements Remplis (u)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>0</td>
+					<td>{{etat.emplacementRemplit}}</td>
 				</tr>
 				<tr>
 					<th>
 						Total Cordes (u)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>{{segment.totaleCordes }}</td>
+					<td>{{etat.totalCorde }}</td>
 				</tr>
 				<tr>
 					<th>
 						Total Cordes Huitre (u)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>0</td>
+					<td>{{etat.totalCordeHuitre}}</td>
 				</tr>
 				<tr>
 					<th>
 						Total Cordes Moule (u)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>0</td>
+					<td>{{etat.totalCordeMoule}}</td>
 				</tr>
 				<tr>
 					<th>
 						Total Lanternes (u)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>0</td>
+					<td>{{etat.totalCordeLanterne}}</td>
 				</tr>
 				<tr>
 					<th>
 						Total Poches (u)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>0</td>
+					<td>{{etat.totalCordePoche}}</td>
 				</tr>
 				<tr>
 					<th>
 						Total Passages chaussettes (u)
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>0</td>
+					<td>{{etat.passageChaussette}}</td>
 				</tr>
 				<tr>
 					<th>
 						Dérniere Date De MAE
 						<span class="footable-sort-indicator"></span>
 					</th>
-					<td>0</td>
+					<td>{{ etat.dateDeMAE ? etat.dateDeMAE|date('Y-m-d') : 'N/A' }}</td>
 				</tr>
 
 			</tbody>

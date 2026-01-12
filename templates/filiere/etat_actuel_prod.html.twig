@@ -1,9 +1,10 @@
 {% for filiere in parc.filieres %}
+	{% set etat = etat_actuel_prod(filiere) %}
 	<tr>
 		<td>{{filiere.nomFiliere}}
 		</td>
 		<td>
-			{% set rouge = ((filiere.totaleCordes * 100 ) / (filiere.nombreEmplacements == 0 ?1 : filiere.nombreEmplacements))|round %}
+			{% set rouge = etat.remplissage|round %}
 			<div class="progress mb-0">
 				<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
 					{{rouge}}
@@ -20,21 +21,21 @@
 				<div class="col-lg-4">
 					<div class="grid-container">
 						Places totales
-						{{filiere.nombreEmplacements}}
+						{{etat.totalEmplacement}}
 
 					</div>
 				</div>
 				<div class="col-lg-4">
 					<div class="grid-container">
 						Places Remplies
-						{{filiere.totaleCordes}}
+						{{etat.emplacementRemplit}}
 
 					</div>
 				</div>
 				<div class="col-lg-4">
 					<div class="grid-container">
 						Places Vides
-						{{filiere.nombreEmplacements - filiere.totaleCordes}}
+						{{etat.emplacementVide}}
 
 					</div>
 				</div>
@@ -42,20 +43,27 @@
 			</div>
 		</td>
 		<td>
-			{{ include('filiere/includes/stats.html.twig', {filiere: filiere}) }}
+			{{ include('filiere/includes/stats.html.twig', {filiere: filiere, etat: etat}) }}
 		</td>
-		<td>{{ filiere.segments|map(segment => "#{segment.longeur}")|reduce((l, v) => l + v)  }}
+		<td>{{ etat.taille }}
 			m</td>
-		<td>{{ filiere.nombreEmplacements  }}</td>
-		<td>{{ filiere.nombreEmplacementsVide  }}</td>
-		<td>{{ filiere.nombreEmplacementsRemplit  }}</td>
-		<td>{{filiere.totaleCordes}}</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
-		<td>0</td>
+		<td>{{ etat.totalEmplacement  }}</td>
+		<td>{{ etat.emplacementVide  }}</td>
+		<td>{{ etat.emplacementRemplit  }}</td>
+		<td>{{etat.totalCorde}}</td>
+		<td>{{etat.totalCordeHuitre}}</td>
+		<td>{{etat.totalCordeMoule}}</td>
+		<td>{{etat.totalCordeLanterne}}</td>
+		<td>{{etat.totalCordePoche}}</td>
+		<td>{{etat.flottabiliter}}</td>
+		<td>{{etat.dateDeMAE ? etat.dateDeMAE|date('Y-m-d') : ''}}</td>
+		<td>
+			<div class="custom-dd-empty dd nestable_list_3">
+				{{ include('segment/etat_actuel_prod.html.twig', {filiere: filiere}) }}
+			</div>
+		</td>
+	</tr>
+	<tr>
 		<td>
 			<div class="custom-dd-empty dd nestable_list_3">
 				{{ include('segment/etat_actuel_prod.html.twig', {filiere: filiere}) }}

@@ -3,7 +3,7 @@
 namespace App\Admin;
 
 use App\Form\FiliereType;
-use App\Service\ParcCacheService;
+use App\Service\Cache\ParcCacheService;
 use Sonata\Form\Type\CollectionType;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;

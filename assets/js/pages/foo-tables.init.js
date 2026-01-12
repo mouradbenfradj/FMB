@@ -1,130 +1,176 @@
-// Footable est maintenant chargé dans commune.js
-// On s'appuie sur la jQuery globale fournie par commune.js
-const $ = window.jQuery || window.$;
+// foo-tables.init.js - Version corrigée pour Webpack
 
+// Fonction d'initialisation principale
 function initFootableTable() {
-    console.log('=== FOOTABLE DEBUG START ===');
-    console.log('1. jQuery présent?', !!$);
-    console.log('2. jQuery version:', $ ? $.fn.jquery : 'N/A');
-    console.log('3. $.fn.footable présent?', $ && typeof $.fn.footable === 'function');
+    console.log('=== INITIALISATION FOOTABLE ===');
 
-    if (!$ || !$.fn) {
-        console.error('❌ Footable init: jQuery global introuvable');
+    // Récupérer jQuery depuis window (garanti d'être global)
+    const $ = window.jQuery || window.$;
+
+    if (!$) {
+        console.error('❌ jQuery non disponible dans window');
         return;
     }
 
-    if (typeof $.fn.footable !== 'function') {
-        console.error('❌ Footable init: $.fn.footable est introuvable');
-        console.log('Plugins jQuery disponibles:', Object.keys($.fn).filter(k => !k.startsWith('_')).slice(0, 20));
+    console.log('1. jQuery version:', $.fn.jquery);
+    console.log('2. $.fn.footable présent?', typeof $.fn.footable);
+
+    // Si Footable n'est pas disponible, réessayer plus tard
+    if (typeof $.fn.footable === 'undefined') {
+        console.warn('⚠️ Footable non disponible, nouvel essai dans 500ms');
+        setTimeout(initFootableTable, 500);
         return;
     }
 
-    const $table = $('#demo-foo-row-toggler');
-    console.log('4. Table trouvée?', $table.length > 0);
+    // Cibler la table
+    const $table = $('.demo-foo-row-toggler');
 
     if ($table.length === 0) {
-        console.warn('⚠️ Pas de table #demo-foo-row-toggler sur cette page');
+        console.log('Table non trouvée sur cette page');
         return;
     }
 
-    console.log('5. Nombre de lignes tbody:', $table.find('tbody tr').length);
-    console.log('6. Nombre de colonnes thead:', $table.find('thead th').length);
+    console.log('3. Table trouvée avec', $table.find('tbody tr').length, 'lignes');
 
-    // Éviter une réinitialisation multiple (Swup)
-    if ($table.hasClass('footable-loaded')) {
-        console.log('7. Destruction de l\'ancienne instance Footable');
-        // Footable v2 : utiliser trigger pour détruire
+    // Éviter la double initialisation
+    if ($table.data('footable')) {
+        console.log('Table déjà initialisée, destruction...');
         $table.trigger('footable_destroy');
         $table.removeData('footable');
     }
 
-    console.log('8. Initialisation Footable...');
+    // Initialiser Footable
     try {
+        console.log('4. Initialisation Footable en cours...');
+
         $table.footable({
             paginate: true,
             pageSize: 20,
-            sort: true
+            sort: true,
+            showToggle: true,
+            toggleSelector: ' > thead > tr > th:first-child',
+            empty: 'Aucune donnée disponible',
+            debug: true, // Activer le debug de Footable
+            on: {
+                'ready.ft.table': function (e, ft) {
+                    console.log('✅ Footable prêt!');
+                    console.log('Info pagination:', ft.paging.info());
+
+                    // Mettre à jour l'affichage
+                    updatePaginationDisplay(ft);
+                },
+                'after.ft.paging': function (e, ft) {
+                    updatePaginationDisplay(ft);
+                },
+                'after.ft.sort': function (e, ft) {
+                    console.log('Tri appliqué');
+                }
+            }
         });
+
         console.log('✅ Footable initialisé avec succès');
-        console.log('9. Instance Footable:', $table.data('footable'));
+
     } catch (error) {
         console.error('❌ Erreur lors de l\'initialisation Footable:', error);
+        return;
     }
 
-    // Boutons de pagination (changement du nombre de lignes)
-    // Utiliser la même méthode que l'exemple UBold
-    $('.page-size-btn').off('click.footablePageSize').on('click.footablePageSize', function (e) {
-        e.preventDefault();
-        const size = $(this).data('page-size');
-        console.log('Changement de taille de page:', size);
+    // Fonction pour mettre à jour l'affichage de la pagination
+    function updatePaginationDisplay(ft) {
+        const info = ft.paging.info();
+        console.log(`Page ${info.currentPage} sur ${info.totalPages} - ${info.totalRows} lignes`);
 
-        // Retirer la classe active de tous les boutons
+        // Mettre à jour un éventuel élément d'affichage
+        const $display = $('#pagination-info');
+        if ($display.length === 0) {
+            // Créer l'élément s'il n'existe pas
+            $('<div id="pagination-info" class="text-muted small mt-2"></div>')
+                .insertAfter($table.closest('.table-responsive').length ?
+                    $table.closest('.table-responsive') : $table.parent());
+        }
+
+        $('#pagination-info').html(
+            `Affichage des lignes ${info.range.start + 1} à ${info.range.end} sur ${info.totalRows}`
+        );
+    }
+
+    // Gestion des boutons de taille de page
+    $('.page-size-btn').off('click.footable').on('click.footable', function (e) {
+        e.preventDefault();
+        const size = parseInt($(this).data('page-size'));
+        console.log('Changement taille page:', size);
+
+        // Mettre à jour le bouton actif
         $('.page-size-btn').removeClass('active');
-        // Ajouter la classe active au bouton cliqué
         $(this).addClass('active');
 
-        // Méthode exacte de l'exemple UBold
+        // Changer la taille de page
         $table.data('page-size', size);
         $table.trigger('footable_initialized');
     });
 
-    // Select de tri par colonne
-    const $sortColumn = $('#sort-column-select');
-    const $sortDirection = $('#sort-direction-select');
+    // Gestion du tri personnalisé
+    $('#sort-column-select, #sort-direction-select').off('change.footable').on('change.footable', function () {
+        const columnIndex = parseInt($('#sort-column-select').val());
+        const direction = $('#sort-direction-select').val();
 
-    function applySorting() {
-        const columnIndex = parseInt($sortColumn.val());
-        const direction = $sortDirection.val(); // 'ASC' ou 'DESC'
-
-        console.log('Tri appliqué - Colonne:', columnIndex, 'Direction:', direction);
+        console.log('Tri demandé - Colonne:', columnIndex, 'Direction:', direction);
 
         const $th = $table.find('thead th').eq(columnIndex);
 
-        // Retirer les classes de tri existantes
+        if ($th.length === 0) {
+            console.warn('Colonne non trouvée:', columnIndex);
+            return;
+        }
+
+        // Nettoyer les classes de tri
         $table.find('thead th').removeClass('footable-sorted footable-sorted-desc');
 
-        // Ajouter la classe de tri appropriée
+        // Appliquer la classe de direction
         if (direction === 'DESC') {
             $th.addClass('footable-sorted-desc');
         } else {
             $th.addClass('footable-sorted');
         }
 
-        // Déclencher le tri Footable
+        // Déclencher le tri
         $th.trigger('click.footable');
-    }
+    });
 
-    if ($sortColumn.length && $sortDirection.length) {
-        console.log('10. Contrôles de tri trouvés, liaison...');
-
-        $sortColumn.off('change.footableSort').on('change.footableSort', function () {
-            applySorting();
+    // Bouton pour réinitialiser
+    $('<button class="btn btn-sm btn-outline-secondary ml-2" id="reset-footable">Réinitialiser</button>')
+        .insertAfter('.page-size-btn:last')
+        .on('click', function () {
+            console.log('Réinitialisation Footable');
+            $table.trigger('footable_destroy');
+            setTimeout(initFootableTable, 100);
         });
 
-        $sortDirection.off('change.footableSort').on('change.footableSort', function () {
-            applySorting();
-        });
-    }
-
-    // Adaptation de la logique "demo-show-entries" UBold pour cette table
-    const $showEntries = $('#demo-show-entries');
-    if ($showEntries.length) {
-        console.log('10. Select show-entries trouvé, liaison...');
-        // Namespacer l'event pour éviter les doublons lors des ré-inits Swup
-        $showEntries.off('change.footableDemo').on('change.footableDemo', function (e) {
-            e.preventDefault();
-            const size = $(this).val();
-            console.log('Changement de taille de page:', size);
-            $table.data('page-size', size);
-            $table.trigger('footable_initialized');
-        });
-    }
-
-    console.log('=== FOOTABLE DEBUG END ===');
+    console.log('=== INITIALISATION TERMINÉE ===');
 }
 
-// Chargement initial (premier load)
-$(window).on('load', initFootableTable);
+// Attendre que le DOM soit prêt
+function initialize() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            // Petit délai pour garantir que tout est chargé
+            setTimeout(initFootableTable, 300);
+        });
+    } else {
+        setTimeout(initFootableTable, 300);
+    }
+}
 
-// Re-initialisation après navigation Swup
-document.addEventListener('swup:pageView', initFootableTable);
+// Initialiser
+initialize();
+
+// Pour Swup (si utilisé)
+if (typeof document.addEventListener === 'function') {
+    document.addEventListener('swup:pageView', function () {
+        console.log('Swup détecté, réinitialisation Footable...');
+        setTimeout(initFootableTable, 500);
+    });
+}
+
+// Exposer la fonction pour un usage manuel
+window.initFootableTable = initFootableTable;

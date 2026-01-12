@@ -20,8 +20,8 @@ final class FlotteurSegmentAdmin extends AbstractAdmin
             'class' => Flotteur::class,
             'choice_label' => 'nomFlotteur',
         ])
-            ->add('distanceDeDepart', NumberType::class)
-            ->add('pasFlotteur', NumberType::class)
+            ->add('distanceDeDepart')
+            ->add('pasFlotteur')
             ->add('nombre');
     }
 
@@ -31,8 +31,8 @@ final class FlotteurSegmentAdmin extends AbstractAdmin
             ->add('id')
             ->add('segment')
             ->add('flotteur')
-            ->add('distanceDeDepart', NumberType::class)
-            ->add('pasFlotteur', NumberType::class)
+            ->add('distanceDeDepart')
+            ->add('pasFlotteur')
             ->add('nombre');
     }
 
@@ -42,8 +42,8 @@ final class FlotteurSegmentAdmin extends AbstractAdmin
             ->addIdentifier('id')
             ->add('segment', null, ['associated_property' => 'nomSegment'])
             ->add('flotteur', null, ['associated_property' => 'nomFlotteur'])
-            ->add('distanceDeDepart', NumberType::class)
-            ->add('pasFlotteur', NumberType::class)
+            ->add('distanceDeDepart')
+            ->add('pasFlotteur')
             ->add('nombre');
     }
 

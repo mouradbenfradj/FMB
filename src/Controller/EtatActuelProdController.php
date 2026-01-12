@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Parc;
 use Twig\Environment;
-use App\Service\ParcCacheService;
+use App\Service\Cache\ParcCacheService;
 use App\Repository\ParcRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

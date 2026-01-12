@@ -2,26 +2,23 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Corde;
-use App\Entity\Emplacement;
-use App\Entity\Filiere;
-use App\Entity\Flotteur;
-use App\Entity\FlotteurSegment;
-use App\Entity\FruitDeMer;
-use App\Entity\Lanterne;
 use App\Entity\Parc;
+use App\Entity\Filiere;
 use App\Entity\Segment;
-use App\Entity\Stock;
-use App\Entity\StockCorde;
-use App\Entity\StockLanterne;
-use App\Service\ParcCacheService;
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
+use App\Entity\StockCorde;
+use App\Entity\Emplacement;
+use App\Entity\StockLanterne;
+use Doctrine\Common\EventSubscriber;
+use App\Service\Cache\ParcCacheService;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class ParcCacheDoctrineSubscriber implements EventSubscriber
 {
-    public function __construct(private ParcCacheService $parcCacheService) {}
+    public function __construct(private ParcCacheService $parcCacheService)
+    {
+        dd('ParcCacheDoctrineSubscriber');
+    }
 
     public function getSubscribedEvents(): array
     {

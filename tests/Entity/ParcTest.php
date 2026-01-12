@@ -2,10 +2,10 @@
 
 namespace App\Tests\Entity;
 
-use App\Entity\Corde;
-use App\Entity\Filiere;
 use App\Entity\Parc;
+use App\Entity\Corde;
 use App\Entity\Stock;
+use App\Entity\Filiere;
 use PHPUnit\Framework\TestCase;
 
 class ParcTest extends TestCase
@@ -91,7 +91,7 @@ class ParcTest extends TestCase
         $parc->addFiliere($filiere1);
         $parc->addFiliere($filiere2);
 
-        $this->assertEquals(2, count($parc->getFilieres()));
+        $this->assertEquals(2, $parc->getFilieres()->count());
     }
 
     public function testGetTotaleCordes()

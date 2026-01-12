@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\FiliereRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use App\Repository\FiliereRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: FiliereRepository::class)]
 class Filiere
@@ -41,71 +41,6 @@ class Filiere
         return $this->parc . '->' . $this->nomFiliere;
     }
 
-    public function getNombreEmplacements(): ?int
-    {
-        $nbr = 0;
-        foreach ($this->segments as $segment) {
-            $nbr += $segment->getNombreEmplacements();
-        }
-        return $nbr;
-    }
-
-    public function getTotaleCordes(): ?int
-    {
-        $nbr = 0;
-        foreach ($this->segments as $segment) {
-            $nbr += $segment->getTotaleCordes();
-        }
-        return $nbr;
-    }
-
-
-    public function getFlottabiliter(): float
-    {
-        $somme = 0;
-        foreach ($this->segments as $segment) {
-            $somme += $segment->getFlottabiliter();
-        }
-        if (!$somme) {
-            return 1;
-        }
-        return $somme;
-    }
-
-    public function getPoidCordes(): int
-    {
-        $somme = 0;
-        foreach ($this->segments as $segment)
-            $somme += $segment->getPoidCordes();
-        return $somme;
-    }
-    public function getVolumesTotale(): float
-    {
-        $somme = 0;
-        foreach ($this->segments as $segment) {
-            $somme += $segment->getVolumesTotale();
-        }
-        if (!$somme) {
-            return 1;
-        }
-        return $somme;
-    }
-    public function getNombreEmplacementsVide(): int
-    {
-        $somme = 0;
-        foreach ($this->segments as $segment) {
-            $somme += $segment->getNombreEmplacementsVide();
-        }
-        return $somme;
-    }
-    public function getNombreEmplacementsRemplit(): int
-    {
-        $somme = 0;
-        foreach ($this->segments as $segment) {
-            $somme += $segment->getTotaleCordes();
-        }
-        return $somme;
-    }
     public function __construct()
     {
         $this->segments = new ArrayCollection();
