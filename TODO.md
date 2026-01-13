@@ -1,5 +1,5 @@
-# TODO: Resolve Circular Reference in Mediator Pattern
-
-- [x] Modify ConcreteMediator constructor to remove setMediator calls on components
-- [x] Update MediateurService to set mediator on components after mediator creation
-- [x] Test the changes to ensure the pattern works correctly
+- [x] Modify EtatActuelProdController to add a new route /etatActuelProd/{parc}/data that returns JSON with filieres and their stats
+- [x] Update templates/etat_actuel_prod/etatActuelProd.html.twig to remove the include, add <tbody id="table-body"></tbody>
+- [x] Modify assets/js/pages/foo-tables.init.js to fetch data via AJAX, loop over filieres, generate row HTML, append to tbody, update progress bar text and width
+- [x] Handle the included templates in JS or simplify
+- [ ] Test the functionality

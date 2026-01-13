@@ -21,7 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    //.addEntry('etat_actuel_prod', './assets/etat_actuel_prod.js')
+    .addEntry('etat_actuel_prod', './assets/etat_actuel_prod.js')
 
     .enableStimulusBridge('./assets/controllers.json')
     .copyFiles({
