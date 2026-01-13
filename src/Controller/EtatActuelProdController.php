@@ -74,6 +74,7 @@ final class EtatActuelProdController extends AbstractController
                     'passageChaussette' => $segStats[13],
                     'poidCordes' => $segStats[14],
                     'volumesTotale' => $segStats[15],
+                    'emplacementHtml' => $this->renderView('emplacement/etat_actuel_prod.html.twig', ['segment' => $segment]),
                 ];
             }
             $filieresData[] = [

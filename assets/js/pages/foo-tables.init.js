@@ -396,6 +396,7 @@ function generateSegmentsHTML(segments) {
                         </tr>
                     </tbody>
                 </table>
+                ${segment.emplacementHtml || ''}
             </div>
         `;
     });
