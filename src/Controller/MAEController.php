@@ -3,19 +3,28 @@
 namespace App\Controller;
 
 use App\Entity\Parc;
+use Twig\Environment;
 use App\Form\MAECordeType;
 use App\Model\MAECordeModel;
+use App\Service\Cache\ParcCacheService;
 use App\Repository\StockCordeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\EmplacementRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Service\EtatActuelProd\EtatActuelProdService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/mae')]
 final class MAEController extends AbstractController
 {
+    public function __construct(
+        private ParcCacheService $parcCache,
+        private EtatActuelProdService $etatActuelProdService,
+        private Environment $twig,
+    ) {}
+
     #[Route('/corde/{parc}', name: 'app_m_a_e_corde')]
     public function index(
         Request $request,
@@ -41,12 +50,73 @@ final class MAEController extends AbstractController
             $request->getSession()->set('form_data', $formData);
             $request->getSession()->set('emplacements', $emplacements);
             return $this->redirectToRoute('app_m_a_e_corde_validation');
-            return $this->redirectToRoute('app_m_a_e_confirmation');
         }
 
+        // Build filieresData like EtatActuelProdController
+        $parcs = $this->parcCache->getAllParcsWithRelations();
+        $selectedParc = $this->parcCache->getParcFromCache($parc->getId(), $parcs);
+        if (!$selectedParc) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Set session and twig globals
+        $request->getSession()->set('selected_parc_id', $parc->getId());
+        $this->twig->addGlobal('parcs', $parcs);
+        $this->twig->addGlobal('parc', $selectedParc);
+        $this->twig->addGlobal('isAllParcs', false);
+
+        $filieresData = [];
+        foreach ($selectedParc->getFilieres() as $filiere) {
+            $stats = $this->etatActuelProdService->getFiliereArrayStat($filiere);
+            $segments = [];
+            foreach ($filiere->getSegments() as $segment) {
+                $segStats = $this->etatActuelProdService->getSegmentArrayStat($segment);
+                $segments[] = [
+                    'nomSegment' => $segment->getNomSegment(),
+                    'remplissage' => $segStats[1],
+                    'flottabiliter' => $segStats[2],
+                    'taille' => $segStats[3],
+                    'totalEmplacement' => $segStats[4],
+                    'emplacementVide' => $segStats[5],
+                    'emplacementRemplit' => $segStats[6],
+                    'totalCorde' => $segStats[7],
+                    'totalCordeHuitre' => $segStats[8],
+                    'totalCordeMoule' => $segStats[9],
+                    'totalCordeLanterne' => $segStats[10],
+                    'totalCordePoche' => $segStats[11],
+                    'dateDeMAE' => $segStats[12] ? $segStats[12]->format('Y-m-d') : null,
+                    'passageChaussette' => $segStats[13],
+                    'poidCordes' => $segStats[14],
+                    'volumesTotale' => $segStats[15],
+                    'emplacementHtml' => $this->renderView('emplacement/mae.html.twig', ['segment' => $segment]),
+                ];
+            }
+            $filieresData[] = [
+                'id' => $filiere->getId(),
+                'nomFiliere' => $filiere->getNomFiliere(),
+                'ref' => $stats[0],
+                'remplissage' => $stats[1],
+                'flottabiliter' => $stats[2],
+                'taille' => $stats[3],
+                'totalEmplacement' => $stats[4],
+                'emplacementVide' => $stats[5],
+                'emplacementRemplit' => $stats[6],
+                'totalCorde' => $stats[7],
+                'totalCordeHuitre' => $stats[8],
+                'totalCordeMoule' => $stats[9],
+                'totalCordeLanterne' => $stats[10],
+                'totalCordePoche' => $stats[11],
+                'dateDeMAE' => $stats[12] ? $stats[12]->format('Y-m-d') : null,
+                'passageChaussette' => $stats[13],
+                'poidCordes' => $stats[14],
+                'volumesTotale' => $stats[15],
+                'segments' => $segments,
+            ];
+        }
 
         return $this->render('mae/index.html.twig', [
-            'parc' => $parc,
+            'filieresJson' => json_encode($filieresData),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -61,6 +131,14 @@ final class MAEController extends AbstractController
         $formData = $request->getSession()->get('form_data');
         $emplacementsIds = $request->getSession()->get('emplacements');
         $parc = $request->getSession()->get('parc');
+
+        // Set session for nav
+        $request->getSession()->set('selected_parc_id', $parc->getId());
+        $parcs = $this->parcCache->getAllParcsWithRelations();
+        $selectedParc = $this->parcCache->getParcFromCache($parc->getId(), $parcs);
+        $this->twig->addGlobal('parcs', $parcs);
+        $this->twig->addGlobal('parc', $selectedParc);
+        $this->twig->addGlobal('isAllParcs', false);
 
         // Vérifier si les données existent
         if (!$formData || !$emplacementsIds) {

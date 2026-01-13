@@ -11,7 +11,7 @@ use Symfony\Contracts\Cache\CacheInterface;
 class ParcCacheService
 {
     // Incrémente la version de la clé quand la structure des données change
-    private const CACHE_KEY_ALL_PARCS = 'parcs_data_v4';
+    private const CACHE_KEY_ALL_PARCS = 'parcs_data_v5';
     private const CACHE_DURATION = 7200; // 2 heures
 
     public function __construct(
@@ -26,13 +26,15 @@ class ParcCacheService
             $item->expiresAfter(self::CACHE_DURATION);
 
             $result = $this->parcRepository->createQueryBuilder('p')
-                ->select('p', 'f', 'seg', 'fs', 'e', 'sc', 'sl', 'c', 's', 'l')
+                ->select('p', 'f', 'seg', 'fs', 'fl', 'e', 'sc', 'sl', 'c', 's', 'l')
                 // Parc → Filières
                 ->leftJoin('p.filieres', 'f')
                 // Filière → Segments
                 ->leftJoin('f.segments', 'seg')
                 // Segment → FlotteurSegments
                 ->leftJoin('seg.flotteurSegments', 'fs')
+                // FlotteurSegment → Flotteur
+                ->leftJoin('fs.flotteur', 'fl')
                 // Segment → Emplacements
                 ->leftJoin('seg.emplacements', 'e')
                 // Emplacement → Stocks

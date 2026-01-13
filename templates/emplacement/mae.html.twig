@@ -1,4 +1,4 @@
-<table data-reveal-target="item" class="d-none mt-4" class="table table-striped mb-0">
+<table data-reveal-target="item" class="d-none mt-4" class="table table-striped mb-0" width="100%">
 	<tbody>
 		{% set distanceSurSegment = 0 %}
 		{% set distance10Emplacement = 0 %}
@@ -32,7 +32,44 @@
 						<input type="checkbox" name="emplacement[]" value="{{ emplacement.id }}" form="mae_corde"/>
 					{% else %}
 						{% for stockCorde in emplacement.stockCordes %}
-							<br>{{ stockCorde.id }}
+							<br>corde id:
+							{{ stockCorde.id }}<br>quantiter:
+							{{ stockCorde.quantiter }}
+							<br>dateMAE:{{ stockCorde.dateDeMiseAEau|date('d/m/Y') }}
+							<br>age précis:
+							{{ stockCorde.dateDeMiseAEau|age_en_mois }}
+							mois
+							<br>taille corde:{{ stockCorde.corde.longeur }}
+							{% set age = stockCorde.dateDeMiseAEau|age_en_mois  %}
+							{% set longeur = stockCorde.corde.longeur %}
+							{% set quantiter = stockCorde.quantiter %}
+
+							<table>
+								<tr>
+									<td>Unités par KG:</td>
+									<td>{{ moule_col_j(age) }}</td>
+								</tr>
+								<tr>
+									<td>Poids unitaire:</td>
+									<td>{{ moule_col_k(age) }}
+										g</td>
+								</tr>
+								<tr>
+									<td>Survie (u/m):</td>
+									<td>{{ moule_col_l(age, quantiter) }}
+										u</td>
+								</tr>
+								<tr>
+									<td>Poids net:</td>
+									<td>{{ moule_col_o(age, longeur, quantiter) }}
+										KG</td>
+								</tr>
+								<tr>
+									<td>Poids brut:</td>
+									<td>{{ moule_col_p(age, longeur, quantiter) }}
+										KG</td>
+								</tr>
+							</table>
 						{% endfor %}
 					{% endif %}
 				</td>

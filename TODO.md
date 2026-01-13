@@ -1,5 +1,6 @@
-- [x] Modify EtatActuelProdController to add a new route /etatActuelProd/{parc}/data that returns JSON with filieres and their stats
-- [x] Update templates/etat_actuel_prod/etatActuelProd.html.twig to remove the include, add <tbody id="table-body"></tbody>
-- [x] Modify assets/js/pages/foo-tables.init.js to fetch data via AJAX, loop over filieres, generate row HTML, append to tbody, update progress bar text and width
-- [x] Handle the included templates in JS or simplify
-- [ ] Test the functionality
+- [x] Modify MAEController to add ParcCacheService and EtatActuelProdService dependencies
+- [x] Update index method to build filieresData and render mae/index.html.twig with form
+- [x] Modify mae/index.html.twig to include dynamic table and form rendering
+- [x] Modify emplacement/mae.html.twig to add checkboxes for empty emplacements
+- [x] Fix nav URL generation by setting session and twig globals in validation method
+- [] Test the functionality
