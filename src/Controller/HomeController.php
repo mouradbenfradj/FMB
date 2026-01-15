@@ -14,9 +14,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomeController extends AbstractController
 {
 
+    #[Route('/')]
     #[Route('/{parc}', name: 'app_home', defaults: ['parc' => null])]
-    public function index(Request $request, ParcEnchiffreService $parcEnchiffreService, StockCordeRepository $stockCordeRepo, CordeRepository $cordeRepository, ?int $parc = null): Response
-    {
+    public function index(
+        Request $request,
+        ParcEnchiffreService $parcEnchiffreService,
+        ?int $parc = null
+    ): Response {
         // Récupérer le parc ID depuis la requête (session, paramètre, etc.)
         $parcId = $request->getSession()->get('selected_parc_id');
 

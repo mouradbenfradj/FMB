@@ -1,0 +1,43 @@
+<table class="table table-striped mb-0" width="100%">
+	<tbody>
+		{% set distanceSurSegment = 0 %}
+		{% set distance10Emplacement = 0 %}
+		{% for emplacement in segment.emplacements %}
+			{% if loop.index0 % 10 == 0 %}
+				{% set distance10Emplacement = distanceSurSegment + (segment.pasEmplacement * 10) %}
+				<tr>
+					<td>
+						{% for flotteur in segment.flotteurSegments %}
+							{% set distanceDeDepart = flotteur.distanceDeDepart %}
+							{% for i in range(1, flotteur.nombre) %}
+								{% if distanceDeDepart >= distanceSurSegment and distanceDeDepart < distance10Emplacement %}
+									<span>
+										<b>{{ flotteur.flotteur.nomFlotteur }}</b>
+										distance:
+										{{ distanceDeDepart }}
+										volume:
+										{{ flotteur.flotteur.volume }}
+										kgf:
+										{{ flotteur.flotteur.kgf }}
+										<br/>
+									</span>
+								{% endif %}
+								{% set distanceDeDepart = flotteur.distanceDeDepart + (i * flotteur.pasFlotteur) %}
+							{% endfor %}
+						{% endfor %}
+					</td>
+				{% endif %}
+				<td>{{ emplacement.place }}
+					{% if emplacement.stockMateriel is null %}
+						<!-- Destination -->
+						<input type="checkbox" name="destination[]" value="{{ emplacement.id }}"/>
+						<span>Destination</span>
+					{% endif %}
+				</td>
+				{% if loop.index0 % 10 == 9 or loop.last %}
+					{% set distanceSurSegment = distanceSurSegment + (segment.pasEmplacement * 10) %}
+				</tr>
+			{% endif %}
+		{% endfor %}
+	</tbody>
+</table>

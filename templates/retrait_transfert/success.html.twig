@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transfert Réussi
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-12">
+				<div class="alert alert-success">
+					<h4 class="alert-heading">Opération réussie !</h4>
+					<p>Le transfert des matériaux a été effectué avec succès.</p>
+					<hr>
+					<p class="mb-0">
+						<a href="{{ path('app_retrait_transfert', {'parc': parc.id}) }}" class="btn btn-primary">
+							Effectuer un autre transfert
+						</a>
+						<a href="{{ path('app_home') }}" class="btn btn-secondary">
+							Retour à l'accueil
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

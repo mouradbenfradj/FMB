@@ -15,6 +15,9 @@
 {% block body %}
 	<div class="row">
 		<div class="col-sm-12">
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-danger">{{ message }}</div>
+			{% endfor %}
 			<div class="card-box">
 				<h4>Retrait Transfert</h4>
 				<p>Sélectionnez les emplacements sources (remplis) et destinations (vides) pour le transfert.</p>

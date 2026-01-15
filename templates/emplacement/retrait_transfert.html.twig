@@ -30,7 +30,7 @@
 				<td>{{ emplacement.place }}
 					{% if emplacement.stockMateriel is not null %}
 						<!-- Source -->
-						<input type="checkbox" name="source[]" value="{{ emplacement.id }}" form="retrait_transfert"/>
+						<input type="checkbox" name="source[]" value="{{ emplacement.id }}"/>
 						<span>Source</span>
 						{% set stockMateriel = emplacement.stockMateriel %}
 						{% if stockMateriel.corde is defined %}
@@ -74,10 +74,6 @@
 								</tr>
 							</table>
 						{% endif %}
-					{% else %}
-						<!-- Destination -->
-						<input type="checkbox" name="destination[]" value="{{ emplacement.id }}" form="retrait_transfert"/>
-						<span>Destination</span>
 					{% endif %}
 				</td>
 				{% if loop.index0 % 10 == 9 or loop.last %}

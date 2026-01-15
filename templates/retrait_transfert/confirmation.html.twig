@@ -1,24 +1,172 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Confirmation Retrait Transfert
+{% block title %}Confirmation du Transfert
 {% endblock %}
 
 {% block body %}
 	<div class="container mt-4">
 		<div class="row">
 			<div class="col-12">
-				<div class="alert alert-success">
-					<h4 class="alert-heading">Opération réussie !</h4>
-					<p>Le transfert des matériaux a été effectué avec succès.</p>
-					<hr>
-					<p class="mb-0">
-						<a href="{{ path('app_retrait_transfert', {'parc': app.request.session.get('selected_parc_id', 0)}) }}" class="btn btn-primary">
-							Effectuer un autre transfert
-						</a>
-						<a href="{{ path('app_home') }}" class="btn btn-secondary">
-							Retour à l'accueil
-						</a>
-					</p>
+				<h1 class="mb-4">Confirmation du Transfert</h1>
+
+				{% for message in app.flashes('error') %}
+					<div class="alert alert-danger">{{ message }}</div>
+				{% endfor %}
+
+				<!-- Carte de résumé -->
+				<div class="card mb-4">
+					<div class="card-header bg-primary text-white">
+						<h5 class="mb-0">Résumé de l'opération</h5>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-6">
+								<h6>Statistiques</h6>
+								<ul class="list-unstyled">
+									<li>
+										<strong>Nombre de sources :</strong>
+										{{ sourcesCount }}</li>
+									<li>
+										<strong>Nombre de destinations :</strong>
+										{{ destinationsCount }}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Vérification de correspondance -->
+				{% if sourcesCount != destinationsCount %}
+					<div class="alert alert-warning">
+						<strong>Attention :</strong>
+						Le nombre de sources ({{ sourcesCount }}) ne correspond pas au nombre de destinations ({{ destinationsCount }}).
+					</div>
+				{% else %}
+					<div class="alert alert-success">
+						<strong>Parfait :</strong>
+						Le nombre de sources correspond au nombre de destinations.
+					</div>
+				{% endif %}
+
+				<!-- Détails des sources -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<h5 class="mb-0">Emplacements sources</h5>
+					</div>
+					<div class="card-body">
+						{% if sources|length > 0 %}
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>ID Emplacement</th>
+											<th>Place</th>
+											<th>Localisation</th>
+											<th>Matériel</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for emplacement in sources %}
+											<tr>
+												<td>{{ loop.index }}</td>
+												<td>{{ emplacement.id }}</td>
+												<td>{{ emplacement.place }}</td>
+												<td>{{ emplacement.segment.filiere.nomFiliere }}->{{ emplacement.segment.nomSegment }}</td>
+												<td>
+													{% if emplacement.stockMateriel %}
+														{% if emplacement.stockMateriel.corde is defined %}
+															Corde
+															{{ emplacement.stockMateriel.id }}
+														{% elseif emplacement.stockMateriel.lanterne is defined %}
+															Lanterne
+															{{ emplacement.stockMateriel.id }}
+														{% else %}
+															Inconnu
+														{% endif %}
+													{% else %}
+														Vide
+													{% endif %}
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						{% else %}
+							<p class="text-muted">Aucune source sélectionnée.</p>
+						{% endif %}
+					</div>
+				</div>
+
+				<!-- Détails des destinations -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<h5 class="mb-0">Emplacements destinations</h5>
+					</div>
+					<div class="card-body">
+						{% if destinations|length > 0 %}
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>ID Emplacement</th>
+											<th>Place</th>
+											<th>Localisation</th>
+											<th>Statut</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for emplacement in destinations %}
+											<tr>
+												<td>{{ loop.index }}</td>
+												<td>{{ emplacement.id }}</td>
+												<td>{{ emplacement.place }}</td>
+												<td>{{ emplacement.segment.filiere.nomFiliere }}->{{ emplacement.segment.nomSegment }}</td>
+												<td>
+													{% if emplacement.stockMateriel %}
+														Occupé
+													{% else %}
+														Vide
+													{% endif %}
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						{% else %}
+							<p class="text-muted">Aucune destination sélectionnée.</p>
+						{% endif %}
+					</div>
+				</div>
+
+				<!-- Formulaire de confirmation -->
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Confirmation</h5>
+						<p class="card-text">
+							Vérifiez attentivement les informations ci-dessus. Une fois confirmé, les matériaux seront transférés des sources vers les destinations.
+						</p>
+
+						<form method="post" action="{{ path('app_retrait_transfert_confirmation', {'parc': parc.id}) }}">
+							<input type="hidden" name="confirm" value="1">
+
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								<a href="{{ path('app_retrait_transfert_validation', {'parc': parc.id}) }}" class="btn btn-secondary me-md-2">
+									<i class="fas fa-arrow-left"></i>
+									Retour à la sélection des destinations
+								</a>
+
+								<button type="submit" class="btn btn-success">
+									<i class="fas fa-check"></i>
+									Confirmer le transfert
+								</button>
+
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

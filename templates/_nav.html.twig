@@ -56,7 +56,7 @@
 										<i class="mdi mdi-chevron-down"></i>
 									</button>
 									<div class="dropdown-menu" aria-labelledby="retrait">
-										<a href="{{ path('app_retrait_transfert', {'parc': app.request.session.get('selected_parc_id', 0)}) }}" class="dropdown-item">Retrait Transfert</a>
+										<a href="{{ path('app_retrait_transfert', {'parc': parc.id}) }}" class="dropdown-item">Retrait Transfert</a>
 										<a href="ui-progress.html" class="dropdown-item">Retrait AW Lanternes</a>
 										<a href="ui-progress.html" class="dropdown-item">Retrait AW Cordes</a>
 									</div>
