@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Entity\Segment;
-use App\Entity\StockCorde;
+use App\Entity\StockMateriel;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -22,9 +22,7 @@ final class EmplacementAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('place')
-            ->add('segment', null, ['associated_property' => 'nomSegment'])
-            ->add('stockCordes')
-            ->add('stockLanternes');
+            ->add('segment', null, ['associated_property' => 'nomSegment']);
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -33,8 +31,7 @@ final class EmplacementAdmin extends AbstractAdmin
             ->addIdentifier('id')
             ->add('place')
             ->add('segment', null, ['associated_property' => 'nomSegment'])
-            ->add('stockCordes')
-            ->add('stockLanternes')
+            ->add('stockMateriel')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -51,17 +48,6 @@ final class EmplacementAdmin extends AbstractAdmin
             ->add('segment', EntityType::class, [
                 'class' => Segment::class,
                 'choice_label' => 'nomSegment',
-            ])
-            ->add('stockCordes', CollectionType::class, [
-                // each entry in the array will be an "email" field
-                'entry_type' => EntityType::class,
-                // these options are passed to each "email" type
-                'entry_options' => [
-                    'class' => StockCorde::class,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
             ]);
     }
 

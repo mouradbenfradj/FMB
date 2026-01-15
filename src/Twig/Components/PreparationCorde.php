@@ -11,6 +11,7 @@ use App\Entity\StockArticle;
 use App\Entity\StockArticleSn;
 use App\Form\PreparationCordeType;
 use App\Model\PreparationCordeModel;
+use App\Service\Materiel\CordeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -18,6 +19,7 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Service\TravailleAFaire\TravailleAFaireService;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -26,8 +28,18 @@ final class PreparationCorde extends AbstractController
 {
     use ComponentWithFormTrait;
     use DefaultActionTrait;
+    private TravailleAFaireService $travailleAFaireService;
+    private CordeService $cordeService;
 
-    public function __construct(private EntityManagerInterface $entityManager) {}
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        CordeService $cordeService,
+        TravailleAFaireService $travailleAFaireService
+
+    ) {
+        $this->cordeService = $cordeService;
+        $this->travailleAFaireService = $travailleAFaireService;
+    }
 
     #[LiveProp()]
     public ?Parc $parc = null;
@@ -70,18 +82,9 @@ final class PreparationCorde extends AbstractController
         $model = $this->getForm()->getData();
 
         if ($this->getForm()->isSubmitted() && $this->getForm()->isValid()) {
-            for ($i = 0; $i < $model->getNombre(); $i++) {
-                $stockCorde = new StockCorde();
-                $stockCorde->setCorde($model->getCorde());
-                $stockCorde->setStockArticleSn($model->getLot());
-                $stockCorde->setLongeur($model->getLongeur());
-                $stockCorde->setDatedecreation($model->getDatedecreation());
-                $stockCorde->setLongeur($model->getLongeur());
-                $stockCorde->setQuantiter($model->getDensite());
-                $this->entityManager->persist($stockCorde);
-                $model->getCorde()->setQuantiter($model->getCorde()->getQuantiter() - $model->getNombre());
-                $this->entityManager->persist($model->getCorde());
-            }
+
+            $this->travailleAFaireService->executePreparation($this->cordeService, $model);
+
             $this->addFlash('success', 'Your changes were saved!');
             $this->entityManager->flush();
 

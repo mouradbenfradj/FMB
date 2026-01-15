@@ -3,24 +3,18 @@
 namespace App\Entity;
 
 use App\Entity\Corde;
-use App\Entity\Emplacement;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\StockArticleSn;
 use Doctrine\DBAL\Types\Types;
 use App\Service\MouleCalculator;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\StockCordeRepository;
 
 #[ORM\Entity(repositoryClass: StockCordeRepository::class)]
+#[ORM\DiscriminatorValue('corde')]
 //#[ApiResource]
-class StockCorde
+class StockCorde extends StockMateriel
 {
     private ?MouleCalculator $mouleCalculator = null; // Rendez-le nullable
-
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
     #[ORM\Column]
     private ?int $quantiter = null;
@@ -29,33 +23,8 @@ class StockCorde
     private ?float $longeur = null;
 
     #[ORM\ManyToOne(inversedBy: 'stockCordes')]
-    private ?Emplacement $emplacement = null;
-
-    #[ORM\ManyToOne(inversedBy: 'stockCordes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Corde $corde = null;
-
-    #[ORM\ManyToOne(inversedBy: 'stockCordes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?StockArticleSn $stockArticleSn = null;
-
-    #[ORM\Column]
-    private ?bool $pret = false;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $datedecreation = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $datederetirement = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $datederetraittransfert = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $datedemaetransfert = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateDeMiseAEau = null;
 
     #[ORM\Column]
     private ?bool $chaussement = false;
@@ -69,11 +38,6 @@ class StockCorde
     public function __toString()
     {
         return $this->corde->getNom();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getQuantiter(): ?int
@@ -108,18 +72,6 @@ class StockCorde
         return $this;
     }
 
-    public function getEmplacement(): ?Emplacement
-    {
-        return $this->emplacement;
-    }
-
-    public function setEmplacement(?Emplacement $emplacement): static
-    {
-        $this->emplacement = $emplacement;
-
-        return $this;
-    }
-
     public function getCorde(): ?Corde
     {
         return $this->corde;
@@ -128,90 +80,6 @@ class StockCorde
     public function setCorde(?Corde $corde): static
     {
         $this->corde = $corde;
-
-        return $this;
-    }
-
-    public function getStockArticleSn(): ?StockArticleSn
-    {
-        return $this->stockArticleSn;
-    }
-
-    public function setStockArticleSn(?StockArticleSn $stockArticleSn): static
-    {
-        $this->stockArticleSn = $stockArticleSn;
-
-        return $this;
-    }
-
-    public function isPret(): ?bool
-    {
-        return $this->pret;
-    }
-
-    public function setPret(bool $pret): static
-    {
-        $this->pret = $pret;
-
-        return $this;
-    }
-
-    public function getDatedecreation(): ?\DateTimeInterface
-    {
-        return $this->datedecreation;
-    }
-
-    public function setDatedecreation(\DateTimeInterface $datedecreation): static
-    {
-        $this->datedecreation = $datedecreation;
-
-        return $this;
-    }
-
-    public function getDatederetirement(): ?\DateTimeInterface
-    {
-        return $this->datederetirement;
-    }
-
-    public function setDatederetirement(?\DateTimeInterface $datederetirement): static
-    {
-        $this->datederetirement = $datederetirement;
-
-        return $this;
-    }
-
-    public function getDatederetraittransfert(): ?\DateTimeInterface
-    {
-        return $this->datederetraittransfert;
-    }
-
-    public function setDatederetraittransfert(?\DateTimeInterface $datederetraittransfert): static
-    {
-        $this->datederetraittransfert = $datederetraittransfert;
-
-        return $this;
-    }
-
-    public function getDatedemaetransfert(): ?\DateTimeInterface
-    {
-        return $this->datedemaetransfert;
-    }
-
-    public function setDatedemaetransfert(?\DateTimeInterface $datedemaetransfert): static
-    {
-        $this->datedemaetransfert = $datedemaetransfert;
-
-        return $this;
-    }
-
-    public function getDateDeMiseAEau(): ?\DateTimeInterface
-    {
-        return $this->dateDeMiseAEau;
-    }
-
-    public function setDateDeMiseAEau(?\DateTimeInterface $dateDeMiseAEau): static
-    {
-        $this->dateDeMiseAEau = $dateDeMiseAEau;
 
         return $this;
     }

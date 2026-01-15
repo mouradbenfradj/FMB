@@ -22,6 +22,7 @@ final class PreparationController extends AbstractController
     private TravailleAFaireService $travailleAFaireService;
     private EntityManagerInterface $entityManager;
     private CordeService $cordeService;
+    private LanterneService $lanterneService;
 
     public function __construct(
         ParcCacheService $parcCacheService,
@@ -58,6 +59,7 @@ final class PreparationController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //$this->travailleAFaireService->setStrategy($this->cordeService);
+          
             $this->travailleAFaireService->executePreparation($this->cordeService, $model);
 
             $this->addFlash(

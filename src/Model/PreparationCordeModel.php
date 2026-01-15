@@ -2,12 +2,12 @@
 
 namespace App\Model;
 
+use DateTime;
 use App\Entity\Corde;
-use App\Entity\FruitDeMer;
 use App\Entity\Stock;
+use App\Entity\FruitDeMer;
 use App\Entity\StockArticle;
 use App\Entity\StockArticleSn;
-use DateTime;
 
 class PreparationCordeModel
 {
@@ -24,6 +24,7 @@ class PreparationCordeModel
     private ?StockArticleSn $lot = null;
 
     private ?string $nombre = null;
+
 
     public function getSubmit(): ?string
     {

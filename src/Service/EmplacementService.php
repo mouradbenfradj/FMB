@@ -2,11 +2,19 @@
 
 namespace App\Service;
 
+use App\Entity\StockCorde;
 use App\Entity\Emplacement;
+use App\Entity\StockLanterne;
+use App\Service\MouleCalculator;
 
 class EmplacementService
 {
     private Emplacement $emplacement;
+    private MouleCalculator $mouleCalculator;
+    public function __construct(MouleCalculator $mouleCalculator)
+    {
+        $this->mouleCalculator = $mouleCalculator;
+    }
     public function setEmplacementToService(Emplacement $emplacement): void
     {
         $this->emplacement = $emplacement;
@@ -14,17 +22,25 @@ class EmplacementService
 
     public function isEmpty(): bool
     {
-        return $this->emplacement->getStockCordes()->count() === 0 && $this->emplacement->getStockLanternes()->count() === 0;
+        return $this->emplacement->getStockMateriel() ? true : false;
     }
     public function haseCorde(): bool
     {
+        $stockMateriel = $this->emplacement->getStockMateriel();
 
-        return $this->emplacement->getStockCordes()->count() > 0 ? true : false;
+        if ($stockMateriel instanceof StockCorde) {
+            return true;
+        }
+        return false;
     }
     public function haseLanterne(): bool
     {
+        $stockMateriel = $this->emplacement->getStockMateriel();
 
-        return $this->emplacement->getStockLanternes()->count() > 0 ? true : false;
+        if ($stockMateriel instanceof StockLanterne) {
+            return true;
+        }
+        return false;
     }
     public function hasePoche(): bool
     {
@@ -34,24 +50,42 @@ class EmplacementService
     }
     public function haseCordeHuitre(): bool
     {
-        if ($this->emplacement->getStockCordes()->count() > 0) {
-            $stockCorde = $this->emplacement->getStockCordes()[0];
-            if ($stockCorde && $stockCorde->getStockArticleSn() && $stockCorde->getStockArticleSn()->getStockArticle() && $stockCorde->getStockArticleSn()->getStockArticle()->getArticles() && $stockCorde->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()) {
-                dump(strtoupper($stockCorde->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()));
-                return strtoupper($stockCorde->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()) == 'HUîTRE';
+        $stockMateriel = $this->emplacement->getStockMateriel();
+
+        if ($stockMateriel instanceof StockCorde) {
+            if ($stockMateriel->getStockArticleSn() && $stockMateriel->getStockArticleSn()->getStockArticle() && $stockMateriel->getStockArticleSn()->getStockArticle()->getArticles() && $stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()) {
+                dump(strtoupper($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()));
+                return strtoupper($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()) == 'HUîTRE';
             }
         }
         return false;
     }
     public function haseCordeMoule(): bool
     {
-        if ($this->emplacement->getStockCordes()->count() > 0) {
-            $stockCorde = $this->emplacement->getStockCordes()[0];
-            if ($stockCorde && $stockCorde->getStockArticleSn() && $stockCorde->getStockArticleSn()->getStockArticle() && $stockCorde->getStockArticleSn()->getStockArticle()->getArticles() && $stockCorde->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()) {
-                dump($stockCorde->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom());
-                return strtoupper($stockCorde->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()) == 'MOULE';
+        $stockMateriel = $this->emplacement->getStockMateriel();
+
+        if ($stockMateriel instanceof StockCorde) {
+            if ($stockMateriel->getStockArticleSn() && $stockMateriel->getStockArticleSn()->getStockArticle() && $stockMateriel->getStockArticleSn()->getStockArticle()->getArticles() && $stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()) {
+                dump($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom());
+                return strtoupper($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()) == 'MOULE';
             }
         }
         return false;
+    }
+
+    public function getPoidPlace(): float
+    {
+        $poids = 0;
+        $stockMateriel =  $this->emplacement->getStockMateriel();
+
+        if ($stockMateriel instanceof StockCorde) {
+            dump($stockMateriel->getQuantiter());
+            dump($stockMateriel->getLongeur());
+            dump($this->mouleCalculator->calculateAllColumns(0, $stockMateriel->getLongeur(), $stockMateriel->getQuantiter()));
+            dump($this->mouleCalculator->calculateAllColumns(1, $stockMateriel->getLongeur(), $stockMateriel->getQuantiter()));
+            dd($stockMateriel);
+        }
+
+        return 0;
     }
 }

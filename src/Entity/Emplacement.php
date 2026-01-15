@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\EmplacementRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Segment;
+use App\Entity\StockCorde;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\StockMateriel;
+use App\Repository\EmplacementRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: EmplacementRepository::class)]
 class Emplacement
@@ -22,23 +25,10 @@ class Emplacement
     #[ORM\JoinColumn(nullable: false)]
     private ?Segment $segment = null;
 
-    /**
-     * @var Collection<int, StockCorde>
-     */
-    #[ORM\OneToMany(targetEntity: StockCorde::class, mappedBy: 'emplacement')]
-    private Collection $stockCordes;
+    #[ORM\OneToOne(targetEntity: StockMateriel::class, mappedBy: 'emplacement')]
+    private ?StockMateriel $stockMateriel = null;
 
-    /**
-     * @var Collection<int, StockLanterne>
-     */
-    #[ORM\OneToMany(targetEntity: StockLanterne::class, mappedBy: 'emplacement')]
-    private Collection $stockLanternes;
 
-    public function __construct()
-    {
-        $this->stockCordes = new ArrayCollection();
-        $this->stockLanternes = new ArrayCollection();
-    }
 
     public function __toString(): string
     {
@@ -73,63 +63,28 @@ class Emplacement
         return $this;
     }
 
-    /**
-     * @return Collection<int, StockCorde>
-     */
-    public function getStockCordes(): Collection
+    public function getStockMateriel(): ?StockMateriel
     {
-        return $this->stockCordes;
+        return $this->stockMateriel;
     }
 
-    public function addStockCorde(StockCorde $stockCorde): static
+    public function setStockMateriel(?StockMateriel $stockMateriel): static
     {
-        if (!$this->stockCordes->contains($stockCorde)) {
-            $this->stockCordes->add($stockCorde);
-            $stockCorde->setEmplacement($this);
-        }
+        $this->stockMateriel = $stockMateriel;
 
         return $this;
     }
 
-    public function removeStockCorde(StockCorde $stockCorde): static
+    public function getMateriels(): string
     {
-        if ($this->stockCordes->removeElement($stockCorde)) {
-            // set the owning side to null (unless already changed)
-            if ($stockCorde->getEmplacement() === $this) {
-                $stockCorde->setEmplacement(null);
-            }
-        }
-
-        return $this;
+        return $this->stockMateriel ? $this->stockMateriel->__toString() : '';
     }
 
-    /**
-     * @return Collection<int, StockLanterne>
-     */
-    public function getStockLanternes(): Collection
+    public function getStockCordes(): array
     {
-        return $this->stockLanternes;
-    }
-
-    public function addStockLanterne(StockLanterne $stockLanterne): static
-    {
-        if (!$this->stockLanternes->contains($stockLanterne)) {
-            $this->stockLanternes->add($stockLanterne);
-            $stockLanterne->setEmplacement($this);
+        if ($this->stockMateriel instanceof StockCorde) {
+            return [$this->stockMateriel];
         }
-
-        return $this;
-    }
-
-    public function removeStockLanterne(StockLanterne $stockLanterne): static
-    {
-        if ($this->stockLanternes->removeElement($stockLanterne)) {
-            // set the owning side to null (unless already changed)
-            if ($stockLanterne->getEmplacement() === $this) {
-                $stockLanterne->setEmplacement(null);
-            }
-        }
-
-        return $this;
+        return [];
     }
 }

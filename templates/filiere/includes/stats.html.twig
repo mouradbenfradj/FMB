@@ -6,6 +6,8 @@
 	{% set classRouge = "bg-danger" %}
 	{% set classVert = " bg-success" %}
 {% endif %}
+{{ dump(vert) }}
+
 <div class="progress mb-0">
 	<div class="progress-bar  progress-bar-striped {{classRouge}}" role="danger" style="width: {{ (100 - vert)|round }}%" aria-valuenow="{{ (100 - vert)|round }}" aria-valuemin="0" aria-valuemax="100">
 		{{ (100 - vert)|round }}

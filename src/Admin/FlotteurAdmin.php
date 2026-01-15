@@ -26,13 +26,13 @@ final class FlotteurAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
-        $datagrid->add('id',  FieldDescriptionInterface::TYPE_FLOAT)
-            ->add('nomFlotteur', FieldDescriptionInterface::TYPE_STRING)
-            ->add('volume', FieldDescriptionInterface::TYPE_FLOAT, [
+        $datagrid->add('id',)
+            ->add('nomFlotteur')
+            ->add('volume', null, [
                 'label' => 'Volume (L)',
             ])
-            ->add('kgf', FieldDescriptionInterface::TYPE_FLOAT)
-            ->add('taux', FieldDescriptionInterface::TYPE_FLOAT);;
+            ->add('kgf')
+            ->add('taux');;
     }
 
     protected function configureListFields(ListMapper $list): void

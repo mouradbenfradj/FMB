@@ -24,6 +24,7 @@
 					</th>
 					<td>
 						{% set rouge = etat.totalEmplacement > 0 ? ((etat.totalCorde / etat.totalEmplacement) * 100)|round : 0 %}
+						{{ dump(rouge) }}
 
 						<div class="progress mb-0">
 							<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
@@ -69,6 +70,7 @@
 					</th>
 					<td>
 						{% set vert = etat.flottabiliter > 0 ? ((etat.flottabiliter - etat.poidCordes)/etat.flottabiliter *100) : 0 %}
+						{{ dump(vert) }}
 						{% if vert < 0 %}
 							{% set classRouge = "bg-warning" %}
 							{% set classVert = " bg-info" %}
@@ -76,6 +78,7 @@
 							{% set classRouge = "bg-danger" %}
 							{% set classVert = " bg-success" %}
 						{% endif %}
+						{{ dump(vert) }}
 						<div class="progress mb-0">
 							<div class="progress-bar  progress-bar-striped {{classRouge}}" role="danger" style="width: {{ (100 - vert)|round }}%" aria-valuenow="{{ (100 - vert)|round }}" aria-valuemin="0" aria-valuemax="100">
 								{{ (100 - vert)|round }}

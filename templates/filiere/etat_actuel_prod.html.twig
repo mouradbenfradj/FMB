@@ -5,6 +5,8 @@
 		</td>
 		<td>
 			{% set rouge = etat.remplissage|round %}
+			{{ dump(rouge) }}
+
 			<div class="progress mb-0">
 				<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
 					{{rouge}}

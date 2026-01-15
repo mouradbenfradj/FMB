@@ -52,6 +52,7 @@ class StockCordeRepository extends ServiceEntityRepository
             ->where('sc.pret = :pret')
             ->andWhere('sc.emplacement IS NOT NULL')
             ->andWhere('sc.dateDeMiseAEau IS NOT NULL')
+            ->andWhere('sc.datedecreation IS NOT NULL')
             ->setParameter('pret', false);
 
         if ($parcId !== 0) {
