@@ -54,7 +54,7 @@ class EmplacementService
 
         if ($stockMateriel instanceof StockCorde) {
             if ($stockMateriel->getStockArticleSn() && $stockMateriel->getStockArticleSn()->getStockArticle() && $stockMateriel->getStockArticleSn()->getStockArticle()->getArticles() && $stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()) {
-                dump(strtoupper($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()));
+                //dump(strtoupper($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()));
                 return strtoupper($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()) == 'HUîTRE';
             }
         }
@@ -66,7 +66,7 @@ class EmplacementService
 
         if ($stockMateriel instanceof StockCorde) {
             if ($stockMateriel->getStockArticleSn() && $stockMateriel->getStockArticleSn()->getStockArticle() && $stockMateriel->getStockArticleSn()->getStockArticle()->getArticles() && $stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()) {
-                dump($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom());
+                //dump($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom());
                 return strtoupper($stockMateriel->getStockArticleSn()->getStockArticle()->getArticles()->getFruitDeMer()->getNom()) == 'MOULE';
             }
         }
@@ -79,11 +79,11 @@ class EmplacementService
         $stockMateriel =  $this->emplacement->getStockMateriel();
 
         if ($stockMateriel instanceof StockCorde) {
-            dump($stockMateriel->getQuantiter());
-            dump($stockMateriel->getLongeur());
-            dump($this->mouleCalculator->calculateAllColumns(0, $stockMateriel->getLongeur(), $stockMateriel->getQuantiter()));
-            dump($this->mouleCalculator->calculateAllColumns(1, $stockMateriel->getLongeur(), $stockMateriel->getQuantiter()));
-            dd($stockMateriel);
+            //dump($stockMateriel->getQuantiter());
+            //dump($stockMateriel->getLongeur());
+            //dump($this->mouleCalculator->calculateAllColumns(0, $stockMateriel->getLongeur(), $stockMateriel->getQuantiter()));
+            //dump($this->mouleCalculator->calculateAllColumns(1, $stockMateriel->getLongeur(), $stockMateriel->getQuantiter()));
+            //dd($stockMateriel);
         }
 
         return 0;

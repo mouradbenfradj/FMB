@@ -4,10 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Parc;
 use Twig\Environment;
-use App\Form\MAECordeType;
-use App\Model\MAECordeModel;
+use App\Form\RetraitTransfertType;
+use App\Model\RetraitTransfertModel;
 use App\Service\Cache\ParcCacheService;
-use App\Repository\StockCordeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\EmplacementRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,8 +15,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Service\EtatActuelProd\EtatActuelProdService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/mae')]
-final class MAEController extends AbstractController
+#[Route('/retrait-transfert')]
+final class RetraitTransfertController extends AbstractController
 {
     public function __construct(
         private ParcCacheService $parcCache,
@@ -25,31 +24,22 @@ final class MAEController extends AbstractController
         private Environment $twig,
     ) {}
 
-    #[Route('/corde/{parc}', name: 'app_m_a_e_corde')]
+    #[Route('/{parc}', name: 'app_retrait_transfert')]
     public function index(
         Request $request,
         Parc $parc,
         EmplacementRepository $emplacementRepository,
-        StockCordeRepository $stockCordeRepository,
         EntityManagerInterface $entityManager
     ): Response {
-        $model = new MAECordeModel();
-
-        $form = $this->createForm(MAECordeType::class, $model, [
-            'parc' => $parc,
-        ]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Emplacements cochés
-            $formData = $request->request->all('mae_corde');
-            $emplacements = $request->request->all('emplacement');
+        if ($request->isMethod('POST')) {
+            // Emplacements sources et destinations
+            $sources = $request->request->all('source');
+            $destinations = $request->request->all('destination');
 
             $request->getSession()->set('parc', $parc);
-            $request->getSession()->set('form_data', $formData);
-            $request->getSession()->set('emplacements', $emplacements);
-            return $this->redirectToRoute('app_m_a_e_corde_validation');
+            $request->getSession()->set('sources', $sources);
+            $request->getSession()->set('destinations', $destinations);
+            return $this->redirectToRoute('app_retrait_transfert_validation');
         }
 
         // Build filieresData like EtatActuelProdController
@@ -88,7 +78,7 @@ final class MAEController extends AbstractController
                     'passageChaussette' => $segStats[13],
                     'poidCordes' => $segStats[14],
                     'volumesTotale' => $segStats[15],
-                    'emplacementHtml' => $this->renderView('emplacement/mae.html.twig', ['segment' => $segment]),
+                    'emplacementHtml' => $this->renderView('emplacement/retrait_transfert.html.twig', ['segment' => $segment]),
                 ];
             }
             $filieresData[] = [
@@ -114,22 +104,20 @@ final class MAEController extends AbstractController
             ];
         }
 
-        return $this->render('mae/index.html.twig', [
+        return $this->render('retrait_transfert/index.html.twig', [
             'filieresJson' => json_encode($filieresData),
-            'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/corde_validation', name: 'app_m_a_e_corde_validation')]
+    #[Route('/validation', name: 'app_retrait_transfert_validation')]
     public function validation(
         Request $request,
         EmplacementRepository $emplacementRepository,
-        StockCordeRepository $stockCordeRepository,
         EntityManagerInterface $entityManager
     ): Response {
         // Récupérer les données de session
-        $formData = $request->getSession()->get('form_data');
-        $emplacementsIds = $request->getSession()->get('emplacements');
+        $sourcesIds = $request->getSession()->get('sources');
+        $destinationsIds = $request->getSession()->get('destinations');
         $parc = $request->getSession()->get('parc');
 
         // Set session for nav
@@ -141,40 +129,35 @@ final class MAEController extends AbstractController
         $this->twig->addGlobal('isAllParcs', false);
 
         // Vérifier si les données existent
-        if (!$formData || !$emplacementsIds) {
+        if (!$sourcesIds || !$destinationsIds) {
             $this->addFlash('error', 'Aucune donnée de formulaire trouvée.');
-            return $this->redirectToRoute('app_m_a_e_corde', ['parc' => $parc->getId()]);
+            return $this->redirectToRoute('app_retrait_transfert', ['parc' => $parc->getId()]);
         }
 
         // Récupérer les entités
-        $cordes = $stockCordeRepository->findBy([
-            'corde' => $formData['corde'],
-            'dateDeMiseAEau' => null,
-            'emplacement' => null,
-            'pret' => false,
-            'stockArticleSn' => $formData['lot']
-        ]);
-
-        $emplacements = $emplacementRepository->findBy(['id' => $emplacementsIds]);
-        $dateDeMAE = new \DateTime($formData['datedeMAE']);
+        $sources = $emplacementRepository->findBy(['id' => $sourcesIds]);
+        $destinations = $emplacementRepository->findBy(['id' => $destinationsIds]);
 
         // Préparer les données pour l'affichage
-        $cordesCount = count($cordes);
-        $emplacementsCount = count($emplacements);
+        $sourcesCount = count($sources);
+        $destinationsCount = count($destinations);
 
         // Traitement de la confirmation
         if ($request->isMethod('POST') && $request->request->get('confirm')) {
-            // Vérifier la correspondance entre cordes et emplacements
+            // Vérifier la correspondance
+            if ($sourcesCount !== $destinationsCount) {
+                $this->addFlash('error', 'Le nombre de sources et de destinations doit être identique.');
+                return $this->redirectToRoute('app_retrait_transfert', ['parc' => $parc->getId()]);
+            }
 
-
-            // Assigner les emplacements aux cordes
-            foreach ($emplacements as $index => $emplacement) {
-                if (isset($cordes[$index])) {
-                    $corde = $cordes[$index];
-                    $corde->setEmplacement($emplacement);
-                    $emplacement->setStockMateriel($corde);
-                    $corde->setDateDeMiseAEau($dateDeMAE);
-                    // Vous pouvez ajouter d'autres setters si nécessaire
+            // Transférer les matériaux
+            foreach ($sources as $index => $source) {
+                $destination = $destinations[$index];
+                if ($source->getStockMateriel() && !$destination->getStockMateriel()) {
+                    $stockMateriel = $source->getStockMateriel();
+                    $destination->setStockMateriel($stockMateriel);
+                    $stockMateriel->setEmplacement($destination);
+                    $source->setStockMateriel(null);
                 }
             }
 
@@ -182,28 +165,25 @@ final class MAEController extends AbstractController
             $entityManager->flush();
 
             // Nettoyer la session
-            $request->getSession()->remove('form_data');
-            $request->getSession()->remove('emplacements');
+            $request->getSession()->remove('sources');
+            $request->getSession()->remove('destinations');
 
-            $this->addFlash('success', 'Les cordes ont été assignées aux emplacements avec succès.');
-            return $this->redirectToRoute('app_m_a_e_confirmation');
+            $this->addFlash('success', 'Les matériaux ont été transférés avec succès.');
+            return $this->redirectToRoute('app_retrait_transfert_confirmation');
         }
 
-        //dd($cordes[0]);
-        return $this->render('mae/validation.html.twig', [
-            'parc' => $cordes[0]->getCorde()->getParc(),
-            'formData' => $formData,
-            'corde' => $cordes[0],
-            'cordes' => $cordes,
-            'emplacements' => $emplacements,
-            'cordesCount' => $cordesCount,
-            'emplacementsCount' => $emplacementsCount,
-            'dateDeMAE' => $dateDeMAE,
+        return $this->render('retrait_transfert/validation.html.twig', [
+            'parc' => $parc,
+            'sources' => $sources,
+            'destinations' => $destinations,
+            'sourcesCount' => $sourcesCount,
+            'destinationsCount' => $destinationsCount,
         ]);
     }
-    #[Route('/confirmation', name: 'app_m_a_e_confirmation')]
+
+    #[Route('/confirmation', name: 'app_retrait_transfert_confirmation')]
     public function confirmation(): Response
     {
-        return $this->render('mae/confirmation.html.twig');
+        return $this->render('retrait_transfert/confirmation.html.twig');
     }
 }
