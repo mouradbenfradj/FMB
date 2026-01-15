@@ -28,9 +28,10 @@
 					</td>
 				{% endif %}
 				<td>{{ emplacement.place }}
-					{% if emplacement.stockMateriel is null %}
-						<input type="checkbox" name="emplacement[]" value="{{ emplacement.id }}" form="mae_corde"/>
-					{% else %}
+					{% if emplacement.stockMateriel is not null %}
+						<!-- Source -->
+						<input type="checkbox" name="source[]" value="{{ emplacement.id }}"/>
+						<span>Source</span>
 						{% set stockMateriel = emplacement.stockMateriel %}
 						{% if stockMateriel.corde is defined %}
 							{% set stockCorde = stockMateriel %}

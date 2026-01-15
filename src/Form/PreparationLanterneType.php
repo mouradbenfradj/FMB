@@ -2,22 +2,22 @@
 
 namespace App\Form;
 
-use App\Entity\FruitDeMer;
-use App\Entity\Lanterne;
 use App\Entity\Parc;
 use App\Entity\Stock;
+use App\Entity\Lanterne;
+use App\Entity\FruitDeMer;
 use App\Entity\StockArticle;
 use App\Entity\StockArticleSn;
 use App\Model\PreparationLanterneModel;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfonycasts\DynamicForms\DependentField;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfonycasts\DynamicForms\DynamicFormBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class PreparationLanterneType extends AbstractType
 {

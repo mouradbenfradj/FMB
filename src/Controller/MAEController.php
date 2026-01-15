@@ -172,6 +172,7 @@ final class MAEController extends AbstractController
                 if (isset($cordes[$index])) {
                     $corde = $cordes[$index];
                     $corde->setEmplacement($emplacement);
+                    $emplacement->setStockMateriel($corde);
                     $corde->setDateDeMiseAEau($dateDeMAE);
                     // Vous pouvez ajouter d'autres setters si nécessaire
                 }

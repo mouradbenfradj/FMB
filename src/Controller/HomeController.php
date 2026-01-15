@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Filiere;
-use App\Service\FiliereService;
 use App\Repository\CordeRepository;
 use App\Repository\StockCordeRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,15 +9,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Service\ParcEnchiffre\ParcEnchiffreService;
 use App\Service\DesignPatterns\DesignPatternsService;
-use App\Service\EtatActuelProd\EtatActuelProdService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class HomeController extends AbstractController
 {
 
+    #[Route('/')]
     #[Route('/{parc}', name: 'app_home', defaults: ['parc' => null])]
-    public function index(Request $request, ParcEnchiffreService $parcEnchiffreService, StockCordeRepository $stockCordeRepo, CordeRepository $cordeRepository, ?int $parc = null): Response
-    {
+    public function index(
+        Request $request,
+        ParcEnchiffreService $parcEnchiffreService,
+        ?int $parc = null
+    ): Response {
         // Récupérer le parc ID depuis la requête (session, paramètre, etc.)
         $parcId = $request->getSession()->get('selected_parc_id');
 
@@ -30,14 +31,6 @@ final class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'stats' => $stats,
         ]);
-    }
-
-    #[Route('/test/{filiere}', name: 'app_test')]
-    public function test(Filiere $filiere, EtatActuelProdService $etatActuelProdService): Response
-    {
-        print_r($etatActuelProdService->getFiliereArrayStat($filiere));
-        dd('endteste');
-        return $this->render('home/index.html.twig');
     }
 
     #[Route('/designepatterne', name: 'app_dp')]

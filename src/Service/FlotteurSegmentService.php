@@ -9,7 +9,7 @@ use App\Service\Interface\EtatActualProdInterface;
 
 class FlotteurSegmentService
 {
-    private FlotteurSegment $flotteurSegment;
+    private ?FlotteurSegment $flotteurSegment = null;
     public function setFlotteurSegmentToService(FlotteurSegment $flotteurSegment): void
     {
         $this->flotteurSegment = $flotteurSegment;
@@ -20,7 +20,15 @@ class FlotteurSegmentService
         $nombre = $this->flotteurSegment->getNombre();
 
         for ($i = 0; $i < $nombre; $i++) {
-            $somme += $this->flotteurSegment->getFlotteur()->getKgf();
+            $flotteur = $this->flotteurSegment->getFlotteur();
+            if ($flotteur === null) {
+                throw new \Exception('Flotteur is null for FlotteurSegment ID: ' . $this->flotteurSegment->getId());
+            }
+            $kgf = $flotteur->getKgf();
+            if ($kgf === null) {
+                throw new \Exception('Kgf is null for Flotteur ID: ' . $flotteur->getId());
+            }
+            $somme += $kgf;
         }
 
         return $somme;

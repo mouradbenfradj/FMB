@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\ProcessusRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProcessusRepository;
 
 #[ORM\Entity(repositoryClass: ProcessusRepository::class)]
 class Processus
@@ -15,6 +15,9 @@ class Processus
 
     #[ORM\Column(length: 255)]
     private ?string $nomProcessus = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $age = null;
 
     #[ORM\ManyToOne(inversedBy: 'processuses')]
     #[ORM\JoinColumn(nullable: false)]
@@ -38,6 +41,18 @@ class Processus
     public function setNomProcessus(string $nomProcessus): static
     {
         $this->nomProcessus = $nomProcessus;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(?int $age): static
+    {
+        $this->age = $age;
 
         return $this;
     }

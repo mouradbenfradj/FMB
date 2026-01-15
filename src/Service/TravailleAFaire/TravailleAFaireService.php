@@ -14,7 +14,7 @@ class TravailleAFaireService
         $this->travailleAFaireInterface = $travailleAFaireInterface;
     }
 
-    function executePreparation(MaterielService $materielService, $form)
+    function executePreparation($materielService, $form)
     {
         $materielService->preparation($form);
     }

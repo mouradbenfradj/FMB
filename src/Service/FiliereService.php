@@ -26,6 +26,7 @@ class FiliereService implements EtatActualProdInterface
     private int $totalCordePoche;
     private ?\DateTimeInterface $dateDeMAE;
     private int $passageChaussette = 0;
+    private float $poidCordes = 0.0;
 
     public function __construct(SegmentService $segmentService)
     {
@@ -97,6 +98,8 @@ class FiliereService implements EtatActualProdInterface
         $this->totalCordePoche = $totalCordesPoche;
         $this->dateDeMAE = $derniereDateMAE;
         // $this->passageChaussette reste à 0 (valeur fixe)
+        // TODO: Calculate poidCordes based on your business logic
+        $this->poidCordes = $this->segmentService->poidCordes();
     }
 
     public function ref(): string
@@ -171,8 +174,7 @@ class FiliereService implements EtatActualProdInterface
 
     public function poidCordes(): float
     {
-        // TODO: implement calculation
-        return 0.0;
+        return $this->poidCordes;
     }
 
     public function volumesTotale(): float

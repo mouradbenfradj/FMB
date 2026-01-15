@@ -1,6 +1,0 @@
-- [x] Modify MAEController to add ParcCacheService and EtatActuelProdService dependencies
-- [x] Update index method to build filieresData and render mae/index.html.twig with form
-- [x] Modify mae/index.html.twig to include dynamic table and form rendering
-- [x] Modify emplacement/mae.html.twig to add checkboxes for empty emplacements
-- [x] Fix nav URL generation by setting session and twig globals in validation method
-- [] Test the functionality

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Excel Ages
+{% endblock %}
+
+{% block body %}
+	<h1>Calculated Ages from Excel</h1>
+
+	<ul>
+		{% for age in ages %}
+			<li>{{ age }}
+				months</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

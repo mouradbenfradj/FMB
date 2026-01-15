@@ -26,7 +26,7 @@ class ParcCacheService
             $item->expiresAfter(self::CACHE_DURATION);
 
             $result = $this->parcRepository->createQueryBuilder('p')
-                ->select('p', 'f', 'seg', 'fs', 'fl', 'e', 'sc', 'sl', 'c', 's', 'l')
+                ->select('p', 'f', 'seg', 'fs', 'fl', 'e', 'sm', 'c', 's', 'l')
                 // Parc → Filières
                 ->leftJoin('p.filieres', 'f')
                 // Filière → Segments
@@ -37,9 +37,8 @@ class ParcCacheService
                 ->leftJoin('fs.flotteur', 'fl')
                 // Segment → Emplacements
                 ->leftJoin('seg.emplacements', 'e')
-                // Emplacement → Stocks
-                ->leftJoin('e.stockCordes', 'sc')
-                ->leftJoin('e.stockLanternes', 'sl')
+                // Emplacement → StockMateriel
+                ->leftJoin('e.stockMateriel', 'sm')
                 // Autres relations directes du parc
                 ->leftJoin('p.cordes', 'c')
                 ->leftJoin('p.stocks', 's')
@@ -77,8 +76,9 @@ class ParcCacheService
             foreach ($parc->getFilieres() as $filiere) {
                 foreach ($filiere->getSegments() as $segment) {
                     foreach ($segment->getEmplacements() as $emplacement) {
-                        foreach ($emplacement->getStockCordes() as $stockCorde) {
-                            $this->injectIntoStockCorde($stockCorde);
+                        $stockMateriel = $emplacement->getStockMateriel();
+                        if ($stockMateriel instanceof \App\Entity\StockCorde) {
+                            $this->injectIntoStockCorde($stockMateriel);
                         }
                     }
                 }

@@ -2,13 +2,12 @@
 
 namespace App\Model;
 
-use App\Entity\Articles;
-use App\Entity\FruitDeMer;
-use App\Entity\Lanterne;
+use DateTime;
 use App\Entity\Stock;
+use App\Entity\Lanterne;
+use App\Entity\FruitDeMer;
 use App\Entity\StockArticle;
 use App\Entity\StockArticleSn;
-use DateTime;
 
 class PreparationLanterneModel
 {
@@ -24,6 +23,7 @@ class PreparationLanterneModel
     private ?int $totalqte = null;
 
     private ?string $submit = null;
+
 
 
     public function getTotalqte(): ?int

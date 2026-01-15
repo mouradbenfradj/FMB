@@ -3,37 +3,35 @@
 namespace App\Service\Materiel;
 
 use App\Entity\StockCorde;
+use App\Service\StockArticleSnService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Materiel\StockCordeService;
 use App\Service\Interface\TravailleAFaireInterface;
 
 class CordeService implements TravailleAFaireInterface
 {
 
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
+    private StockCordeService $stockCordeService;
+    private StockArticleSnService $stockArticleSnService;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, StockCordeService $stockCordeService, StockArticleSnService $stockArticleSnService)
     {
         $this->entityManager = $entityManager;
+        $this->stockCordeService = $stockCordeService;
+        $this->stockArticleSnService = $stockArticleSnService;
     }
     public function preparation(object $materiel)
     {
         $materielChoisie = $materiel->getCorde();
         $quantiterEnStock = $materiel->getCorde()->getQuantiter();
-        $nombreChoisie = $materiel->getNombre();
-        $materielChoisie->setQuantiter($quantiterEnStock - $nombreChoisie);
-        $this->entityManager->persist($materielChoisie);
         $nombreAFabriquer = $materiel->getNombre();
+        $materielChoisie->setQuantiter($quantiterEnStock - $nombreAFabriquer);
         $lot = $materiel->getLot();
+        $this->entityManager->persist($materielChoisie);
         for ($i = 0; $i < $nombreAFabriquer; $i++) {
-            $lot->setSnQte($lot->getSnQte() - $materiel->getDensite());
-            $this->entityManager->persist($lot);
-            $stockCorde = new StockCorde();
-            $stockCorde->setCorde($materielChoisie);
-            $stockCorde->setStockArticleSn($lot);
-            $stockCorde->setDatedecreation($materiel->getDatedecreation());
-            $stockCorde->setLongeur($materiel->getLongeur());
-            $stockCorde->setQuantiter($materiel->getDensite());
-            $this->entityManager->persist($stockCorde);
+            $this->stockArticleSnService->preparation($lot, $materiel->getDensite());
+            $this->stockCordeService->preparation($materielChoisie, $lot, $materiel->getDatedecreation(), $materiel->getLongeur(), $materiel->getDensite());
         }
     }
     public function mae(object $formData, $emplacementsIds, $parc)

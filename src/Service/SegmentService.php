@@ -28,6 +28,7 @@ class SegmentService implements EtatActualProdInterface
     private int $totalCordePoche;
     private ?\DateTimeInterface $dateDeMAE;
     private int $passageChaussette = 0;
+    private float $poidCordes = 0.0;
 
     public function __construct(EmplacementService $emplacementService, FlotteurSegmentService $flotteurSegmentService)
     {
@@ -92,17 +93,12 @@ class SegmentService implements EtatActualProdInterface
             if ($this->emplacementService->hasePoche()) {
                 $totalCordesPoche++;
             }
+            $this->poidCordes = $this->emplacementService->getPoidPlace();
 
-            // Calculer la dernière date de MAE
-            foreach ($emplacement->getStockCordes() as $stockCorde) {
-                $dateMiseAEau = $stockCorde->getDateDeMiseAEau();
-                if ($dateMiseAEau && ($derniereDateMAE === null || $dateMiseAEau > $derniereDateMAE)) {
-                    $derniereDateMAE = $dateMiseAEau;
-                }
-            }
-
-            foreach ($emplacement->getStockLanternes() as $stockLanterne) {
-                $dateMiseAEau = $stockLanterne->getDateDeMiseAEau();
+            if ($emplacement->getStockMateriel()) {
+                // Calculer la dernière date de MAE
+                $stockMateriel = $emplacement->getStockMateriel();
+                $dateMiseAEau = $stockMateriel->getDateDeMiseAEau();
                 if ($dateMiseAEau && ($derniereDateMAE === null || $dateMiseAEau > $derniereDateMAE)) {
                     $derniereDateMAE = $dateMiseAEau;
                 }
@@ -203,8 +199,7 @@ class SegmentService implements EtatActualProdInterface
 
     public function poidCordes(): float
     {
-        // TODO: implement calculation
-        return 0.0;
+        return $this->poidCordes;
     }
 
     public function volumesTotale(): float

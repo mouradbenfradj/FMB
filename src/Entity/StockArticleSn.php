@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\StockArticleSnRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StockArticleSnRepository::class)]
 class StockArticleSn
@@ -37,6 +37,12 @@ class StockArticleSn
     #[ORM\OneToMany(targetEntity: StockLanterne::class, mappedBy: 'stockArticleSn')]
     private Collection $stockLanternes;
 
+    /**
+     * @var Collection<int, StockMateriel>
+     */
+    #[ORM\OneToMany(targetEntity: StockMateriel::class, mappedBy: 'stockArticleSn')]
+    private Collection $stockMateriels;
+
     public function __toString(): string
     {
         return  $this->stockArticle->getArticles()->getLibArticle() . ' ' . $this->numeroSerie ?? 'StockArticleSn';
@@ -45,6 +51,7 @@ class StockArticleSn
     {
         $this->stockCordes = new ArrayCollection();
         $this->stockLanternes = new ArrayCollection();
+        $this->stockMateriels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,6 +149,36 @@ class StockArticleSn
             // set the owning side to null (unless already changed)
             if ($stockLanterne->getStockArticleSn() === $this) {
                 $stockLanterne->setStockArticleSn(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StockMateriel>
+     */
+    public function getStockMateriel(): Collection
+    {
+        return $this->stockMateriels;
+    }
+
+    public function addStockMateriel(StockMateriel $stockMateriel): static
+    {
+        if (!$this->stockMateriels->contains($stockMateriel)) {
+            $this->stockMateriels->add($stockMateriel);
+            $stockMateriel->setStockArticleSn($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStockMateriel(StockMateriel $stockMateriel): static
+    {
+        if ($this->stockMateriels->removeElement($stockMateriel)) {
+            // set the owning side to null (unless already changed)
+            if ($stockMateriel->getStockArticleSn() === $this) {
+                $stockMateriel->setStockArticleSn(null);
             }
         }
 

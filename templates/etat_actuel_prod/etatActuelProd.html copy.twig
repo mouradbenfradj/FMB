@@ -79,6 +79,7 @@
 										{{ dump(filiere.nombreEmplacements) }}
 									{% endif %}
 									{% set rouge = ((filiere.totaleCordes * 100 ) / (filiere.nombreEmplacements == 0 ?1 : filiere.nombreEmplacements))|round %}
+									{{ dump(rouge) }}
 									<div class="progress mb-0">
 										<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
 											{{rouge}}
@@ -125,6 +126,8 @@
 										{% set classRouge = "bg-danger" %}
 										{% set classVert = " bg-success" %}
 									{% endif %}
+									{{ dump(vert) }}
+
 									<div class="progress mb-0">
 										<div class="progress-bar  progress-bar-striped {{classRouge}}" role="danger" style="width: {{ (100 - vert)|round }}%" aria-valuenow="{{ (100 - vert)|round }}" aria-valuemin="0" aria-valuemax="100">
 											{{ (100 - vert)|round }}
@@ -205,6 +208,7 @@
 																			</th>
 																			<td>
 																				{% set rouge = ((segment.totaleCordes/segment.nombreEmplacements )*100)|round %}
+																				{{ dump(rouge) }}
 
 																				<div class="progress mb-0">
 																					<div class="progress-bar bg-danger" role="danger" style="width: {{rouge}}%" aria-valuenow="{{rouge}}" aria-valuemin="0" aria-valuemax="100">
@@ -257,6 +261,8 @@
 																					{% set classRouge = "bg-danger" %}
 																					{% set classVert = " bg-success" %}
 																				{% endif %}
+																				{{ dump(vert) }}
+
 																				<div class="progress mb-0">
 																					<div class="progress-bar  progress-bar-striped {{classRouge}}" role="danger" style="width: {{ (100 - vert)|round }}%" aria-valuenow="{{ (100 - vert)|round }}" aria-valuemin="0" aria-valuemax="100">
 																						{{ (100 - vert)|round }}

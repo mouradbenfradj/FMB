@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sélection des Destinations - Retrait Transfert
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-12">
+				<h1 class="mb-4">Sélection des Destinations</h1>
+
+				{% for message in app.flashes('error') %}
+					<div class="alert alert-danger">{{ message }}</div>
+				{% endfor %}
+
+				<!-- Sources sélectionnées -->
+				<div class="card mb-4">
+					<div class="card-header bg-info text-white">
+						<h5 class="mb-0">Matériaux à déplacer ({{ sourcesCount }})</h5>
+					</div>
+					<div class="card-body">
+						{% if sources|length > 0 %}
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>ID Emplacement</th>
+											<th>Place</th>
+											<th>Localisation</th>
+											<th>Matériel</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for emplacement in sources %}
+											<tr>
+												<td>{{ loop.index }}</td>
+												<td>{{ emplacement.id }}</td>
+												<td>{{ emplacement.place }}</td>
+												<td>{{ emplacement.segment.filiere.nomFiliere }}->{{ emplacement.segment.nomSegment }}</td>
+												<td>
+													{% if emplacement.stockMateriel %}
+														{% if emplacement.stockMateriel.corde is defined %}
+															Corde
+															{{ emplacement.stockMateriel.id }}
+														{% elseif emplacement.stockMateriel.lanterne is defined %}
+															Lanterne
+															{{ emplacement.stockMateriel.id }}
+														{% else %}
+															Inconnu
+														{% endif %}
+													{% else %}
+														Vide
+													{% endif %}
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						{% else %}
+							<p class="text-muted">Aucune source sélectionnée.</p>
+						{% endif %}
+					</div>
+				</div>
+
+				<!-- Sélection des destinations -->
+				<div class="card mb-4">
+					<div class="card-header bg-success text-white">
+						<h5 class="mb-0">Choisissez les emplacements de destination ({{ sourcesCount }}
+							emplacements vides requis)</h5>
+					</div>
+					<div class="card-body">
+						<form id="retrait_transfert_validation" method="post" action="{{ path('app_retrait_transfert_validation', {'parc': parc.id}) }}">
+							<div id="accordion-filieres">
+								{% for filiere in filieresData %}
+									<div class="card">
+										<div class="card-header" id="heading-{{ filiere.id }}">
+											<h5 class="mb-0">
+												<button class="btn btn-link" data-toggle="collapse" data-target="#collapse-{{ filiere.id }}" aria-expanded="true" aria-controls="collapse-{{ filiere.id }}">
+													{{ filiere.nomFiliere }}
+												</button>
+											</h5>
+										</div>
+
+										<div id="collapse-{{ filiere.id }}" class="collapse" aria-labelledby="heading-{{ filiere.id }}" data-parent="#accordion-filieres">
+											<div class="card-body">
+												{% for segment in filiere.segments %}
+													<h6>{{ segment.nomSegment }}</h6>
+													{{ segment.emplacementHtml|raw }}
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+								<a href="{{ path('app_retrait_transfert', {'parc': parc.id}) }}" class="btn btn-secondary me-md-2">
+									<i class="fas fa-arrow-left"></i>
+									Retour à la sélection des sources
+								</a>
+
+								<button type="submit" class="btn btn-primary">
+									<i class="fas fa-check"></i>
+									Valider les destinations
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
