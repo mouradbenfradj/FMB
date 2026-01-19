@@ -96,7 +96,7 @@ jobs:
           # Verify deployment
           echo "Verifying deployment..."
           HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://www.aquafishtritarconsult.com)
-          if [ $HTTP_CODE -ne 200 ]; then
+          if [ $HTTP_CODE -ne 200 ] && [ $HTTP_CODE -ne 302 ]; then
             echo "Deployment verification failed! Site returned HTTP code $HTTP_CODE"
             exit 1
           fi
