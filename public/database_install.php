@@ -1,6 +1,6 @@
 <?php
 
-// public/migrate.php
+// public/database_install.php
 
 // Mot de passe simple pour sécuriser l'accès
 $password = 'MBF6mm09761130';
@@ -43,11 +43,13 @@ $outputSchemaUpdate = new BufferedOutput();
 $application->run($inputSchemaUpdate, $outputSchemaUpdate);
 
 echo nl2br($outputSchemaUpdate->fetch());
-$inputSchemaUpdate = new ArrayInput([
+
+// Exécute la commande cache:clear
+$inputCacheClear = new ArrayInput([
     'command' => 'cache:clear'
 ]);
-$outputSchemaUpdate = new BufferedOutput();
+$outputCacheClear = new BufferedOutput();
 
-$application->run($inputSchemaUpdate, $outputSchemaUpdate);
+$application->run($inputCacheClear, $outputCacheClear);
 
-echo nl2br($outputSchemaUpdate->fetch());
+echo nl2br($outputCacheClear->fetch());

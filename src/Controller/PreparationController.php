@@ -59,7 +59,7 @@ final class PreparationController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //$this->travailleAFaireService->setStrategy($this->cordeService);
-          
+
             $this->travailleAFaireService->executePreparation($this->cordeService, $model);
 
             $this->addFlash(
@@ -101,9 +101,7 @@ final class PreparationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /*             $this->travailleAFaireService->setStrategy($this->lanterneService);
- */
-            $this->travailleAFaireService->executePreparation($this->cordeService, $model);
+            $this->travailleAFaireService->executePreparation($this->lanterneService, $model);
             $this->addFlash(
                 'success',
                 'Création validée !'

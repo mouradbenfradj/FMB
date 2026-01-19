@@ -3,31 +3,36 @@
 namespace App\Service\Materiel;
 
 use App\Entity\StockLanterne;
+use App\Service\StockArticleSnService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Materiel\StockLanterneService;
 use App\Service\Interface\TravailleAFaireInterface;
 
 class LanterneService implements TravailleAFaireInterface
 {
 
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
+    private StockLanterneService $stockLanterneService;
+    private StockArticleSnService $stockArticleSnService;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, StockLanterneService $stockLanterneService, StockArticleSnService $stockArticleSnService)
     {
         $this->entityManager = $entityManager;
+        $this->stockLanterneService = $stockLanterneService;
+        $this->stockArticleSnService = $stockArticleSnService;
     }
+
     public function preparation(object $materiel)
     {
-        dd('preparation');
-        for ($i = 0; $i < $materiel->getNombre(); $i++) {
-            $stockLanterne = new StockLanterne();
-            $stockLanterne->setLanterne($materielmodel->getLanterne());
-            $stockLanterne->setStockArticleSn($materielmodel->getLot());
-            $stockLanterne->setDatedecreation($materielmodel->getDatedecreation());
-            //$stockLanterne->setQuantiter($materielmodel->getDensite());
-            $this->entityManager->persist($stockLanterne);
-            //$materielmodel->getLanterne()->setQuantiter($materielmodel->getLanterne()->getQuantiter() - $materiel->getNombre());
-            $materiel->getLanterne()->setNbrEnStock($materielmodel->getLanterne()->getNbrEnStock() - $materiel->getNombre());
-            $this->entityManager->persist($materielmodel->getLanterne());
+        $lanterneChoisie = $materiel->getLanterne();
+        $quantiterEnStock = $materiel->getLanterne()->getNbrEnStock();
+        $nombreAFabriquer = $materiel->getNombre();
+        $lanterneChoisie->setNbrEnStock($quantiterEnStock - $nombreAFabriquer);
+        $lot = $materiel->getLot();
+        $this->entityManager->persist($lanterneChoisie);
+        for ($i = 0; $i < $nombreAFabriquer; $i++) {
+            $this->stockArticleSnService->preparation($lot, 1); // Assuming density 1 for lanterne
+            $this->stockLanterneService->preparation($lanterneChoisie, $lot, $materiel->getDatedecreation());
         }
     }
     public function mae(object $formData, $emplacementsIds, $parc)
