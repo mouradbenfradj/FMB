@@ -1,22 +1,70 @@
-FROM mcr.microsoft.com/devcontainers/php:1-8-bookworm
+FROM php:8.1-fpm-alpine
+ARG DEBIAN_FRONTEND=noninteractive
 
-# Install MariaDB client
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install -y mariadb-client \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
-# Install required PHP extensions
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install -y libicu-dev libxslt1-dev libpq-dev \
-    && docker-php-ext-install intl xsl pdo_pgsql pdo_mysql mysqli \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+WORKDIR "/application"
 
-# Increase PHP memory limit
-RUN echo "memory_limit = 1G" >> /usr/local/etc/php/php.ini
+RUN adduser -D asc \
+  && addgroup asc asc \
+  && mkdir -p /application \
+  && chown -R asc:asc /application
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+RUN apk --update --no-cache add git
+RUN apk add bash
 
-# [Optional] Uncomment this line to install global node packages.
-# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+# Zip extension
+RUN apk add --no-cache zip libzip-dev
+RUN docker-php-ext-install zip
+
+# Calendar extension
+RUN docker-php-ext-install calendar
+
+# Imagick extension needed for webp
+RUN apk add --update --no-cache autoconf g++ imagemagick imagemagick-dev libtool make pcre-dev
+RUN pecl install imagick
+RUN docker-php-ext-enable imagick
+
+# GD extension needed for html2pdf
+RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev && \
+  docker-php-ext-configure gd \
+  --with-freetype \
+  --with-jpeg \
+  NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
+  docker-php-ext-install -j$(nproc) gd && \
+  apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
+
+# XDebug extension
+#RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+#  && pecl install xdebug \
+#  && docker-php-ext-enable xdebug \
+#  && apk del -f .build-deps
+
+# Intl extension
+RUN apk add icu-dev
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
+
+# Mysql extension
+RUN docker-php-ext-install pdo_mysql
+
+#OPCache
+RUN docker-php-ext-install opcache
+
+#APCu
+RUN apk --no-cache add pcre-dev ${PHPIZE_DEPS} \
+  && pecl install apcu-5.1.22 \
+  && docker-php-ext-enable apcu \
+  && apk del pcre-dev ${PHPIZE_DEPS}
+
+
+# Composer copy and run
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+CMD composer install;
+CMD php-fpm;
+
+
+USER asc
+
+# Set git safe directory
+RUN git config --global --add safe.directory /application

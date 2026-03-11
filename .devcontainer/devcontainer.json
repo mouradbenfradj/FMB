@@ -1,41 +1,58 @@
 {
-    "name": "Symfony 6.4 Dev Container",
-    "dockerComposeFile": "docker-compose.yml",
-    "service": "app",
-    "workspaceFolder": "/workspaces/asc",
-    "shutdownAction": "stopCompose",
-    "forwardPorts": [
-        8000,
-        3306
+    "name": "Symfony Development",
+    "dockerComposeFile": [
+        "docker-compose.yml"
     ],
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "walkme.HTML5-extension-pack",
-                "mblode.twig-language",
-                "mblode.twig-language-2",
-                "DEVSENSE.composer-php-vscode",
-                "bradlc.vscode-tailwindcss",
-                "Blackboxapp.blackbox",
-                "Blackboxapp.blackboxagent",
-                "kkcode.symfony-essential-extension-pack",
-                "duboiss.sf-pack",
-                "NDNCI.vscode-symfony-tools",
-                "ctf0.php-namespace-resolver",
-                "StoilDobreff.php-resolver",
-                "vdhoangson.php-namespace-helper",
-                "stanislav.vscode-twig"
-            ]
+    "service": "www",
+    "context": "..",
+    "workspaceFolder": "/var/www/asc",
+    "remoteEnv": {
+        "APP_ENV": "dev",
+        "APP_DEBUG": "1",
+        "DATABASE_URL": "mysql://root:mourad@database:3306/asc",
+        "XDEBUG_MODE": "debug,develop",
+        "XDEBUG_CONFIG": "client_host=host.docker.internal"
+    },
+    "extensions": [
+        "felixfbecker.php-debug",
+        "felixfbecker.php-intellisense",
+        "mehedidracula.php-namespace-resolver",
+        "junstyle.php-cs-fixer",
+        "bmewburn.vscode-intelephense-client",
+        "fabpot.vscode-symfony",
+        "sianglim.slim",
+        "neilbrayfield.php-docblocker",
+        "mikestead.dotenv",
+        "ms-azuretools.vscode-docker",
+        "xdebug.php-debug",
+        "TheNouillet.symfony-vscode",
+        "ms-vscode.makefile-tools",
+        "mblode.twig-language-2",
+        "junstyle.twig-language",
+        "zepich.twig-braces-helper",
+        "redhat.vscode-yaml",
+        "ritwickdey.LiveServer",
+        "Vue.volar",
+        "Blackboxapp.blackbox",
+        "github.vscode-github-actions"
+        //,"Gruntfuggly.todo-tree"
+    ],
+    "settings": {
+        "docker.host": "tcp://localhost:2375",
+        "docker.remotePlatform": {
+            "os": "linux"
+        },
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "php.debug.executablePath": "/usr/local/bin/php",
+        "php.debug.idekey": "VSCODE"
+    },
+    "build": {
+        "args": {
+            "VARIANT": "bullseye"
         }
     },
-    /*  "settings": {
-        "php.validate.executablePath": "/usr/local/bin/php"
-    }, */
-    "postCreateCommand": "cd /workspaces/asc && XDEBUG_MODE=off composer update",
-    "postStartCommand": "cd /workspaces/asc && symfony server:start --no-tls --port=8000 --allow-all-ip",
-    "features": {
-        "ghcr.io/devcontainers/features/git:1": {},
-        "ghcr.io/shyim/devcontainers-features/symfony-cli:0": {},
-        "ghcr.io/devcontainers/features/node:1": {}
-    }
+    "mounts": [
+        "source=${localWorkspaceFolder}/.vscode,target=/root/.vscode,type=bind",
+        "source=${localWorkspaceFolder}/data,target=/var/www/asc/data,type=bind"
+    ]
 }

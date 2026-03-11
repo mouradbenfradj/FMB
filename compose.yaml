@@ -1,23 +1,68 @@
-version: "3"
-
 services:
-###> doctrine/doctrine-bundle ###
   database:
-    image: 'mysql:latest'
+    image: mysql:5.7
+    container_name: db_asc
+    restart: always
     environment:
-        MYSQL_ROOT_PASSWORD: mourad
-        MYSQL_DATABASE: asc
+      MYSQL_ROOT_PASSWORD: "mourad"
+      MYSQL_DATABASE: asc
     ports:
-      # To allow the host machine to access the ports below, modify the lines below.
-      # For example, to allow the host to connect to port 3306 on the container, you would change
-      # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
-      # See https://docs.docker.com/compose/compose-file/compose-file-v3/#ports for more information.
-      - '3306'
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - "3309:3306"
+    networks:
+      - dev
+  oysterpro:
+    image: mysql:5.5
+    container_name: db_oysterpro
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "mourad"
+      MYSQL_DATABASE: oysterpro
+    ports:
+      - "3307:3306"
+    networks:
+      - dev
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_asc
+    restart: always
+    depends_on:
+      - database
+      - oysterpro
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOSTS: database,oysterpro
+      PMA_PORT: 3309
+    networks:
+      - dev
+  mailer:
+    image: maildev/maildev
+    container_name: maildev_asc
+    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+    ports:
+      - "8081:80"
+    restart: always
+    networks:
+      - dev
+  www:
+    build: php
+    container_name: www_asc
+    ports:
+      - "2512:80"
+    volumes:
+      - ./:/var/www/asc
+      - ./php/vhosts:/etc/apache2/sites-enabled
+    restart: always
+    networks:
+      - dev
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+networks:
+  dev:
+
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  db-data:
