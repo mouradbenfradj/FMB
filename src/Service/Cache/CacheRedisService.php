@@ -16,7 +16,6 @@ class CacheRedisService
 
     public function __construct(CacheInterface $cache)
     {
-        dd('redus');
         $this->cache = $cache;
     }
 

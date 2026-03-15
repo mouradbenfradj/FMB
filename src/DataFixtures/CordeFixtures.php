@@ -60,7 +60,7 @@ class CordeFixtures extends Fixture implements DependentFixtureInterface
 
             $corde->setNom($data['nom']);
             $corde->setLongeur($data['longueur']);
-            $corde->setQuantiter($data['quantite']);
+            $corde->setquantite($data['quantite']);
 
             // Association avec le parc
             $parc = $this->getReference($data['parc_ref'], Parc::class);

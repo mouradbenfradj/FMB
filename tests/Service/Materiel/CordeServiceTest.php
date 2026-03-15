@@ -20,9 +20,9 @@ class CordeServiceTest extends TestCase
 
         // Mock Corde
         $corde = $this->createMock(Corde::class);
-        $corde->method('getQuantiter')->willReturn(100);
+        $corde->method('getquantite')->willReturn(100);
         $corde->expects($this->once())
-            ->method('setQuantiter')
+            ->method('setquantite')
             ->with(90); // 100 - 10
 
         // Mock Lot (StockArticleSn)

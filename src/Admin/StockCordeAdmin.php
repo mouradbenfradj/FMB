@@ -16,7 +16,7 @@ final class StockCordeAdmin extends AbstractAdmin
     {
         $filter
             ->add('id')
-            ->add('quantiter')
+            ->add('quantite')
             ->add('poid')
             ->add('longeur')
         ;
@@ -26,7 +26,7 @@ final class StockCordeAdmin extends AbstractAdmin
     {
         $list
             ->addIdentifier('id')
-            ->add('quantiter')
+            ->add('quantite')
             ->add('poid')
             ->add('longeur')
             ->add('emplacement')
@@ -53,7 +53,7 @@ final class StockCordeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('quantiter')
+            ->add('quantite')
             ->add('poid')
             ->add('longeur')
         ;
@@ -63,7 +63,7 @@ final class StockCordeAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('quantiter')
+            ->add('quantite')
             ->add('poid')
             ->add('longeur')
         ;

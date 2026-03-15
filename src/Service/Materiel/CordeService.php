@@ -24,9 +24,9 @@ class CordeService implements TravailleAFaireInterface
     public function preparation(object $materiel)
     {
         $materielChoisie = $materiel->getCorde();
-        $quantiterEnStock = $materiel->getCorde()->getQuantiter();
+        $quantiteEnStock = $materiel->getCorde()->getQuantite();
         $nombreAFabriquer = $materiel->getNombre();
-        $materielChoisie->setQuantiter($quantiterEnStock - $nombreAFabriquer);
+        $materielChoisie->setQuantite($quantiteEnStock - $nombreAFabriquer);
         $lot = $materiel->getLot();
         $this->entityManager->persist($materielChoisie);
         for ($i = 0; $i < $nombreAFabriquer; $i++) {

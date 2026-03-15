@@ -107,7 +107,7 @@ class StockCordeFixtures extends Fixture implements DependentFixtureInterface
 
                     $stockCorde = new StockCorde();
 
-                    $stockCorde->setQuantiter($data['quantite']);
+                    $stockCorde->setquantite($data['quantite']);
                     $stockCorde->setLongeur($data['longueur']);
                     $stockCorde->setPret($data['pret']);
                     $stockCorde->setDatedecreation($data['datedecreation']);

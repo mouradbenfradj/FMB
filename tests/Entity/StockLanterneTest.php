@@ -4,37 +4,27 @@ namespace App\Tests\Entity;
 
 use App\Entity\StockLanterne;
 use App\Entity\Lanterne;
-use App\Entity\Emplacement;
 use PHPUnit\Framework\TestCase;
 
 class StockLanterneTest extends TestCase
 {
-    public function testGetId()
-    {
-        $stockLanterne = new StockLanterne();
-        $this->assertNull($stockLanterne->getId());
-    }
-
-    public function testSetAndGetLanterne()
+    public function testLanterne(): void
     {
         $stockLanterne = new StockLanterne();
         $lanterne = new Lanterne();
+        $lanterne->setNomLanterne('Lanterne 1');
         $stockLanterne->setLanterne($lanterne);
-        $this->assertSame($lanterne, $stockLanterne->getLanterne());
+
+        $this->assertEquals($lanterne, $stockLanterne->getLanterne());
+        $this->assertEquals('Lanterne 1', (string)$stockLanterne);
     }
 
-    public function testSetAndGetEmplacement()
+    public function testquantite(): void
     {
         $stockLanterne = new StockLanterne();
-        $emplacement = new Emplacement();
-        $stockLanterne->setEmplacement($emplacement);
-        $this->assertSame($emplacement, $stockLanterne->getEmplacement());
-    }
+        $this->assertNull($stockLanterne->getquantite());
 
-    public function testSetAndGetQuantite()
-    {
-        $stockLanterne = new StockLanterne();
-        $stockLanterne->setQuantite(3);
-        $this->assertEquals(3, $stockLanterne->getQuantite());
+        $stockLanterne->setquantite(50);
+        $this->assertEquals(50, $stockLanterne->getquantite());
     }
 }

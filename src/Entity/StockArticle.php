@@ -16,7 +16,7 @@ class StockArticle
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $quantiter = 0;
+    private ?int $quantite = 0;
 
     #[ORM\ManyToOne(inversedBy: 'stockArticles')]
     #[ORM\JoinColumn(nullable: false)]
@@ -46,14 +46,14 @@ class StockArticle
         return $this->id;
     }
 
-    public function getQuantiter(): ?int
+    public function getQuantite(): ?int
     {
-        return $this->quantiter;
+        return $this->quantite;
     }
 
-    public function setQuantiter(int $quantiter): static
+    public function setQuantite(int $quantite): static
     {
-        $this->quantiter = $quantiter;
+        $this->quantite = $quantite;
 
         return $this;
     }

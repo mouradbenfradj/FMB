@@ -26,13 +26,13 @@ class PreparationCordeService
         $this->stockArticleSn = $stockArticleSn;
     }
 
-    public function prepare($materiel, $quantiterEnStock, $nombreChoisie, $nombreAFabriquer, $lot)
+    public function prepare($materiel, $quantiteEnStock, $nombreChoisie, $nombreAFabriquer, $lot)
     {
 
         $this->corde = $materiel->getCorde();
-        $quantiterEnStock = $materiel->getCorde()->getQuantiter();
+        $quantiteEnStock = $materiel->getCorde()->getQuantite();
         $nombreChoisie = $materiel->getNombre();
-        $this->corde->setQuantiter($quantiterEnStock - $nombreChoisie);
+        $this->corde->setQuantite($quantiteEnStock - $nombreChoisie);
         $this->entityManager->persist($this->corde);
         $nombreAFabriquer = $materiel->getNombre();
         $lot = $materiel->getLot();
@@ -44,20 +44,20 @@ class PreparationCordeService
 
 
 
-        $this->corde->setQuantiter($quantiterEnStock - $nombreChoisie);
-        $quantiterADiminuer = $lot->getSnQte();
+        $this->corde->setQuantite($quantiteEnStock - $nombreChoisie);
+        $quantiteADiminuer = $lot->getSnQte();
         for ($i = 0; $i < $nombreAFabriquer; $i++) {
-            $quantiterADiminuer = $quantiterADiminuer - $materiel->getDensite();
+            $quantiteADiminuer = $quantiteADiminuer - $materiel->getDensite();
 
             $stockCorde = new StockCorde();
 
             $stockCorde->setStockArticleSn($lot);
             $stockCorde->setDatedecreation($materiel->getDatedecreation());
             $stockCorde->setLongeur($materiel->getLongeur());
-            $stockCorde->setQuantiter($materiel->getDensite());
+            $stockCorde->setQuantite($materiel->getDensite());
             $this->corde->addStockCorde($stockCorde);
         }
-        $lot->setSnQte($quantiterADiminuer);
+        $lot->setSnQte($quantiteADiminuer);
         $this->entityManager->persist($lot);
         $this->entityManager->persist($this->corde);
     }

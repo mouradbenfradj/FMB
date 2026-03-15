@@ -12,13 +12,14 @@ use App\Entity\StockLanterne;
 use Doctrine\Common\EventSubscriber;
 use App\Service\Cache\ParcCacheService;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ParcCacheDoctrineSubscriber implements EventSubscriber
 {
-    public function __construct(private ParcCacheService $parcCacheService)
-    {
-        dd('ParcCacheDoctrineSubscriber');
-    }
+    public function __construct(
+        private EntityManagerInterface $em,
+        private ParcCacheService $parcCacheService
+    ) {}
 
     public function getSubscribedEvents(): array
     {
@@ -56,6 +57,7 @@ class ParcCacheDoctrineSubscriber implements EventSubscriber
             || $entity instanceof StockCorde
             || $entity instanceof StockLanterne
         ) {
+            $this->em->getConfiguration()->getResultCache()?->clear();
             $this->parcCacheService->refreshCache();
         }
     }

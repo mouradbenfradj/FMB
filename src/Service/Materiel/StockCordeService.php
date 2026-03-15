@@ -22,7 +22,7 @@ class StockCordeService /*  implements TravailleAFaireInterface */
         $stockCorde->setStockArticleSn($lot);
         $stockCorde->setDatedecreation($datedecreation);
         $stockCorde->setLongeur($longeur);
-        $stockCorde->setQuantiter($densite);
+        $stockCorde->setQuantite($densite);
         $stockCorde->setPret(false);
         $this->entityManager->persist($stockCorde);
     }

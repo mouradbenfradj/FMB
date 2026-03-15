@@ -3,32 +3,37 @@
 
 namespace App\Service;
 
+use App\Repository\CycleRepository;
+use App\Repository\FruitDeMerRepository;
+
 class MouleCalculator
 {
     private $p14; // Ratio poids brut/poids net
     private $k15; // Taux de croissance mensuel
+    private ?CycleRepository $cycleRepository;
+    private ?FruitDeMerRepository $fruitDeMerRepository;
 
-    public function __construct()
+    public function __construct(?CycleRepository $cycleRepository = null, ?FruitDeMerRepository $fruitDeMerRepository = null)
     {
-        //$this->p14 = 2.7378991445025265; // Valeur fixe de P14
-        $this->p14 = 1.8; // Valeur fixe de P14
-        $this->k15 = 0.9233333333; // Calcul du taux de croissance
-        //$this->k15 = (14.3 - 0.45) / 15; // Calcul du taux de croissance
+        $this->p14 = 1.8; 
+        $this->k15 = 0.9233333333;
+        $this->cycleRepository = $cycleRepository;
+        $this->fruitDeMerRepository = $fruitDeMerRepository;
     }
 
     /**
      * Calcule toutes les colonnes pour un âge donné
      */
-    public function calculateAllColumns(int $age, int $longeur, int $quantiter): array
+    public function calculateAllColumns(int $age, int $longeur, int $quantite): array
     {
         return [
             'col_j_u/kg' => $this->calculateColJ($age),
             'col_k_PM (g/u)' => $this->calculatePoidsParPiece($age),
-            'col_l_Survie (u/m)' => $this->calculateUiniterMetre($age, $quantiter),
+            'col_l_Survie (u/m)' => $this->calculateUiniterMetre($age, $quantite),
             'col_m' => $this->calculateTauxDeSurvie($age),
-            'col_n_Survie/t0' => $this->calculateColN($age, $quantiter),
-            'col_o_Net (KG)' => $this->calculatePoidsNet($age, $longeur, $quantiter),
-            'col_p_Brut (KG)' => $this->calculatePoidBrute($age, $longeur, $quantiter),
+            'col_n_Survie/t0' => $this->calculateColN($age, $quantite),
+            'col_o_Net (KG)' => $this->calculatePoidsNet($age, $longeur, $quantite),
+            'col_p_Brut (KG)' => $this->calculatePoidBrute($age, $longeur, $quantite),
         ];
     }
 
@@ -46,42 +51,28 @@ class MouleCalculator
      */
     public function calculatePoidsParPiece(int $age): float
     {
-        // Valeurs prédéfinies pour les âges spécifiques
+        // 1. Essayer de récupérer depuis l'entité Cycle
+        if ($this->cycleRepository && $this->fruitDeMerRepository) {
+            $moule = $this->fruitDeMerRepository->findOneBy(['nom' => 'moule']);
+            if ($moule) {
+                $cycle = $this->cycleRepository->findOneBy(['age' => $age, 'fruitDeMer' => $moule]);
+                if ($cycle && $cycle->getPoidsParPiece() !== null) {
+                    return $cycle->getPoidsParPiece();
+                }
+            }
+        }
+
+        // 2. Fallback
         $poidsParAge = [
-            0 => 0.45, // Moyenne de 0,002-0,005
-            15 => 14.3,
-            16 => 16.7,
-            17 => 20,
-            18 => 25,
-            19 => 28.6,
-            20 => 33.3,
-            21 => 40,
-            22 => 50,
-            23 => 66.7
+            0 => 0.45, 15 => 14.3, 16 => 16.7, 17 => 20, 18 => 25,
+            19 => 28.6, 20 => 33.3, 21 => 40, 22 => 50, 23 => 66.7
         ];
 
         if (isset($poidsParAge[$age])) {
             return $poidsParAge[$age];
         }
 
-        // Pour les autres âges, calcul progressif
         return round(0.45 + ($age * $this->k15), 3);
-    }
-
-    /**
-     * Colonne L: Unités par mètre (U/M)
-     */
-    public function calculateUiniterMetre(int $age, int $quantiter): float
-    {
-        if ($age === 0) {
-            return $quantiter;
-        }
-
-        $prevAge = $age - 1;
-        $prevU = $this->calculateUiniterMetre($prevAge, $quantiter);
-        $prevSurvie = $this->calculateTauxDeSurvie($prevAge);
-
-        return $prevU * $prevSurvie;
     }
 
     /**
@@ -89,83 +80,43 @@ class MouleCalculator
      */
     public function calculateTauxDeSurvie(int $age): float
     {
-        if ($age === 0) {
-            return 0.9; // Taux de survie initial
+        // 1. Essayer de récupérer depuis l'entité Cycle
+        if ($this->cycleRepository && $this->fruitDeMerRepository) {
+            $moule = $this->fruitDeMerRepository->findOneBy(['nom' => 'moule']);
+            if ($moule) {
+                $cycle = $this->cycleRepository->findOneBy(['age' => $age, 'fruitDeMer' => $moule]);
+                if ($cycle && $cycle->getTauxSurvie() !== null) {
+                    return $cycle->getTauxSurvie();
+                }
+            }
         }
 
-        // Pour simplifier, on garde un taux constant
-        // À adapter selon vos besoins spécifiques
+        // 2. Fallback
         return 0.9;
     }
 
-    /**
-     * Colonne N: Survie relative (RESTE)
-     */
-    public function calculateColN(int $age, $quantiter): float
+    public function calculateUiniterMetre(int $age, int $quantite): float
     {
-        $uActuel = $this->calculateUiniterMetre($age, $quantiter);
-        $uInitial = $this->calculateUiniterMetre(0, $quantiter);
-
-        return round(($uActuel / $uInitial) * 100);
+        if ($age === 0) {
+            return $quantite;
+        }
+        return $this->calculateUiniterMetre($age - 1, $quantite) * $this->calculateTauxDeSurvie($age);
     }
 
-    /**
-     * Colonne O: Poids net (KG/M)
-     */
-    public function calculatePoidsNet(int $age, int $longeur, int $quantiter): float
+    public function calculateColN(int $age, int $quantite): float
     {
-        $uParM = $this->calculateUiniterMetre($age, $quantiter);
+        return $this->calculateUiniterMetre($age, $quantite);
+    }
+
+    public function calculatePoidsNet(int $age, int $longeur, int $quantite): float
+    {
         $poidsUnitaire = $this->calculatePoidsParPiece($age);
-
-        return $longeur * round(($uParM * $poidsUnitaire) / 1000, 1);
+        $reste = $this->calculateColN($age, $quantite);
+        return round(($poidsUnitaire * $reste * $longeur) / 1000, 2);
     }
 
-    /**
-     * Colonne P: Poids brut (KG/M)
-     */
-    public function calculatePoidBrute(int $age, int $longeur, int $quantiter): float
+    public function calculatePoidBrute(int $age, int $longeur, int $quantite): float
     {
-        $poidsNet = $this->calculatePoidsNet($age, $longeur, $quantiter);
-        return round($poidsNet * $this->p14, 1);
-    }
-
-    /**
-     * Colonne Q: Vérification (non claire dans le fichier)
-     */
-    public function calculateColQ(int $age, int $longeur, int $quantiter): float
-    {
-        $poidsBrut2m = $this->calculateColS($age, $longeur, $quantiter);
-        $poidsNet = $this->calculatePoidsNet($age, $longeur, $quantiter);
-
-        return $poidsBrut2m - (2 * $poidsNet);
-    }
-
-    /**
-     * Colonne R: Poids net pour 2m de corde (KG/2M)
-     */
-    public function calculateColR(int $age, int $longeur, int $quantiter): float
-    {
-        $poidsNet = $this->calculatePoidsNet($age, $longeur, $quantiter);
-        return round($poidsNet * $longeur, 1);
-    }
-
-    /**
-     * Colonne S: Poids brut pour 2m de corde (KG/2M)
-     */
-    public function calculateColS(int $age, int $longeur, int $quantiter): float
-    {
-        $poidsBrut = $this->calculateColR($age, $longeur, $quantiter);
-        return round($poidsBrut * $this->p14, 1);
-    }
-
-    /**
-     * Colonne T: Vérification (non claire dans le fichier)
-     */
-    public function calculateColT(int $age, int $longeur, int $quantiter): float
-    {
-        $poidsBrut2m = $this->calculateColS($age, $longeur, $quantiter);
-        $poidsBrut = $this->calculatePoidBrute($age, $longeur, $quantiter);
-
-        return $poidsBrut2m - (2 * $poidsBrut);
+        return round($this->calculatePoidsNet($age, $longeur, $quantite) * $this->p14, 2);
     }
 }

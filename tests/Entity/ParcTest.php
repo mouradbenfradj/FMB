@@ -98,12 +98,12 @@ class ParcTest extends TestCase
     {
         $parc = new Parc();
         $corde1 = new Corde();
-        $corde1->setQuantiter(5);
+        $corde1->setquantite(5);
         $corde2 = new Corde();
-        $corde2->setQuantiter(10);
+        $corde2->setquantite(10);
         $parc->addCorde($corde1);
         $parc->addCorde($corde2);
 
-        $this->assertEquals(15, array_sum(array_map(fn($corde): int => $corde->getQuantiter(), $parc->getCordes()->toArray())));
+        $this->assertEquals(15, array_sum(array_map(fn($corde): int => $corde->getquantite(), $parc->getCordes()->toArray())));
     }
 }

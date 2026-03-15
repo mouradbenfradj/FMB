@@ -16,28 +16,106 @@ class StockLanterneRepository extends ServiceEntityRepository
         parent::__construct($registry, StockLanterne::class);
     }
 
-    //    /**
-    //     * @return StockLanterne[] Returns an array of StockLanterne objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Compte le total des lanternes pour un parc donné
+     */
+    public function countTotalLanternes(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sl')
+            ->select('COUNT(sl.id)');
 
-    //    public function findOneBySomeField($value): ?StockLanterne
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($parcId !== 0) {
+            $qb->leftJoin('sl.stockArticleSn', 'sn')
+                ->leftJoin('sn.stockArticle', 'sa')
+                ->leftJoin('sa.stock', 's')
+                ->andWhere('s.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les lanternes à l'eau (emplacement != null, dateDeMiseAEau != null)
+     */
+    public function countLanternesALeau(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sl')
+            ->select('COUNT(sl.id)')
+            ->where('sl.emplacement IS NOT NULL')
+            ->andWhere('sl.dateDeMiseAEau IS NOT NULL');
+
+        if ($parcId !== 0) {
+            $qb->leftJoin('sl.stockArticleSn', 'sn')
+                ->leftJoin('sn.stockArticle', 'sa')
+                ->leftJoin('sa.stock', 's')
+                ->andWhere('s.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les lanternes vides (sans StockArticleSn ou quantite = 0)
+     */
+    public function countLanternesVides(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sl')
+            ->select('COUNT(sl.id)')
+            ->where('sl.quantite IS NULL OR sl.quantite = 0');
+
+        if ($parcId !== 0) {
+            $qb->leftJoin('sl.stockArticleSn', 'sn')
+                ->leftJoin('sn.stockArticle', 'sa')
+                ->leftJoin('sa.stock', 's')
+                ->andWhere('s.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les lanternes préparées (pret = false, emplacement = null)
+     */
+    public function countLanternesPreparees(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sl')
+            ->select('COUNT(sl.id)')
+            ->where('sl.pret = :pret')
+            ->andWhere('sl.emplacement IS NULL')
+            ->setParameter('pret', false);
+
+        if ($parcId !== 0) {
+            $qb->leftJoin('sl.stockArticleSn', 'sn')
+                ->leftJoin('sn.stockArticle', 'sa')
+                ->leftJoin('sa.stock', 's')
+                ->andWhere('s.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les lanternes avec chaussement (chaussement = true)
+     * Note: Cette méthode nécessite d'ajouter le champ chaussement à StockLanterne
+     */
+    /* public function countChaussettesLanternes(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sl')
+            ->select('COUNT(sl.id)')
+            ->where('sl.chaussement = :chaussement')
+            ->setParameter('chaussement', true);
+
+        if ($parcId !== 0) {
+            $qb->leftJoin('sl.stockArticleSn', 'sn')
+                ->leftJoin('sn.stock', 's')
+                ->andWhere('s.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    } */
 }

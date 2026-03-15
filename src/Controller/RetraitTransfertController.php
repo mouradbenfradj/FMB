@@ -245,10 +245,16 @@ final class RetraitTransfertController extends AbstractController
             }
 
             // Transférer les matériaux
+            $now = new \DateTime();
             foreach ($sources as $index => $source) {
                 $destination = $destinations[$index];
-                if ($source->getStockMateriel() && !$destination->getStockMateriel()) {
+                if ($source->getStockMateriel()) {
                     $stockMateriel = $source->getStockMateriel();
+                    
+                    // Mise à jour des dates de transfert
+                    $stockMateriel->setDatederetraittransfert($now);
+                    $stockMateriel->setDatedemaetransfert($now);
+                    
                     $destination->setStockMateriel($stockMateriel);
                     $stockMateriel->setEmplacement($destination);
                     $source->setStockMateriel(null);

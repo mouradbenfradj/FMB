@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Entity\StockCorde;
 use App\Entity\Emplacement;
+use App\Entity\Phase;
+use App\Entity\Processus;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\StockLanterne;
 use App\Entity\StockArticleSn;
@@ -46,9 +48,48 @@ abstract class StockMateriel
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     protected ?\DateTime $dateDeMiseAEau = null;
 
+    #[ORM\ManyToOne]
+    protected ?Phase $phase = null;
+
+    #[ORM\ManyToOne]
+    protected ?Processus $processus = null;
+
+    #[ORM\Column(nullable: true)]
+    protected ?int $quantite = null;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(?int $quantite): void
+    {
+        $this->quantite = $quantite;
+    }
+
+    public function getPhase(): ?Phase
+    {
+        return $this->phase;
+    }
+
+    public function setPhase(?Phase $phase): void
+    {
+        $this->phase = $phase;
+    }
+
+    public function getProcessus(): ?Processus
+    {
+        return $this->processus;
+    }
+
+    public function setProcessus(?Processus $processus): void
+    {
+        $this->processus = $processus;
     }
 
     public function getDatedecreation(): ?\DateTime

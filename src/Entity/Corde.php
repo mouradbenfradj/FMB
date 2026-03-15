@@ -29,7 +29,7 @@ class Corde
     private Collection $stockCordes;
 
     #[ORM\Column]
-    private ?int $quantiter = null;
+    private ?int $quantite = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
@@ -107,14 +107,14 @@ class Corde
         return $this;
     }
 
-    public function getQuantiter(): ?int
+    public function getQuantite(): ?int
     {
-        return $this->quantiter;
+        return $this->quantite;
     }
 
-    public function setQuantiter(int $quantiter): static
+    public function setQuantite(int $quantite): static
     {
-        $this->quantiter = $quantiter;
+        $this->quantite = $quantite;
 
         return $this;
     }

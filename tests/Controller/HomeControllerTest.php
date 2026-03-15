@@ -4,26 +4,30 @@ namespace App\Tests\Controller;
 
 use App\Entity\Parc;
 use App\Repository\ParcRepository;
-use Symfony\Component\HttpFoundation\Response;
+use App\Tests\Traits\AuthenticatedClientTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class HomeControllerTest extends WebTestCase
 {
+    use AuthenticatedClientTrait;
+
     public function testIndexDefaultRoute(): void
     {
-        $client = static::createClient();
+        $client = $this->createAuthenticatedClient();
         $crawler = $client->request('GET', '/');
-        $this->assertResponseIsSuccessful();
+        $this->assertPageTitleContains('Parc en chiffres');
         $this->assertSelectorTextContains('#topnav-dashboard', 'Parc en chiffres');
-        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li:nth-child(2) > a', 'Parc en chiffres');
-        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > h4', 'Tous les parcs');
-        $this->assertSelectorTextContains('#wrapper > div.content-page > div > div > aside > div > div > div > ol > li.breadcrumb-item.active.chosenParc', 'Tous les parcs');
-        $this->assertSelectorTextContains('#wrapper > div.navbar-custom > div > ul.list-unstyled.topnav-menu.topnav-menu-left.m-0 > li.dropdown.d-none.d-xl-block > a', 'Tous les parcs');
+        $this->assertSelectorTextContains('#swup > div:nth-child(2) > div:nth-child(1) > div > div > div:nth-child(2) > div > p', 'Parc en chiffres');
+        $this->assertSelectorTextContains('#parc > a', 'TOUS');
+        $this->assertSelectorTextContains('#swup > aside > div > div > h4', 'TOUS');
+        $this->assertSelectorTextContains('#swup > aside > div > div > div > ol > li.breadcrumb-item.active.chosenParc', 'TOUS');
+        $this->assertSelectorTextContains('li#parc .dropdown-menu .dropdown-item', 'Tous les parcs');
+        $this->assertSelectorTextContains('li#parc .dropdown-menu .dropdown-item', 'Tous les parcs2');
     }
 
     public function testIndexHomeRoute(): void
     {
-        $client = static::createClient();
+        $client = $this->createAuthenticatedClient();
         $crawler = $client->request('GET', '/');
 
         $this->assertResponseIsSuccessful();
@@ -37,7 +41,7 @@ class HomeControllerTest extends WebTestCase
     }
     public function testIndexHomeParcRouteWithValidParc(): void
     {
-        $client = static::createClient();
+        $client = $this->createAuthenticatedClient();
 
         // Mock ParcRepository
         $parc = new Parc();
@@ -83,7 +87,7 @@ class HomeControllerTest extends WebTestCase
 
     public function testIndexHomeParcRouteWithInvalidParc(): void
     {
-        $client = static::createClient();
+        $client = $this->createAuthenticatedClient();
 
         // Mock ParcRepository
         $parcRepository = $this->createMock(ParcRepository::class);
@@ -115,7 +119,7 @@ class HomeControllerTest extends WebTestCase
 
     public function testNumberOfParcsDisplayed(): void
     {
-        $client = static::createClient();
+        $client = $this->createAuthenticatedClient();
 
         // Mock ParcRepository avec 4 parcs
         $parcs = [];

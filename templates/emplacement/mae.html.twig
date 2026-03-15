@@ -27,53 +27,97 @@
 						{% endfor %}
 					</td>
 				{% endif %}
-				<td>{{ emplacement.place }}
-					{% if emplacement.stockMateriel is null %}
-						<input type="checkbox" name="emplacement[]" value="{{ emplacement.id }}" form="mae_corde"/>
-					{% else %}
-						{% set stockMateriel = emplacement.stockMateriel %}
-						{% if stockMateriel.corde is defined %}
-							{% set stockCorde = stockMateriel %}
-							<br>corde id:
-							{{ stockCorde.id }}<br>quantiter:
-							{{ stockCorde.quantiter }}
-							<br>dateMAE:{{ stockCorde.dateDeMiseAEau|date('d/m/Y') }}
-							<br>age précis:
-							{{ stockCorde.dateDeMiseAEau|age_en_mois }}
-							mois
-							<br>taille corde:{{ stockCorde.corde.longeur }}
-							{% set age = stockCorde.dateDeMiseAEau|age_en_mois  %}
-							{% set longeur = stockCorde.corde.longeur %}
-							{% set quantiter = stockCorde.quantiter %}
+				<td style="position: relative;">
+					<div>
+						{{ emplacement.place }}
+						{% if emplacement.stockMateriel is null %}
+							<input type="checkbox" name="emplacement[]" value="{{ emplacement.id }}" form="mae_corde"/>
+						{% else %}
+							{% set stockMateriel = emplacement.stockMateriel %}
+							{% if stockMateriel.corde is defined %}
+								{% set stockCorde = stockMateriel %}
+								<br>corde id:
+								{{ stockCorde.id }}<br>quantite:
+								{{ stockCorde.quantite }}
+								<br>dateMAE:{{ stockCorde.dateDeMiseAEau|date('d/m/Y') }}
+								<br>age précis:
+								{{ stockCorde.dateDeMiseAEau|age_en_mois }}
+								mois
+								<br>taille corde:{{ stockCorde.corde.longeur }}
+								{% set age = stockCorde.dateDeMiseAEau|age_en_mois  %}
+								{% set longeur = stockCorde.corde.longeur %}
+								{% set quantite = stockCorde.quantite %}
 
-							<table>
-								<tr>
-									<td>Unités par KG:</td>
-									<td>{{ moule_col_j(age) }}</td>
-								</tr>
-								<tr>
-									<td>Poids unitaire:</td>
-									<td>{{ moule_col_k(age) }}
-										g</td>
-								</tr>
-								<tr>
-									<td>Survie (u/m):</td>
-									<td>{{ moule_col_l(age, quantiter) }}
-										u</td>
-								</tr>
-								<tr>
-									<td>Poids net:</td>
-									<td>{{ moule_col_o(age, longeur, quantiter) }}
-										KG</td>
-								</tr>
-								<tr>
-									<td>Poids brut:</td>
-									<td>{{ moule_col_p(age, longeur, quantiter) }}
-										KG</td>
-								</tr>
-							</table>
+								<table>
+									<tr>
+										<td>Unités par KG:</td>
+										<td>{{ moule_col_j(age) }}</td>
+									</tr>
+									<tr>
+										<td>Poids unitaire:</td>
+										<td>{{ moule_col_k(age) }}
+											g</td>
+									</tr>
+									<tr>
+										<td>Survie (u/m):</td>
+										<td>{{ moule_col_l(age, quantite) }}
+											u</td>
+									</tr>
+									<tr>
+										<td>Poids net:</td>
+										<td>{{ moule_col_o(age, longeur, quantite) }}
+											KG</td>
+									</tr>
+									<tr>
+										<td>Poids brut:</td>
+										<td>{{ moule_col_p(age, longeur, quantite) }}
+											KG</td>
+									</tr>
+								</table>
+							{% endif %}
 						{% endif %}
-					{% endif %}
+					</div>
+					<div style="display: none; position: absolute; top: 0; left: calc(100% + 5px); z-index: 1055; width: 450px; max-width: 90vw; background: white; border: 1px solid #dee2e6; border-radius: 8px; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); padding: 1rem; font-size: 0.875rem; pointer-events: none;">
+						{% include 'emplacement/_emplacement_tooltip.html.twig' with {'emplacement': emplacement, 'segment': segment} %}
+					</div>
+					<style>
+						td[style*="position: relative"]
+						{
+							width: 100% !important;
+						}
+						td[style*="position: relative"]:hover div[style*="display: none"]
+						{
+							display: block !important;
+						}
+						td[style*="position: relative"]:hover div[style*="display: none"]
+						{
+							animation: tooltipSlide 0.2s ease-out;
+						}
+						@keyframes tooltipSlide
+						{
+							from
+							{
+								opacity: 0;
+								transform: translateX(10px);
+							}
+							to
+							{
+								opacity: 1;
+								transform: translateX(0);
+							}
+						}
+						@media(max-width: 768px)
+						{
+							div[style*="position: absolute"]
+							{
+								position: fixed !important;
+								top: 50% !important;
+								left: 50% !important;
+								transform: translate(-50%, -50%) !important;
+								width: 90vw !important;
+							}
+						}
+					</style>
 				</td>
 				{% if loop.index0 % 10 == 9 or loop.last %}
 					{% set distanceSurSegment = distanceSurSegment + (segment.pasEmplacement * 10) %}

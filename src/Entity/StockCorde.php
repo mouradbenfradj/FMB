@@ -14,11 +14,6 @@ use App\Repository\StockCordeRepository;
 //#[ApiResource]
 class StockCorde extends StockMateriel
 {
-    private ?MouleCalculator $mouleCalculator = null; // Rendez-le nullable
-
-    #[ORM\Column]
-    private ?int $quantiter = null;
-
     #[ORM\Column]
     private ?float $longeur = null;
 
@@ -38,26 +33,6 @@ class StockCorde extends StockMateriel
     public function __toString()
     {
         return $this->corde->getNom();
-    }
-
-    public function getQuantiter(): ?int
-    {
-        return $this->quantiter;
-    }
-
-    public function setQuantiter(int $quantiter): static
-    {
-        $this->quantiter = $quantiter;
-
-        return $this;
-    }
-
-    public function getPoid(int $age = 12): ?float
-    {
-        if (!$this->mouleCalculator) {
-            return null; // Return null if MouleCalculator is not injected
-        }
-        return $this->mouleCalculator->calculatePoidBrute($age, $this->longeur, $this->quantiter);
     }
 
     public function getLongeur(): ?float

@@ -79,10 +79,10 @@ class EmplacementService
         $stockMateriel =  $this->emplacement->getStockMateriel();
 
         if ($stockMateriel instanceof StockCorde) {
-            //dump($stockMateriel->getQuantiter());
+            //dump($stockMateriel->getquantite());
             //dump($stockMateriel->getLongeur());
-            //dump($this->mouleCalculator->calculateAllColumns(0, $stockMateriel->getLongeur(), $stockMateriel->getQuantiter()));
-            //dump($this->mouleCalculator->calculateAllColumns(1, $stockMateriel->getLongeur(), $stockMateriel->getQuantiter()));
+            //dump($this->mouleCalculator->calculateAllColumns(0, $stockMateriel->getLongeur(), $stockMateriel->getquantite()));
+            //dump($this->mouleCalculator->calculateAllColumns(1, $stockMateriel->getLongeur(), $stockMateriel->getquantite()));
             //dd($stockMateriel);
         }
 

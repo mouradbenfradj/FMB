@@ -25,9 +25,9 @@ class LanterneService implements TravailleAFaireInterface
     public function preparation(object $materiel)
     {
         $lanterneChoisie = $materiel->getLanterne();
-        $quantiterEnStock = $materiel->getLanterne()->getNbrEnStock();
+        $quantiteEnStock = $materiel->getLanterne()->getNbrEnStock();
         $nombreAFabriquer = $materiel->getNombre();
-        $lanterneChoisie->setNbrEnStock($quantiterEnStock - $nombreAFabriquer);
+        $lanterneChoisie->setNbrEnStock($quantiteEnStock - $nombreAFabriquer);
         $lot = $materiel->getLot();
         $this->entityManager->persist($lanterneChoisie);
         for ($i = 0; $i < $nombreAFabriquer; $i++) {
