@@ -43,7 +43,7 @@ class StockArticleFixtures extends Fixture implements DependentFixtureInterface
 
         foreach ($stockArticleData as $i => $data) {
             $stockArticle = new StockArticle();
-            $stockArticle->setQuantiter($data['quantite']);
+            $stockArticle->setquantite($data['quantite']);
 
             // Association avec Stock
             /** @var Stock $stock */

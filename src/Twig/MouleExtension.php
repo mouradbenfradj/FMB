@@ -71,9 +71,9 @@ class MouleExtension extends AbstractExtension
     /**
      * Colonne L: Unités par mètre (U/M)
      */
-    public function calculateUiniterMetre(int $age, int $quantiter): float
+    public function calculateUiniterMetre(int $age, int $quantite): float
     {
-        return $this->calculator->calculateUiniterMetre($age, $quantiter);
+        return $this->calculator->calculateUiniterMetre($age, $quantite);
     }
 
     /**
@@ -87,64 +87,64 @@ class MouleExtension extends AbstractExtension
     /**
      * Colonne N: Survie relative (RESTE)
      */
-    public function calculateColN(int $age, int $quantiter): float
+    public function calculateColN(int $age, int $quantite): float
     {
-        return $this->calculator->calculateColN($age, $quantiter);
+        return $this->calculator->calculateColN($age, $quantite);
     }
 
     /**
      * Colonne O: Poids net (KG/M)
      */
-    public function calculatePoidsNet(int $age, int $longeur, int $quantiter): float
+    public function calculatePoidsNet(int $age, int $longeur, int $quantite): float
     {
-        return $this->calculator->calculatePoidsNet($age, $longeur, $quantiter);
+        return $this->calculator->calculatePoidsNet($age, $longeur, $quantite);
     }
 
     /**
      * Colonne P: Poids brut (KG/M)
      */
-    public function calculatePoidBrute(int $age, int $longeur, int $quantiter): float
+    public function calculatePoidBrute(int $age, int $longeur, int $quantite): float
     {
-        return $this->calculator->calculatePoidBrute($age, $longeur, $quantiter);
+        return $this->calculator->calculatePoidBrute($age, $longeur, $quantite);
     }
 
     /**
      * Colonne Q: Vérification
      */
-    public function calculateColQ(int $age, int $longeur, int $quantiter): float
+    public function calculateColQ(int $age, int $longeur, int $quantite): float
     {
-        return $this->calculator->calculateColQ($age, $longeur, $quantiter);
+        return $this->calculator->calculateColQ($age, $longeur, $quantite);
     }
 
     /**
      * Colonne R: Poids net pour 2m de corde (KG/2M)
      */
-    public function calculateColR(int $age, int $longeur, int $quantiter): float
+    public function calculateColR(int $age, int $longeur, int $quantite): float
     {
-        return $this->calculator->calculateColR($age, $longeur, $quantiter);
+        return $this->calculator->calculateColR($age, $longeur, $quantite);
     }
 
     /**
      * Colonne S: Poids brut pour 2m de corde (KG/2M)
      */
-    public function calculateColS(int $age, int $longeur, int $quantiter): float
+    public function calculateColS(int $age, int $longeur, int $quantite): float
     {
-        return $this->calculator->calculateColS($age, $longeur, $quantiter);
+        return $this->calculator->calculateColS($age, $longeur, $quantite);
     }
 
     /**
      * Colonne T: Vérification
      */
-    public function calculateColT(int $age, int $longeur, int $quantiter): float
+    public function calculateColT(int $age, int $longeur, int $quantite): float
     {
-        return $this->calculator->calculateColT($age, $longeur, $quantiter);
+        return $this->calculator->calculateColT($age, $longeur, $quantite);
     }
 
     /**
      * Toutes les colonnes
      */
-    public function calculateAllColumns(int $age, int $longeur, int $quantiter): array
+    public function calculateAllColumns(int $age, int $longeur, int $quantite): array
     {
-        return $this->calculator->calculateAllColumns($age, $longeur, $quantiter);
+        return $this->calculator->calculateAllColumns($age, $longeur, $quantite);
     }
 }

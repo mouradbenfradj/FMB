@@ -1,0 +1,15 @@
+{
+    "snyk.advanced.organization": "cf9d7b89-7f93-40dd-b5ab-47a8d88a62bc",
+    "snyk.advanced.autoSelectOrganization": true,
+    "php.executablePath": "docker exec -i www_asc php",
+    "symfony-vscode.phpExecutablePath": "docker exec -i www_asc php",
+    "symfony-vscode.phpPath": "docker exec -i www_asc php",
+    "php.debug.executablePath": "docker exec -i www_asc php",
+    "composer.executablePath": "docker exec -i www_asc composer",
+    "php-composer.composerPath": "docker exec -i www_asc composer",
+    "symfony-vscode.composerPath": "docker exec -i www_asc composer",
+    "phpcs.executablePath": ".vscode/phpcs.bat",
+    "php-cs-fixer.executablePath": ".vscode/php-cs-fixer.bat",
+    "phpResolver.phpCsFixerCommand": ".vscode/php-cs-fixer.bat",
+    "php-cs-fixer.onsave": true
+}

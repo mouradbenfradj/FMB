@@ -30,11 +30,11 @@ class CordeTest extends TestCase
         $this->assertEquals(10.5, $corde->getLongeur());
     }
 
-    public function testSetAndGetQuantiter()
+    public function testSetAndGetquantite()
     {
         $corde = new Corde();
-        $corde->setQuantiter(100);
-        $this->assertEquals(100, $corde->getQuantiter());
+        $corde->setquantite(100);
+        $this->assertEquals(100, $corde->getquantite());
     }
 
     public function testSetAndGetParc()

@@ -17,6 +17,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Service\EtatActuelProd\EtatActuelProdService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use App\Repository\PhaseRepository;
+use App\Repository\ProcessusRepository;
+
 #[Route('/mae')]
 final class MAEController extends AbstractController
 {
@@ -24,6 +27,8 @@ final class MAEController extends AbstractController
         private ParcCacheService $parcCache,
         private EtatActuelProdService $etatActuelProdService,
         private Environment $twig,
+        private PhaseRepository $phaseRepository,
+        private ProcessusRepository $processusRepository,
     ) {}
 
     #[Route('/corde/{parc}', name: 'app_m_a_e_corde')]
@@ -159,6 +164,10 @@ final class MAEController extends AbstractController
         $emplacements = $emplacementRepository->findBy(['id' => $emplacementsIds]);
         $dateDeMAE = new \DateTime($formData['datedeMAE']);
 
+        $phase = isset($formData['phase']) ? $this->phaseRepository->find($formData['phase']) : null;
+        $processus = isset($formData['processus']) ? $this->processusRepository->find($formData['processus']) : null;
+        $densiter = $formData['densiter'] ?? null;
+
         // Préparer les données pour l'affichage
         $cordesCount = count($cordes);
         $emplacementsCount = count($emplacements);
@@ -166,7 +175,10 @@ final class MAEController extends AbstractController
         // Traitement de la confirmation
         if ($request->isMethod('POST') && $request->request->get('confirm')) {
             // Vérifier la correspondance entre cordes et emplacements
-
+            if ($cordesCount < $emplacementsCount) {
+                $this->addFlash('error', sprintf('Pas assez de cordes disponibles (%d) pour le nombre d\'emplacements sélectionnés (%d).', $cordesCount, $emplacementsCount));
+                return $this->redirectToRoute('app_m_a_e_corde', ['parc' => $parc->getId()]);
+            }
 
             // Assigner les emplacements aux cordes
             foreach ($emplacements as $index => $emplacement) {
@@ -175,12 +187,18 @@ final class MAEController extends AbstractController
                     $corde->setEmplacement($emplacement);
                     $emplacement->setStockMateriel($corde);
                     $corde->setDateDeMiseAEau($dateDeMAE);
-                    // Vous pouvez ajouter d'autres setters si nécessaire
+
+                    if ($phase) $corde->setPhase($phase);
+                    if ($processus) $corde->setProcessus($processus);
+                    if ($densiter) $corde->setQuantite((int)$densiter);
                 }
             }
 
             // Sauvegarder en base de données
             $entityManager->flush();
+
+            // Rafraîchir le cache
+            $this->parcCache->refreshCache();
 
             // Nettoyer la session
             $request->getSession()->remove('form_data');
@@ -373,20 +391,37 @@ final class MAEController extends AbstractController
         $emplacements = $emplacementRepository->findBy(['id' => $emplacementsIds]);
         $dateDeMAE = new \DateTime($formData['datedeMAE']);
 
+        $phase = isset($formData['phase']) ? $this->phaseRepository->find($formData['phase']) : null;
+        $processus = isset($formData['processus']) ? $this->processusRepository->find($formData['processus']) : null;
+        $densiter = $formData['densiter'] ?? null;
+
         $lanternesCount = count($lanternes);
         $emplacementsCount = count($emplacements);
 
         if ($request->isMethod('POST') && $request->request->get('confirm')) {
+            // Vérifier la correspondance
+            if ($lanternesCount < $emplacementsCount) {
+                $this->addFlash('error', sprintf('Pas assez de lanternes disponibles (%d) pour le nombre d\'emplacements sélectionnés (%d).', $lanternesCount, $emplacementsCount));
+                return $this->redirectToRoute('app_m_a_e_lanterne', ['parc' => $parc->getId()]);
+            }
+
             foreach ($emplacements as $index => $emplacement) {
                 if (isset($lanternes[$index])) {
                     $lanterne = $lanternes[$index];
                     $lanterne->setEmplacement($emplacement);
                     $emplacement->setStockMateriel($lanterne);
                     $lanterne->setDateDeMiseAEau($dateDeMAE);
+
+                    if ($phase) $lanterne->setPhase($phase);
+                    if ($processus) $lanterne->setProcessus($processus);
+                    if ($densiter) $lanterne->setQuantite((int)$densiter);
                 }
             }
 
             $entityManager->flush();
+
+            // Rafraîchir le cache
+            $this->parcCache->refreshCache();
 
             $request->getSession()->remove('form_data');
             $request->getSession()->remove('emplacements');

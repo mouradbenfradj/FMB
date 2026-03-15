@@ -61,11 +61,11 @@ class PreparationCordeType extends AbstractType
             ])
             ->addDependent('quantiteEnStock', 'corde', function (DependentField $field, ?Corde $corde) use ($parc) {
                 if ($corde) {
-                    $quantiter = $corde->getQuantiter();
+                    $quantite = $corde->getQuantite();
                     $field->add(IntegerType::class, [
                         'label' => 'STOCK CORDES',
-                        'attr' => ['value' => $quantiter, 'class' => 'form-control', 'readonly' => true],
-                        'data' => $quantiter,
+                        'attr' => ['value' => $quantite, 'class' => 'form-control', 'readonly' => true],
+                        'data' => $quantite,
                     ]);
                 }
             })->add('fruitDeMer', EntityType::class, [

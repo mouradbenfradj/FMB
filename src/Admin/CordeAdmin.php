@@ -29,7 +29,7 @@ final class CordeAdmin extends AbstractAdmin
             ->add('nom', null, [
                 'label' => 'NOM CORDE'
             ])
-            ->add('quantiter', null, [
+            ->add('quantite', null, [
                 'label' => 'QUANTITES'
             ])
             ->add('stockCordes')
@@ -53,7 +53,7 @@ final class CordeAdmin extends AbstractAdmin
                 'label' => 'NOM CORDE'
             ])
 
-            ->add('quantiter', IntegerType::class, [
+            ->add('quantite', IntegerType::class, [
                 'label' => 'QUANTITES'
             ])
             ->add(ListMapper::NAME_ACTIONS, null, [
@@ -80,7 +80,7 @@ final class CordeAdmin extends AbstractAdmin
             ->add('nom', TextType::class, [
                 'label' => 'NOM CORDE'
             ])
-            ->add('quantiter', IntegerType::class, [
+            ->add('quantite', IntegerType::class, [
                 'label' => 'QUANTITES'
             ])
             ->add('longeur', NumberType::class);
@@ -99,7 +99,7 @@ final class CordeAdmin extends AbstractAdmin
             ->add('nom', TextType::class, [
                 'label' => 'NOM CORDE'
             ])
-            ->add('quantiter', IntegerType::class, [
+            ->add('quantite', IntegerType::class, [
                 'label' => 'QUANTITES'
             ])
 

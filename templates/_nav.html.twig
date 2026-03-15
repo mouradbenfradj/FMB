@@ -30,8 +30,8 @@
 										<i class="mdi mdi-chevron-down"></i>
 									</button>
 									<div class="dropdown-menu" aria-labelledby="preparation">
-										<a href="{{ path('app_preparation_corde',{'parc' : app.request.session.get('selected_parc_id', 0) }) }}" class="dropdown-item">Préparation Corde</a>
-										<a href="{{ path('app_preparation_lanterne',{'parc' :app.request.session.get('selected_parc_id', 0) }) }}" class="dropdown-item">Préparation Lanterne</a>
+										<a href="{{ path('app_preparation',{'type': 'corde', 'parc' : app.request.session.get('selected_parc_id', 0) }) }}" class="dropdown-item">Préparation Corde</a>
+										<a href="{{ path('app_preparation',{'type': 'lanterne', 'parc' :app.request.session.get('selected_parc_id', 0) }) }}" class="dropdown-item">Préparation Lanterne</a>
 										<a href="{{ path('app_preparation_poche',{'parc' : app.request.session.get('selected_parc_id', 0) }) }}" class="dropdown-item">Préparation Poche</a>
 									</div>
 								</div>

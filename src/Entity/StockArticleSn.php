@@ -5,6 +5,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\StockArticleSnRepository;
+use App\Entity\StockArticle;
+use App\Entity\StockCorde;
+use App\Entity\StockLanterne;
+use App\Entity\StockMateriel;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: StockArticleSnRepository::class)]
@@ -158,7 +162,7 @@ class StockArticleSn
     /**
      * @return Collection<int, StockMateriel>
      */
-    public function getStockMateriel(): Collection
+    public function getStockMateriels(): Collection
     {
         return $this->stockMateriels;
     }

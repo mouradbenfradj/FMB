@@ -1,0 +1,205 @@
+{# templates/emplacement/_emplacement_tooltip.html.twig #}
+{# Tooltip pour afficher les informations d'un emplacement au survol #}
+
+{# Déterminer le type de fruit de mer (moule ou huitre) #}
+{% set fruitDeMer = null %}
+{% set typeMateriel = 'vide' %}
+{% set stockMaterielData = null %}
+
+	{% if emplacement.stockMateriel is not null %}
+	{% set stockMaterielData = emplacement.stockMateriel %}
+
+	{# Déterminer le type #}
+		{% if stockMaterielData.corde is defined and stockMaterielData.corde is not null %}
+		{% set typeMateriel = 'corde' %}
+		{% set fruitDeMer = stockMaterielData.corde.fruitDeMer.nom %}
+	{% elseif stockMaterielData.lanterne is not null %}
+		{% set typeMateriel = 'lanterne' %}
+		{# Les lanternes sont généralement pour les huîtres #}
+		{% set fruitDeMer = 'huitre' %}
+	{% endif %}
+{% endif %}
+
+{# Calculs selon le type de fruit de mer #}
+{% set age = 0 %}
+{% set longeur = 0 %}
+{% set quantite = 0 %}
+{% set poidsNet = 0 %}
+{% set poidsBrut = 0 %}
+{% set volume = 0 %}
+{% set survie = 0 %}
+{% set categorie = '' %}
+
+{% if stockMaterielData is not null and stockMaterielData.dateDeMiseAEau is not null %}
+	{% set age = stockMaterielData.dateDeMiseAEau|age_en_mois %}
+
+	{# Récupérer les données selon le type #}
+	{% if typeMateriel == 'corde' %}
+		{% set longeur = stockMaterielData.corde.longeur %}
+		{% set quantite = stockMaterielData.quantite %}
+
+		{# Calculs selon le fruit de mer #}
+		{% if fruitDeMer == 'moule' or fruitDeMer == 'Moule' %}
+			{% set poidsNet = moule_col_o(age, longeur, quantite) %}
+			{% set poidsBrut = moule_col_p(age, longeur, quantite) %}
+			{% set survie = moule_col_m(age) %}
+		{% else %}
+			{# Huitre par défaut #}
+			{% set poidsNet = huitre_col_o(age, longeur, quantite) %}
+			{% set poidsBrut = huitre_col_p(age, longeur, quantite) %}
+			{% set survie = huitre_col_m(age) %}
+			{% set categorie = huitre_categorie(age) %}
+		{% endif %}
+
+	{% elseif typeMateriel == 'lanterne' %}
+		{% set longeur = 1 %}
+		{% set quantite = stockMaterielData.lanterne.nbrPoche %}
+		{% set poidsNet = huitre_col_o(age, longeur, quantite) %}
+		{% set poidsBrut = huitre_col_p(age, longeur, quantite) %}
+		{% set survie = huitre_col_m(age) %}
+		{% set categorie = huitre_categorie(age) %}
+	{% endif %}
+
+	{# Calcul du volume (poids brut / 1.8 environ pour la densité de l'eau) #}
+	{% set volume = poidsBrut / 1.8 %}
+{% endif %}
+
+{# Calcul du pourcentage de remplissage par rapport à la capacité du segment #}
+{% set capaciteMax = segment.longeur / segment.pasEmplacement %}
+{% set remplissagePercent = 0 %}
+{% if capaciteMax > 0 %}
+	{% set remplissagePercent = (poidsBrut / (capaciteMax * 50)) * 100 %}
+	{# 50kg estimation max par emplacement #}
+{% endif %}
+
+{# Détermination de la couleur #}
+{% set couleurClass = '' %}
+{% if remplissagePercent < 60 %}
+	{% set couleurClass = 'bg-success' %}
+	{# Vert - OK #}
+{% elseif remplissagePercent < 80 %}
+	{% set couleurClass = 'bg-warning' %}
+	{# Jaune - Attention #}
+{% else %}
+	{% set couleurClass = 'bg-danger' %}
+	{# Rouge - Proche de la capacité max #}
+{% endif %}
+
+{# Affichage du tooltip #}
+<div class="emplacement-tooltip" data-placement="top" data-toggle="tooltip" title="">
+	<div
+		class="tooltip-content p-2">
+		{# En-tête #}
+		<div class="tooltip-header mb-2">
+			<strong>📍 Emplacement #{{ emplacement.place }}</strong><br>
+			<small>{{ segment.nomSegment }}
+				-
+				{{ segment.filiere.nomFiliere }}</small>
+		</div>
+
+		{# Statut #}
+		<div class="mb-2">
+			{% if typeMateriel == 'vide' %}
+				<span class="badge bg-secondary">🟢 VIDEMPLE</span>
+			{% else %}
+				<span class="badge {{ couleurClass }}">
+					{% if typeMateriel == 'corde' %}🔷 CORDE{% else %}🪔 LANTERNE
+					{% endif %}
+				</span>
+			{% endif %}
+		</div>
+
+		{% if typeMateriel != 'vide' %}
+			{# Informations principales #}
+			<table class="table table-sm table-bordered mb-2">
+				<tr>
+					<td>
+						<strong>Type:</strong>
+					</td>
+					<td>{{ fruitDeMer|upper }}</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Date MAE:</strong>
+					</td>
+					<td>{{ stockMaterielData.dateDeMiseAEau|date('d/m/Y') }}</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Âge:</strong>
+					</td>
+					<td>{{ age }}
+						mois</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Densité:</strong>
+					</td>
+					<td>{{ quantite }}
+						U</td>
+				</tr>
+				<tr>
+					<td>
+						<strong>Longueur:</strong>
+					</td>
+					<td>{{ longeur }}
+						m</td>
+				</tr>
+			</table>
+
+			{# Calculs de croissance #}
+			<table class="table table-sm table-striped mb-2">
+				<thead class="table-dark">
+					<tr>
+						<th colspan="2" class="text-center">📊 Données de Croissance</th>
+					</tr>
+				</thead>
+				<tr>
+					<td>Survie:</td>
+					<td>{{ (survie * 100)|round(1) }}%</td>
+				</tr>
+				<tr>
+					<td>Poids net:</td>
+					<td>
+						<strong>{{ poidsNet }}
+							kg</strong>
+					</td>
+				</tr>
+				<tr>
+					<td>Poids brut:</td>
+					<td>
+						<strong>{{ poidsBrut }}
+							kg</strong>
+					</td>
+				</tr>
+				<tr>
+					<td>Volume estimé:</td>
+					<td>{{ volume|round(2) }}
+						m³</td>
+				</tr>
+				{% if categorie != '' %}
+					<tr>
+						<td>Catégorie:</td>
+						<td>
+							<span class="badge bg-info">{{ categorie }}</span>
+						</td>
+					</tr>
+				{% endif %}
+			</table>
+
+			{# Indicateur de charge #}
+			<div class="progress" style="height: 20px;">
+				<div class="progress-bar {{ couleurClass }}" role="progressbar" style="width: {{ min(remplissagePercent, 100) }}%" aria-valuenow="{{ remplissagePercent }}" aria-valuemin="0" aria-valuemax="100">
+					{{ remplissagePercent|round(1) }}%
+				</div>
+			</div>
+			<small class="text-muted">Charge de l'emplacement</small>
+
+		{% else %}
+			{# Emplacement vide #}
+			<div class="alert alert-info mb-0">
+				<small>Cet emplacement est disponible pour une nouvelle mise à l'eau.</small>
+			</div>
+		{% endif %}
+	</div>
+</div>

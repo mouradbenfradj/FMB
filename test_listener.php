@@ -20,7 +20,7 @@ if (!$stockCorde) {
 
     // Create a minimal test entity (this might fail if required relations are missing)
     $stockCorde = new StockCorde();
-    $stockCorde->setQuantiter(10);
+    $stockCorde->setQuantite(10);
     $stockCorde->setLongeur(100.0);
     $stockCorde->setPret(false);
     $stockCorde->setDatedecreation(new \DateTime());

@@ -38,81 +38,72 @@ final class PreparationController extends AbstractController
         $this->lanterneService = $lanterneService;
     }
 
-    #[Route('/preparationCorde/{parc}', name: 'app_preparation_corde')]
-    public function preparationCorde(
+    #[Route('/preparation/{type}/{parc}', name: 'app_preparation', requirements: ['type' => 'corde|lanterne'])]
+    public function preparation(
         Request $request,
+        string $type,
         int $parc
     ): Response {
+        $request->getSession()->set('preparation_type', $type);
         $parcId = $request->getSession()->get('selected_parc_id');
         if (!$parcId)
             return $this->redirectToRoute('app_home');
 
         $allParcs = $this->parcCacheService->getAllParcsWithRelations();
         $parc = $this->parcCacheService->getParcFromCache($parcId, $allParcs);
-        $model = new PreparationCordeModel();
 
-        $form = $this->createForm(PreparationCordeType::class, $model, [
+
+        $model = null;
+        $formType = null;
+        if ($type === 'corde') {
+            $model = new PreparationCordeModel();
+            $formType = PreparationCordeType::class;
+            $service = $this->cordeService;
+            $template = 'preparation/preparationCorde.html.twig';
+            $successMessage = 'Your changes were saved!';
+        } elseif ($type === 'lanterne') {
+            $model = new PreparationLanterneModel();
+            $formType = PreparationLanterneType::class;
+            $service = $this->lanterneService;
+            $template = 'preparation/preparationLanterne.html.twig';
+            $successMessage = 'Création validée !';
+        } else {
+            throw new \InvalidArgumentException('Invalid type');
+        }
+
+        $form = $this->createForm($formType, $model, [
             'parc' => $parc,
-            'action' => $this->generateUrl('app_preparation_corde', ['parc' => $parc]),
+            'action' => $this->generateUrl('app_preparation', ['type' => $type, 'parc' => $parc]),
         ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //$this->travailleAFaireService->setStrategy($this->cordeService);
+            $this->travailleAFaireService->executePreparation($service, $model);
 
-            $this->travailleAFaireService->executePreparation($this->cordeService, $model);
-
-            $this->addFlash(
-                'success',
-                'Your changes were saved!'
-            );
+            $this->addFlash('success', $successMessage);
             $this->entityManager->flush();
-            return $this->redirectToRoute('app_home');
+            $this->parcCacheService->refreshCache();
+            return $this->redirectToRoute('app_preparation_confirmation', ['type' => $type, 'parc' => $parc->getId()]);
         }
-
-        return $this->render('preparation/preparationCorde.html.twig', [
+        return $this->render($template, [
             'parcs' => $allParcs,
             'parc' => $parc,
+            'type' => $type,
         ]);
     }
 
-    #[Route('/preparationLanterne/{parc}', name: 'app_preparation_lanterne')]
-    public function preparationLanterne(Request $request, int $parc, ParcCacheService $parcCacheService, EntityManagerInterface $entityManager): Response
+    #[Route('/preparation/{type}/{parc}/confirmation', name: 'app_preparation_confirmation', requirements: ['type' => 'corde|lanterne'])]
+    public function confirmation(Request $request, string $type, int $parc): Response
     {
         $parcId = $request->getSession()->get('selected_parc_id');
-
-        if (!$parcId) {
+        if (!$parcId)
             return $this->redirectToRoute('app_home');
-        }
 
-        $allParcs = $parcCacheService->getAllParcsWithRelations();
-        $parc = $parcCacheService->getParcFromCache($parcId, $allParcs);
+        $allParcs = $this->parcCacheService->getAllParcsWithRelations();
+        $parc = $this->parcCacheService->getParcFromCache($parcId, $allParcs);
 
-        if (!$parc) {
-            return $this->redirectToRoute('app_home');
-        }
-        $model = new PreparationLanterneModel();
-
-        $form = $this->createForm(PreparationLanterneType::class, $model, [
-            'parc' => $parc,
-        ]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $this->travailleAFaireService->executePreparation($this->lanterneService, $model);
-            $this->addFlash(
-                'success',
-                'Création validée !'
-            );
-            $entityManager->flush();
-            return $this->redirectToRoute('app_home');
-        }
-
-
-        return $this->render('preparation/preparationLanterne.html.twig', [
-            'parcs' => $allParcs,
+        return $this->render('preparation/confirmation.html.twig', [
+            'type' => $type,
             'parc' => $parc,
         ]);
     }

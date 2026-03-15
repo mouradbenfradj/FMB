@@ -19,7 +19,7 @@ class CordeRepository extends ServiceEntityRepository
     public function countCordesVides(?int $parcId = null): int
     {
         $qb = $this->createQueryBuilder('c')
-            ->select('SUM(c.quantiter)');
+            ->select('SUM(c.quantite)');
         if ($parcId !== 0) {
             $qb->where('c.parc = :parcId')
                 ->setParameter('parcId', $parcId);

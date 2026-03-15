@@ -66,14 +66,14 @@ class StockCordeRepository extends ServiceEntityRepository
     }
 
     /**
-     * Compte les cordes vides (stockArticleSn=null)
+     * Compte les cordes vides (quantite=0 ou null)
      * pour un parc donné
      */
     public function countCordesVides(?int $parcId = null): int
     {
-        $qb = $this->createQueryBuilder('c')
-            ->select('SUM(c.quantiter)');
-        dd($qb->getQuery()->getResult());
+        $qb = $this->createQueryBuilder('sc')
+            ->select('SUM(sc.quantite)');
+
         if ($parcId !== 0) {
             $qb->leftJoin('sc.emplacement', 'e')
                 ->leftJoin('e.segment', 's')
@@ -227,6 +227,48 @@ class StockCordeRepository extends ServiceEntityRepository
             ->andWhere('fdm.nom = :fruitNom')
             ->setParameter('pret', false)
             ->setParameter('fruitNom', 'Huître');
+
+        if ($parcId !== 0) {
+            $qb->leftJoin('sc.emplacement', 'e')
+                ->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les cordes assemblées préparées (dateassemblage IS NOT NULL, emplacement IS NULL)
+     */
+    public function countCordesAssembleesPreparees(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->where('sc.dateassemblage IS NOT NULL')
+            ->andWhere('sc.emplacement IS NULL');
+
+        if ($parcId !== 0) {
+            $qb->leftJoin('sc.emplacement', 'e')
+                ->leftJoin('e.segment', 's')
+                ->leftJoin('s.filiere', 'f')
+                ->andWhere('f.parc = :parcId')
+                ->setParameter('parcId', $parcId);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Compte les cordes assemblées à l'eau (dateassemblage IS NOT NULL, emplacement IS NOT NULL)
+     */
+    public function countCordesAssembleesALeau(?int $parcId = null): int
+    {
+        $qb = $this->createQueryBuilder('sc')
+            ->select('COUNT(sc.id)')
+            ->where('sc.dateassemblage IS NOT NULL')
+            ->andWhere('sc.emplacement IS NOT NULL');
 
         if ($parcId !== 0) {
             $qb->leftJoin('sc.emplacement', 'e')

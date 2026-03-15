@@ -90,7 +90,7 @@ class MAECordeType extends AbstractType
                         'attr' => ['class' => 'form-control'],
                     ]);
                 }
-            })->addDependent('lot',  ['stocks', 'fruitDeMer', 'article'], function (DependentField $field, ?stock $stock, ?FruitDeMer $fruitDeMer, ?StockArticle $articles) use ($parc) {
+            })->addDependent('lot',  ['stocks', 'fruitDeMer', 'article'], function (DependentField $field, ?Stock $stock, ?FruitDeMer $fruitDeMer, ?StockArticle $articles) use ($parc) {
                 if (!$articles) {
                     return;
                 }
@@ -117,19 +117,16 @@ class MAECordeType extends AbstractType
                     );
 
                     // 2. Extraire les quantités et faire la somme
-                    $totalQuantiter = count($filteredStockCordes);
-                    /* 
-                    // 2. Extraire les quantités et faire la somme
-                    $totalQuantiter = array_sum(
+                    $totalQuantite = array_sum(
                         array_map(
-                            fn(StockCorde $sc) => $sc->getQuantiter(),
+                            fn(StockCorde $sc) => $sc->getQuantite(),
                             $filteredStockCordes
                         )
-                    ); */
+                    ); 
                     $field->add(IntegerType::class, [
                         'label' => 'Disponible',
-                        'attr' => ['value' => $totalQuantiter, 'class' => 'form-control', 'readonly' => true],
-                        'data' => $totalQuantiter,
+                        'attr' => ['value' => $totalQuantite, 'class' => 'form-control', 'readonly' => true],
+                        'data' => $totalQuantite,
                     ]);
                 }
             })->addDependent('densiter', ['corde', 'fruitDeMer', 'article', 'lot'], function (DependentField $field, ?Corde $corde) use ($parc) {
@@ -145,7 +142,7 @@ class MAECordeType extends AbstractType
                     // Extraire les quantités uniques
                     $quantitesUniques = array_unique(
                         array_map(
-                            fn(StockCorde $sc) => $sc->getQuantiter(),
+                            fn(StockCorde $sc) => $sc->getQuantite(),
                             $filteredStockCordes
                         )
                     );

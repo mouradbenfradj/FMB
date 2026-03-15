@@ -20,8 +20,8 @@ class Processus
     private ?int $age = null;
 
     #[ORM\ManyToOne(inversedBy: 'processuses')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Phase $phase = null;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Phase $phase;
 
 
     public function __toString(): string

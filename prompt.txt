@@ -1,0 +1,436 @@
+## PROMPT DE SYNTHÈSE - PROJET ASC (Aquaculture Suivi Concert)
+
+---
+
+### CONTEXTE DU PROJET
+
+Application Symfony de gestion d'élevage de fruits de mer (huîtres et moules) en Tunisie (Lagune de Bizerte). L'application permet de suivre le cycle de vie complet de la production ostréicole et mytilicole.
+
+---
+
+### 1. ANALYSE DES ENTITÉS (src/Entity/)
+
+L'application gère les entités suivantes:
+
+| Entité | Rôle |
+|--------|------|
+| **Parc** | Parc d'élevage principal |
+| **Filiere** | Rangée/ligne d'élevage dans le parc |
+| **Segment** | Portion de filière avec emplacements |
+| **Emplacement** | Place précise pour le matériel |
+| **Flotteur** | Flotteur de support (volume, taux, kgf) |
+| **FlotteurSegment** | Association flotteur-segment |
+| **FruitDeMer** | Espèce (huître/moule) |
+| **Corde** | Corde d'élevage |
+| **Lanterne** | Panier/poche pour huîtres |
+| **Stock** | Dépôt/zone de stockage |
+| **Articles** | Produits utilisés |
+| **StockArticle** | Quantité article en stock |
+| **StockArticleSn** | Article avec numéro de série |
+| **StockMateriel** | Classe abstraite (StockCorde, StockLanterne) |
+| **Phase** | Étape du cycle (Pré-grossissement, Grossissement, Commercial) |
+| **Processus** | Opération avec âge cible |
+
+---
+
+### 2. FICHIER EXCEL - MATRICE DE CROISSANCE
+
+Fichier: `Matrice croiss M&H janv 25 v6.xlsx`
+
+Contient les données biologiques pour:
+- **HUÎTRES**: Tableau sur 20 mois (NH+1 à H000+7)
+  - SURVIE: 97%
+  - POIDS: 0.16g → 388g
+  
+- **MOULES**: Tableau sur 23 mois (CNM-M0 à MR3+)
+  - SURVIE: 90% par étape
+  - POIDS: 0.45g → 66.7g
+
+---
+
+### 3. ANALYSE DU MAEController (src/Controller/MAEController.php)
+
+**Ce qui fonctionne:**
+- Architecture correcte
+- Formulaire dynamique avec dépendances
+- Gestion des sessions
+- Intégration cache
+
+**Améliorations nécessaires:**
+1. Validation du nombre cordes/emplacements manquante
+2. Densité sélectionnée non sauvegardée
+3. Phase/Processus non sauvegardés après MAE
+4. Bug typehint `?stock` → `?Stock`
+5. Dates transfert non mises à jour dans RetraitTransfert
+6. Code dupliqué entre méthodes
+
+---
+
+### 4. TEMPLATES EXISTANTS
+
+- `templates/emplacement/mae.html.twig` - Affichage des emplacements pour MAE
+- `templates/emplacement/etat_actuel_prod.html.twig` - État actuel de la production
+- `templates/emplacement/retrait_transfert.html.twig` - Retrait/transfert
+
+Ces templates affichent les informations MAE mais:
+- Pas de tooltip au survol
+- Calculs uniquement pour MOULE (pas HUITRE)
+- Pas de code couleur selon la charge
+
+---
+
+### 5. CRÉATIONS EFFECTUÉES
+
+#### A. Service HuitreCalculator (src/Service/HuitreCalculator.php)
+```php
+class HuitreCalculator
+- calculatePoidsParPiece($age) // 0.16g → 388g selon âge
+- calculateTauxDeSurvie($age) // 97%
+- calculatePoidsNet($age, $longeur, $quantiter)
+- calculatePoidBrute($age, $longeur, $quantiter)
+- getPhase($age) // PRE-GROSS, GROSS, COMMERCIALE
+- getEtape($age) // NH+1, GH+1, H5, H4...
+- getCategorie($age) // N°0, N°00, N°000...
+```
+
+#### B. Extension Twig Huitre (src/Twig/HuitreExtension.php)
+```php
+// Fonctions disponibles:
+huitre_col_j($age)           // U/KG
+huitre_col_k($age)           // Poids pièce (g)
+huitre_col_l($age, $quantiter) // U/M
+huitre_col_m($age)           // Survie %
+huitre_col_n($age, $quantiter) // Survie/T0
+huitre_col_o($age, $longeur, $quantiter) // Poids net KG
+huitre_col_p($age, $longeur, $quantiter) // Poids brut KG
+huitre_phase($age)
+huitre_etape($age)
+huitre_categorie($age)
+```
+
+#### C. Template Tooltip (templates/emplacement/_emplacement_tooltip.html.twig)
+
+**Informations affichées au survol:**
+- 📍 Emplacement #X - Segment - Filiere
+- Type: CORDE/LANTERNE
+- Fruit de mer: MOULE/HUITRE
+- Date MAE
+- Âge en mois
+- Densité (U)
+- Longueur (m)
+- Survie (%)
+- Poids net (kg)
+- Poids brut (kg)
+- Volume estimé (m³)
+- Catégorie commerciale (huîtres)
+- Barre de progression avec code couleur
+
+**Code couleur:**
+- 🟢 VERT (< 60%): Charge OK
+- 🟡 JAUNE (60-80%): Attention
+- 🔴 ROUGE (> 80%): Proche capacité max
+
+---
+
+### 7. ETAT ACTUEL DE LA PRODUCTION (templates/etat_actuel_prod/)
+
+**Page**: `templates/etat_actuel_prod/etatActuelProd.html.twig`
+
+**Statistiques actuelles affichées:**
+- Réf. Filière
+- Remplissage Filière (%)
+- Flottabilité Filière (%)
+- Taille Filière (m)
+- Total Emplacements (u)
+- Emplacements Vides (u)
+- Emplacements Remplis (u)
+- Total Cordes (u)
+- Total Cordes Huitre (u)
+- Total Cordes Moule (u)
+- Total Lanternes (u)
+- Total Poches (u)
+- Derniere Date De MAE
+- Total Passages chaussettes (u)
+- Segments
+
+**Services utilisés:**
+- `EtatActuelProdService` → appelle `FiliereService` et `SegmentService`
+- `FiliereService` calcule les stats agrégées par filière
+- `SegmentService` calcule les stats par segment
+
+**Améliorations suggérées pour afficher plus d'informations:**
+
+1. **Poids total**: Poids net/brut de toute la filière (calculé avec MouleCalculator/HuitreCalculator)
+2. **Volume total**: Volume estimé de la filière
+3. **Distribution par âge**: Nombre de cordes par tranche d'âge
+4. **Répartition par espèce**: % huîtres vs % moules
+5. **Capacité disponible**: Places restantes
+6. **Alertes**: Warnings pour surcharge ou sous-utilisation
+
+**Exemple de données à ajouter:**
+```php
+// Dans FiliereService:
+- getPoidsNetTotal()     // Poids net total filière
+- getPoidsBrutTotal()    // Poids brut total
+- getVolumeTotal()       // Volume total estimé
+- getAgeMoyen()          // Âge moyen des populations
+- getPourcentageHuitre() // % huîtres
+- getPourcentageMoule()  // % moules
+- getCapaciteRestante()  // Places disponibles
+- getAlerte()            // Warning si surcharge
+```
+
+---
+
+### 9. MAPPING DONNÉES CSV → ENTITÉS SYMFONY
+
+Voici la correspondance entre les colonnes des fichiers Excel/CSV et les entités de l'application:
+
+---
+
+#### A. MATRICE HUITRES (HUITRES.csv)
+
+| Colonne CSV | Description | Entité Symfony | Champ | Notes |
+|-------------|-------------|----------------|-------|-------|
+| Durée (Mois) | Âge en mois | `StockMateriel` | Calculé depuis `dateDeMiseAEau` | T0, T0+1, ... T0+20 |
+| MOIS | Mois de l'année | - | - | Information dérivée |
+| LIB. ARTICLE | Nom de l'étape | `Processus` | `nomProcessus` | Ex: PRE-GROSS.-NH, GROSS.-H |
+| PHASES | Phase d'élevage | `Phase` | `nomPhase` | PRE-GROSSISSEMENT, GROSSISSEMENT, COMMERCIALES |
+| ETAPES | Code étape | `Processus` | - | NH+1, GH+1, H5, H4... |
+| NOM COMMERCIAL | Catégorie commerciale | - | Calculé | HUITRE N°5, N°4... |
+| U/KG | Unités par KG | Calcul | `HuitreCalculator::calculateColJ()` | 8000 → 2.5 |
+| Poids/pce (g) | Poids unitaire | Calcul | `HuitreCalculator::calculatePoidsParPiece()` | 0.16g → 388g |
+| SURVIE | Taux de survie | Constante | 97% | Fixe pour toutes les étapes |
+| RESTE | Survie relative % | Calcul | `HuitreCalculator::calculateColN()` | 100% → 16.3% |
+| POIDS NET | Poids net (KG/m) | `StockCorde` | Calculé | `getPoid(age)` sans poids mort |
+| POIDS BRUT | Poids brut (KG/m) | `StockCorde` | Calculé | `getPoid(age)` avec poids mort |
+
+---
+
+#### B. MATRICE MOULES (MOULES.csv)
+
+| Colonne CSV | Description | Entité Symfony | Champ | Notes |
+|-------------|-------------|----------------|-------|-------|
+| Durée (Mois) | Âge en mois | `StockMateriel` | Calculé depuis `dateDeMiseAEau` | T0 à T0+23 |
+| MOIS | Mois de l'année | - | - | Information dérivée |
+| LIB. ARTICLE | Nom de l'étape | `Processus` | `nomProcessus` | PG NM T0, GROSS.-M1... |
+| PHASES | Phase d'élevage | `Phase` | `nomPhase` | PRE-GROSSISSEMENT, GROSSISSEMENT, COMMERCIALES |
+| ETAPES | Code étape | `Processus` | - | CNM-M0, GM1, MS1, ME1... |
+| NOM COMMERCIAL | Catégorie commerciale | - | Calculé | MOULE SUPER, EXTRA, ROYALE |
+| U/KG | Unités par KG | Calcul | `MouleCalculator::calculateColJ()` | 2222 → 15 |
+| PM (g/u) | Poids moyen par unité | Calcul | `MouleCalculator::calculatePoidsParPiece()` | 0.45g → 66.7g |
+| U/M | Unités par mètre | Calcul | `MouleCalculator::calculateUiniterMetre()` | 2222 → 15 |
+| SURVIE | Survie par étape | Constante | 90% | Fixe |
+| SURVIE/t0 | Survie relative | Calcul | `MouleCalculator::calculateColN()` | 100% → 9% |
+| POIDS NET | Poids net (KG/M) | `StockCorde` | Calculé | `calculatePoidsNet()` |
+| POIDS BRUT | Poids brut (KG/M) | `StockCorde` | Calculé | `calculatePoidBrute()` × 1.8 |
+
+---
+
+#### C. DONNÉES OPÉRATIONNELLES (Saisies utilisateur)
+
+| Donnée CSV | Description | Entité Symfony | Champ | Source |
+|------------|-------------|----------------|-------|--------|
+| CORDRE HUITRE DE (m) | Longueur corde | `Corde` + `StockCorde` | `longeur` | Formulaire MAE |
+| Quantité (U) | Densité initiale | `Corde` + `StockCorde` | `quantiter` | Formulaire MAE |
+| Date de MAE | Date mise à l'eau | `StockMateriel` | `dateDeMiseAEau` | Formulaire MAE |
+| Date assemblage | Date assemblage corde | `StockCorde` | `dateassemblage` | Formulaire |
+| Date chaussement | Date chaussement | `StockCorde` | `datechaussement` | Formulaire |
+| Phase | Phase actuelle | `StockMateriel` | `phase` | Déterminée par âge |
+| Processus | Processus actuel | `StockMateriel` | `processus` | Sélectionné ou calculé |
+
+---
+
+#### D. ENTITÉS PRINCIPALES ET LEURS CHAMPS
+
+**StockCorde (Corde en stock/élevage):**
+```php
+- quantiter        → Quantité de naissains (U)
+- longeur         → Longueur de la corde (m)
+- corde           → Référence à l'entité Corde
+- chaussement     → Booléen: chaussé ou non
+- dateassemblage  → Date d'assemblage
+- datechaussement → Date de chaussement
+```
+
+**Corde (Référence cordes disponibles):**
+```php
+- longeur       → Longueur standard (m)
+- quantiter     → Quantité disponible
+- nom           → Nom de la corde
+- fruitDeMer    → Huitre ou Moule
+- parc          → Parc d'appartenance
+```
+
+**StockMateriel (Classe parent):**
+```php
+- datedecreation          → Date de création
+- dateDeMiseAEau         → Date de mise à l'eau (MAE)
+- datederetirement       → Date de retrait
+- datederetraittransfert → Date de retrait pour transfert
+- datedemaetransfert     → Date de mise pour transfert
+- phase                  → Phase d'élevage actuelle
+- processus              → Processus actuel
+- pret                   → Disponible/prêt
+- emplacement            → Emplacement actuel
+```
+
+---
+
+#### E. CALCULS DÉRIVÉS (Non stockés, calculés à la volée)
+
+| Calcul | Méthode | Entité/Résultat |
+|--------|---------|-----------------|
+| Âge en mois | `date('m') - dateDeMiseAEau->format('m')` | `StockMateriel` |
+| Phase | `HuitreCalculator::getPhase($age)` | `Phase` |
+| Étape | `HuitreCalculator::getEtape($age)` | `Processus` |
+| Catégorie | `HuitreCalculator::getCategorie($age)` | String |
+| Poids net | `Calculator::calculatePoidsNet()` | Float (KG) |
+| Poids brut | `Calculator::calculatePoidBrute()` | Float (KG) |
+| Survie % | `Calculator::calculateTauxDeSurvie()` | Float (%) |
+| U/M | `Calculator::calculateUiniterMetre()` | Float |
+| Volume | `FlotteurSegment` | Float (m³) |
+
+---
+
+#### F. FLUX DE DONNÉES
+
+```
+Formulaire MAE (saisie)
+    ↓
+StockCorde + StockMateriel
+    ↓ (calcul)
+Âge = date_aujourd'hui - dateDeMiseAEau
+    ↓
+Processus = getProcessusParAge(âge)
+    ↓
+Phase = getPhaseParProcessus(processus)
+    ↓ (calculs)
+Poids net = calculatePoidsNet(âge, longeur, quantiter)
+Poids brut = calculatePoidBrute(âge, longeur, quantiter)
+```
+
+---
+
+### 10. DONNÉES MAE: SAISIES vs CALCULÉES
+
+#### A. DONNÉES SAISIES DANS LE FORMULAIRE MAE (MAECordeType.php)
+
+| Champ Formulaire | Entité Symfony | Champ | Description |
+|-----------------|----------------|-------|-------------|
+| `stocks` | `Stock` | `id` | Dépôt/zone de stockage |
+| `corde` | `Corde` | `id` | Type de corde sélectionnée |
+| `datedeMAE` | `StockMateriel` | `dateDeMiseAEau` | Date de mise à l'eau |
+| `fruitDeMer` | `FruitDeMer` | `id` | Espèce (Huitre/Moule) |
+| `article` | `StockArticle` | `id` | Article à mettre en eau |
+| `lot` | `StockArticleSn` | `id` | Lot (numéro de série) |
+| `disponibiliter` | - | - | Nombre de cordes disponibles (lecture seule) |
+| `densiter` | `StockCorde` | `quantiter` | Densité sélectionnée (U/Corde) |
+| `phase` | `StockMateriel` | `phase` | Phase d'élevage |
+| `processus` | `StockMateriel` | `processus` | Processus sélectionné |
+
+---
+
+#### B. DONNÉES CALCULÉES DEPUIS L'ENTITÉ PROCESSUS
+
+L'entité **Processus** contient:
+```php
+- nomProcessus  // Ex: "NH+1", "GH+1", "H5", "GM1"...
+- age           // Âge cible en mois (ex: 1, 2, 3... 20)
+- phase         // Relation vers Phase
+```
+
+| Donnée Calculée | Source | Méthode de calcul |
+|----------------|--------|------------------|
+| **Âge en mois** | `Processus.age` | Directement depuis `processus->getAge()` |
+| **Phase** | `Processus.phase` | `processus->getPhase()->getNomPhase()` |
+| **Libellé Article** | `Processus.nomProcessus` | Ex: "PRE-GROSS.-NH", "GROSS.-H" |
+| **U/KG** | Calcul | `HuitreCalculator::calculateColJ(age)` |
+| **Poids/pce (g)** | Calcul | `HuitreCalculator::calculatePoidsParPiece(age)` |
+| **U/M** | Calcul | `MouleCalculator::calculateUiniterMetre(age, quantiter)` |
+| **Survie %** | Constante | 97% (Huitre) / 90% (Moule) |
+| **Survie/T0** | Calcul | `Calculator::calculateColN(age, quantiter)` |
+| **POIDS NET** | Calcul | `Calculator::calculatePoidsNet(age, longeur, quantiter)` |
+| **POIDS BRUT** | Calcul | `Calculator::calculatePoidBrute(age, longeur, quantiter)` |
+| **Catégorie** | Calcul | `HuitreCalculator::getCategorie(age)` → N°0, N°00... |
+
+---
+
+#### C. FLUX COMPLET MAE
+
+```
+FORMULAIRE MAE (saisie)
+├── Stock (choisi)
+├── Corde (choisie)
+├── FruitDeMer (espèce)
+├── Article (choisi)
+├── Lot/NumeroSerie (choisi)
+├── datedeMAE ──────────────────────────→ StockMateriel.dateDeMiseAEau
+├── densiter (Densité U) ───────────────→ StockCorde.quantiter
+├── phase ──────────────────────────────→ StockMateriel.phase
+└── processus ────────────────────────────→ StockMateriel.processus
+                                            ↓
+                          CALCULS (depuis Processus.age)
+                          ├── âge = processus.age
+                          ├── survie = 97% ou 90%
+                          ├── poids/pce = calculatePoidsParPiece(âge)
+                          ├── U/M = calculateUiniterMetre(âge, quantiter)
+                          ├── POIDS NET = calculatePoidsNet(âge, longeur, quantiter)
+                          └── POIDS BRUT = calculatePoidBrute(âge, longeur, quantiter)
+```
+
+---
+
+#### D. CORRESPONDANCE EXCEL CSV → FORMULAIRE → ENTITÉS
+
+| Colonne Excel | Formulaire MAE | Entité StockMateriel/StockCorde |
+|---------------|----------------|--------------------------------|
+| CORDRE HUITRE DE (m) | `corde.longeur` | `Corde.longeur` |
+| Quantité (U) | `densiter` | `StockCorde.quantiter` |
+| Date de MAE | `datedeMAE` | `StockMateriel.dateDeMiseAEau` |
+| Phase | `phase` | `StockMateriel.phase` |
+| Processus | `processus` | `StockMateriel.processus` |
+
+| Colonne Excel | Calculé depuis Processus |
+|---------------|------------------------|
+| Durée (Mois) | `Processus.age` |
+| LIB. ARTICLE | `Processus.nomProcessus` |
+| PHASES | `Processus.phase.nomPhase` |
+| U/KG | `Calculator.calculateColJ(age)` |
+| Poids/pce | `Calculator.calculatePoidsParPiece(age)` |
+| SURVIE | 97% / 90% |
+| POIDS NET/BRUT | `Calculator.calculatePoidsNet/Brute()` |
+
+---
+
+### 11. PROCHAINES ÉTAPES
+
+1. Mettre à jour les templates existants pour utiliser le tooltip
+2. Étendre FiliereService avec plus de statistiques
+3. Corriger les bugs du MAEController
+4. Sauvegarder la densité et Phase/Processus lors de la MAE
+5. Ajouter les dates dans RetraitTransfertController
+6. Vérifier les calculs MOULE existants vs fichier CSV
+
+---
+
+### COMMENT UTILISER LE TOOLTIP
+
+Dans n'importe quel template:
+```twig
+{% include 'emplacement/_emplacement_tooltip.html.twig' 
+    with {emplacement: emp, segment: seg} %}
+```
+
+Les calculs se font automatiquement selon le fruit de mer:
+- MOULE → `moule_col_*`
+- HUITRE → `huitre_col_*`
+
+---
+
+Ce prompt peut être utilisé pour:
+1. Former un nouveau développeur au projet
+2. Documenter l'état actuel de l'application
+3. Continuer le développement
+4. Effectuer une revue de code
+

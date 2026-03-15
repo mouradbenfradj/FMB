@@ -36,8 +36,8 @@
 						{% if stockMateriel.corde is defined %}
 							{% set stockCorde = stockMateriel %}
 							<br>corde id:
-							{{ stockCorde.id }}<br>quantiter:
-							{{ stockCorde.quantiter }}
+							{{ stockCorde.id }}<br>quantite:
+							{{ stockCorde.quantite }}
 							<br>dateMAE:{{ stockCorde.dateDeMiseAEau|date('d/m/Y') }}
 							<br>age précis:
 							{{ stockCorde.dateDeMiseAEau|age_en_mois }}
@@ -45,7 +45,7 @@
 							<br>taille corde:{{ stockCorde.corde.longeur }}
 							{% set age = stockCorde.dateDeMiseAEau|age_en_mois  %}
 							{% set longeur = stockCorde.corde.longeur %}
-							{% set quantiter = stockCorde.quantiter %}
+							{% set quantite = stockCorde.quantite %}
 
 							<table>
 								<tr>
@@ -59,17 +59,17 @@
 								</tr>
 								<tr>
 									<td>Survie (u/m):</td>
-									<td>{{ moule_col_l(age, quantiter) }}
+									<td>{{ moule_col_l(age, quantite) }}
 										u</td>
 								</tr>
 								<tr>
 									<td>Poids net:</td>
-									<td>{{ moule_col_o(age, longeur, quantiter) }}
+									<td>{{ moule_col_o(age, longeur, quantite) }}
 										KG</td>
 								</tr>
 								<tr>
 									<td>Poids brut:</td>
-									<td>{{ moule_col_p(age, longeur, quantiter) }}
+									<td>{{ moule_col_p(age, longeur, quantite) }}
 										KG</td>
 								</tr>
 							</table>

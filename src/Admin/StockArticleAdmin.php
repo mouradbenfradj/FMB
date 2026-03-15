@@ -29,7 +29,7 @@ final class StockArticleAdmin extends AbstractAdmin
                 'inline' => 'table',
                 'sortable' => 'position',
             ])
-            ->add('quantiter')
+            ->add('quantite')
         ;
     }
 
@@ -45,7 +45,7 @@ final class StockArticleAdmin extends AbstractAdmin
                 'class' => Articles::class,
                 'choice_label' => 'libArticle',
             ])
-            ->add('quantiter')
+            ->add('quantite')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -66,7 +66,7 @@ final class StockArticleAdmin extends AbstractAdmin
                 'class' => Articles::class,
                 'choice_label' => 'libArticle',
             ])
-            /*             ->add('quantiter') */
+            /*             ->add('quantite') */
             ->add('stockArticleSns', CollectionType::class, ['label' => 'Stocks Article Lot(s)',], [
 
                 'edit' => 'inline',
@@ -93,7 +93,7 @@ final class StockArticleAdmin extends AbstractAdmin
                 'inline' => 'table',
                 'sortable' => 'position',
             ])
-            ->add('quantiter')
+            ->add('quantite')
         ;
     }
 }

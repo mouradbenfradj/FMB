@@ -64,11 +64,11 @@ class PreparationLanterneType extends AbstractType
             ])
             ->addDependent('nbrEnStock', 'lanterne', function (DependentField $field, ?Lanterne $lanterne) use ($parc) {
                 if ($lanterne) {
-                    $quantiter = $lanterne->getNbrEnStock();
+                    $quantite = $lanterne->getNbrEnStock();
                     $field->add(IntegerType::class, [
                         'label' => 'STOCK Lanternes',
-                        'attr' => ['value' => $quantiter, 'class' => 'form-control', 'readonly' => true],
-                        'data' => $quantiter,
+                        'attr' => ['value' => $quantite, 'class' => 'form-control', 'readonly' => true],
+                        'data' => $quantite,
                     ]);
                 }
             })->add('fruitDeMer', EntityType::class, [
